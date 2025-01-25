@@ -74,47 +74,10 @@ if language == "العربية":
         .stButton button {{
             font-size: 24px;
         }}
-        .stDataFrame {{
-            direction: rtl;  /* الجداول تكون من اليمين إلى اليسار */
-            text-align: right;
-            font-size: 24px;
+        .stTable {{
             margin: 0 auto; /* توسيط الجدول */
-        }}
-        /* تعديل الزائد والناقص في الأرقام */
-        .stNumberInput > div > div > button {{
-            margin-left: 0;
-            margin-right: 5px;
-        }}
-        /* زر التمرير إلى الأعلى */
-        .scroll-top {{
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            display: none;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
-        /* تعديل الجدول ليكون بالكامل من اليمين إلى اليسار */
-        .stDataFrame th, .stDataFrame td {{
-            text-align: right !important;
-            direction: rtl !important;
-        }}
-        /* توسيط الجدول */
-        .stDataFrame {{
-            margin: 0 auto;
-        }}
-        /* جعل الجدول ثابتًا */
-        .stDataFrame div[data-testid="stDataFrameContainer"] {{
-            overflow: hidden !important;
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: right; /* محاذاة النص إلى اليمين */
         }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
@@ -160,33 +123,10 @@ elif language == "English":
         .stButton button {{
             font-size: 24px;
         }}
-        .stDataFrame {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
+        .stTable {{
             margin: 0 auto; /* توسيط الجدول */
-        }}
-        /* زر التمرير إلى الأعلى */
-        .scroll-top {{
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            display: none;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
-        /* جعل الجدول ثابتًا */
-        .stDataFrame div[data-testid="stDataFrameContainer"] {{
-            overflow: hidden !important;
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: left; /* محاذاة النص إلى اليسار */
         }}
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
@@ -232,33 +172,10 @@ else:  # اللغة الرومانية
         .stButton button {{
             font-size: 24px;
         }}
-        .stDataFrame {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
+        .stTable {{
             margin: 0 auto; /* توسيط الجدول */
-        }}
-        /* زر التمرير إلى الأعلى */
-        .scroll-top {{
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            display: none;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
-        /* جعل الجدول ثابتًا */
-        .stDataFrame div[data-testid="stDataFrameContainer"] {{
-            overflow: hidden !important;
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: left; /* محاذاة النص إلى اليسار */
         }}
         </style>
         <div class="title">🐔 Newyolk - Calculator de Pui</div>
@@ -382,7 +299,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 df = pd.DataFrame(results)
                 if language == "العربية":
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
-                st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
+                st.table(df)
 
                 # إضافة زر نسخ النتائج باستخدام JavaScript
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
@@ -465,7 +382,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 df = pd.DataFrame(results)
                 if language == "العربية":
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
-                st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
+                st.table(df)
 
                 # إضافة زر نسخ النتائج باستخدام JavaScript
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
