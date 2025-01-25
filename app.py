@@ -21,18 +21,6 @@ if "egg_price" not in st.session_state:
 if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
 
-# حجم الخط
-if "font_size" not in st.session_state:
-    st.session_state.font_size = "متوسط"  # القيم: صغير، متوسط، كبير
-
-# تغيير حجم الخط بناءً على الاختيار
-if st.session_state.font_size == "صغير":
-    font_size = 16
-elif st.session_state.font_size == "متوسط":
-    font_size = 18
-else:
-    font_size = 20
-
 # تغيير اتجاه الكتابة بناءً على اللغة
 if language == "العربية":
     st.markdown(
@@ -56,7 +44,6 @@ if language == "العربية":
         .rtl {{
             direction: rtl;
             text-align: right;
-            font-size: {font_size}px;
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
@@ -113,7 +100,6 @@ else:
         .ltr {{
             direction: ltr;
             text-align: left;
-            font-size: {font_size}px;
         }}
         /* زر التمرير إلى الأعلى */
         .scroll-top {{
@@ -168,14 +154,14 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
-    currency = st.selectbox("العملة" if language == "العربية" else "Currency", ["دولار" if language == "العربية" else "USD", "دينار عراقي" if language == "العربية" else "IQD"])
+    currency = st.selectbox("💰 العملة" if language == "العربية" else "💰 Currency", ["دولار" if language == "العربية" else "USD", "دينار عراقي" if language == "العربية" else "IQD"])
 
 with col2:
-    calculation_type = st.selectbox("نوع الحساب" if language == "العربية" else "Calculation Type", ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food"])
+    calculation_type = st.selectbox("📊 نوع الحساب" if language == "العربية" else "📊 Calculation Type", ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food"])
 
 # قسم الحسابات
 if calculation_type == "أرباح الدجاجة" or calculation_type == "Chicken Profits":
-    st.subheader("حساب أرباح الدجاجة" if language == "العربية" else "Chicken Profits Calculation")
+    st.subheader("📈 حساب أرباح الدجاجة" if language == "العربية" else "📈 Chicken Profits Calculation")
     col3, col4 = st.columns(2)
 
     with col3:
@@ -186,11 +172,11 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
         if eggs is None or days is None:
-            st.error("يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "Please enter all required values!")
+            st.error("❗ يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "❗ Please enter all required values!")
         elif eggs > 580:
-            st.error("عدد البيض يجب ألا يتجاوز 580!" if language == "العربية" else "Number of eggs must not exceed 580!")
+            st.error("❗ عدد البيض يجب ألا يتجاوز 580!" if language == "العربية" else "❗ Number of eggs must not exceed 580!")
         elif days > 730:
-            st.error("عدد الأيام يجب ألا يتجاوز 730!" if language == "العربية" else "Number of days must not exceed 730!")
+            st.error("❗ عدد الأيام يجب ألا يتجاوز 730!" if language == "العربية" else "❗ Number of days must not exceed 730!")
         else:
             # حساب النتائج
             total_egg_price_usd = eggs * st.session_state.egg_price
@@ -236,7 +222,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             st.table(df)
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
-    st.subheader("حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food Calculation")
+    st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation")
     col5, col6 = st.columns(2)
 
     with col5:
@@ -247,7 +233,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         if rewards is None or food is None:
-            st.error("يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "Please enter all required values!")
+            st.error("❗ يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "❗ Please enter all required values!")
         else:
             # حساب النتائج
             total_egg_price_usd = rewards * st.session_state.egg_price
@@ -286,7 +272,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
-    st.subheader("تعديل الأسعار" if language == "العربية" else "Edit Prices")
+    st.subheader("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices")
     new_egg_price = st.number_input("🥚 سعر البيض الجديد" if language == "العربية" else "🥚 New Egg Price", value=st.session_state.egg_price, format="%.4f")
     new_feed_price = st.number_input("🌾 سعر العلف الجديد" if language == "العربية" else "🌾 New Feed Price", value=st.session_state.feed_price, format="%.4f")
 
@@ -309,7 +295,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# خيارات التحكم بحجم الخط
-font_size_option = st.sidebar.selectbox("اختر حجم الخط" if language == "العربية" else "Choose Font Size", ["صغير" if language == "العربية" else "Small", "متوسط" if language == "العربية" else "Medium", "كبير" if language == "العربية" else "Large"])
-st.session_state.font_size = font_size_option
