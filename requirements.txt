@@ -2,3 +2,4 @@ streamlit
 pyperclip
 clipboard
 pandas
+plotly
