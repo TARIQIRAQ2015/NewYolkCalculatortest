@@ -96,7 +96,7 @@ else:
 col1, col2 = st.columns(2)
 
 with col1:
-    currency = st.selectbox("العملة" if language == "العربية" else "Currency", ["دولار" if language == "العربية" else "USD", "دينار عراقي" if language == "العربية" else "IQD"])
+    currency = st.selectbox("العملة" if language == "العربية" else "Currency", ["دولار" if language == "العربية" else "USD", "دينار عراقي" if language == "العربية" else "IQD Flag: Iraq"])
 
 with col2:
     calculation_type = st.selectbox("نوع الحساب" if language == "العربية" else "Calculation Type", ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food"])
