@@ -21,40 +21,70 @@ if "egg_price" not in st.session_state:
 if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
 
+# حجم الخط
+if "font_size" not in st.session_state:
+    st.session_state.font_size = "متوسط"  # القيم: صغير، متوسط، كبير
+
+# تغيير حجم الخط بناءً على الاختيار
+if st.session_state.font_size == "صغير":
+    font_size = 16
+elif st.session_state.font_size == "متوسط":
+    font_size = 18
+else:
+    font_size = 20
+
 # تغيير اتجاه الكتابة بناءً على اللغة
 if language == "العربية":
     st.markdown(
-        """
+        f"""
         <style>
-        .title {
+        .title {{
             font-size: 40px;
             font-weight: bold;
             color: #4CAF50;
             text-align: center;
             padding: 20px;
             direction: rtl;
-        }
-        .subtitle {
+        }}
+        .subtitle {{
             font-size: 20px;
             color: #FF5722;
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
-        }
-        .rtl {
+        }}
+        .rtl {{
             direction: rtl;
             text-align: right;
-            font-size: 18px;
-        }
-        .stSelectbox, .stNumberInput {
+            font-size: {font_size}px;
+        }}
+        .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
-        }
+        }}
         /* تعديل الزائد والناقص في الأرقام */
-        .stNumberInput > div > div > button {
+        .stNumberInput > div > div > button {{
             margin-left: 0;
             margin-right: 5px;
-        }
+        }}
+        /* زر التمرير إلى الأعلى */
+        .scroll-top {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }}
+        .scroll-top:hover {{
+            background-color: #45a049;
+        }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
         <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
@@ -63,34 +93,76 @@ if language == "العربية":
     )
 else:
     st.markdown(
-        """
+        f"""
         <style>
-        .title {
+        .title {{
             font-size: 40px;
             font-weight: bold;
             color: #4CAF50;
             text-align: center;
             padding: 20px;
             direction: ltr;
-        }
-        .subtitle {
+        }}
+        .subtitle {{
             font-size: 20px;
             color: #FF5722;
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
-        }
-        .ltr {
+        }}
+        .ltr {{
             direction: ltr;
             text-align: left;
+            font-size: {font_size}px;
+        }}
+        /* زر التمرير إلى الأعلى */
+        .scroll-top {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
             font-size: 18px;
-        }
+            cursor: pointer;
+            display: none;
+        }}
+        .scroll-top:hover {{
+            background-color: #45a049;
+        }}
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
         <div class="subtitle">Calculate Chicken Profits and Daily Rewards</div>
         """,
         unsafe_allow_html=True
     )
+
+# زر التمرير إلى الأعلى
+st.markdown(
+    """
+    <button onclick="scrollToTop()" class="scroll-top" id="scrollTopBtn" title="Go to top">↑</button>
+    <script>
+    // ظهور الزر عند التمرير لأسفل
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scrollTopBtn").style.display = "block";
+        } else {
+            document.getElementById("scrollTopBtn").style.display = "none";
+        }
+    }
+    // التمرير إلى الأعلى
+    function scrollToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -211,3 +283,13 @@ with st.expander("⚙️ تعديل الأسعار" if language == "العربي
         st.session_state.egg_price = new_egg_price
         st.session_state.feed_price = new_feed_price
         st.success("✅ تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "✅ New prices saved successfully!")
+
+# زر إعادة التعيين
+if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
+    st.session_state.egg_price = 0.1155
+    st.session_state.feed_price = 0.0189
+    st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
+
+# خيارات التحكم بحجم الخط
+font_size_option = st.sidebar.selectbox("اختر حجم الخط" if language == "العربية" else "Choose Font Size", ["صغير" if language == "العربية" else "Small", "متوسط" if language == "العربية" else "Medium", "كبير" if language == "العربية" else "Large"])
+st.session_state.font_size = font_size_option
