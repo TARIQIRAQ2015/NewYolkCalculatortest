@@ -297,7 +297,7 @@ col1, col2 = st.columns(2)
 with col1:
     currency = st.selectbox(
         "💰 العملة" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
-        ["دولار" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
+        ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
     )
 
 with col2:
