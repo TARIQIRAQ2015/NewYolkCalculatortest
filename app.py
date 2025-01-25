@@ -226,7 +226,9 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             total_egg_price_usd = eggs * st.session_state.egg_price
             total_feed_cost_usd = (days * 2) * st.session_state.feed_price
             net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
-            rent_cost_usd = 6.0
+
+            # حساب تكلفة الإيجار فقط إذا كان عدد الأيام 365 أو أكثر
+            rent_cost_usd = 6.0 if days >= 365 else 0.0
             net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
             if currency == "دينار عراقي" or currency == "IQD":
