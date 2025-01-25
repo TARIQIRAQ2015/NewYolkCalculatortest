@@ -1,14 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    # تحويل الفواصل إلى نقاط إذا كانت موجودة
-    if isinstance(number, str):
-        number = number.replace(',', '.')
-    # تنسيق الرقم العشري
-    return f"{float(number):.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
-
 # تحسين الواجهة
 st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
 
@@ -271,11 +263,11 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
                 ],
                 "القيمة" if language == "العربية" else "Value": [
-                    f"{format_decimal(total_egg_price)} {currency}",
-                    f"{format_decimal(total_feed_cost)} {currency}",
-                    f"{format_decimal(net_profit_before_rent)} {currency}",
-                    f"{format_decimal(rent_cost)} {currency}",
-                    f"{format_decimal(net_profit)} {currency}"
+                    f"{total_egg_price} {currency}",
+                    f"{total_feed_cost} {currency}",
+                    f"{net_profit_before_rent} {currency}",
+                    f"{rent_cost} {currency}",
+                    f"{net_profit} {currency}"
                 ]
             }
 
@@ -340,9 +332,9 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
                 ],
                 "القيمة" if language == "العربية" else "Value": [
-                    f"{format_decimal(total_egg_price)} {currency}",
-                    f"{format_decimal(total_feed_cost)} {currency}",
-                    f"{format_decimal(net_profit)} {currency}"
+                    f"{total_egg_price} {currency}",
+                    f"{total_feed_cost} {currency}",
+                    f"{net_profit} {currency}"
                 ]
             }
 
