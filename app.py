@@ -266,13 +266,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     currency = st.selectbox(
-        "💰 العملة" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
+        "العملة 💰" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
         ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
     )
 
 with col2:
     calculation_type = st.selectbox(
-        "📊 نوع الحساب" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
+        "نوع الحساب 📊" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
         ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
     )
 
