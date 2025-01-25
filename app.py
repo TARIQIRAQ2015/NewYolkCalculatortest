@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import pyperclip  # مكتبة لنسخ النص إلى الحافظة
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -283,11 +282,23 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
             st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
-            # إضافة زر نسخ النتائج
-            if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results"):
-                results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                pyperclip.copy(results_text)  # نسخ النتائج إلى الحافظة
-                st.success("✅ تم نسخ النتائج بنجاح!" if language == "العربية" else "✅ Results copied successfully!")
+            # إضافة زر نسخ النتائج باستخدام JavaScript
+            results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
+            st.markdown(
+                f"""
+                <button onclick="copyToClipboard()" style="font-size: 16px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    📋 نسخ النتائج
+                </button>
+                <script>
+                function copyToClipboard() {{
+                    navigator.clipboard.writeText(`{results_text}`)
+                        .then(() => alert("✅ تم نسخ النتائج بنجاح!"))
+                        .catch(() => alert("❌ فشل نسخ النتائج!"));
+                }}
+                </script>
+                """,
+                unsafe_allow_html=True
+            )
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
     st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation")
@@ -338,11 +349,23 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
             st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
-            # إضافة زر نسخ النتائج
-            if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results"):
-                results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                pyperclip.copy(results_text)  # نسخ النتائج إلى الحافظة
-                st.success("✅ تم نسخ النتائج بنجاح!" if language == "العربية" else "✅ Results copied successfully!")
+            # إضافة زر نسخ النتائج باستخدام JavaScript
+            results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
+            st.markdown(
+                f"""
+                <button onclick="copyToClipboard()" style="font-size: 16px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    📋 نسخ النتائج
+                </button>
+                <script>
+                function copyToClipboard() {{
+                    navigator.clipboard.writeText(`{results_text}`)
+                        .then(() => alert("✅ تم نسخ النتائج بنجاح!"))
+                        .catch(() => alert("❌ فشل نسخ النتائج!"));
+                }}
+                </script>
+                """,
+                unsafe_allow_html=True
+            )
 
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
