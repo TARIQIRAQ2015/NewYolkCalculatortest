@@ -447,8 +447,8 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     <script>
                     function copyToClipboard() {{
                         navigator.clipboard.writeText(`{results_text}`)
-                            .then(() => alert("✅ تم نسخ النتائج بنجاح!"))
-                            .catch(() => alert("❌ فشل نسخ النتائج!"));
+                            .then(() => alert("تم نسخ النتائج بنجاح! ✅"))
+                            .catch(() => alert("فشل نسخ النتائج! ❌"));
                     }}
                     </script>
                     """,
@@ -463,13 +463,13 @@ with st.expander("تعديل الأسعار ⚙️" if language == "العربي
     new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
     new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
 
-    if st.button("💾 حفظ الأسعار الجديدة" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
+    if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
         try:
             st.session_state.egg_price = float(new_egg_price)
             st.session_state.feed_price = float(new_feed_price)
-            st.success("✅ تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
+            st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
         except ValueError:
-            st.error("❗ يرجى إدخال أرقام صحيحة!" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 # زر إعادة التعيين
 if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset" if language == "English" else "🔄 Resetează", type="secondary"):
@@ -479,7 +479,7 @@ if st.button("🔄 إعادة التعيين" if language == "العربية" el
     st.session_state.days = ""
     st.session_state.rewards = ""
     st.session_state.food = ""
-    st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!" if language == "English" else "✅ Resetare finalizată cu succes!")
+    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "✅ Reset completed successfully!" if language == "English" else "✅ Resetare finalizată cu succes!")
 
 # إضافة نص حقوق النشر
 st.markdown(
