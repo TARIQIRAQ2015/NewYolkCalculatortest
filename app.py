@@ -31,20 +31,20 @@ if language == "العربية":
         f"""
         <style>
         body {{
-            background: {'#F5F5F5' if st.session_state.theme == "Light" else '#121212'};
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: rtl;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
@@ -53,24 +53,16 @@ if language == "العربية":
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-        }}
-        .stButton button:hover {{
-            background-color: #45a049;
         }}
         .stDataFrame {{
             direction: rtl;  /* الجداول تكون من اليمين إلى اليسار */
@@ -125,20 +117,20 @@ else:
         f"""
         <style>
         body {{
-            background: {'#F5F5F5' if st.session_state.theme == "Light" else '#121212'};
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: ltr;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
@@ -147,24 +139,16 @@ else:
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: {'#333333' if st.session_state.theme == "Light" else '#FFFFFF'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-        }}
-        .stButton button:hover {{
-            background-color: #45a049;
         }}
         .stDataFrame {{
             direction: ltr;
