@@ -21,7 +21,7 @@ if "theme" not in st.session_state:
 def change_language(lang):
     st.session_state.language = lang
 
-# شريط اختيار اللغة في الأعلى
+# تصميم شريط اختيار اللغة في الأعلى
 st.markdown(
     """
     <style>
@@ -32,9 +32,10 @@ st.markdown(
         z-index: 1000;
         background-color: #4B0082;
         padding: 10px;
-        border-radius: 5px;
+        border-radius: 0 0 0 10px;
         display: flex;
         gap: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .language-bar button {
         background-color: #8A2BE2;
@@ -44,9 +45,13 @@ st.markdown(
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
+        transition: background-color 0.3s ease;
     }
     .language-bar button:hover {
         background-color: #7B1FA2;
+    }
+    .language-bar button:active {
+        transform: scale(0.95);
     }
     </style>
     <div class="language-bar">
