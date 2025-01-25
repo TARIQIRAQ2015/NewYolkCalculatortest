@@ -243,7 +243,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
         rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
 
     with col6:
-        food = st.number_input("🍽️ عدد الطعام المطلوب" if language == "العربية" else "🍽️ Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
+        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         if rewards is None or food is None:
