@@ -19,13 +19,6 @@ if "theme" not in st.session_state:
 # اختيار اللغة في السايد بار
 language = st.sidebar.selectbox("اختر اللغة / Choose Language", ["العربية", "English"])
 
-# اختيار الوضع (Dark أو Light)
-theme = st.sidebar.selectbox("اختر الوضع / Choose Theme", ["Dark", "Light"])
-
-# تحديث حالة الوضع
-if theme != st.session_state.theme:
-    st.session_state.theme = theme
-
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
@@ -354,3 +347,13 @@ if st.button("🔄 إعادة التعيين" if language == "العربية" el
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
     st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
+
+# إضافة نص حقوق النشر
+st.markdown(
+    """
+    <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px;">
+        جميع الحقوق محفوظة © 2025 by Tariq Al-Yaseen
+    </div>
+    """,
+    unsafe_allow_html=True
+)
