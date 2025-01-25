@@ -15,6 +15,9 @@ if "language" not in st.session_state:
 # اختيار اللغة في السايد بار
 language = st.sidebar.selectbox("اختر اللغة / Choose Language", ["العربية", "English"])
 
+# اختيار الوضع (Dark أو Light)
+theme = st.sidebar.selectbox("اختر الوضع / Choose Theme", ["Dark", "Light"])
+
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
@@ -27,20 +30,20 @@ if language == "العربية":
         f"""
         <style>
         body {{
-            background: linear-gradient(to right, #4B0082, #8A2BE2);
-            color: white;
+            background: {'#ffffff' if theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: white;
+            color: {'black' if theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: rtl;
         }}
         .subtitle {{
             font-size: 30px;
-            color: white;
+            color: {'black' if theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
@@ -49,11 +52,13 @@ if language == "العربية":
             direction: rtl;
             text-align: right;
             font-size: 24px;
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
             font-size: 24px;
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
@@ -86,6 +91,11 @@ if language == "العربية":
         .scroll-top:hover {{
             background-color: #45a049;
         }}
+        /* تعديل الجدول ليكون بالكامل من اليمين إلى اليسار */
+        .stDataFrame th, .stDataFrame td {{
+            text-align: right !important;
+            direction: rtl !important;
+        }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
         <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
@@ -97,20 +107,20 @@ else:
         f"""
         <style>
         body {{
-            background: linear-gradient(to right, #4B0082, #8A2BE2);
-            color: white;
+            background: {'#ffffff' if theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: white;
+            color: {'black' if theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: ltr;
         }}
         .subtitle {{
             font-size: 30px;
-            color: white;
+            color: {'black' if theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
@@ -119,11 +129,13 @@ else:
             direction: ltr;
             text-align: left;
             font-size: 24px;
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
+            color: {'black' if theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
