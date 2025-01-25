@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import pyperclip  # مكتبة لنسخ النص إلى الحافظة
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -285,7 +286,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             # إضافة زر نسخ النتائج
             if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results"):
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                st.session_state.copied_results = results_text
+                pyperclip.copy(results_text)  # نسخ النتائج إلى الحافظة
                 st.success("✅ تم نسخ النتائج بنجاح!" if language == "العربية" else "✅ Results copied successfully!")
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
@@ -340,7 +341,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
             # إضافة زر نسخ النتائج
             if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results"):
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                st.session_state.copied_results = results_text
+                pyperclip.copy(results_text)  # نسخ النتائج إلى الحافظة
                 st.success("✅ تم نسخ النتائج بنجاح!" if language == "العربية" else "✅ Results copied successfully!")
 
 # قسم تعديل الأسعار
@@ -363,7 +364,7 @@ if st.button("🔄 إعادة التعيين" if language == "العربية" el
 # إضافة نص حقوق النشر
 st.markdown(
     """
-    <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px;">
+    <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px; font-weight: bold;">
        by Tariq Al-Yaseen جميع الحقوق محفوظة © 2025
     </div>
     """,
