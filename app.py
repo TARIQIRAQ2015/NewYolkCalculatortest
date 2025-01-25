@@ -382,17 +382,6 @@ with st.expander("⚙️ تعديل الأسعار" if language == "العربي
 if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
-    
-    # إعادة تعيين الحقول إلى None إذا كانت موجودة
-    if "eggs" in st.session_state:
-        st.session_state.eggs = None
-    if "days" in st.session_state:
-        st.session_state.days = None
-    if "rewards" in st.session_state:
-        st.session_state.rewards = None
-    if "food" in st.session_state:
-        st.session_state.food = None
-    
     st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
 
 # إضافة نص حقوق النشر
