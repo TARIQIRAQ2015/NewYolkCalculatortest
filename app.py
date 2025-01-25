@@ -21,23 +21,16 @@ if "theme" not in st.session_state:
 def change_language(lang):
     st.session_state.language = lang
 
-# تصميم شريط اختيار اللغة في الأعلى
+# تصميم أزرار اللغة في أعلى الصفحة على اليسار
 st.markdown(
     """
     <style>
-    .language-bar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        background-color: #4B0082;
-        padding: 10px;
-        border-radius: 0 0 0 10px;
+    .language-buttons {
         display: flex;
         gap: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
     }
-    .language-bar button {
+    .language-buttons button {
         background-color: #8A2BE2;
         color: white;
         border: none;
@@ -47,32 +40,28 @@ st.markdown(
         font-size: 16px;
         transition: background-color 0.3s ease;
     }
-    .language-bar button:hover {
+    .language-buttons button:hover {
         background-color: #7B1FA2;
     }
-    .language-bar button:active {
+    .language-buttons button:active {
         transform: scale(0.95);
     }
     </style>
-    <div class="language-bar">
-        <button onclick="changeLanguage('العربية')">العربية</button>
-        <button onclick="changeLanguage('English')">English</button>
-        <button onclick="changeLanguage('Română')">Română</button>
-    </div>
-    <script>
-    function changeLanguage(lang) {
-        fetch('/change_language', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({language: lang}),
-        }).then(() => window.location.reload());
-    }
-    </script>
     """,
     unsafe_allow_html=True
 )
+
+# وضع أزرار اللغة في أعلى الصفحة على اليسار
+col1, col2, col3 = st.columns([1, 2, 2])
+with col1:
+    st.markdown('<div class="language-buttons">', unsafe_allow_html=True)
+    if st.button("العربية", key="arabic_button"):
+        change_language("العربية")
+    if st.button("English", key="english_button"):
+        change_language("English")
+    if st.button("Română", key="romanian_button"):
+        change_language("Română")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
