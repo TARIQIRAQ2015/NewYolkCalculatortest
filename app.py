@@ -25,6 +25,16 @@ if "egg_price" not in st.session_state:
 if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
 
+# حالة الحقول (لإعادة التعيين)
+if "eggs" not in st.session_state:
+    st.session_state.eggs = ""
+if "days" not in st.session_state:
+    st.session_state.days = ""
+if "rewards" not in st.session_state:
+    st.session_state.rewards = ""
+if "food" not in st.session_state:
+    st.session_state.food = ""
+
 # تغيير اتجاه الكتابة بناءً على اللغة
 if language == "العربية":
     st.markdown(
@@ -224,10 +234,10 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.text_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", value="", help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
+        eggs = st.text_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", value=st.session_state.eggs, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs_input")
 
     with col4:
-        days = st.text_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", value="", help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
+        days = st.text_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", value=st.session_state.days, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days_input")
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
         try:
@@ -311,10 +321,10 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.text_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", value="", help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
+        rewards = st.text_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", value=st.session_state.rewards, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards_input")
 
     with col6:
-        food = st.text_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", value="", help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
+        food = st.text_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", value=st.session_state.food, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food_input")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         try:
@@ -397,6 +407,10 @@ with st.expander("⚙️ تعديل الأسعار" if language == "العربي
 if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
+    st.session_state.eggs = ""
+    st.session_state.days = ""
+    st.session_state.rewards = ""
+    st.session_state.food = ""
     st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
 
 # إضافة نص حقوق النشر
