@@ -101,7 +101,7 @@ if language == "العربية":
             background-color: #45a049;
         }}
         </style>
-        <div class="title">حاسبة الدجاج - Newyolk 🐔</div>
+        <div class="title"> 🐔 حاسبة الدجاج - Newyolk</div>
         <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
         """,
         unsafe_allow_html=True
