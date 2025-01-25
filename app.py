@@ -1,17 +1,9 @@
 import streamlit as st
-import clipboard  # مكتبة للتعامل مع الحافظة
+import pandas as pd  # لإنشاء الجداول
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
-
-# دالة لنسخ النتائج إلى الحافظة
-def copy_to_clipboard(text):
-    try:
-        clipboard.copy(text)  # نسخ النص إلى الحافظة
-        st.success("تم نسخ النتائج إلى الحافظة بنجاح!" if language == "العربية" else "Results copied to clipboard successfully!")
-    except Exception as e:
-        st.error(f"حدث خطأ أثناء النسخ: {e}" if language == "العربية" else f"An error occurred while copying: {e}")
 
 # تحسين الواجهة
 st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
@@ -55,6 +47,11 @@ if language == "العربية":
         .rtl {
             direction: rtl;
             text-align: right;
+            font-size: 18px;
+        }
+        .stSelectbox, .stNumberInput {
+            direction: rtl;
+            text-align: right;
         }
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
@@ -84,6 +81,7 @@ else:
         .ltr {
             direction: ltr;
             text-align: left;
+            font-size: 18px;
         }
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
@@ -107,10 +105,10 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=0, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)")
+        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=0, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
 
     with col4:
-        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=0, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)")
+        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=0, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
         if eggs > 580:
@@ -136,40 +134,37 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
                 )
 
-            # عرض النتائج
-            st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
-            st.write(f"💰 سعر البيض الكلي: **{format_decimal(total_egg_price)}** {currency}" if language == "العربية" else f"💰 Total Egg Price: **{format_decimal(total_egg_price)}** {currency}")
-            st.write(f"🌾 تكلفة العلف الكلية: **{format_decimal(total_feed_cost)}** {currency}" if language == "العربية" else f"🌾 Total Feed Cost: **{format_decimal(total_feed_cost)}** {currency}")
-            st.write(f"📊 الربح الصافي قبل دفع الإيجار: **{format_decimal(net_profit_before_rent)}** {currency}" if language == "العربية" else f"📊 Net Profit Before Rent: **{format_decimal(net_profit_before_rent)}** {currency}")
-            st.write(f"🏠 دفع الإيجار للسنة الثانية: **{format_decimal(rent_cost)}** {currency}" if language == "العربية" else f"🏠 Rent Cost for Second Year: **{format_decimal(rent_cost)}** {currency}")
-            st.write(f"💵 الربح الصافي: **{format_decimal(net_profit)}** {currency}" if language == "العربية" else f"💵 Net Profit: **{format_decimal(net_profit)}** {currency}")
+            # إنشاء جدول للنتائج
+            results = {
+                "العنصر" if language == "العربية" else "Item": [
+                    "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
+                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "📊 الربح الصافي قبل دفع الإيجار" if language == "العربية" else "📊 Net Profit Before Rent",
+                    "🏠 دفع الإيجار للسنة الثانية" if language == "العربية" else "🏠 Rent Cost for Second Year",
+                    "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
+                ],
+                "القيمة" if language == "العربية" else "Value": [
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit_before_rent)} {currency}",
+                    f"{format_decimal(rent_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
+                ]
+            }
 
-            # نسخ النتائج
-            results = f"""
-            سعر البيض الكلي: {format_decimal(total_egg_price)} {currency}
-            تكلفة العلف الكلية: {format_decimal(total_feed_cost)} {currency}
-            الربح الصافي قبل دفع الإيجار: {format_decimal(net_profit_before_rent)} {currency}
-            دفع الإيجار للسنة الثانية: {format_decimal(rent_cost)} {currency}
-            الربح الصافي: {format_decimal(net_profit)} {currency}
-            """ if language == "العربية" else f"""
-            Total Egg Price: {format_decimal(total_egg_price)} {currency}
-            Total Feed Cost: {format_decimal(total_feed_cost)} {currency}
-            Net Profit Before Rent: {format_decimal(net_profit_before_rent)} {currency}
-            Rent Cost for Second Year: {format_decimal(rent_cost)} {currency}
-            Net Profit: {format_decimal(net_profit)} {currency}
-            """
-            if st.button("📋 نسخ النتائج إلى الحافظة" if language == "العربية" else "📋 Copy Results to Clipboard"):
-                copy_to_clipboard(results)
+            # عرض النتائج كجدول
+            st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
+            st.table(pd.DataFrame(results))
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
     st.subheader("حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food Calculation")
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=0, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards")
+        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=0, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
 
     with col6:
-        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=0, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required")
+        food = st.number_input("🍽️ عدد الطعام المطلوب" if language == "العربية" else "🍽️ Amount of Food Required", min_value=0, value=0, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         # حساب النتائج
@@ -186,24 +181,23 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 total_egg_price_usd, total_feed_cost_usd, net_profit_usd
             )
 
-        # عرض النتائج
-        st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
-        st.write(f"💰 سعر البيض الكلي: **{format_decimal(total_egg_price)}** {currency}" if language == "العربية" else f"💰 Total Egg Price: **{format_decimal(total_egg_price)}** {currency}")
-        st.write(f"🌾 تكلفة العلف الكلية: **{format_decimal(total_feed_cost)}** {currency}" if language == "العربية" else f"🌾 Total Feed Cost: **{format_decimal(total_feed_cost)}** {currency}")
-        st.write(f"💵 الربح اليومي: **{format_decimal(net_profit)}** {currency}" if language == "العربية" else f"💵 Daily Profit: **{format_decimal(net_profit)}** {currency}")
+        # إنشاء جدول للنتائج
+        results = {
+            "العنصر" if language == "العربية" else "Item": [
+                "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
+                "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
+            ],
+            "القيمة" if language == "العربية" else "Value": [
+                f"{format_decimal(total_egg_price)} {currency}",
+                f"{format_decimal(total_feed_cost)} {currency}",
+                f"{format_decimal(net_profit)} {currency}"
+            ]
+        }
 
-        # نسخ النتائج
-        results = f"""
-        سعر البيض الكلي: {format_decimal(total_egg_price)} {currency}
-        تكلفة العلف الكلية: {format_decimal(total_feed_cost)} {currency}
-        الربح اليومي: {format_decimal(net_profit)} {currency}
-        """ if language == "العربية" else f"""
-        Total Egg Price: {format_decimal(total_egg_price)} {currency}
-        Total Feed Cost: {format_decimal(total_feed_cost)} {currency}
-        Daily Profit: {format_decimal(net_profit)} {currency}
-        """
-        if st.button("📋 نسخ النتائج إلى الحافظة" if language == "العربية" else "📋 Copy Results to Clipboard"):
-            copy_to_clipboard(results)
+        # عرض النتائج كجدول
+        st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
+        st.table(pd.DataFrame(results))
 
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
