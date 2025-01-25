@@ -278,12 +278,12 @@ with col2:
 
 # قسم الحسابات
 if calculation_type == "أرباح الدجاجة" or calculation_type == "Chicken Profits" or calculation_type == "Profituri Pui":
-    st.subheader("📈 حساب أرباح الدجاجة" if language == "العربية" else "📈 Chicken Profits Calculation" if language == "English" else "📈 Calcul Profituri Pui")
+    st.subheader("حساب أرباح الدجاجة 📈" if language == "العربية" else "📈 Chicken Profits Calculation" if language == "English" else "📈 Calcul Profituri Pui")
     col3, col4 = st.columns(2)
 
     with col3:
         eggs = st.text_input(
-            "🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs" if language == "English" else "🥚 Numărul de Ouă",
+            "عدد البيض 🥚" if language == "العربية" else "🥚 Number of Eggs" if language == "English" else "🥚 Numărul de Ouă",
             value=st.session_state.eggs,
             help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else "Introduceți numărul de ouă (max 580)",
             key="eggs_input"
@@ -291,7 +291,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
     with col4:
         days = st.text_input(
-            "📅 عدد الأيام" if language == "العربية" else "📅 Number of Days" if language == "English" else "📅 Numărul de Zile",
+            "عدد الأيام 📅" if language == "العربية" else "📅 Number of Days" if language == "English" else "📅 Numărul de Zile",
             value=st.session_state.days,
             help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else "Introduceți numărul de zile (max 730)",
             key="days_input"
@@ -442,7 +442,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 st.markdown(
                     f"""
                     <button onclick="copyToClipboard()" style="font-size: 16px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        📋 نسخ النتائج
+                        نسخ النتائج 📋
                     </button>
                     <script>
                     function copyToClipboard() {{
@@ -455,7 +455,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     unsafe_allow_html=True
                 )
         except ValueError:
-            st.error("❗ يرجى إدخال أرقام صحيحة!" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 # قسم تعديل الأسعار
 with st.expander("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri"):
