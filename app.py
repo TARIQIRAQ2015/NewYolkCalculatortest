@@ -12,11 +12,8 @@ st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", la
 if "language" not in st.session_state:
     st.session_state.language = "العربية"
 
-# زر تبديل اللغة مع الأعلام
-if st.button("🇺🇸 English" if st.session_state.language == "العربية" else "🇮🇶 العربية"):
-    st.session_state.language = "English" if st.session_state.language == "العربية" else "العربية"
-
-language = st.session_state.language
+# اختيار اللغة في السايد بار
+language = st.sidebar.selectbox("اختر اللغة / Choose Language", ["العربية", "English"])
 
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
@@ -52,6 +49,11 @@ if language == "العربية":
         .stSelectbox, .stNumberInput {
             direction: rtl;
             text-align: right;
+        }
+        /* تعديل الزائد والناقص في الأرقام */
+        .stNumberInput > div > div > button {
+            margin-left: 0;
+            margin-right: 5px;
         }
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
