@@ -26,17 +26,21 @@ if language == "العربية":
     st.markdown(
         f"""
         <style>
+        body {{
+            background: linear-gradient(to right, #4B0082, #8A2BE2);
+            color: white;
+        }}
         .title {{
-            font-size: 40px;
+            font-size: 50px;
             font-weight: bold;
-            color: #4CAF50;
+            color: white;
             text-align: center;
             padding: 20px;
             direction: rtl;
         }}
         .subtitle {{
-            font-size: 20px;
-            color: #FF5722;
+            font-size: 30px;
+            color: white;
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
@@ -44,10 +48,20 @@ if language == "العربية":
         .rtl {{
             direction: rtl;
             text-align: right;
+            font-size: 24px;
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
+            font-size: 24px;
+        }}
+        .stButton button {{
+            font-size: 24px;
+        }}
+        .stDataFrame {{
+            direction: ltr;  /* الجداول تكون من اليسار إلى اليمين */
+            text-align: left;
+            font-size: 24px;
         }}
         /* تعديل الزائد والناقص في الأرقام */
         .stNumberInput > div > div > button {{
@@ -82,17 +96,21 @@ else:
     st.markdown(
         f"""
         <style>
+        body {{
+            background: linear-gradient(to right, #4B0082, #8A2BE2);
+            color: white;
+        }}
         .title {{
-            font-size: 40px;
+            font-size: 50px;
             font-weight: bold;
-            color: #4CAF50;
+            color: white;
             text-align: center;
             padding: 20px;
             direction: ltr;
         }}
         .subtitle {{
-            font-size: 20px;
-            color: #FF5722;
+            font-size: 30px;
+            color: white;
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
@@ -100,6 +118,20 @@ else:
         .ltr {{
             direction: ltr;
             text-align: left;
+            font-size: 24px;
+        }}
+        .stSelectbox, .stNumberInput {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
+        }}
+        .stButton button {{
+            font-size: 24px;
+        }}
+        .stDataFrame {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
         }}
         /* زر التمرير إلى الأعلى */
         .scroll-top {{
@@ -281,17 +313,8 @@ with st.expander("⚙️ تعديل الأسعار" if language == "العربي
         st.session_state.feed_price = new_feed_price
         st.success("✅ تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "✅ New prices saved successfully!")
 
-# زر إعادة التعيين في المنتصف بالأسفل
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <button onclick="resetValues()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">🔄 إعادة التعيين</button>
-    </div>
-    <script>
-    function resetValues() {
-        window.location.href = window.location.href;  // إعادة تحميل الصفحة لإعادة التعيين
-    }
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+# زر إعادة التعيين
+if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
+    st.session_state.egg_price = 0.1155
+    st.session_state.feed_price = 0.0189
+    st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
