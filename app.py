@@ -27,13 +27,13 @@ if "feed_price" not in st.session_state:
 
 # حالة الحقول (لإعادة التعيين)
 if "eggs" not in st.session_state:
-    st.session_state.eggs = ""
+    st.session_state.eggs = 0.0
 if "days" not in st.session_state:
-    st.session_state.days = ""
+    st.session_state.days = 0.0
 if "rewards" not in st.session_state:
-    st.session_state.rewards = ""
+    st.session_state.rewards = 0.0
 if "food" not in st.session_state:
-    st.session_state.food = ""
+    st.session_state.food = 0.0
 
 # تغيير اتجاه الكتابة بناءً على اللغة
 if language == "العربية":
@@ -64,7 +64,7 @@ if language == "العربية":
             font-size: 24px;
             color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
-        .stSelectbox, .stTextInput {{
+        .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
             font-size: 24px;
@@ -133,7 +133,7 @@ elif language == "English":
             font-size: 24px;
             color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
-        .stSelectbox, .stTextInput {{
+        .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
@@ -198,7 +198,7 @@ else:  # اللغة الرومانية
             font-size: 24px;
             color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
-        .stSelectbox, .stTextInput {{
+        .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
@@ -282,26 +282,29 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.text_input(
+        eggs = st.number_input(
             "عدد البيض 🥚" if language == "العربية" else "🥚 Number of Eggs" if language == "English" else "🥚 Numărul de Ouă",
-            value=st.session_state.eggs,
+            value=float(st.session_state.eggs),
+            min_value=0.0,
+            max_value=580.0,
+            step=1.0,
             help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else "Introduceți numărul de ouă (max 580)",
             key="eggs_input"
         )
 
     with col4:
-        days = st.text_input(
+        days = st.number_input(
             "عدد الأيام 📅" if language == "العربية" else "📅 Number of Days" if language == "English" else "📅 Numărul de Zile",
-            value=st.session_state.days,
+            value=float(st.session_state.days),
+            min_value=0.0,
+            max_value=730.0,
+            step=1.0,
             help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else "Introduceți numărul de zile (max 730)",
             key="days_input"
         )
 
     if st.button("احسب أرباح الدجاجة 🧮" if language == "العربية" else "🧮 Calculate Chicken Profits" if language == "English" else "🧮 Calculează Profiturile Pui", type="primary"):
         try:
-            eggs = float(eggs) if eggs else None
-            days = float(days) if days else None
-
             if eggs is None or days is None:
                 st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
             elif eggs > 580:
@@ -379,26 +382,27 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.text_input(
+        rewards = st.number_input(
             "عدد المكافآت 🎁" if language == "العربية" else "🎁 Number of Rewards" if language == "English" else "🎁 Numărul de Recompense",
-            value=st.session_state.rewards,
+            value=float(st.session_state.rewards),
+            min_value=0.0,
+            step=1.0,
             help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards" if language == "English" else "Introduceți numărul de recompense",
             key="rewards_input"
         )
 
     with col6:
-        food = st.text_input(
+        food = st.number_input(
             "عدد الطعام المطلوب 🌽" if language == "العربية" else "🌽 Amount of Food Required" if language == "English" else "🌽 Cantitatea de Mâncare Necesară",
-            value=st.session_state.food,
+            value=float(st.session_state.food),
+            min_value=0.0,
+            step=1.0,
             help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required" if language == "English" else "Introduceți cantitatea de mâncare necesară",
             key="food_input"
         )
 
     if st.button("احسب أرباح المكافآت والطعام اليومي 🧮" if language == "العربية" else "🧮 Calculate Daily Rewards and Food" if language == "English" else "🧮 Calculează Recompense Zilnice și Mâncare", type="primary"):
         try:
-            rewards = float(rewards) if rewards else None
-            food = float(food) if food else None
-
             if rewards is None or food is None:
                 st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
             else:
@@ -460,8 +464,8 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 # قسم تعديل الأسعار
 with st.expander("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri"):
     st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
-    new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
-    new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
+    new_egg_price = st.number_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=float(st.session_state.egg_price), min_value=0.0, step=0.0001)
+    new_feed_price = st.number_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=float(st.session_state.feed_price), min_value=0.0, step=0.0001)
 
     if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
         try:
@@ -475,10 +479,10 @@ with st.expander("تعديل الأسعار ⚙️" if language == "العربي
 if st.button("إعادة التعيين 🔄" if language == "العربية" else "🔄 Reset" if language == "English" else "🔄 Resetează", type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
-    st.session_state.eggs = ""
-    st.session_state.days = ""
-    st.session_state.rewards = ""
-    st.session_state.food = ""
+    st.session_state.eggs = 0.0
+    st.session_state.days = 0.0
+    st.session_state.rewards = 0.0
+    st.session_state.food = 0.0
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "✅ Reset completed successfully!" if language == "English" else "✅ Resetare finalizată cu succes!")
 
 # إضافة نص حقوق النشر
