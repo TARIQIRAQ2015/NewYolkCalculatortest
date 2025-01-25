@@ -233,7 +233,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 "العنصر" if language == "العربية" else "Item": [
                     "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
                     "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
-                    "" if language == "العربية" else "📊 Net Profit Before Rent",
+                    "📊 الربح قبل دفع الإيجار" if language == "العربية" else "📊 Net Profit Before Rent",
                     "🏠 دفع الإيجار للسنة الثانية" if language == "العربية" else "🏠 Rent Cost for Second Year",
                     "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
                 ],
