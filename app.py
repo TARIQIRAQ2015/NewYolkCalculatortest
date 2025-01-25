@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px  # إضافة مكتبة plotly للرسوم البيانية
+import plotly.express as px
+import pyperclip  # إضافة مكتبة pyperclip للتعامل مع الحافظة
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -352,7 +353,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
                 df = pd.DataFrame(results)
                 if language == "العربية":
-                    df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+                    df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني تفاعلي
@@ -374,23 +375,14 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                              labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
                 st.plotly_chart(fig, use_container_width=True)
 
-                # إضافة زر نسخ النتائج باستخدام JavaScript
+                # إضافة زر نسخ النتائج باستخدام pyperclip
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                st.markdown(
-                    f"""
-                    <button onclick="copyToClipboard()" style="font-size: 16px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        📋 نسخ النتائج
-                    </button>
-                    <script>
-                    function copyToClipboard() {{
-                        navigator.clipboard.writeText(`{results_text}`)
-                            .then(() => alert("تم نسخ النتائج بنجاح! ✅"))
-                            .catch(() => alert("فشل نسخ النتائج! ❌"));
-                    }}
-                    </script>
-                    """,
-                    unsafe_allow_html=True
-                )
+                if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results" if language == "English" else "📋 Copiază Rezultatele"):
+                    try:
+                        pyperclip.copy(results_text)
+                        st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "✅ Results copied successfully!" if language == "English" else "✅ Rezultatele au fost copiate cu succes!")
+                    except Exception as e:
+                        st.error("فشل نسخ النتائج! ❌" if language == "العربية" else "❌ Failed to copy results!" if language == "English" else "❌ Nu s-a putut copia rezultatele!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
@@ -454,7 +446,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
                 df = pd.DataFrame(results)
                 if language == "العربية":
-                    df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+                    df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني تفاعلي
@@ -474,23 +466,14 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                              labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
                 st.plotly_chart(fig, use_container_width=True)
 
-                # إضافة زر نسخ النتائج باستخدام JavaScript
+                # إضافة زر نسخ النتائج باستخدام pyperclip
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                st.markdown(
-                    f"""
-                    <button onclick="copyToClipboard()" style="font-size: 16px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        نسخ النتائج 📋
-                    </button>
-                    <script>
-                    function copyToClipboard() {{
-                        navigator.clipboard.writeText(`{results_text}`)
-                            .then(() => alert("تم نسخ النتائج بنجاح! ✅"))
-                            .catch(() => alert("فشل نسخ النتائج! ❌"));
-                    }}
-                    </script>
-                    """,
-                    unsafe_allow_html=True
-                )
+                if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results" if language == "English" else "📋 Copiază Rezultatele"):
+                    try:
+                        pyperclip.copy(results_text)
+                        st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "✅ Results copied successfully!" if language == "English" else "✅ Rezultatele au fost copiate cu succes!")
+                    except Exception as e:
+                        st.error("فشل نسخ النتائج! ❌" if language == "العربية" else "❌ Failed to copy results!" if language == "English" else "❌ Nu s-a putut copia rezultatele!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
