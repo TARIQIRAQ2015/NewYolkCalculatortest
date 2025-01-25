@@ -46,6 +46,9 @@ st.markdown(
     .language-buttons button:active {
         transform: scale(0.95);
     }
+    .language-buttons button.active {
+        background-color: #4B0082; /* لون مختلف للغة المختارة */
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -55,11 +58,11 @@ st.markdown(
 col1, col2, col3 = st.columns([1, 2, 2])
 with col1:
     st.markdown('<div class="language-buttons">', unsafe_allow_html=True)
-    if st.button("العربية", key="arabic_button"):
+    if st.button("العربية", key="arabic_button", type="primary" if st.session_state.language == "العربية" else "secondary"):
         change_language("العربية")
-    if st.button("English", key="english_button"):
+    if st.button("English", key="english_button", type="primary" if st.session_state.language == "English" else "secondary"):
         change_language("English")
-    if st.button("Română", key="romanian_button"):
+    if st.button("Română", key="romanian_button", type="primary" if st.session_state.language == "Română" else "secondary"):
         change_language("Română")
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -305,23 +308,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# استخدام الأعمدة لتخطيط أفضل
-col1, col2 = st.columns(2)
+# استخدام الأشرطة الأفقية (Tabs)
+tab1, tab2 = st.tabs([
+    "أرباح الدجاجة 📈" if st.session_state.language == "العربية" else "📈 Chicken Profits" if st.session_state.language == "English" else "📈 Profituri Pui",
+    "أرباح المكافآت والطعام اليومي 📊" if st.session_state.language == "العربية" else "📊 Daily Rewards and Food" if st.session_state.language == "English" else "📊 Recompense Zilnice și Mâncare"
+])
 
-with col1:
-    currency = st.selectbox(
-        "العملة 💰" if st.session_state.language == "العربية" else "💰 Currency" if st.session_state.language == "English" else "💰 Monedă",
-        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD" if st.session_state.language == "English" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD" if st.session_state.language == "English" else "IQD"]
-    )
-
-with col2:
-    calculation_type = st.selectbox(
-        "نوع الحساب 📊" if st.session_state.language == "العربية" else "📊 Calculation Type" if st.session_state.language == "English" else "📊 Tip de Calcul",
-        ["أرباح الدجاجة" if st.session_state.language == "العربية" else "Chicken Profits" if st.session_state.language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if st.session_state.language == "العربية" else "Daily Rewards and Food" if st.session_state.language == "English" else "Recompense Zilnice și Mâncare"]
-    )
-
-# قسم الحسابات
-if calculation_type == "أرباح الدجاجة" or calculation_type == "Chicken Profits" or calculation_type == "Profituri Pui":
+with tab1:
     st.subheader("حساب أرباح الدجاجة 📈" if st.session_state.language == "العربية" else "📈 Chicken Profits Calculation" if st.session_state.language == "English" else "📈 Calcul Profituri Pui")
     col3, col4 = st.columns(2)
 
@@ -420,7 +413,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if st.session_state.language == "العربية" else "❗ Please enter valid numbers!" if st.session_state.language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
-elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food" or calculation_type == "Recompense Zilnice și Mâncare":
+with tab2:
     st.subheader("حساب أرباح المكافآت والطعام اليومي 📈" if st.session_state.language == "العربية" else "📈 Daily Rewards and Food Calculation" if st.session_state.language == "English" else "📈 Calcul Recompense Zilnice și Mâncare")
     col5, col6 = st.columns(2)
 
