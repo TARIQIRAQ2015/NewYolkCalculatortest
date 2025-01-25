@@ -297,17 +297,17 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             key="days_input"
         )
 
-    if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits" if language == "English" else "🧮 Calculează Profiturile Pui", type="primary"):
+    if st.button("احسب أرباح الدجاجة 🧮" if language == "العربية" else "🧮 Calculate Chicken Profits" if language == "English" else "🧮 Calculează Profiturile Pui", type="primary"):
         try:
             eggs = float(eggs) if eggs else None
             days = float(days) if days else None
 
             if eggs is None or days is None:
-                st.error("❗ يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
             elif eggs > 580:
-                st.error("❗ عدد البيض يجب ألا يتجاوز 580!" if language == "العربية" else "❗ Number of eggs must not exceed 580!" if language == "English" else "❗ Numărul de ouă nu trebuie să depășească 580!")
+                st.error("عدد البيض يجب ألا يتجاوز 580! ❗" if language == "العربية" else "❗ Number of eggs must not exceed 580!" if language == "English" else "❗ Numărul de ouă nu trebuie să depășească 580!")
             elif days > 730:
-                st.error("❗ عدد الأيام يجب ألا يتجاوز 730!" if language == "العربية" else "❗ Number of days must not exceed 730!" if language == "English" else "❗ Numărul de zile nu trebuie să depășească 730!")
+                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗" if language == "العربية" else "❗ Number of days must not exceed 730!" if language == "English" else "❗ Numărul de zile nu trebuie să depășească 730!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
@@ -332,11 +332,11 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 # إنشاء جدول للنتائج
                 results = {
                     "العنصر" if language == "العربية" else "Item" if language == "English" else "Element": [
-                        "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price" if language == "English" else "💰 Prețul Total al Ouălor",
-                        "🌽 تكلفة العلف الكلية" if language == "العربية" else "🌽 Total Feed Cost" if language == "English" else "🌽 Costul Total al Furajului",
-                        "📊 الربح قبل دفع الإيجار" if language == "العربية" else "📊 Net Profit Before Rent" if language == "English" else "📊 Profit Net înainte de Chirii",
-                        "🏠 دفع الإيجار للسنة الثانية" if language == "العربية" else "🏠 Rent Cost for Second Year" if language == "English" else "🏠 Costul Chiriei pentru Anul Doi",
-                        "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit" if language == "English" else "💵 Profit Net"
+                        "سعر البيض الكلي 💰" if language == "العربية" else "💰 Total Egg Price" if language == "English" else "💰 Prețul Total al Ouălor",
+                        "تكلفة العلف الكلية 🌽" if language == "العربية" else "🌽 Total Feed Cost" if language == "English" else "🌽 Costul Total al Furajului",
+                        "الربح قبل دفع الإيجار 📊" if language == "العربية" else "📊 Net Profit Before Rent" if language == "English" else "📊 Profit Net înainte de Chirii",
+                        "دفع الإيجار للسنة الثانية 💸" if language == "العربية" else "🏠 Rent Cost for Second Year" if language == "English" else "🏠 Costul Chiriei pentru Anul Doi",
+                        "الربح الصافي 💵" if language == "العربية" else "💵 Net Profit" if language == "English" else "💵 Profit Net"
                     ],
                     "القيمة" if language == "العربية" else "Value" if language == "English" else "Valoare": [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -348,7 +348,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 }
 
                 # عرض النتائج كجدول
-                st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
                 df = pd.DataFrame(results)
                 if language == "العربية":
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
@@ -364,23 +364,23 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     <script>
                     function copyToClipboard() {{
                         navigator.clipboard.writeText(`{results_text}`)
-                            .then(() => alert("✅ تم نسخ النتائج بنجاح!"))
-                            .catch(() => alert("❌ فشل نسخ النتائج!"));
+                            .then(() => alert("تم نسخ النتائج بنجاح! ✅"))
+                            .catch(() => alert("فشل نسخ النتائج! ❌"));
                     }}
                     </script>
                     """,
                     unsafe_allow_html=True
                 )
         except ValueError:
-            st.error("❗ يرجى إدخال أرقام صحيحة!" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food" or calculation_type == "Recompense Zilnice și Mâncare":
-    st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation" if language == "English" else "📈 Calcul Recompense Zilnice și Mâncare")
+    st.subheader("حساب أرباح المكافآت والطعام اليومي 📈" if language == "العربية" else "📈 Daily Rewards and Food Calculation" if language == "English" else "📈 Calcul Recompense Zilnice și Mâncare")
     col5, col6 = st.columns(2)
 
     with col5:
         rewards = st.text_input(
-            "🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards" if language == "English" else "🎁 Numărul de Recompense",
+            "عدد المكافآت 🎁" if language == "العربية" else "🎁 Number of Rewards" if language == "English" else "🎁 Numărul de Recompense",
             value=st.session_state.rewards,
             help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards" if language == "English" else "Introduceți numărul de recompense",
             key="rewards_input"
@@ -388,19 +388,19 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 
     with col6:
         food = st.text_input(
-            "🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required" if language == "English" else "🌽 Cantitatea de Mâncare Necesară",
+            "عدد الطعام المطلوب 🌽" if language == "العربية" else "🌽 Amount of Food Required" if language == "English" else "🌽 Cantitatea de Mâncare Necesară",
             value=st.session_state.food,
             help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required" if language == "English" else "Introduceți cantitatea de mâncare necesară",
             key="food_input"
         )
 
-    if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food" if language == "English" else "🧮 Calculează Recompense Zilnice și Mâncare", type="primary"):
+    if st.button("احسب أرباح المكافآت والطعام اليومي 🧮" if language == "العربية" else "🧮 Calculate Daily Rewards and Food" if language == "English" else "🧮 Calculează Recompense Zilnice și Mâncare", type="primary"):
         try:
             rewards = float(rewards) if rewards else None
             food = float(food) if food else None
 
             if rewards is None or food is None:
-                st.error("❗ يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = rewards * st.session_state.egg_price
@@ -419,9 +419,9 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 # إنشاء جدول للنتائج
                 results = {
                     "العنصر" if language == "العربية" else "Item" if language == "English" else "Element": [
-                        "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price" if language == "English" else "💰 Prețul Total al Ouălor",
-                        "🌽 تكلفة العلف الكلية" if language == "العربية" else "🌽 Total Feed Cost" if language == "English" else "🌽 Costul Total al Furajului",
-                        "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit" if language == "English" else "💵 Profit Zilnic"
+                        "سعر البيض الكلي 💰" if language == "العربية" else "💰 Total Egg Price" if language == "English" else "💰 Prețul Total al Ouălor",
+                        "تكلفة العلف الكلية 🌽" if language == "العربية" else "🌽 Total Feed Cost" if language == "English" else "🌽 Costul Total al Furajului",
+                        "الربح اليومي 💵" if language == "العربية" else "💵 Daily Profit" if language == "English" else "💵 Profit Zilnic"
                     ],
                     "القيمة" if language == "العربية" else "Value" if language == "English" else "Valoare": [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -431,7 +431,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 }
 
                 # عرض النتائج كجدول
-                st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "✅ Calculation completed successfully!" if language == "English" else "✅ Calcul finalizat cu succes!")
                 df = pd.DataFrame(results)
                 if language == "العربية":
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
@@ -472,7 +472,7 @@ with st.expander("تعديل الأسعار ⚙️" if language == "العربي
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 # زر إعادة التعيين
-if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset" if language == "English" else "🔄 Resetează", type="secondary"):
+if st.button("إعادة التعيين 🔄" if language == "العربية" else "🔄 Reset" if language == "English" else "🔄 Resetează", type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
     st.session_state.eggs = ""
