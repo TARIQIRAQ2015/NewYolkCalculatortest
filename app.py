@@ -30,20 +30,20 @@ if language == "العربية":
         f"""
         <style>
         body {{
-            background: {'#ffffff' if theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if theme == "Light" else 'white'};
+            background: linear-gradient(to right, #4B0082, #8A2BE2);
+            color: white;
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
             text-align: center;
             padding: 20px;
             direction: rtl;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
@@ -52,13 +52,13 @@ if language == "العربية":
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
         }}
         .stButton button {{
             font-size: 24px;
@@ -101,6 +101,10 @@ if language == "العربية":
         .stDataFrame {{
             margin: 0 auto;
         }}
+        /* جعل الجدول ثابتًا */
+        .stDataFrame div[data-testid="stDataFrameContainer"] {{
+            overflow: hidden !important;
+        }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
         <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
@@ -112,20 +116,20 @@ else:
         f"""
         <style>
         body {{
-            background: {'#ffffff' if theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if theme == "Light" else 'white'};
+            background: linear-gradient(to right, #4B0082, #8A2BE2);
+            color: white;
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
             text-align: center;
             padding: 20px;
             direction: ltr;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
@@ -134,13 +138,13 @@ else:
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
         }}
         .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: {'black' if theme == "Light" else 'white'};
+            color: white;
         }}
         .stButton button {{
             font-size: 24px;
@@ -168,6 +172,10 @@ else:
         }}
         .scroll-top:hover {{
             background-color: #45a049;
+        }}
+        /* جعل الجدول ثابتًا */
+        .stDataFrame div[data-testid="stDataFrameContainer"] {{
+            overflow: hidden !important;
         }}
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
