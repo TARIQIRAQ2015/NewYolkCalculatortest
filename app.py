@@ -67,6 +67,7 @@ if language == "العربية":
             direction: rtl;  /* الجداول تكون من اليمين إلى اليسار */
             text-align: right;
             font-size: 24px;
+            margin: 0 auto; /* توسيط الجدول */
         }}
         /* تعديل الزائد والناقص في الأرقام */
         .stNumberInput > div > div > button {{
@@ -95,6 +96,10 @@ if language == "العربية":
         .stDataFrame th, .stDataFrame td {{
             text-align: right !important;
             direction: rtl !important;
+        }}
+        /* توسيط الجدول */
+        .stDataFrame {{
+            margin: 0 auto;
         }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
@@ -144,6 +149,7 @@ else:
             direction: ltr;
             text-align: left;
             font-size: 24px;
+            margin: 0 auto; /* توسيط الجدول */
         }}
         /* زر التمرير إلى الأعلى */
         .scroll-top {{
