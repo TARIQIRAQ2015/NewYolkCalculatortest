@@ -12,11 +12,19 @@ st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", la
 if "language" not in st.session_state:
     st.session_state.language = "العربية"
 
+# حالة الوضع (Dark أو Light)
+if "theme" not in st.session_state:
+    st.session_state.theme = "Dark"
+
 # اختيار اللغة في السايد بار
 language = st.sidebar.selectbox("اختر اللغة / Choose Language", ["العربية", "English"])
 
 # اختيار الوضع (Dark أو Light)
 theme = st.sidebar.selectbox("اختر الوضع / Choose Theme", ["Dark", "Light"])
+
+# تحديث حالة الوضع
+if theme != st.session_state.theme:
+    st.session_state.theme = theme
 
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
@@ -30,20 +38,20 @@ if language == "العربية":
         f"""
         <style>
         body {{
-            background: linear-gradient(to right, #4B0082, #8A2BE2);
-            color: white;
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: rtl;
         }}
         .subtitle {{
             font-size: 30px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: rtl;
@@ -52,13 +60,13 @@ if language == "العربية":
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: rtl;
             text-align: right;
             font-size: 24px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
@@ -116,20 +124,20 @@ else:
         f"""
         <style>
         body {{
-            background: linear-gradient(to right, #4B0082, #8A2BE2);
-            color: white;
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
             direction: ltr;
         }}
         .subtitle {{
             font-size: 30px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
             direction: ltr;
@@ -138,13 +146,13 @@ else:
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stSelectbox, .stNumberInput {{
             direction: ltr;
             text-align: left;
             font-size: 24px;
-            color: white;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
         }}
         .stButton button {{
             font-size: 24px;
@@ -260,7 +268,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             results = {
                 "العنصر" if language == "العربية" else "Item": [
                     "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
-                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "🌽 تكلفة العلف الكلية" if language == "العربية" else "🌽 Total Feed Cost",
                     "📊 الربح قبل دفع الإيجار" if language == "العربية" else "📊 Net Profit Before Rent",
                     "🏠 دفع الإيجار للسنة الثانية" if language == "العربية" else "🏠 Rent Cost for Second Year",
                     "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
@@ -313,7 +321,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
             results = {
                 "العنصر" if language == "العربية" else "Item": [
                     "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
-                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "🌽 تكلفة العلف الكلية" if language == "العربية" else "🌽 Total Feed Cost",
                     "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
                 ],
                 "القيمة" if language == "العربية" else "Value": [
@@ -334,7 +342,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
     st.subheader("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices")
     new_egg_price = st.number_input("🥚 سعر البيض الجديد" if language == "العربية" else "🥚 New Egg Price", value=st.session_state.egg_price, format="%.4f")
-    new_feed_price = st.number_input("🌾 سعر العلف الجديد" if language == "العربية" else "🌾 New Feed Price", value=st.session_state.feed_price, format="%.4f")
+    new_feed_price = st.number_input("🌽 سعر العلف الجديد" if language == "العربية" else "🌽 New Feed Price", value=st.session_state.feed_price, format="%.4f")
 
     if st.button("💾 حفظ الأسعار الجديدة" if language == "العربية" else "💾 Save New Prices", type="secondary"):
         st.session_state.egg_price = new_egg_price
