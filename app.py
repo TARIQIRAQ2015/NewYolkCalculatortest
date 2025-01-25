@@ -179,13 +179,15 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=0, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
+        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=None, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
 
     with col4:
-        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=0, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
+        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=None, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
-        if eggs > 580:
+        if eggs is None or days is None:
+            st.error("يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "Please enter all required values!")
+        elif eggs > 580:
             st.error("عدد البيض يجب ألا يتجاوز 580!" if language == "العربية" else "Number of eggs must not exceed 580!")
         elif days > 730:
             st.error("عدد الأيام يجب ألا يتجاوز 730!" if language == "العربية" else "Number of days must not exceed 730!")
@@ -228,50 +230,59 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
             # عرض النتائج كجدول
             st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
-            st.table(pd.DataFrame(results))
+            df = pd.DataFrame(results)
+            if language == "العربية":
+                df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+            st.table(df)
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
     st.subheader("حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food Calculation")
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=0, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
+        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
 
     with col6:
-        food = st.number_input("🍽️ عدد الطعام المطلوب" if language == "العربية" else "🍽️ Amount of Food Required", min_value=0, value=0, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
+        food = st.number_input("🍽️ عدد الطعام المطلوب" if language == "العربية" else "🍽️ Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
-        # حساب النتائج
-        total_egg_price_usd = rewards * st.session_state.egg_price
-        total_feed_cost_usd = food * st.session_state.feed_price
-        net_profit_usd = total_egg_price_usd - total_feed_cost_usd
-
-        if currency == "دينار عراقي" or currency == "IQD":
-            total_egg_price = total_egg_price_usd * 1480
-            total_feed_cost = total_feed_cost_usd * 1480
-            net_profit = net_profit_usd * 1480
+        if rewards is None or food is None:
+            st.error("يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "Please enter all required values!")
         else:
-            total_egg_price, total_feed_cost, net_profit = (
-                total_egg_price_usd, total_feed_cost_usd, net_profit_usd
-            )
+            # حساب النتائج
+            total_egg_price_usd = rewards * st.session_state.egg_price
+            total_feed_cost_usd = food * st.session_state.feed_price
+            net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-        # إنشاء جدول للنتائج
-        results = {
-            "العنصر" if language == "العربية" else "Item": [
-                "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
-                "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
-                "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
-            ],
-            "القيمة" if language == "العربية" else "Value": [
-                f"{format_decimal(total_egg_price)} {currency}",
-                f"{format_decimal(total_feed_cost)} {currency}",
-                f"{format_decimal(net_profit)} {currency}"
-            ]
-        }
+            if currency == "دينار عراقي" or currency == "IQD":
+                total_egg_price = total_egg_price_usd * 1480
+                total_feed_cost = total_feed_cost_usd * 1480
+                net_profit = net_profit_usd * 1480
+            else:
+                total_egg_price, total_feed_cost, net_profit = (
+                    total_egg_price_usd, total_feed_cost_usd, net_profit_usd
+                )
 
-        # عرض النتائج كجدول
-        st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
-        st.table(pd.DataFrame(results))
+            # إنشاء جدول للنتائج
+            results = {
+                "العنصر" if language == "العربية" else "Item": [
+                    "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
+                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
+                ],
+                "القيمة" if language == "العربية" else "Value": [
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
+                ]
+            }
+
+            # عرض النتائج كجدول
+            st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
+            df = pd.DataFrame(results)
+            if language == "العربية":
+                df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+            st.table(df)
 
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
@@ -284,11 +295,20 @@ with st.expander("⚙️ تعديل الأسعار" if language == "العربي
         st.session_state.feed_price = new_feed_price
         st.success("✅ تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "✅ New prices saved successfully!")
 
-# زر إعادة التعيين
-if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
-    st.session_state.egg_price = 0.1155
-    st.session_state.feed_price = 0.0189
-    st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
+# زر إعادة التعيين في المنتصف بالأسفل
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <button onclick="resetValues()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">🔄 إعادة التعيين</button>
+    </div>
+    <script>
+    function resetValues() {
+        window.location.href = window.location.href;  // إعادة تحميل الصفحة لإعادة التعيين
+    }
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
 # خيارات التحكم بحجم الخط
 font_size_option = st.sidebar.selectbox("اختر حجم الخط" if language == "العربية" else "Choose Font Size", ["صغير" if language == "العربية" else "Small", "متوسط" if language == "العربية" else "Medium", "كبير" if language == "العربية" else "Large"])
