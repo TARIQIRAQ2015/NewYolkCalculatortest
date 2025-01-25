@@ -1,5 +1,5 @@
 import streamlit as st
-import pandas as pd  # لإنشاء الجداول
+import pandas as pd
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -59,8 +59,8 @@ if language == "العربية":
             font-size: 24px;
         }}
         .stDataFrame {{
-            direction: ltr;  /* الجداول تكون من اليسار إلى اليمين */
-            text-align: left;
+            direction: rtl;  /* الجداول تكون من اليمين إلى اليسار */
+            text-align: right;
             font-size: 24px;
         }}
         /* تعديل الزائد والناقص في الأرقام */
@@ -251,7 +251,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             df = pd.DataFrame(results)
             if language == "العربية":
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
-            st.table(df)
+            st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
     st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation")
@@ -300,7 +300,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
             df = pd.DataFrame(results)
             if language == "العربية":
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
-            st.table(df)
+            st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
