@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+# تنسيق الأرقام العشرية
+def format_decimal(number):
+    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+
 # تحسين الواجهة
 st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
 
@@ -220,10 +224,10 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0.0, max_value=580.0, value=None, step=0.01, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
+        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=None, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
 
     with col4:
-        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0.0, max_value=730.0, value=None, step=0.01, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
+        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=None, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
         if eggs is None or days is None:
@@ -263,11 +267,11 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
                 ],
                 "القيمة" if language == "العربية" else "Value": [
-                    f"{total_egg_price} {currency}",
-                    f"{total_feed_cost} {currency}",
-                    f"{net_profit_before_rent} {currency}",
-                    f"{rent_cost} {currency}",
-                    f"{net_profit} {currency}"
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit_before_rent)} {currency}",
+                    f"{format_decimal(rent_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
                 ]
             }
 
@@ -301,10 +305,10 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0.0, value=None, step=0.01, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
+        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
 
     with col6:
-        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0.0, value=None, step=0.01, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
+        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         if rewards is None or food is None:
@@ -332,9 +336,9 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
                 ],
                 "القيمة" if language == "العربية" else "Value": [
-                    f"{total_egg_price} {currency}",
-                    f"{total_feed_cost} {currency}",
-                    f"{net_profit} {currency}"
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
                 ]
             }
 
