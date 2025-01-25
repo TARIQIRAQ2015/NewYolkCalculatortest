@@ -228,31 +228,93 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
                 )
 
-            # عرض النتائج
-            st.markdown(f"**إجمالي قيمة البيض**: {format_decimal(total_egg_price)} {currency}")
-            st.markdown(f"**إجمالي تكلفة الطعام**: {format_decimal(total_feed_cost)} {currency}")
-            st.markdown(f"**صافي الربح قبل الإيجار**: {format_decimal(net_profit_before_rent)} {currency}")
-            st.markdown(f"**تكلفة الإيجار**: {format_decimal(rent_cost)} {currency}")
-            st.markdown(f"**صافي الربح**: {format_decimal(net_profit)} {currency}")
+            # إنشاء جدول للنتائج
+            results = {
+                "العنصر" if language == "العربية" else "Item": [
+                    "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
+                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "📊 الربح الصافي قبل دفع الإيجار" if language == "العربية" else "📊 Net Profit Before Rent",
+                    "🏠 دفع الإيجار للسنة الثانية" if language == "العربية" else "🏠 Rent Cost for Second Year",
+                    "💵 الربح الصافي" if language == "العربية" else "💵 Net Profit"
+                ],
+                "القيمة" if language == "العربية" else "Value": [
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit_before_rent)} {currency}",
+                    f"{format_decimal(rent_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
+                ]
+            }
 
-# قسم المكافآت والطعام اليومي
+            # عرض النتائج كجدول
+            st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
+            df = pd.DataFrame(results)
+            if language == "العربية":
+                df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+            st.table(df)
+
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
-    st.subheader("🍗 حساب المكافآت والطعام اليومي" if language == "العربية" else "🍗 Daily Rewards and Food Calculation")
+    st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation")
     col5, col6 = st.columns(2)
 
     with col5:
-        daily_food = st.number_input("🍽️ كمية الطعام اليومي بالدينار" if language == "العربية" else "🍽️ Daily Food Quantity in IQD", min_value=0, max_value=100000, value=None, help="أدخل كمية الطعام اليومي" if language == "العربية" else "Enter the daily food quantity")
+        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
 
     with col6:
-        reward_per_day = st.number_input("🎁 المكافأة اليومية" if language == "العربية" else "🎁 Daily Reward", min_value=0, max_value=10000, value=None, help="أدخل قيمة المكافأة اليومية" if language == "العربية" else "Enter the daily reward value")
+        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
 
-    if st.button("🧮 احسب المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
-        if daily_food is None or reward_per_day is None:
+    if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
+        if rewards is None or food is None:
             st.error("❗ يرجى إدخال جميع القيم المطلوبة!" if language == "العربية" else "❗ Please enter all required values!")
         else:
-            # حساب المكافآت والطعام اليومي
-            total_food_cost = daily_food * days
-            total_rewards = reward_per_day * days
+            # حساب النتائج
+            total_egg_price_usd = rewards * st.session_state.egg_price
+            total_feed_cost_usd = food * st.session_state.feed_price
+            net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-            st.markdown(f"**إجمالي تكلفة الطعام**: {format_decimal(total_food_cost)} {currency}")
-            st.markdown(f"**إجمالي المكافآت اليومية**: {format_decimal(total_rewards)} {currency}")
+            if currency == "دينار عراقي" or currency == "IQD":
+                total_egg_price = total_egg_price_usd * 1480
+                total_feed_cost = total_feed_cost_usd * 1480
+                net_profit = net_profit_usd * 1480
+            else:
+                total_egg_price, total_feed_cost, net_profit = (
+                    total_egg_price_usd, total_feed_cost_usd, net_profit_usd
+                )
+
+            # إنشاء جدول للنتائج
+            results = {
+                "العنصر" if language == "العربية" else "Item": [
+                    "💰 سعر البيض الكلي" if language == "العربية" else "💰 Total Egg Price",
+                    "🌾 تكلفة العلف الكلية" if language == "العربية" else "🌾 Total Feed Cost",
+                    "💵 الربح اليومي" if language == "العربية" else "💵 Daily Profit"
+                ],
+                "القيمة" if language == "العربية" else "Value": [
+                    f"{format_decimal(total_egg_price)} {currency}",
+                    f"{format_decimal(total_feed_cost)} {currency}",
+                    f"{format_decimal(net_profit)} {currency}"
+                ]
+            }
+
+            # عرض النتائج كجدول
+            st.success("✅ تم الحساب بنجاح!" if language == "العربية" else "✅ Calculation completed successfully!")
+            df = pd.DataFrame(results)
+            if language == "العربية":
+                df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
+            st.table(df)
+
+# قسم تعديل الأسعار
+with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
+    st.subheader("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices")
+    new_egg_price = st.number_input("🥚 سعر البيض الجديد" if language == "العربية" else "🥚 New Egg Price", value=st.session_state.egg_price, format="%.4f")
+    new_feed_price = st.number_input("🌾 سعر العلف الجديد" if language == "العربية" else "🌾 New Feed Price", value=st.session_state.feed_price, format="%.4f")
+
+    if st.button("💾 حفظ الأسعار الجديدة" if language == "العربية" else "💾 Save New Prices", type="secondary"):
+        st.session_state.egg_price = new_egg_price
+        st.session_state.feed_price = new_feed_price
+        st.success("✅ تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "✅ New prices saved successfully!")
+
+# زر إعادة التعيين
+if st.button("🔄 إعادة التعيين" if language == "العربية" else "🔄 Reset", type="secondary"):
+    st.session_state.egg_price = 0.1155
+    st.session_state.feed_price = 0.0189
+    st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
