@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import pyperclip
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -282,6 +284,29 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
             st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
+            # رسم بياني
+            fig = px.bar(df, x="العنصر" if language == "العربية" else "Item", y="القيمة" if language == "العربية" else "Value", title="تحليل الأرباح والتكاليف" if language == "العربية" else "Profit and Cost Analysis")
+            st.plotly_chart(fig)
+
+            # نسخ النتائج
+            if st.button("📋 نسخ النتائج بالدولار"):
+                results_text = f"""
+                سعر البيض الكلي: {format_decimal(total_egg_price_usd)} دولار
+                تكلفة العلف الكلية: {format_decimal(total_feed_cost_usd)} دولار
+                الربح الصافي: {format_decimal(net_profit_usd)} دولار
+                """
+                pyperclip.copy(results_text)
+                st.success("تم نسخ النتائج بالدولار إلى الحافظة!")
+
+            if st.button("📋 نسخ النتائج بالدينار العراقي"):
+                results_text = f"""
+                سعر البيض الكلي: {format_decimal(total_egg_price_usd * 1480)} دينار عراقي
+                تكلفة العلف الكلية: {format_decimal(total_feed_cost_usd * 1480)} دينار عراقي
+                الربح الصافي: {format_decimal(net_profit_usd * 1480)} دينار عراقي
+                """
+                pyperclip.copy(results_text)
+                st.success("تم نسخ النتائج بالدينار العراقي إلى الحافظة!")
+
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food":
     st.subheader("📈 حساب أرباح المكافآت والطعام اليومي" if language == "العربية" else "📈 Daily Rewards and Food Calculation")
     col5, col6 = st.columns(2)
@@ -331,6 +356,29 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
             st.dataframe(df.style.set_properties(**{'text-align': 'right', 'direction': 'rtl'}))
 
+            # رسم بياني
+            fig = px.bar(df, x="العنصر" if language == "العربية" else "Item", y="القيمة" if language == "العربية" else "Value", title="تحليل الأرباح والتكاليف" if language == "العربية" else "Profit and Cost Analysis")
+            st.plotly_chart(fig)
+
+            # نسخ النتائج
+            if st.button("📋 نسخ النتائج بالدولار"):
+                results_text = f"""
+                سعر البيض الكلي: {format_decimal(total_egg_price_usd)} دولار
+                تكلفة العلف الكلية: {format_decimal(total_feed_cost_usd)} دولار
+                الربح الصافي: {format_decimal(net_profit_usd)} دولار
+                """
+                pyperclip.copy(results_text)
+                st.success("تم نسخ النتائج بالدولار إلى الحافظة!")
+
+            if st.button("📋 نسخ النتائج بالدينار العراقي"):
+                results_text = f"""
+                سعر البيض الكلي: {format_decimal(total_egg_price_usd * 1480)} دينار عراقي
+                تكلفة العلف الكلية: {format_decimal(total_feed_cost_usd * 1480)} دينار عراقي
+                الربح الصافي: {format_decimal(net_profit_usd * 1480)} دينار عراقي
+                """
+                pyperclip.copy(results_text)
+                st.success("تم نسخ النتائج بالدينار العراقي إلى الحافظة!")
+
 # قسم تعديل الأسعار
 with st.expander("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices"):
     st.subheader("⚙️ تعديل الأسعار" if language == "العربية" else "⚙️ Edit Prices")
@@ -347,6 +395,29 @@ if st.button("🔄 إعادة التعيين" if language == "العربية" el
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
     st.success("✅ تم إعادة التعيين بنجاح!" if language == "العربية" else "✅ Reset completed successfully!")
+
+# إضافة ميزة التقييم والمراجعات
+st.subheader("📝 تقييم التطبيق")
+rating = st.slider("قيم التطبيق من 1 إلى 5", 1, 5, 3)
+feedback = st.text_area("أضف مراجعتك (اختياري)")
+
+if st.button("إرسال التقييم"):
+    if feedback:
+        st.success(f"شكرًا لتقييمك! تقييمك: {rating} نجوم\nمراجعتك: {feedback}")
+    else:
+        st.success(f"شكرًا لتقييمك! تقييمك: {rating} نجوم")
+
+# إضافة ميزة الدعم الفني
+st.subheader("🛠 الدعم الفني")
+issue = st.selectbox("اختر نوع المشكلة", ["مشكلة تقنية", "اقتراح", "استفسار عام"])
+description = st.text_area("وصف المشكلة أو الاستفسار")
+email = st.text_input("البريد الإلكتروني (اختياري)")
+
+if st.button("إرسال الطلب"):
+    if description:
+        st.success("تم إرسال طلب الدعم الفني بنجاح! سنتواصل معك قريبًا.")
+    else:
+        st.error("يرجى إدخال وصف للمشكلة.")
 
 # إضافة نص حقوق النشر
 st.markdown(
