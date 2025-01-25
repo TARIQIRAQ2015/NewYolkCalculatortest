@@ -297,13 +297,16 @@ col1, col2 = st.columns(2)
 with col1:
     currency = st.selectbox(
         "💰 العملة" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
-        ["دولار" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
+        ["دولار" if language == "العربية" else "USD" if language == "English" else "USD", 
+         "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD",
+         "Leu" if language == "Română" else "Leu"]
     )
 
 with col2:
     calculation_type = st.selectbox(
         "📊 نوع الحساب" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
-        ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
+        ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", 
+         "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
     )
 
 # قسم الحسابات
@@ -354,6 +357,12 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     net_profit_before_rent = net_profit_before_rent_usd * 1480
                     rent_cost = rent_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
+                elif currency == "Leu":
+                    total_egg_price = total_egg_price_usd * 4.5
+                    total_feed_cost = total_feed_cost_usd * 4.5
+                    net_profit_before_rent = net_profit_before_rent_usd * 4.5
+                    rent_cost = rent_cost_usd * 4.5
+                    net_profit = net_profit_usd * 4.5
                 else:
                     total_egg_price, total_feed_cost, net_profit_before_rent, rent_cost, net_profit = (
                         total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
@@ -441,6 +450,10 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
+                elif currency == "Leu":
+                    total_egg_price = total_egg_price_usd * 4.5
+                    total_feed_cost = total_feed_cost_usd * 4.5
+                    net_profit = net_profit_usd * 4.5
                 else:
                     total_egg_price, total_feed_cost, net_profit = (
                         total_egg_price_usd, total_feed_cost_usd, net_profit_usd
