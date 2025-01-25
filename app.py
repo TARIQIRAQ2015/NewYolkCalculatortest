@@ -83,6 +83,24 @@ if language == "العربية":
             text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
             direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
         }}
+        /* زر التمرير إلى الأعلى */
+        .scroll-top {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }}
+        .scroll-top:hover {{
+            background-color: #45a049;
+        }}
         </style>
         <div class="title">🐔 Newyolk - حاسبة الدجاج</div>
         <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
@@ -131,6 +149,24 @@ elif language == "English":
             margin: 0 auto; /* توسيط الجدول */
             width: 50%; /* تحديد عرض الجدول */
             text-align: left; /* محاذاة النص إلى اليسار */
+        }}
+        /* زر التمرير إلى الأعلى */
+        .scroll-top {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }}
+        .scroll-top:hover {{
+            background-color: #45a049;
         }}
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
@@ -181,6 +217,24 @@ else:  # اللغة الرومانية
             width: 50%; /* تحديد عرض الجدول */
             text-align: left; /* محاذاة النص إلى اليسار */
         }}
+        /* زر التمرير إلى الأعلى */
+        .scroll-top {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }}
+        .scroll-top:hover {{
+            background-color: #45a049;
+        }}
         </style>
         <div class="title">🐔 Newyolk - Calculator de Pui</div>
         <div class="subtitle">Calculează Profiturile și Recompensele Zilnice</div>
@@ -202,10 +256,12 @@ st.markdown(
             document.getElementById("scrollTopBtn").style.display = "none";
         }
     }
-    // التمرير إلى الأعلى
+    // التمرير إلى الأعلى بشكل سلس
     function scrollToTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
     </script>
     """,
@@ -438,6 +494,32 @@ st.markdown(
     <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px; font-weight: bold;">
        by Tariq Al-Yaseen جميع الحقوق محفوظة © 2025
     </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# زر التمرير إلى الأعلى
+st.markdown(
+    """
+    <button onclick="scrollToTop()" class="scroll-top" id="scrollTopBtn" title="Go to top">↑</button>
+    <script>
+    // ظهور الزر عند التمرير لأسفل
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scrollTopBtn").style.display = "block";
+        } else {
+            document.getElementById("scrollTopBtn").style.display = "none";
+        }
+    }
+    // التمرير إلى الأعلى بشكل سلس
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+    </script>
     """,
     unsafe_allow_html=True
 )
