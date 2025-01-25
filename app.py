@@ -224,10 +224,10 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     col3, col4 = st.columns(2)
 
     with col3:
-        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=None, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs")
+        eggs = st.number_input("🥚 عدد البيض" if language == "العربية" else "🥚 Number of Eggs", min_value=0, max_value=580, value=None, help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)", key="eggs", step=1.0, format="%.4f")
 
     with col4:
-        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=None, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days")
+        days = st.number_input("📅 عدد الأيام" if language == "العربية" else "📅 Number of Days", min_value=0, max_value=730, value=None, help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)", key="days", step=1.0, format="%.4f")
 
     if st.button("🧮 احسب أرباح الدجاجة" if language == "العربية" else "🧮 Calculate Chicken Profits", type="primary"):
         if eggs is None or days is None:
@@ -305,10 +305,10 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
     col5, col6 = st.columns(2)
 
     with col5:
-        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards")
+        rewards = st.number_input("🎁 عدد المكافآت" if language == "العربية" else "🎁 Number of Rewards", min_value=0, value=None, help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards", key="rewards", step=1.0, format="%.4f")
 
     with col6:
-        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food")
+        food = st.number_input("🌽 عدد الطعام المطلوب" if language == "العربية" else "🌽 Amount of Food Required", min_value=0, value=None, help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required", key="food", step=1.0, format="%.4f")
 
     if st.button("🧮 احسب أرباح المكافآت والطعام اليومي" if language == "العربية" else "🧮 Calculate Daily Rewards and Food", type="primary"):
         if rewards is None or food is None:
