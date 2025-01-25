@@ -1,5 +1,5 @@
 streamlit
 pyperclip
-clipboard
 pandas
 plotly
+clipboard
