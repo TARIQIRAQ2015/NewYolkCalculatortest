@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px  # إضافة مكتبة plotly للرسوم البيانية
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -354,6 +355,25 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
+                # إضافة رسم بياني تفاعلي
+                chart_data = pd.DataFrame({
+                    "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
+                        "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
+                        "تكلفة العلف الكلية" if language == "العربية" else "Total Feed Cost" if language == "English" else "Costul Total al Furajului",
+                        "دفع الإيجار" if language == "العربية" else "Rent Cost" if language == "English" else "Costul Chiriei"
+                    ],
+                    "القيمة" if language == "العربية" else "Value" if language == "English" else "Valoare": [
+                        total_egg_price,
+                        total_feed_cost,
+                        rent_cost
+                    ]
+                })
+
+                fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
+                             title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
+                             labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
+                st.plotly_chart(fig, use_container_width=True)
+
                 # إضافة زر نسخ النتائج باستخدام JavaScript
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
                 st.markdown(
@@ -436,6 +456,23 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 if language == "العربية":
                     df = df[["القيمة", "العنصر"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
+
+                # إضافة رسم بياني تفاعلي
+                chart_data = pd.DataFrame({
+                    "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
+                        "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
+                        "تكلفة العلف الكلية" if language == "العربية" else "Total Feed Cost" if language == "English" else "Costul Total al Furajului"
+                    ],
+                    "القيمة" if language == "العربية" else "Value" if language == "English" else "Valoare": [
+                        total_egg_price,
+                        total_feed_cost
+                    ]
+                })
+
+                fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
+                             title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
+                             labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
+                st.plotly_chart(fig, use_container_width=True)
 
                 # إضافة زر نسخ النتائج باستخدام JavaScript
                 results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
