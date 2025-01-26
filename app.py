@@ -372,7 +372,6 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
                              title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
                              color_discrete_sequence=px.colors.sequential.RdBu)
-                fig.update_layout(yaxis_range=[1, None])  # بدء المحور الرأسي من 1
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
@@ -456,7 +455,6 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
                              title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
                              color_discrete_sequence=px.colors.sequential.RdBu)
-                fig.update_layout(yaxis_range=[1, None])  # بدء المحور الرأسي من 1
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
@@ -490,7 +488,7 @@ if st.button("إعادة التعيين 🔄" if language == "العربية" el
 st.markdown(
     """
     <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px; font-weight: bold;">
-       by Tariq Al-Yaseen جميع الحقوق محفوظة © 2025
+       by Tariq Al-Yaseen © 2025-2026
     </div>
     """,
     unsafe_allow_html=True
