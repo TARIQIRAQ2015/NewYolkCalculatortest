@@ -103,6 +103,12 @@ st.markdown(
         text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
         direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
     }}
+    .center {{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }}
     </style>
     <div class="title"> {texts["العربية"]["title"]}</div>
     <div class="subtitle">{texts["العربية"]["subtitle"]}</div>
