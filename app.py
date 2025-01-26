@@ -206,18 +206,19 @@ else:
 col1, col2 = st.columns(2)
 
 with col1:
-    language = st.selectbox(
+    language = st.radio(
         "Choose Language",
         ["English", "العربية", "Română"],
-        key="language_selectbox",
         index=["English", "العربية", "Română"].index(st.session_state.language),
+        key="language_radio",
         on_change=lambda: st.session_state.update({"language": language})
     )
 
 with col2:
-    currency = st.selectbox(
+    currency = st.radio(
         texts[st.session_state.language]["currency_select"],
-        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"]
+        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"],
+        key="currency_radio"
     )
 
 # قسم تعديل الأسعار
@@ -239,9 +240,10 @@ if st.button(texts[st.session_state.language]["save_prices"], type="secondary"):
         st.error("يرجى إدخال أرقام صحيحة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter valid numbers!")
 
 # قسم الحسابات
-calculation_type = st.selectbox(
+calculation_type = st.radio(
     texts[st.session_state.language]["calculation_type"],
-    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]]
+    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]],
+    key="calculation_type_radio"
 )
 
 if calculation_type == texts[st.session_state.language]["chicken_profits"]:
