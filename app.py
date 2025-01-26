@@ -119,6 +119,12 @@ with col1:
         ["دولار أمريكي", "دينار عراقي"]
     )
 
+with col2:
+    calculation_type = st.selectbox(
+        texts["العربية"]["calculation_type"],
+        [texts["العربية"]["chicken_profits"], texts["العربية"]["daily_rewards"]]
+    )
+
 # قسم تعديل الأسعار
 st.subheader(texts["العربية"]["edit_prices"])
 col3, col4 = st.columns(2)
@@ -137,11 +143,16 @@ if st.button(texts["العربية"]["save_prices"], type="secondary"):
     except ValueError:
         st.error("يرجى إدخال أرقام صحيحة! ❗️")
 
-# قسم الحسابات
-calculation_type = st.selectbox(
-    texts["العربية"]["calculation_type"],
-    [texts["العربية"]["chicken_profits"], texts["العربية"]["daily_rewards"]]
-)
+# تحديث الأسعار بناءً على العملة
+if currency == "دينار عراقي":
+    egg_price_display = st.session_state.egg_price * 1480
+    feed_price_display = st.session_state.feed_price * 1480
+else:
+    egg_price_display = st.session_state.egg_price
+    feed_price_display = st.session_state.feed_price
+
+st.write(f"سعر البيض الحالي: {format_decimal(egg_price_display)} {currency}")
+st.write(f"سعر العلف الحالي: {format_decimal(feed_price_display)} {currency}")
 
 if calculation_type == texts["العربية"]["chicken_profits"]:
     st.subheader("حساب أرباح الدجاجة 📈")
