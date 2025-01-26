@@ -75,7 +75,7 @@ if language == "العربية":
             font-size: 24px;
         }}
         .stTable {{
-            margin: 1 auto; /* توسيط الجدول */
+            margin: 0 auto; /* توسيط الجدول */
             width: 50%; /* تحديد عرض الجدول */
             text-align: right; /* محاذاة النص إلى اليمين */
         }}
@@ -488,7 +488,7 @@ if st.button("إعادة التعيين 🔄" if language == "العربية" el
 st.markdown(
     """
     <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px; font-weight: bold;">
-       by Tariq Al-Yaseen © 2025-2026
+       by Tariq Al-Yaseen جميع الحقوق محفوظة © 2025
     </div>
     """,
     unsafe_allow_html=True
