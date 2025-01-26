@@ -283,8 +283,6 @@ with col3:
 with col4:
     new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
 
-new_chicken_price = st.text_input("سعر شراء الدجاجة الحالي 🐔" if language == "العربية" else "🐔 New Chicken Purchase Price" if language == "English" else "🐔 Prețul Nou de Achiziție al Puiului", value=str(st.session_state.chicken_price))
-
 if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
     try:
         st.session_state.egg_price = float(new_egg_price)
