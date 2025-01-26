@@ -75,7 +75,7 @@ if language == "العربية":
             font-size: 24px;
         }}
         .stTable {{
-            margin: 0 auto; /* توسيط الجدول */
+            margin: 1 auto; /* توسيط الجدول */
             width: 50%; /* تحديد عرض الجدول */
             text-align: right; /* محاذاة النص إلى اليمين */
         }}
