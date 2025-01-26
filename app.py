@@ -9,7 +9,7 @@ def format_decimal(number):
 # تحسين الواجهة
 st.set_page_config(
     page_title="Newyolk Chicken Calculator",
-    page_icon="🌍",  # تغيير الأيقونة إلى أيقونة شبيهة بالأرض
+    page_icon="🐔",  #
     layout="wide"
 )
 
