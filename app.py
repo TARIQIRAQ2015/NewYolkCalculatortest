@@ -7,7 +7,11 @@ def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
 
 # تحسين الواجهة
-st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
+st.set_page_config(
+    page_title="Newyolk Chicken Calculator",
+    page_icon="🌍",  # تغيير الأيقونة إلى أيقونة شبيهة بالأرض
+    layout="wide"
+)
 
 # حالة اللغة (العربية أو الإنجليزية)
 if "language" not in st.session_state:
