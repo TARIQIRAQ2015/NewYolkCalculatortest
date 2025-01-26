@@ -19,7 +19,29 @@ if "theme" not in st.session_state:
     st.session_state.theme = "Dark"
 
 # اختيار اللغة في السايد بار
-language = st.sidebar.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"])
+with st.sidebar:
+    st.title("اختر اللغة / Choose Language / Alegeți limba")
+    language = st.selectbox("", ["العربية", "English", "Română"])
+
+    # اختيار العملة
+    currency = st.selectbox(
+        "العملة 💰" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
+        ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
+    )
+
+    # تعديل الأسعار
+    with st.expander("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri"):
+        st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
+        new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
+        new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
+
+        if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
+            try:
+                st.session_state.egg_price = float(new_egg_price)
+                st.session_state.feed_price = float(new_feed_price)
+                st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
+            except ValueError:
+                st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
@@ -267,12 +289,6 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
-    currency = st.selectbox(
-        "العملة 💰" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
-        ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
-    )
-
-with col2:
     calculation_type = st.selectbox(
         "نوع الحساب 📊" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
         ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
@@ -474,20 +490,6 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                         st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "✅ Results copied successfully!" if language == "English" else "✅ Rezultatele au fost copiate cu succes!")
                     except Exception as e:
                         st.error("فشل نسخ النتائج! ❌" if language == "العربية" else "❌ Failed to copy results!" if language == "English" else "❌ Nu s-a putut copia rezultatele!")
-        except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
-
-# قسم تعديل الأسعار
-with st.expander("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri"):
-    st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
-    new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
-    new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
-
-    if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
-        try:
-            st.session_state.egg_price = float(new_egg_price)
-            st.session_state.feed_price = float(new_feed_price)
-            st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
