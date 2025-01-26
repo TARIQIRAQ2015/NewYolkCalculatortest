@@ -9,8 +9,9 @@ def format_decimal(number):
 # تحسين الواجهة
 st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
 
-# حالة اللغة (العربية فقط)
-st.session_state.language = "العربية"
+# حالة اللغة (العربية أو الإنجليزية)
+if "language" not in st.session_state:
+    st.session_state.language = "العربية"
 
 # حالة الوضع (Dark أو Light)
 if "theme" not in st.session_state:
@@ -34,11 +35,12 @@ if "rewards" not in st.session_state:
 if "food" not in st.session_state:
     st.session_state.food = ""
 
-# النصوص للغة العربية فقط
+# النصوص لكل لغة
 texts = {
     "العربية": {
         "title": "🐔 حاسبة الدجاج - Newyolk",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
+        "language_select": "اختر اللغة",
         "currency_select": "العملة 💰",
         "edit_prices": "تعديل الأسعار ⚙️",
         "new_egg_price": "سعر البيض الحالي 🥚",
@@ -56,69 +58,148 @@ texts = {
         "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
         "reset": "إعادة التعيين 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
+    },
+    "English": {
+        "title": "🐔 Newyolk - Chicken Calculator",
+        "subtitle": "Calculate Chicken Profits and Daily Rewards",
+        "language_select": "Choose Language",
+        "currency_select": "💰 Currency",
+        "edit_prices": "⚙️ Edit Prices",
+        "new_egg_price": "🥚 New Egg Price",
+        "new_feed_price": "🌽 New Feed Price",
+        "save_prices": "💾 Save New Prices",
+        "calculation_type": "📊 Calculation Type",
+        "chicken_profits": "Chicken Profits",
+        "daily_rewards": "Daily Rewards and Food",
+        "eggs_input": "🥚 Number of Eggs",
+        "days_input": "📅 Number of Days",
+        "chicken_price_input": "🐔 Chicken Purchase Price",
+        "calculate_profits": "🧮 Calculate Chicken Profits",
+        "rewards_input": "🎁 Number of Rewards",
+        "food_input": "🌽 Amount of Food Required",
+        "calculate_rewards": "🧮 Calculate Daily Rewards and Food",
+        "reset": "🔄 Reset",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026"
     }
 }
 
-# تغيير اتجاه الكتابة للغة العربية
-st.markdown(
-    f"""
-    <style>
-    body {{
-        background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        direction: rtl;
-    }}
-    .title {{
-        font-size: 50px;
-        font-weight: bold;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        padding: 20px;
-    }}
-    .subtitle {{
-        font-size: 30px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        margin-bottom: 30px;
-    }}
-    .rtl {{
-        direction: rtl;
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stSelectbox, .stTextInput {{
-        direction: rtl;
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stButton button {{
-        font-size: 24px;
-    }}
-    .stTable {{
-        margin: 0 auto; /* توسيط الجدول */
-        width: 50%; /* تحديد عرض الجدول */
-        text-align: right; /* محاذاة النص إلى اليمين */
-    }}
-    .stTable th, .stTable td {{
-        text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
-        direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
-    }}
-    </style>
-    <div class="title"> {texts[st.session_state.language]["title"]}</div>
-    <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
-    """,
-    unsafe_allow_html=True
-)
+# تغيير اتجاه الكتابة بناءً على اللغة
+if st.session_state.language == "العربية":
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            direction: rtl;
+        }}
+        .title {{
+            font-size: 50px;
+            font-weight: bold;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            padding: 20px;
+        }}
+        .subtitle {{
+            font-size: 30px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            margin-bottom: 30px;
+        }}
+        .rtl {{
+            direction: rtl;
+            text-align: right;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stSelectbox, .stTextInput {{
+            direction: rtl;
+            text-align: right;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stButton button {{
+            font-size: 24px;
+        }}
+        .stTable {{
+            margin: 0 auto; /* توسيط الجدول */
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: right; /* محاذاة النص إلى اليمين */
+        }}
+        .stTable th, .stTable td {{
+            text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
+            direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
+        }}
+        </style>
+        <div class="title"> {texts[st.session_state.language]["title"]}</div>
+        <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .title {{
+            font-size: 50px;
+            font-weight: bold;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            padding: 20px;
+        }}
+        .subtitle {{
+            font-size: 30px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            margin-bottom: 30px;
+        }}
+        .ltr {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stSelectbox, .stTextInput {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stButton button {{
+            font-size: 24px;
+        }}
+        .stTable {{
+            margin: 0 auto; /* توسيط الجدول */
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: left; /* محاذاة النص إلى اليسار */
+        }}
+        </style>
+        <div class="title">{texts[st.session_state.language]["title"]}</div>
+        <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
 
 with col1:
+    language = st.selectbox(
+        texts[st.session_state.language]["language_select"],
+        ["العربية", "English"],
+        key="language_selectbox",
+        index=["العربية", "English"].index(st.session_state.language),
+        on_change=lambda: st.session_state.update({"language": language})
+    )
+
+with col2:
     currency = st.selectbox(
         texts[st.session_state.language]["currency_select"],
-        ["دولار أمريكي", "دينار عراقي"]
+        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"]
     )
 
 # قسم تعديل الأسعار
@@ -135,9 +216,9 @@ if st.button(texts[st.session_state.language]["save_prices"], type="secondary"):
     try:
         st.session_state.egg_price = float(new_egg_price)
         st.session_state.feed_price = float(new_feed_price)
-        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅")
+        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if st.session_state.language == "العربية" else "✅ New prices saved successfully!")
     except ValueError:
-        st.error("يرجى إدخال أرقام صحيحة! ❗️")
+        st.error("يرجى إدخال أرقام صحيحة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter valid numbers!")
 
 # قسم الحسابات
 calculation_type = st.selectbox(
@@ -146,14 +227,14 @@ calculation_type = st.selectbox(
 )
 
 if calculation_type == texts[st.session_state.language]["chicken_profits"]:
-    st.subheader("حساب أرباح الدجاجة 📈")
+    st.subheader("حساب أرباح الدجاجة 📈" if st.session_state.language == "العربية" else "📈 Chicken Profits Calculation")
     col5, col6 = st.columns(2)
 
     with col5:
         eggs = st.text_input(
             texts[st.session_state.language]["eggs_input"],
             value=st.session_state.eggs,
-            help="أدخل عدد البيض (بحد أقصى 580)",
+            help="أدخل عدد البيض (بحد أقصى 580)" if st.session_state.language == "العربية" else "Enter the number of eggs (max 580)",
             key="eggs_input"
         )
 
@@ -161,7 +242,7 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
         days = st.text_input(
             texts[st.session_state.language]["days_input"],
             value=st.session_state.days,
-            help="أدخل عدد الأيام (بحد أقصى 730)",
+            help="أدخل عدد الأيام (بحد أقصى 730)" if st.session_state.language == "العربية" else "Enter the number of days (max 730)",
             key="days_input"
         )
 
@@ -169,7 +250,7 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
     chicken_price = st.text_input(
         texts[st.session_state.language]["chicken_price_input"],
         value=str(st.session_state.chicken_price),
-        help="أدخل سعر شراء الدجاجة(اختياري)",
+        help="أدخل سعر شراء الدجاجة(اختياري)" if st.session_state.language == "العربية" else "Enter the chicken purchase price",
         key="chicken_price_input"
     )
 
@@ -180,11 +261,11 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
             chicken_price = float(chicken_price) if chicken_price else 0.0
 
             if eggs is None or days is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter all required values!")
             elif eggs > 580:
-                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️")
+                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if st.session_state.language == "العربية" else "❗️ Number of eggs must not exceed 580!")
             elif days > 730:
-                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️")
+                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if st.session_state.language == "العربية" else "❗️ Number of days must not exceed 730!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
@@ -195,7 +276,7 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                 rent_cost_usd = 6.0 if eggs >= 260 else 0.0
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd - chicken_price
 
-                if currency == "دينار عراقي":
+                if currency == "دينار عراقي" or currency == "IQD":
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit_before_rent = net_profit_before_rent_usd * 1480
@@ -209,15 +290,15 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
 
                 # إنشاء جدول للنتائج
                 results = {
-                    "العنصر": [
-                        "سعر البيض الكلي 💰",
-                        "تكلفة العلف الكلية 🌽",
-                        "الربح قبل خصم الإيجار 📊",
-                        "دفع الإيجار 💸",
-                        "سعر شراء الدجاجة 🐔",
-                        "الربح الصافي 💵"
+                    "العنصر" if st.session_state.language == "العربية" else "Item": [
+                        "سعر البيض الكلي 💰" if st.session_state.language == "العربية" else "💰 Total Egg Price",
+                        "تكلفة العلف الكلية 🌽" if st.session_state.language == "العربية" else "🌽 Total Feed Cost",
+                        "الربح قبل خصم الإيجار 📊" if st.session_state.language == "العربية" else "📊 Net Profit Before Rent",
+                        "دفع الإيجار 💸" if st.session_state.language == "العربية" else "🏠 Rent Cost",
+                        "سعر شراء الدجاجة 🐔" if st.session_state.language == "العربية" else "🐔 Chicken Purchase Price",
+                        "الربح الصافي 💵" if st.session_state.language == "العربية" else "💵 Net Profit"
                     ],
-                    "القيمة": [
+                    "القيمة" if st.session_state.language == "العربية" else "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
                         f"{format_decimal(total_feed_cost)} {currency}",
                         f"{format_decimal(net_profit_before_rent)} {currency}",
@@ -228,20 +309,21 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                 }
 
                 # عرض النتائج كجدول
-                st.success("تم الحساب بنجاح! ✅")
+                st.success("تم الحساب بنجاح! ✅" if st.session_state.language == "العربية" else "✅ Calculation completed successfully!")
                 df = pd.DataFrame(results)
-                df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
+                if st.session_state.language == "العربية":
+                    df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
-                    "الفئة": [
-                        "سعر البيض الكلي",
-                        "تكلفة العلف الكلية",
-                        "دفع الإيجار",
-                        "سعر شراء الدجاجة"
+                    "الفئة" if st.session_state.language == "العربية" else "Category": [
+                        "سعر البيض الكلي" if st.session_state.language == "العربية" else "Total Egg Price",
+                        "تكلفة العلف الكلية" if st.session_state.language == "العربية" else "Total Feed Cost",
+                        "دفع الإيجار" if st.session_state.language == "العربية" else "Rent Cost",
+                        "سعر شراء الدجاجة" if st.session_state.language == "العربية" else "Chicken Purchase Price"
                     ],
-                    "القيمة": [
+                    "القيمة" if st.session_state.language == "العربية" else "Value": [
                         total_egg_price,
                         total_feed_cost,
                         rent_cost,
@@ -249,24 +331,24 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                     ]
                 })
 
-                fig = px.bar(chart_data, x="الفئة", y="القيمة",
-                             title="توزيع التكاليف والأرباح",
-                             color="الفئة",
+                fig = px.bar(chart_data, x="الفئة" if st.session_state.language == "العربية" else "Category", y="القيمة" if st.session_state.language == "العربية" else "Value",
+                             title="توزيع التكاليف والأرباح" if st.session_state.language == "العربية" else "Distribution of Costs and Profits",
+                             color="الفئة" if st.session_state.language == "العربية" else "Category",
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗️")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter valid numbers!")
 
 elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
-    st.subheader("حساب أرباح المكافآت والطعام اليومي 📈")
+    st.subheader("حساب أرباح المكافآت والطعام اليومي 📈" if st.session_state.language == "العربية" else "📈 Daily Rewards and Food Calculation")
     col7, col8 = st.columns(2)
 
     with col7:
         rewards = st.text_input(
             texts[st.session_state.language]["rewards_input"],
             value=st.session_state.rewards,
-            help="أدخل عدد المكافآت",
+            help="أدخل عدد المكافآت" if st.session_state.language == "العربية" else "Enter the number of rewards",
             key="rewards_input"
         )
 
@@ -274,7 +356,7 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
         food = st.text_input(
             texts[st.session_state.language]["food_input"],
             value=st.session_state.food,
-            help="أدخل عدد الطعام المطلوب",
+            help="أدخل عدد الطعام المطلوب" if st.session_state.language == "العربية" else "Enter the amount of food required",
             key="food_input"
         )
 
@@ -284,14 +366,14 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
             food = float(food) if food else None
 
             if rewards is None or food is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter all required values!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = rewards * st.session_state.egg_price
                 total_feed_cost_usd = food * st.session_state.feed_price
                 net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-                if currency == "دينار عراقي":
+                if currency == "دينار عراقي" or currency == "IQD":
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
@@ -302,12 +384,12 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
 
                 # إنشاء جدول للنتائج
                 results = {
-                    "العنصر": [
-                        "سعر البيض الكلي 💰",
-                        "تكلفة العلف الكلية 🌽",
-                        "الربح اليومي 💵"
+                    "العنصر" if st.session_state.language == "العربية" else "Item": [
+                        "سعر البيض الكلي 💰" if st.session_state.language == "العربية" else "💰 Total Egg Price",
+                        "تكلفة العلف الكلية 🌽" if st.session_state.language == "العربية" else "🌽 Total Feed Cost",
+                        "الربح اليومي 💵" if st.session_state.language == "العربية" else "💵 Daily Profit"
                     ],
-                    "القيمة": [
+                    "القيمة" if st.session_state.language == "العربية" else "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
                         f"{format_decimal(total_feed_cost)} {currency}",
                         f"{format_decimal(net_profit)} {currency}"
@@ -315,31 +397,32 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
                 }
 
                 # عرض النتائج كجدول
-                st.success("تم الحساب بنجاح! ✅")
+                st.success("تم الحساب بنجاح! ✅" if st.session_state.language == "العربية" else "✅ Calculation completed successfully!")
                 df = pd.DataFrame(results)
-                df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
+                if st.session_state.language == "العربية":
+                    df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
-                    "الفئة": [
-                        "سعر البيض الكلي",
-                        "تكلفة العلف الكلية"
+                    "الفئة" if st.session_state.language == "العربية" else "Category": [
+                        "سعر البيض الكلي" if st.session_state.language == "العربية" else "Total Egg Price",
+                        "تكلفة العلف الكلية" if st.session_state.language == "العربية" else "Total Feed Cost"
                     ],
-                    "القيمة": [
+                    "القيمة" if st.session_state.language == "العربية" else "Value": [
                         total_egg_price,
                         total_feed_cost
                     ]
                 })
 
-                fig = px.bar(chart_data, x="الفئة", y="القيمة",
-                             title="توزيع التكاليف والأرباح",
-                             color="الفئة",
+                fig = px.bar(chart_data, x="الفئة" if st.session_state.language == "العربية" else "Category", y="القيمة" if st.session_state.language == "العربية" else "Value",
+                             title="توزيع التكاليف والأرباح" if st.session_state.language == "العربية" else "Distribution of Costs and Profits",
+                             color="الفئة" if st.session_state.language == "العربية" else "Category",
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗️")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if st.session_state.language == "العربية" else "❗️ Please enter valid numbers!")
 
 # زر إعادة التعيين
 if st.button(texts[st.session_state.language]["reset"], type="secondary"):
@@ -350,7 +433,7 @@ if st.button(texts[st.session_state.language]["reset"], type="secondary"):
     st.session_state.days = ""
     st.session_state.rewards = ""
     st.session_state.food = ""
-    st.success("تم إعادة التعيين بنجاح! ✅")
+    st.success("تم إعادة التعيين بنجاح! ✅" if st.session_state.language == "العربية" else "✅ Reset completed successfully!")
 
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
