@@ -304,7 +304,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
     chicken_price = st.text_input(
         "سعر شراء الدجاجة 🐔" if language == "العربية" else "🐔 Chicken Purchase Price" if language == "English" else "🐔 Prețul de Achiziție al Puiului",
         value=str(st.session_state.chicken_price),
-        help="أدخل سعر شراء الدجاجة" if language == "العربية" else "Enter the chicken purchase price" if language == "English" else "Introduceți prețul de achiziție al puiului",
+        help="أدخل سعر شراء الدجاجة(اختياري)" if language == "العربية" else "Enter the chicken purchase price" if language == "English" else "Introduceți prețul de achiziție al puiului",
         key="chicken_price_input"
     )
 
