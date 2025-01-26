@@ -211,15 +211,13 @@ with col1:
         ["English", "العربية", "Română"],
         key="language_selectbox",
         index=["English", "العربية", "Română"].index(st.session_state.language),
-        on_change=lambda: st.session_state.update({"language": language}),
-        disabled=True  # قفل الكتابة في القائمة
+        on_change=lambda: st.session_state.update({"language": language})
     )
 
 with col2:
     currency = st.selectbox(
         texts[st.session_state.language]["currency_select"],
-        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"],
-        disabled=True  # قفل الكتابة في القائمة
+        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"]
     )
 
 # قسم تعديل الأسعار
@@ -243,8 +241,7 @@ if st.button(texts[st.session_state.language]["save_prices"], type="secondary"):
 # قسم الحسابات
 calculation_type = st.selectbox(
     texts[st.session_state.language]["calculation_type"],
-    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]],
-    disabled=True  # قفل الكتابة في القائمة
+    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]]
 )
 
 if calculation_type == texts[st.session_state.language]["chicken_profits"]:
