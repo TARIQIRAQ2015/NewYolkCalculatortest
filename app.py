@@ -103,19 +103,6 @@ st.markdown(
         text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
         direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
     }}
-    .center {{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }}
-    .cost-profit-section {{
-        text-align: center;
-        margin: 20px 0;
-        padding: 20px;
-        background: {'#f0f0f0' if st.session_state.theme == "Light" else '#333333'};
-        border-radius: 10px;
-    }}
     </style>
     <div class="title"> {texts["العربية"]["title"]}</div>
     <div class="subtitle">{texts["العربية"]["subtitle"]}</div>
@@ -243,19 +230,6 @@ if calculation_type == texts["العربية"]["chicken_profits"]:
                 df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إضافة قسم توزيع التكاليف والأرباح
-                st.markdown(
-                    """
-                    <div class="cost-profit-section">
-                        <h3>توزيع التكاليف والأرباح</h3>
-                        <p><strong>سعر البيض الكلي</strong></p>
-                        <p><strong>تكلفة العلف الكلية</strong></p>
-                        <p><strong>دفع الإيجار</strong></p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
                     "الفئة": [
@@ -340,19 +314,6 @@ elif calculation_type == texts["العربية"]["daily_rewards"]:
                 df = pd.DataFrame(results)
                 df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
-
-                # إضافة قسم توزيع التكاليف والأرباح
-                st.markdown(
-                    """
-                    <div class="cost-profit-section">
-                        <h3>توزيع التكاليف والأرباح</h3>
-                        <p><strong>سعر البيض الكلي</strong></p>
-                        <p><strong>تكلفة العلف الكلية</strong></p>
-                        <p><strong>الربح اليومي</strong></p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
