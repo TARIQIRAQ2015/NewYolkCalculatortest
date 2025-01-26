@@ -17,9 +17,6 @@ if "language" not in st.session_state:
 if "theme" not in st.session_state:
     st.session_state.theme = "Dark"
 
-# اختيار اللغة في السايد بار
-language = st.sidebar.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"])
-
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
@@ -39,7 +36,7 @@ if "food" not in st.session_state:
     st.session_state.food = ""
 
 # تغيير اتجاه الكتابة بناءً على اللغة
-if language == "العربية":
+if st.session_state.language == "العربية":
     st.markdown(
         f"""
         <style>
@@ -109,7 +106,7 @@ if language == "العربية":
         """,
         unsafe_allow_html=True
     )
-elif language == "English":
+elif st.session_state.language == "English":
     st.markdown(
         f"""
         <style>
@@ -268,23 +265,46 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
+    language = st.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"], key="language_selectbox")
+
+with col2:
     currency = st.selectbox(
         "العملة 💰" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
         ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
     )
 
-with col2:
-    calculation_type = st.selectbox(
-        "نوع الحساب 📊" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
-        ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
-    )
+# قسم تعديل الأسعار
+st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
+col3, col4 = st.columns(2)
+
+with col3:
+    new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
+
+with col4:
+    new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
+
+new_chicken_price = st.text_input("سعر شراء الدجاجة الحالي 🐔" if language == "العربية" else "🐔 New Chicken Purchase Price" if language == "English" else "🐔 Prețul Nou de Achiziție al Puiului", value=str(st.session_state.chicken_price))
+
+if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
+    try:
+        st.session_state.egg_price = float(new_egg_price)
+        st.session_state.feed_price = float(new_feed_price)
+        st.session_state.chicken_price = float(new_chicken_price)
+        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
+    except ValueError:
+        st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
 # قسم الحسابات
+calculation_type = st.selectbox(
+    "نوع الحساب 📊" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
+    ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
+)
+
 if calculation_type == "أرباح الدجاجة" or calculation_type == "Chicken Profits" or calculation_type == "Profituri Pui":
     st.subheader("حساب أرباح الدجاجة 📈" if language == "العربية" else "📈 Chicken Profits Calculation" if language == "English" else "📈 Calcul Profituri Pui")
-    col3, col4 = st.columns(2)
+    col5, col6 = st.columns(2)
 
-    with col3:
+    with col5:
         eggs = st.text_input(
             "عدد البيض 🥚" if language == "العربية" else "🥚 Number of Eggs" if language == "English" else "🥚 Numărul de Ouă",
             value=st.session_state.eggs,
@@ -292,7 +312,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
             key="eggs_input"
         )
 
-    with col4:
+    with col6:
         days = st.text_input(
             "عدد الأيام 📅" if language == "العربية" else "📅 Number of Days" if language == "English" else "📅 Numărul de Zile",
             value=st.session_state.days,
@@ -395,9 +415,9 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
 elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food" or calculation_type == "Recompense Zilnice și Mâncare":
     st.subheader("حساب أرباح المكافآت والطعام اليومي 📈" if language == "العربية" else "📈 Daily Rewards and Food Calculation" if language == "English" else "📈 Calcul Recompense Zilnice și Mâncare")
-    col5, col6 = st.columns(2)
+    col7, col8 = st.columns(2)
 
-    with col5:
+    with col7:
         rewards = st.text_input(
             "عدد المكافآت 🎁" if language == "العربية" else "🎁 Number of Rewards" if language == "English" else "🎁 Numărul de Recompense",
             value=st.session_state.rewards,
@@ -405,7 +425,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
             key="rewards_input"
         )
 
-    with col6:
+    with col8:
         food = st.text_input(
             "عدد الطعام المطلوب 🌽" if language == "العربية" else "🌽 Amount of Food Required" if language == "English" else "🌽 Cantitatea de Mâncare Necesară",
             value=st.session_state.food,
@@ -473,22 +493,6 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                              color_discrete_sequence=px.colors.sequential.RdBu)
                 st.plotly_chart(fig, use_container_width=True)
 
-        except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
-
-# قسم تعديل الأسعار
-with st.expander("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri"):
-    st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
-    new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
-    new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
-    new_chicken_price = st.text_input("سعر شراء الدجاجة الحالي 🐔" if language == "العربية" else "🐔 New Chicken Purchase Price" if language == "English" else "🐔 Prețul Nou de Achiziție al Puiului", value=str(st.session_state.chicken_price))
-
-    if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
-        try:
-            st.session_state.egg_price = float(new_egg_price)
-            st.session_state.feed_price = float(new_feed_price)
-            st.session_state.chicken_price = float(new_chicken_price)
-            st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
