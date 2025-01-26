@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import pyperclip  # إضافة مكتبة pyperclip للتعامل مع الحافظة
+import pyperclip
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -10,16 +10,9 @@ def format_decimal(number):
 # تحسين الواجهة
 st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", layout="wide")
 
-# حالة اللغة (العربية، الإنجليزية، الرومانية)
+# حالة اللغة
 if "language" not in st.session_state:
     st.session_state.language = "العربية"
-
-# حالة الوضع (Dark أو Light)
-if "theme" not in st.session_state:
-    st.session_state.theme = "Dark"
-
-# اختيار اللغة في السايد بار
-language = st.sidebar.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"])
 
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
@@ -27,7 +20,7 @@ if "egg_price" not in st.session_state:
 if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
 
-# حالة الحقول (لإعادة التعيين)
+# حالة الحقول
 if "eggs" not in st.session_state:
     st.session_state.eggs = ""
 if "days" not in st.session_state:
@@ -37,70 +30,27 @@ if "rewards" not in st.session_state:
 if "food" not in st.session_state:
     st.session_state.food = ""
 
-# تغيير اتجاه الكتابة بناءً على اللغة
+# اختيار اللغة
+language = st.sidebar.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"])
+
+# تنسيق الواجهة بناءً على اللغة
 if language == "العربية":
     st.markdown(
         f"""
         <style>
         body {{
-            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             direction: rtl;
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
-        }}
-        .rtl {{
-            direction: rtl;
-            text-align: right;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: rtl;
-            text-align: right;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stButton button {{
-            font-size: 24px;
-        }}
-        .stTable {{
-            margin: 0 auto; /* توسيط الجدول */
-            width: 50%; /* تحديد عرض الجدول */
-            text-align: right; /* محاذاة النص إلى اليمين */
-        }}
-        .stTable th, .stTable td {{
-            text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
-            direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
-        }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
         }}
         </style>
         <div class="title"> 🐔 حاسبة الدجاج - Newyolk</div>
@@ -112,60 +62,16 @@ elif language == "English":
     st.markdown(
         f"""
         <style>
-        body {{
-            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
-        }}
-        .ltr {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stButton button {{
-            font-size: 24px;
-        }}
-        .stTable {{
-            margin: 0 auto; /* توسيط الجدول */
-            width: 50%; /* تحديد عرض الجدول */
-            text-align: left; /* محاذاة النص إلى اليسار */
-        }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
         }}
         </style>
         <div class="title">🐔 Newyolk - Chicken Calculator</div>
@@ -177,60 +83,16 @@ else:  # اللغة الرومانية
     st.markdown(
         f"""
         <style>
-        body {{
-            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             padding: 20px;
         }}
         .subtitle {{
             font-size: 30px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
             text-align: center;
             margin-bottom: 30px;
-        }}
-        .ltr {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stButton button {{
-            font-size: 24px;
-        }}
-        .stTable {{
-            margin: 0 auto; /* توسيط الجدول */
-            width: 50%; /* تحديد عرض الجدول */
-            text-align: left; /* محاذاة النص إلى اليسار */
-        }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
         }}
         </style>
         <div class="title">🐔 Newyolk - Calculator de Pui</div>
@@ -238,30 +100,6 @@ else:  # اللغة الرومانية
         """,
         unsafe_allow_html=True
     )
-
-# زر التمرير إلى الأعلى
-st.markdown(
-    """
-    <button onclick="scrollToTop()" class="scroll-top" id="scrollTopBtn" title="Go to top">↑</button>
-    <script>
-    // ظهور الزر عند التمرير لأسفل
-    window.onscroll = function() {scrollFunction()};
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("scrollTopBtn").style.display = "block";
-        } else {
-            document.getElementById("scrollTopBtn").style.display = "none";
-        }
-    }
-    // التمرير إلى الأعلى
-    function scrollToTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
-    </script>
-    """,
-    unsafe_allow_html=True
-)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
