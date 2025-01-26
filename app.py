@@ -33,10 +33,6 @@ if "rewards" not in st.session_state:
 if "food" not in st.session_state:
     st.session_state.food = ""
 
-# حالة التقييمات
-if "reviews" not in st.session_state:
-    st.session_state.reviews = []
-
 # النصوص لكل لغة
 texts = {
     "العربية": {
@@ -57,10 +53,6 @@ texts = {
         "food_input": "عدد الطعام المطلوب 🌽",
         "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
         "reset": "إعادة التعيين 🔄",
-        "reviews_title": "التقييمات والمراجعات ⭐️",
-        "add_review": "أضف تقييمك",
-        "review_placeholder": "اكتب مراجعتك هنا...",
-        "submit_review": "إرسال التقييم",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     },
     "English": {
@@ -81,10 +73,6 @@ texts = {
         "food_input": "🌽 Amount of Food Required",
         "calculate_rewards": "🧮 Calculate Daily Rewards and Food",
         "reset": "🔄 Reset",
-        "reviews_title": "⭐️ Reviews and Ratings",
-        "add_review": "Add Your Review",
-        "review_placeholder": "Write your review here...",
-        "submit_review": "Submit Review",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     },
     "Română": {
@@ -105,10 +93,6 @@ texts = {
         "food_input": "🌽 Cantitatea de Hrană Necesară",
         "calculate_rewards": "🧮 Calculează Recompensele și Hrana Zilnică",
         "reset": "🔄 Resetează",
-        "reviews_title": "⭐️ Recenzii și Evaluări",
-        "add_review": "Adaugă Recenzia Ta",
-        "review_placeholder": "Scrie recenzia ta aici...",
-        "submit_review": "Trimite Recenzia",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     }
 }
@@ -227,13 +211,15 @@ with col1:
         ["English", "العربية", "Română"],
         key="language_selectbox",
         index=["English", "العربية", "Română"].index(st.session_state.language),
-        on_change=lambda: st.session_state.update({"language": language})
+        on_change=lambda: st.session_state.update({"language": language}),
+        disabled=True  # قفل الكتابة في القائمة
     )
 
 with col2:
     currency = st.selectbox(
         texts[st.session_state.language]["currency_select"],
-        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"]
+        ["دولار أمريكي" if st.session_state.language == "العربية" else "USD", "دينار عراقي" if st.session_state.language == "العربية" else "IQD"],
+        disabled=True  # قفل الكتابة في القائمة
     )
 
 # قسم تعديل الأسعار
@@ -257,7 +243,8 @@ if st.button(texts[st.session_state.language]["save_prices"], type="secondary"):
 # قسم الحسابات
 calculation_type = st.selectbox(
     texts[st.session_state.language]["calculation_type"],
-    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]]
+    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]],
+    disabled=True  # قفل الكتابة في القائمة
 )
 
 if calculation_type == texts[st.session_state.language]["chicken_profits"]:
@@ -453,22 +440,6 @@ if st.button(texts[st.session_state.language]["reset"], type="secondary"):
     st.session_state.rewards = ""
     st.session_state.food = ""
     st.success("تم إعادة التعيين بنجاح! ✅" if st.session_state.language == "العربية" else "✅ Reset completed successfully!")
-
-# قسم التقييمات والمراجعات
-st.subheader(texts[st.session_state.language]["reviews_title"])
-review = st.text_area(texts[st.session_state.language]["add_review"], placeholder=texts[st.session_state.language]["review_placeholder"])
-if st.button(texts[st.session_state.language]["submit_review"]):
-    if review:
-        st.session_state.reviews.append(review)
-        st.success("شكرًا لتقييمك! 🌟" if st.session_state.language == "العربية" else "Thank you for your review! 🌟")
-    else:
-        st.error("يرجى إدخال تقييمك قبل الإرسال." if st.session_state.language == "العربية" else "Please enter your review before submitting.")
-
-# عرض التقييمات السابقة
-if st.session_state.reviews:
-    st.write("### التقييمات السابقة" if st.session_state.language == "العربية" else "### Previous Reviews")
-    for i, rev in enumerate(st.session_state.reviews, 1):
-        st.write(f"{i}. {rev}")
 
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
