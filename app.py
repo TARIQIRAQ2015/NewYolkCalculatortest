@@ -17,9 +17,6 @@ if "language" not in st.session_state:
 if "theme" not in st.session_state:
     st.session_state.theme = "Dark"
 
-# اختيار اللغة في السايد بار
-language = st.sidebar.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"])
-
 # الأسعار المبدئية
 if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
