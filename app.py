@@ -336,9 +336,9 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     "العنصر" if language == "العربية" else "Item" if language == "English" else "Element": [
                         "سعر البيض الكلي 💰" if language == "العربية" else "💰 Total Egg Price" if language == "English" else "💰 Prețul Total al Ouălor",
                         "تكلفة العلف الكلية 🌽" if language == "العربية" else "🌽 Total Feed Cost" if language == "English" else "🌽 Costul Total al Furajului",
-                        "الربح قبل دفع الإيجار 📊" if language == "العربية" else "📊 Net Profit Before Rent" if language == "English" else "📊 Profit Net înainte de Chirii",
+                        "الربح في السنة الأولى 📊" if language == "العربية" else "📊 Net Profit Before Rent" if language == "English" else "📊 Profit Net înainte de Chirii",
                         "دفع الإيجار للسنة الثانية 💸" if language == "العربية" else "🏠 Rent Cost for Second Year" if language == "English" else "🏠 Costul Chiriei pentru Anul Doi",
-                        "الربح الصافي 💵" if language == "العربية" else "💵 Net Profit" if language == "English" else "💵 Profit Net"
+                        "الربح الصافي خلال السنتين 💵" if language == "العربية" else "💵 Net Profit" if language == "English" else "💵 Profit Net"
                     ],
                     "القيمة" if language == "العربية" else "Value" if language == "English" else "Valoare": [
                         f"{format_decimal(total_egg_price)} {currency}",
