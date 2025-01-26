@@ -394,7 +394,7 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                         df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                     st.table(df)
 
-                    # إضافة رسم بياني دائري
+                    # إضافة رسم بياني شريطي
                     chart_data = pd.DataFrame({
                         "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
                             "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
@@ -410,9 +410,10 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                         ]
                     })
 
-                    fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
+                    fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
                                  title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
-                                 color_discrete_sequence=px.colors.sequential.RdBu)
+                                 color="الفئة" if language == "العربية" else "Category",
+                                 color_discrete_sequence=px.colors.qualitative.Pastel)
                     st.plotly_chart(fig, use_container_width=True)
 
             except ValueError:
@@ -492,7 +493,7 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
                     df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إضافة رسم بياني دائري
+                # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
                     "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
                         "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
@@ -504,9 +505,10 @@ elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
                     ]
                 })
 
-                fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
+                fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
                              title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
-                             color_discrete_sequence=px.colors.sequential.RdBu)
+                             color="الفئة" if language == "العربية" else "Category",
+                             color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
@@ -528,6 +530,7 @@ st.markdown(
         <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
             <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
         </a>
+        <br>
         <br>
         by Tariq Al-Yaseen © 2025-2026
     </div>
