@@ -13,9 +13,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# حالة اللغة (العربية أو الإنجليزية)
+# حالة اللغة (الإنجليزية بشكل افتراضي)
 if "language" not in st.session_state:
-    st.session_state.language = "Choose an option"
+    st.session_state.language = "English"
 
 # حالة الوضع (Dark أو Light)
 if "theme" not in st.session_state:
@@ -44,7 +44,6 @@ texts = {
     "العربية": {
         "title": "🐔 حاسبة الدجاج - Newyolk",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "language_select": "اختر اللغة",
         "currency_select": "العملة 💰",
         "edit_prices": "تعديل الأسعار ⚙️",
         "new_egg_price": "سعر البيض الحالي 🥚",
@@ -66,7 +65,6 @@ texts = {
     "English": {
         "title": "🐔 Newyolk - Chicken Calculator",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "language_select": "Choose Language",
         "currency_select": "💰 Currency",
         "edit_prices": "⚙️ Edit Prices",
         "new_egg_price": "🥚 New Egg Price",
@@ -83,6 +81,27 @@ texts = {
         "food_input": "🌽 Amount of Food Required",
         "calculate_rewards": "🧮 Calculate Daily Rewards and Food",
         "reset": "🔄 Reset",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+    },
+    "Română": {
+        "title": "🐔 Newyolk - Calculator de Pui",
+        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
+        "currency_select": "💰 Monedă",
+        "edit_prices": "⚙️ Editează Prețurile",
+        "new_egg_price": "🥚 Prețul Actual al Ouălor",
+        "new_feed_price": "🌽 Prețul Actual al Furajului",
+        "save_prices": "💾 Salvează Noile Prețuri",
+        "calculation_type": "📊 Tipul de Calcul",
+        "chicken_profits": "Profituri din Pui",
+        "daily_rewards": "Recompense și Hrană Zilnică",
+        "eggs_input": "🥚 Numărul de Ouă",
+        "days_input": "📅 Numărul de Zile",
+        "chicken_price_input": "🐔 Prețul de Cumpărare al Puiului",
+        "calculate_profits": "🧮 Calculează Profiturile din Pui",
+        "rewards_input": "🎁 Numărul de Recompense",
+        "food_input": "🌽 Cantitatea de Hrană Necesară",
+        "calculate_rewards": "🧮 Calculează Recompensele și Hrana Zilnică",
+        "reset": "🔄 Resetează",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     }
 }
@@ -187,7 +206,7 @@ elif st.session_state.language == "English":
         """,
         unsafe_allow_html=True
     )
-else:
+elif st.session_state.language == "Română":
     st.markdown(
         f"""
         <style>
@@ -208,9 +227,29 @@ else:
             text-align: center;
             margin-bottom: 30px;
         }}
+        .ltr {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stSelectbox, .stTextInput {{
+            direction: ltr;
+            text-align: left;
+            font-size: 24px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .stButton button {{
+            font-size: 24px;
+        }}
+        .stTable {{
+            margin: 0 auto; /* توسيط الجدول */
+            width: 50%; /* تحديد عرض الجدول */
+            text-align: left; /* محاذاة النص إلى اليسار */
+        }}
         </style>
-        <div class="title">🐔 Newyolk Chicken Calculator</div>
-        <div class="subtitle">Choose a language to start</div>
+        <div class="title">{texts[st.session_state.language]["title"]}</div>
+        <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
         """,
         unsafe_allow_html=True
     )
@@ -220,16 +259,12 @@ col1, col2 = st.columns(2)
 
 with col1:
     language = st.selectbox(
-        "Choose Language" if st.session_state.language == "Choose an option" else texts[st.session_state.language]["language_select"],
-        ["Choose an option", "العربية", "English"],
+        "Choose Language",
+        ["English", "العربية", "Română"],
         key="language_selectbox",
-        index=["Choose an option", "العربية", "English"].index(st.session_state.language),
+        index=["English", "العربية", "Română"].index(st.session_state.language),
         on_change=lambda: st.session_state.update({"language": language})
     )
-
-# إذا لم يتم اختيار لغة، لا نعرض باقي الواجهة
-if st.session_state.language == "Choose an option":
-    st.stop()
 
 with col2:
     currency = st.selectbox(
