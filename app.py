@@ -11,7 +11,7 @@ st.set_page_config(page_title="Newyolk Chicken Calculator", page_icon="🐔", la
 
 # حالة اللغة (العربية أو الإنجليزية)
 if "language" not in st.session_state:
-    st.session_state.language = "العربية"
+    st.session_state.language = "Choose an option"
 
 # حالة الوضع (Dark أو Light)
 if "theme" not in st.session_state:
@@ -136,7 +136,7 @@ if st.session_state.language == "العربية":
         """,
         unsafe_allow_html=True
     )
-else:
+elif st.session_state.language == "English":
     st.markdown(
         f"""
         <style>
@@ -183,18 +183,49 @@ else:
         """,
         unsafe_allow_html=True
     )
+else:
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+        }}
+        .title {{
+            font-size: 50px;
+            font-weight: bold;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            padding: 20px;
+        }}
+        .subtitle {{
+            font-size: 30px;
+            color: {'black' if st.session_state.theme == "Light" else 'white'};
+            text-align: center;
+            margin-bottom: 30px;
+        }}
+        </style>
+        <div class="title">🐔 Newyolk Chicken Calculator</div>
+        <div class="subtitle">Choose a language to start</div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
 
 with col1:
     language = st.selectbox(
-        texts[st.session_state.language]["language_select"],
-        ["العربية", "English"],
+        "Choose Language" if st.session_state.language == "Choose an option" else texts[st.session_state.language]["language_select"],
+        ["Choose an option", "العربية", "English"],
         key="language_selectbox",
-        index=["العربية", "English"].index(st.session_state.language),
+        index=["Choose an option", "العربية", "English"].index(st.session_state.language),
         on_change=lambda: st.session_state.update({"language": language})
     )
+
+# إذا لم يتم اختيار لغة، لا نعرض باقي الواجهة
+if st.session_state.language == "Choose an option":
+    st.stop()
 
 with col2:
     currency = st.selectbox(
