@@ -22,8 +22,6 @@ if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
 if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
-if "chicken_price" not in st.session_state:
-    st.session_state.chicken_price = 0.0  # سعر شراء الدجاجة
 
 # حالة الحقول (لإعادة التعيين)
 if "eggs" not in st.session_state:
