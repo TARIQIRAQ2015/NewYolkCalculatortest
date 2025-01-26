@@ -351,9 +351,14 @@ if calculation_type == texts[st.session_state.language]["chicken_profits"]:
                     total_feed_cost_usd = (days * 2) * st.session_state.feed_price
                     net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
 
-                    # حساب تكلفة الإيجار فقط إذا كان عدد الأيام 365 أو أكثر
-                    rent_cost_usd = 6.0 if days >= 365 else 0.0
-                    net_profit_usd = net_profit_before_rent_usd - rent_cost_usd - chicken_price
+                    # حساب تكلفة الإيجار فقط إذا كان عدد الأيام أكثر من 365 يومًا
+                    rent_cost_usd = 6.0 if days > 365 else 0.0
+
+                    # حساب الخصم إذا كان عدد البيض أقل من 260 بيضة
+                    if eggs < 260:
+                        net_profit_usd = net_profit_before_rent_usd - rent_cost_usd - chicken_price
+                    else:
+                        net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
                     if currency == "دينار عراقي" or currency == "IQD":
                         total_egg_price = total_egg_price_usd * 1480
