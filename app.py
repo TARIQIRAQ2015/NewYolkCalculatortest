@@ -35,6 +35,76 @@ if "rewards" not in st.session_state:
 if "food" not in st.session_state:
     st.session_state.food = ""
 
+# النصوص لكل لغة
+texts = {
+    "العربية": {
+        "title": "🐔 حاسبة الدجاج - Newyolk",
+        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
+        "language_select": "اختر اللغة",
+        "currency_select": "العملة 💰",
+        "edit_prices": "تعديل الأسعار ⚙️",
+        "new_egg_price": "سعر البيض الحالي 🥚",
+        "new_feed_price": "سعر العلف الحالي 🌽",
+        "save_prices": "حفظ الأسعار الجديدة 💾",
+        "calculation_type": "نوع الحساب 📊",
+        "chicken_profits": "أرباح الدجاجة",
+        "daily_rewards": "أرباح المكافآت والطعام اليومي",
+        "eggs_input": "عدد البيض 🥚",
+        "days_input": "عدد الأيام 📅",
+        "chicken_price_input": "سعر شراء الدجاجة 🐔",
+        "calculate_profits": "احسب أرباح الدجاجة 🧮",
+        "rewards_input": "عدد المكافآت 🎁",
+        "food_input": "عدد الطعام المطلوب 🌽",
+        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
+        "reset": "إعادة التعيين 🔄",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+    },
+    "English": {
+        "title": "🐔 Newyolk - Chicken Calculator",
+        "subtitle": "Calculate Chicken Profits and Daily Rewards",
+        "language_select": "Choose Language",
+        "currency_select": "💰 Currency",
+        "edit_prices": "⚙️ Edit Prices",
+        "new_egg_price": "🥚 New Egg Price",
+        "new_feed_price": "🌽 New Feed Price",
+        "save_prices": "💾 Save New Prices",
+        "calculation_type": "📊 Calculation Type",
+        "chicken_profits": "Chicken Profits",
+        "daily_rewards": "Daily Rewards and Food",
+        "eggs_input": "🥚 Number of Eggs",
+        "days_input": "📅 Number of Days",
+        "chicken_price_input": "🐔 Chicken Purchase Price",
+        "calculate_profits": "🧮 Calculate Chicken Profits",
+        "rewards_input": "🎁 Number of Rewards",
+        "food_input": "🌽 Amount of Food Required",
+        "calculate_rewards": "🧮 Calculate Daily Rewards and Food",
+        "reset": "🔄 Reset",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+    },
+    "Română": {
+        "title": "🐔 Newyolk - Calculator de Pui",
+        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
+        "language_select": "Alegeți limba",
+        "currency_select": "💰 Monedă",
+        "edit_prices": "⚙️ Editează Prețuri",
+        "new_egg_price": "🥚 Prețul Nou al Ouălor",
+        "new_feed_price": "🌽 Prețul Nou al Furajului",
+        "save_prices": "💾 Salvează Prețurile Noi",
+        "calculation_type": "📊 Tip de Calcul",
+        "chicken_profits": "Profituri Pui",
+        "daily_rewards": "Recompense Zilnice și Mâncare",
+        "eggs_input": "🥚 Numărul de Ouă",
+        "days_input": "📅 Numărul de Zile",
+        "chicken_price_input": "🐔 Prețul de Achiziție al Puiului",
+        "calculate_profits": "🧮 Calculează Profiturile Pui",
+        "rewards_input": "🎁 Numărul de Recompense",
+        "food_input": "🌽 Cantitatea de Mâncare Necesară",
+        "calculate_rewards": "🧮 Calculează Recompense Zilnice și Mâncare",
+        "reset": "🔄 Resetează",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+    }
+}
+
 # تغيير اتجاه الكتابة بناءً على اللغة
 if st.session_state.language == "العربية":
     st.markdown(
@@ -101,12 +171,12 @@ if st.session_state.language == "العربية":
             background-color: #45a049;
         }}
         </style>
-        <div class="title"> 🐔 حاسبة الدجاج - Newyolk</div>
-        <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
+        <div class="title"> {texts[st.session_state.language]["title"]}</div>
+        <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
         """,
         unsafe_allow_html=True
     )
-elif st.session_state.language == "English":
+else:
     st.markdown(
         f"""
         <style>
@@ -166,73 +236,8 @@ elif st.session_state.language == "English":
             background-color: #45a049;
         }}
         </style>
-        <div class="title">🐔 Newyolk - Chicken Calculator</div>
-        <div class="subtitle">Calculate Chicken Profits and Daily Rewards</div>
-        """,
-        unsafe_allow_html=True
-    )
-else:  # اللغة الرومانية
-    st.markdown(
-        f"""
-        <style>
-        body {{
-            background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .title {{
-            font-size: 50px;
-            font-weight: bold;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-            text-align: center;
-            padding: 20px;
-        }}
-        .subtitle {{
-            font-size: 30px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-            text-align: center;
-            margin-bottom: 30px;
-        }}
-        .ltr {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: ltr;
-            text-align: left;
-            font-size: 24px;
-            color: {'black' if st.session_state.theme == "Light" else 'white'};
-        }}
-        .stButton button {{
-            font-size: 24px;
-        }}
-        .stTable {{
-            margin: 0 auto; /* توسيط الجدول */
-            width: 50%; /* تحديد عرض الجدول */
-            text-align: left; /* محاذاة النص إلى اليسار */
-        }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
-        </style>
-        <div class="title">🐔 Newyolk - Calculator de Pui</div>
-        <div class="subtitle">Calculează Profiturile și Recompensele Zilnice</div>
+        <div class="title">{texts[st.session_state.language]["title"]}</div>
+        <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
         """,
         unsafe_allow_html=True
     )
@@ -265,45 +270,45 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
-    language = st.selectbox("اختر اللغة / Choose Language / Alegeți limba", ["العربية", "English", "Română"], key="language_selectbox")
+    language = st.selectbox(texts[st.session_state.language]["language_select"], ["العربية", "English", "Română"], key="language_selectbox")
 
 with col2:
     currency = st.selectbox(
-        "العملة 💰" if language == "العربية" else "💰 Currency" if language == "English" else "💰 Monedă",
+        texts[st.session_state.language]["currency_select"],
         ["دولار أمريكي" if language == "العربية" else "USD" if language == "English" else "USD", "دينار عراقي" if language == "العربية" else "IQD" if language == "English" else "IQD"]
     )
 
 # قسم تعديل الأسعار
-st.subheader("تعديل الأسعار ⚙️" if language == "العربية" else "⚙️ Edit Prices" if language == "English" else "⚙️ Editează Prețuri")
+st.subheader(texts[st.session_state.language]["edit_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input("سعر البيض الحالي 🥚" if language == "العربية" else "🥚 New Egg Price" if language == "English" else "🥚 Prețul Nou al Ouălor", value=str(st.session_state.egg_price))
+    new_egg_price = st.text_input(texts[st.session_state.language]["new_egg_price"], value=str(st.session_state.egg_price))
 
 with col4:
-    new_feed_price = st.text_input("سعر العلف الحالي 🌽" if language == "العربية" else "🌽 New Feed Price" if language == "English" else "🌽 Prețul Nou al Furajului", value=str(st.session_state.feed_price))
+    new_feed_price = st.text_input(texts[st.session_state.language]["new_feed_price"], value=str(st.session_state.feed_price))
 
-if st.button("حفظ الأسعار الجديدة 💾" if language == "العربية" else "💾 Save New Prices" if language == "English" else "💾 Salvează Prețurile Noi", type="secondary"):
+if st.button(texts[st.session_state.language]["save_prices"], type="secondary"):
     try:
         st.session_state.egg_price = float(new_egg_price)
         st.session_state.feed_price = float(new_feed_price)
         st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "✅ New prices saved successfully!" if language == "English" else "✅ Prețurile noi au fost salvate cu succes!")
     except ValueError:
-        st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+        st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "❗️ Please enter valid numbers!" if language == "English" else "❗️ Vă rugăm să introduceți numere valide!")
 
 # قسم الحسابات
 calculation_type = st.selectbox(
-    "نوع الحساب 📊" if language == "العربية" else "📊 Calculation Type" if language == "English" else "📊 Tip de Calcul",
-    ["أرباح الدجاجة" if language == "العربية" else "Chicken Profits" if language == "English" else "Profituri Pui", "أرباح المكافآت والطعام اليومي" if language == "العربية" else "Daily Rewards and Food" if language == "English" else "Recompense Zilnice și Mâncare"]
+    texts[st.session_state.language]["calculation_type"],
+    [texts[st.session_state.language]["chicken_profits"], texts[st.session_state.language]["daily_rewards"]]
 )
 
-if calculation_type == "أرباح الدجاجة" or calculation_type == "Chicken Profits" or calculation_type == "Profituri Pui":
+if calculation_type == texts[st.session_state.language]["chicken_profits"]:
     st.subheader("حساب أرباح الدجاجة 📈" if language == "العربية" else "📈 Chicken Profits Calculation" if language == "English" else "📈 Calcul Profituri Pui")
     col5, col6 = st.columns(2)
 
     with col5:
         eggs = st.text_input(
-            "عدد البيض 🥚" if language == "العربية" else "🥚 Number of Eggs" if language == "English" else "🥚 Numărul de Ouă",
+            texts[st.session_state.language]["eggs_input"],
             value=st.session_state.eggs,
             help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else "Introduceți numărul de ouă (max 580)",
             key="eggs_input"
@@ -311,7 +316,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
     with col6:
         days = st.text_input(
-            "عدد الأيام 📅" if language == "العربية" else "📅 Number of Days" if language == "English" else "📅 Numărul de Zile",
+            texts[st.session_state.language]["days_input"],
             value=st.session_state.days,
             help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else "Introduceți numărul de zile (max 730)",
             key="days_input"
@@ -319,24 +324,24 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
 
     # إضافة حقل لإدخال سعر شراء الدجاجة
     chicken_price = st.text_input(
-        "سعر شراء الدجاجة 🐔" if language == "العربية" else "🐔 Chicken Purchase Price" if language == "English" else "🐔 Prețul de Achiziție al Puiului",
+        texts[st.session_state.language]["chicken_price_input"],
         value=str(st.session_state.chicken_price),
         help="أدخل سعر شراء الدجاجة(اختياري)" if language == "العربية" else "Enter the chicken purchase price" if language == "English" else "Introduceți prețul de achiziție al puiului",
         key="chicken_price_input"
     )
 
-    if st.button("احسب أرباح الدجاجة 🧮" if language == "العربية" else "🧮 Calculate Chicken Profits" if language == "English" else "🧮 Calculează Profiturile Pui", type="primary"):
+    if st.button(texts[st.session_state.language]["calculate_profits"], type="primary"):
         try:
             eggs = float(eggs) if eggs else None
             days = float(days) if days else None
             chicken_price = float(chicken_price) if chicken_price else 0.0
 
             if eggs is None or days is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "❗️ Please enter all required values!" if language == "English" else "❗️ Vă rugăm să introduceți toate valorile necesare!")
             elif eggs > 580:
-                st.error("عدد البيض يجب ألا يتجاوز 580! ❗" if language == "العربية" else "❗ Number of eggs must not exceed 580!" if language == "English" else "❗ Numărul de ouă nu trebuie să depășească 580!")
+                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "❗️ Number of eggs must not exceed 580!" if language == "English" else "❗️ Numărul de ouă nu trebuie să depășească 580!")
             elif days > 730:
-                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗" if language == "العربية" else "❗ Number of days must not exceed 730!" if language == "English" else "❗ Numărul de zile nu trebuie să depășească 730!")
+                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "❗️ Number of days must not exceed 730!" if language == "English" else "❗️ Numărul de zile nu trebuie să depășească 730!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
@@ -408,15 +413,15 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "❗️ Please enter valid numbers!" if language == "English" else "❗️ Vă rugăm să introduceți numere valide!")
 
-elif calculation_type == "أرباح المكافآت والطعام اليومي" or calculation_type == "Daily Rewards and Food" or calculation_type == "Recompense Zilnice și Mâncare":
+elif calculation_type == texts[st.session_state.language]["daily_rewards"]:
     st.subheader("حساب أرباح المكافآت والطعام اليومي 📈" if language == "العربية" else "📈 Daily Rewards and Food Calculation" if language == "English" else "📈 Calcul Recompense Zilnice și Mâncare")
     col7, col8 = st.columns(2)
 
     with col7:
         rewards = st.text_input(
-            "عدد المكافآت 🎁" if language == "العربية" else "🎁 Number of Rewards" if language == "English" else "🎁 Numărul de Recompense",
+            texts[st.session_state.language]["rewards_input"],
             value=st.session_state.rewards,
             help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards" if language == "English" else "Introduceți numărul de recompense",
             key="rewards_input"
@@ -424,19 +429,19 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
 
     with col8:
         food = st.text_input(
-            "عدد الطعام المطلوب 🌽" if language == "العربية" else "🌽 Amount of Food Required" if language == "English" else "🌽 Cantitatea de Mâncare Necesară",
+            texts[st.session_state.language]["food_input"],
             value=st.session_state.food,
             help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food required" if language == "English" else "Introduceți cantitatea de mâncare necesară",
             key="food_input"
         )
 
-    if st.button("احسب أرباح المكافآت والطعام اليومي 🧮" if language == "العربية" else "🧮 Calculate Daily Rewards and Food" if language == "English" else "🧮 Calculează Recompense Zilnice și Mâncare", type="primary"):
+    if st.button(texts[st.session_state.language]["calculate_rewards"], type="primary"):
         try:
             rewards = float(rewards) if rewards else None
             food = float(food) if food else None
 
             if rewards is None or food is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗" if language == "العربية" else "❗ Please enter all required values!" if language == "English" else "❗ Vă rugăm să introduceți toate valorile necesare!")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "❗️ Please enter all required values!" if language == "English" else "❗️ Vă rugăm să introduceți toate valorile necesare!")
             else:
                 # حساب النتائج
                 total_egg_price_usd = rewards * st.session_state.egg_price
@@ -491,10 +496,10 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "❗️ Please enter valid numbers!" if language == "English" else "❗️ Vă rugăm să introduceți numere valide!")
 
 # زر إعادة التعيين
-if st.button("إعادة التعيين 🔄" if language == "العربية" else "🔄 Reset" if language == "English" else "🔄 Resetează", type="secondary"):
+if st.button(texts[st.session_state.language]["reset"], type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
     st.session_state.chicken_price = 0.0
@@ -504,12 +509,30 @@ if st.button("إعادة التعيين 🔄" if language == "العربية" el
     st.session_state.food = ""
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "✅ Reset completed successfully!" if language == "English" else "✅ Resetare finalizată cu succes!")
 
-# إضافة نص حقوق النشر
+# إضافة نص حقوق النشر والأيقونات
 st.markdown(
     """
     <div style="text-align: center; font-size: 16px; color: gray; margin-top: 50px; font-weight: bold;">
-       by Tariq Al-Yaseen © 2025-2026
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
+        </a>
+        <a href="https://farm.newyolk.io" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Website" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
+        </a>
+        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
+        </a>
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
+        </a>
+        <br>
+        by Tariq Al-Yaseen © 2025-2026
     </div>
+    <style>
+        a img:hover {
+            transform: scale(1.2);
+        }
+    </style>
     """,
     unsafe_allow_html=True
 )
