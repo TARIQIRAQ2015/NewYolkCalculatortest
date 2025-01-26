@@ -152,24 +152,6 @@ if st.session_state.language == "العربية":
             text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
             direction: rtl !important; /* اتجاه النص من اليمين إلى اليسار */
         }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
         </style>
         <div class="title"> {texts[st.session_state.language]["title"]}</div>
         <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
@@ -217,54 +199,12 @@ else:
             width: 50%; /* تحديد عرض الجدول */
             text-align: left; /* محاذاة النص إلى اليسار */
         }}
-        .scroll-top {{
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 50%;
-        }}
-        .scroll-top:hover {{
-            background-color: #45a049;
-        }}
         </style>
         <div class="title">{texts[st.session_state.language]["title"]}</div>
         <div class="subtitle">{texts[st.session_state.language]["subtitle"]}</div>
         """,
         unsafe_allow_html=True
     )
-
-# زر التمرير إلى الأعلى
-st.markdown(
-    """
-    <button onclick="scrollToTop()" class="scroll-top" id="scrollTopBtn" title="Go to top">↑</button>
-    <script>
-    // ظهور الزر عند التمرير لأسفل
-    window.onscroll = function() {scrollFunction()};
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("scrollTopBtn").style.display = "block";
-        } else {
-            document.getElementById("scrollTopBtn").style.display = "none";
-        }
-    }
-    // التمرير إلى الأعلى
-    function scrollToTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
-    </script>
-    """,
-    unsafe_allow_html=True
-)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
