@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import pyperclip  # إضافة مكتبة pyperclip للتعامل مع الحافظة
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -356,7 +355,7 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إضافة رسم بياني تفاعلي
+                # إضافة رسم بياني دائري
                 chart_data = pd.DataFrame({
                     "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
                         "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
@@ -370,19 +369,11 @@ if calculation_type == "أرباح الدجاجة" or calculation_type == "Chick
                     ]
                 })
 
-                fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
+                fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
                              title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
-                             labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
+                             color_discrete_sequence=px.colors.sequential.RdBu)
                 st.plotly_chart(fig, use_container_width=True)
 
-                # إضافة زر نسخ النتائج باستخدام pyperclip
-                results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results" if language == "English" else "📋 Copiază Rezultatele"):
-                    try:
-                        pyperclip.copy(results_text)
-                        st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "✅ Results copied successfully!" if language == "English" else "✅ Rezultatele au fost copiate cu succes!")
-                    except Exception as e:
-                        st.error("فشل نسخ النتائج! ❌" if language == "العربية" else "❌ Failed to copy results!" if language == "English" else "❌ Nu s-a putut copia rezultatele!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
@@ -449,7 +440,7 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     df = df[["العنصر", "القيمة"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إضافة رسم بياني تفاعلي
+                # إضافة رسم بياني دائري
                 chart_data = pd.DataFrame({
                     "الفئة" if language == "العربية" else "Category" if language == "English" else "Categorie": [
                         "سعر البيض الكلي" if language == "العربية" else "Total Egg Price" if language == "English" else "Prețul Total al Ouălor",
@@ -461,19 +452,11 @@ elif calculation_type == "أرباح المكافآت والطعام اليوم�
                     ]
                 })
 
-                fig = px.bar(chart_data, x="الفئة" if language == "العربية" else "Category", y="القيمة" if language == "العربية" else "Value",
+                fig = px.pie(chart_data, values="القيمة" if language == "العربية" else "Value", names="الفئة" if language == "العربية" else "Category",
                              title="توزيع التكاليف والأرباح" if language == "العربية" else "Distribution of Costs and Profits" if language == "English" else "Distribuția Costurilor și Profiturilor",
-                             labels={"القيمة": "القيمة" if language == "العربية" else "Value", "الفئة": "الفئة" if language == "العربية" else "Category"})
+                             color_discrete_sequence=px.colors.sequential.RdBu)
                 st.plotly_chart(fig, use_container_width=True)
 
-                # إضافة زر نسخ النتائج باستخدام pyperclip
-                results_text = "\n".join([f"{key}: {value}" for key, value in results.items()])
-                if st.button("📋 نسخ النتائج" if language == "العربية" else "📋 Copy Results" if language == "English" else "📋 Copiază Rezultatele"):
-                    try:
-                        pyperclip.copy(results_text)
-                        st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "✅ Results copied successfully!" if language == "English" else "✅ Rezultatele au fost copiate cu succes!")
-                    except Exception as e:
-                        st.error("فشل نسخ النتائج! ❌" if language == "العربية" else "❌ Failed to copy results!" if language == "English" else "❌ Nu s-a putut copia rezultatele!")
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗" if language == "العربية" else "❗ Please enter valid numbers!" if language == "English" else "❗ Vă rugăm să introduceți numere valide!")
 
