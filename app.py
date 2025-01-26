@@ -58,19 +58,12 @@ st.markdown(
 col1, col2, col3 = st.columns([1, 2, 2])
 with col1:
     st.markdown('<div class="language-buttons">', unsafe_allow_html=True)
-    
-    # زر اللغة العربية
     if st.button("العربية", key="arabic_button", type="primary" if st.session_state.language == "العربية" else "secondary"):
         change_language("العربية")
-    
-    # زر اللغة الإنجليزية
     if st.button("English", key="english_button", type="primary" if st.session_state.language == "English" else "secondary"):
         change_language("English")
-    
-    # زر اللغة الرومانية
     if st.button("Română", key="romanian_button", type="primary" if st.session_state.language == "Română" else "secondary"):
         change_language("Română")
-    
     st.markdown('</div>', unsafe_allow_html=True)
 
 # الأسعار المبدئية
