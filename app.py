@@ -10,6 +10,27 @@ st.set_page_config(
     layout="wide"
 )
 
+# دالة تنسيق الأرقام العشرية
+def format_decimal(number):
+    """تنسيق الأرقام العشرية بشكل أنيق"""
+    if isinstance(number, (int, float)):
+        return f"{number:,.2f}".rstrip('0').rstrip('.')
+    return str(number)
+
+# القيم الافتراضية
+if 'egg_price' not in st.session_state:
+    st.session_state.egg_price = 0.1155
+if 'feed_price' not in st.session_state:
+    st.session_state.feed_price = 0.0189
+if 'eggs' not in st.session_state:
+    st.session_state.eggs = ""
+if 'days' not in st.session_state:
+    st.session_state.days = ""
+if 'rewards' not in st.session_state:
+    st.session_state.rewards = ""
+if 'food' not in st.session_state:
+    st.session_state.food = ""
+
 # تعريف النصوص
 texts = {
     "العربية": {
