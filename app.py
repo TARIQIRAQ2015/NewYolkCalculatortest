@@ -3,6 +3,12 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime
 
+# تحسين الواجهة - يجب أن يكون هذا أول أمر
+st.set_page_config(
+    page_title="Newyolk Chicken Calculator",
+    page_icon="🐔"
+)
+
 # إضافة CSS للزر العائم للتمرير إلى الأعلى
 st.markdown("""
 <style>
@@ -71,12 +77,6 @@ window.onscroll = function() {
 # تنسيق الأرقام العشرية
 def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
-
-# تحسين الواجهة
-st.set_page_config(
-    page_title="Newyolk Chicken Calculator",
-    page_icon="🐔"
-)
 
 # حالة الوضع (Dark أو Light)
 if "theme" not in st.session_state:
