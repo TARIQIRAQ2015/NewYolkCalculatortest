@@ -383,10 +383,10 @@ elif calculation_type == texts[language]["daily_rewards"]:
 if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
-    st.session_state.eggs = "0"
-    st.session_state.days = "0"
-    st.session_state.rewards = ""
-    st.session_state.food = ""
+    st.session_state.eggs = "None"
+    st.session_state.days = "None"
+    st.session_state.rewards = "None"
+    st.session_state.food = "None"
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅")
 
 # إضافة نص حقوق النشر والأيقونات
