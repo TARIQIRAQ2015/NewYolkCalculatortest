@@ -54,7 +54,10 @@ texts = {
         "reset": "إعادة التعيين 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "القيمة",
-        "category": "الفئة"
+        "category": "الفئة",
+        "net_profit": "صافي الربح 💰",
+        "rent_payment": "دفع الإيجار 🏠",
+        "profit_before_rent": "الربح قبل الإيجار 📊"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -76,7 +79,10 @@ texts = {
         "reset": "Reset 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "Value",
-        "category": "Category"
+        "category": "Category",
+        "net_profit": "Net Profit 💰",
+        "rent_payment": "Rent Payment 🏠",
+        "profit_before_rent": "Profit Before Rent 📊"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -98,7 +104,10 @@ texts = {
         "reset": "Resetează 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "Valoare",
-        "category": "Categorie"
+        "category": "Categorie",
+        "net_profit": "Profit Net 💰",
+        "rent_payment": "Plata Chiriei 🏠",
+        "profit_before_rent": "Profit Înainte de Chirie 📊"
     }
 }
 
@@ -260,9 +269,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                        "الربح قبل الإيجار 📊",
-                        "دفع الإيجار 💸",
-                        "صافي الربح 💵"
+                        texts[language]["profit_before_rent"] + " 📊",
+                        texts[language]["rent_payment"] + " 💸",
+                        texts[language]["net_profit"] + " 💵"
                     ],
                     texts[language]["value"]: [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -284,7 +293,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["category"]: [
                         texts[language]["new_egg_price"],
                         texts[language]["new_feed_price"],
-                        "دفع الإيجار"
+                        texts[language]["rent_payment"]
                     ],
                     texts[language]["value"]: [
                         total_egg_price,
@@ -349,7 +358,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                        "صافي الربح اليومي 💵"
+                        texts[language]["net_profit"] + " 💵"
                     ],
                     texts[language]["value"]: [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -412,7 +421,7 @@ st.markdown(
         </a>
         <br>
         <br>
-        by Tariq Al-Yaseen © 2025-2026
+        by Tariq Al-Yaseen &copy; 2025-2026
     </div>
     <style>
         a img:hover {
