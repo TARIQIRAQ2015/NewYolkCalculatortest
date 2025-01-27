@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import json
 from datetime import datetime
 
 # تنسيق الأرقام العشرية
@@ -60,9 +59,11 @@ texts = {
         "net_profit": "صافي الربح 💰",
         "rent_payment": "دفع الإيجار 🏠",
         "profit_before_rent": "الربح قبل الإيجار 📊",
-        "copy_results": "نسخ النتائج 📋",
-        "copy_success": "تم نسخ النتائج بنجاح! ✅",
-        "results_copied": "النتائج (بالدولار الأمريكي والدينار العراقي):"
+        "results_title": "📊 ملخص النتائج",
+        "calculation_date": "📅 تاريخ الحساب",
+        "calculation_details": "🔍 تفاصيل الحساب",
+        "usd_results": "💵 النتائج بالدولار الأمريكي",
+        "iqd_results": "💵 النتائج بالدينار العراقي"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -88,9 +89,11 @@ texts = {
         "net_profit": "Net Profit 💰",
         "rent_payment": "Rent Payment 🏠",
         "profit_before_rent": "Profit Before Rent 📊",
-        "copy_results": "Copy Results 📋",
-        "copy_success": "Results copied successfully! ✅",
-        "results_copied": "Results (in USD and IQD):"
+        "results_title": "📊 Results Summary",
+        "calculation_date": "📅 Calculation Date",
+        "calculation_details": "🔍 Calculation Details",
+        "usd_results": "💵 Results in USD",
+        "iqd_results": "💵 Results in IQD"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -116,9 +119,11 @@ texts = {
         "net_profit": "Profit Net 💰",
         "rent_payment": "Plata Chiriei 🏠",
         "profit_before_rent": "Profit Înainte de Chirie 📊",
-        "copy_results": "Copiați Rezultatele 📋",
-        "copy_success": "Rezultatele au fost copiate cu succes! ✅",
-        "results_copied": "Rezultate (în USD și IQD):"
+        "results_title": "📊 Rezumatul Rezultatelor",
+        "calculation_date": "📅 Data Calculului",
+        "calculation_details": "🔍 Detalii Calcul",
+        "usd_results": "💵 Rezultate în USD",
+        "iqd_results": "💵 Rezultate în IQD"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -144,9 +149,11 @@ texts = {
         "net_profit": "Profit Net 💰",
         "rent_payment": "Paiement du Loyer 🏠",
         "profit_before_rent": "Profit Avant Loyer 📊",
-        "copy_results": "Copier les Résultats 📋",
-        "copy_success": "Résultats copiés avec succès! ✅",
-        "results_copied": "Résultats (en USD et IQD):"
+        "results_title": "📊 Résumé des Résultats",
+        "calculation_date": "📅 Date de Calcul",
+        "calculation_details": "🔍 Détails de Calcul",
+        "usd_results": "💵 Résultats en USD",
+        "iqd_results": "💵 Résultats en IQD"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -172,9 +179,11 @@ texts = {
         "net_profit": "Beneficio Neto 💰",
         "rent_payment": "Pago de Alquiler 🏠",
         "profit_before_rent": "Beneficio Antes de Alquiler 📊",
-        "copy_results": "Copiar Resultados 📋",
-        "copy_success": "¡Resultados copiados con éxito! ✅",
-        "results_copied": "Resultados (en USD y IQD):"
+        "results_title": "📊 Resumen de Resultados",
+        "calculation_date": "📅 Fecha de Cálculo",
+        "calculation_details": "🔍 Detalles de Cálculo",
+        "usd_results": "💵 Resultados en USD",
+        "iqd_results": "💵 Resultados en IQD"
     },
     "日本語": {
         "title": "🐔 ニューヨーク チキン計算機",
@@ -200,9 +209,11 @@ texts = {
         "net_profit": "純利益 💰",
         "rent_payment": "家賃支払い 🏠",
         "profit_before_rent": "家賃控除前利益 📊",
-        "copy_results": "結果をコピー 📋",
-        "copy_success": "結果が正常にコピーされました! ✅",
-        "results_copied": "結果 (USDとIQDで):"
+        "results_title": "📊 結果の要約",
+        "calculation_date": "📅 計算日",
+        "calculation_details": "🔍 計算の詳細",
+        "usd_results": "💵 結果（USD）",
+        "iqd_results": "💵 結果（IQD）"
     }
 }
 
@@ -297,7 +308,7 @@ if st.button(texts[language]["save_prices"], type="secondary"):
         st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
 # تحديث الأسعار بناءً على العملة
-if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+if currency in ["دينار عراقي", "IQD"]:
     egg_price_display = st.session_state.egg_price * 1480
     feed_price_display = st.session_state.feed_price * 1480
 elif currency in ["EUR"]:
@@ -447,33 +458,32 @@ if calculation_type == texts[language]["chicken_profits"]:
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إنشاء نص النتائج للنسخ
+                # إنشاء نص النتائج بتنسيق جديد وأنيق
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 results_text = f"""
-{texts[language]['results_copied']}
-{texts[language]['calculation_type']}: {texts[language]['chicken_profits']}
-{current_time}
+╔══════════════════════════════════════════════════════════════════╗
+║                  {texts[language]['results_title']}                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['calculation_date']}: {current_time}
+║ {texts[language]['calculation_details']}: {texts[language]['chicken_profits']}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['usd_results']}:
+║ ▸ {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd)} USD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
+║ ▸ {texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd)} USD
+║ ▸ {texts[language]['rent_payment']}: {format_decimal(rent_cost_usd)} USD
+║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ ▸ {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
+║ ▸ {texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd * 1480)} IQD
+║ ▸ {texts[language]['rent_payment']}: {format_decimal(rent_cost_usd * 1480)} IQD
+║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
+╚══════════════════════════════════════════════════════════════════╝"""
 
-بالدولار الأمريكي (USD):
-------------------------
-{texts[language]['value']} {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd)} USD
-{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
-{texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd)} USD
-{texts[language]['rent_payment']}: {format_decimal(rent_cost_usd)} USD
-{texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
-
-بالدينار العراقي (IQD):
-------------------------
-{texts[language]['value']} {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
-{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
-{texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd * 1480)} IQD
-{texts[language]['rent_payment']}: {format_decimal(rent_cost_usd * 1480)} IQD
-{texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
-"""
-
-                # عرض النتائج وزر النسخ
+                # عرض النتائج
                 st.code(results_text, language="text")
-                st.markdown(create_copy_button(results_text.replace('"', '\\"').replace('\n', '\\n'), texts[language]["copy_results"]), unsafe_allow_html=True)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
@@ -569,29 +579,28 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
-                # إنشاء نص النتائج للنسخ
+                # إنشاء نص النتائج بتنسيق جديد وأنيق
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 results_text = f"""
-{texts[language]['results_copied']}
-{texts[language]['calculation_type']}: {texts[language]['daily_rewards']}
-{current_time}
+╔══════════════════════════════════════════════════════════════════╗
+║                  {texts[language]['results_title']}                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['calculation_date']}: {current_time}
+║ {texts[language]['calculation_details']}: {texts[language]['daily_rewards']}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['usd_results']}:
+║ ▸ {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd)} USD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
+║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ ▸ {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
+║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
+╚══════════════════════════════════════════════════════════════════╝"""
 
-بالدولار الأمريكي (USD):
-------------------------
-{texts[language]['value']} {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd)} USD
-{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
-{texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
-
-بالدينار العراقي (IQD):
-------------------------
-{texts[language]['value']} {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
-{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
-{texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
-"""
-
-                # عرض النتائج وزر النسخ
+                # عرض النتائج
                 st.code(results_text, language="text")
-                st.markdown(create_copy_button(results_text.replace('"', '\\"').replace('\n', '\\n'), texts[language]["copy_results"]), unsafe_allow_html=True)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
