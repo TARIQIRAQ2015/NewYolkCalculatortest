@@ -6,66 +6,132 @@ from datetime import datetime
 # تحسين الواجهة - يجب أن يكون هذا أول أمر
 st.set_page_config(
     page_title="Newyolk Chicken Calculator",
-    page_icon="🐔"
+    page_icon="🐔",
+    layout="wide"  # استخدام العرض الكامل للشاشة
 )
 
-# إضافة CSS للزر العائم للتمرير إلى الأعلى
+# إضافة CSS لتحسين الواجهة
 st.markdown("""
 <style>
-.floating-button {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;  
-    background-color: #4CAF50;
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    text-align: center;
-    line-height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    z-index: 999;
-    display: none;
-}
-
-.floating-button:hover {
-    background-color: #45a049;
-    transform: scale(1.1);
-    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
-}
-
-.scroll-text {
-    position: fixed;
-    bottom: 75px;
-    left: 10px;  
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.floating-button:hover + .scroll-text {
-    opacity: 1;
-}
-
-/* إضافة CSS لإخفاء وإظهار الزر عند التمرير */
-@media screen and (min-height: 400px) {
-    .floating-button {
-        display: block;
+    /* تنسيق عام */
+    .stApp {
+        max-width: 1200px;
+        margin: 0 auto;
     }
-}
+    
+    /* تنسيق العنوان */
+    .main-title {
+        text-align: center;
+        padding: 2rem 0;
+        color: #2e7d32;
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        background: linear-gradient(120deg, #f1f8e9, #c8e6c9);
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+    
+    /* تنسيق الأقسام */
+    .section-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    /* تنسيق الأزرار */
+    .stButton button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 20px;
+        padding: 0.5rem 2rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .stButton button:hover {
+        background-color: #45a049;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transform: translateY(-2px);
+    }
+    
+    /* تنسيق الجداول */
+    .dataframe {
+        width: 100%;
+        margin: 1rem 0;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .dataframe th {
+        background-color: #4CAF50 !important;
+        color: white !important;
+        padding: 1rem !important;
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+    
+    .dataframe td {
+        padding: 0.8rem !important;
+        text-align: center !important;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    /* زر التمرير */
+    .floating-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #4CAF50;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        z-index: 999;
+        display: none;
+    }
+    
+    .floating-button:hover {
+        background-color: #45a049;
+        transform: scale(1.1);
+        box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+    }
+    
+    .scroll-text {
+        position: fixed;
+        bottom: 75px;
+        left: 10px;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .floating-button:hover + .scroll-text {
+        opacity: 1;
+    }
 </style>
 
 <script>
-// تحديث JavaScript للتمرير
 document.addEventListener('DOMContentLoaded', function() {
     var button = document.querySelector('.floating-button');
+    var mainTitle = document.querySelector('.main-title');
     
     window.onscroll = function() {
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -74,12 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
             button.style.display = "none";
         }
     };
-
+    
     button.onclick = function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        mainTitle.scrollIntoView({ behavior: 'smooth' });
     };
 });
 </script>
@@ -87,250 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="floating-button">↑</div>
 <div class="scroll-text">التمرير إلى الأعلى</div>
 """, unsafe_allow_html=True)
-
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
-
-# حالة الوضع (Dark أو Light)
-if "theme" not in st.session_state:
-    st.session_state.theme = "Dark"
-
-# الأسعار المبدئية
-if "egg_price" not in st.session_state:
-    st.session_state.egg_price = 0.1155
-if "feed_price" not in st.session_state:
-    st.session_state.feed_price = 0.0189
-
-# حالة الحقول (لإعادة التعيين)
-if "eggs" not in st.session_state:
-    st.session_state.eggs = ""
-if "days" not in st.session_state:
-    st.session_state.days = ""
-if "rewards" not in st.session_state:
-    st.session_state.rewards = ""
-if "food" not in st.session_state:
-    st.session_state.food = ""
-
-# النصوص للغات المختلفة
-texts = {
-    "العربية": {
-        "title": "🐔 حاسبة الدجاج - Newyolk",
-        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "currency_select": "العملة 💰",
-        "edit_prices": "تعديل الأسعار ⚙️",
-        "new_egg_price": "سعر البيض الحالي 🥚",
-        "new_feed_price": "سعر العلف الحالي 🌽",
-        "save_prices": "حفظ الأسعار الجديدة 💾",
-        "calculation_type": "نوع الحساب 📊",
-        "chicken_profits": "أرباح الدجاجة",
-        "daily_rewards": "أرباح المكافآت والطعام اليومي",
-        "eggs_input": "عدد البيض 🥚",
-        "days_input": "عدد الأيام 📅",
-        "calculate_profits": "احسب أرباح الدجاجة 🧮",
-        "rewards_input": "عدد المكافآت 🎁",
-        "food_input": "عدد الطعام المطلوب 🌽",
-        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
-        "reset": "إعادة التعيين 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026",
-        "value": "القيمة",
-        "category": "الفئة",
-        "net_profit": "صافي الربح 💰",
-        "rent_payment": "دفع الإيجار 🏠",
-        "profit_before_rent": "الربح قبل الإيجار 📊",
-        "results_title": "📊 ملخص النتائج",
-        "calculation_date": "📅 تاريخ الحساب",
-        "calculation_details": "🔍 تفاصيل الحساب",
-        "usd_results": "💵 النتائج بالدولار الأمريكي",
-        "iqd_results": "💵 النتائج بالدينار العراقي",
-        "scroll_top": "التمرير إلى الأعلى",
-        "current_prices": "💰 الأسعار الحالية",
-        "current_egg_price": "سعر البيض",
-        "current_feed_price": "سعر العلف",
-        "am": "صباحاً",
-        "pm": "مساءً"
-    },
-    "English": {
-        "title": "🐔 Chicken Calculator - Newyolk",
-        "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "currency_select": "Currency 💰",
-        "edit_prices": "Edit Prices ⚙️",
-        "new_egg_price": "Current Egg Price 🥚",
-        "new_feed_price": "Current Feed Price 🌽",
-        "save_prices": "Save New Prices 💾",
-        "calculation_type": "Calculation Type 📊",
-        "chicken_profits": "Chicken Profits",
-        "daily_rewards": "Daily Rewards and Food Profits",
-        "eggs_input": "Number of Eggs 🥚",
-        "days_input": "Number of Days 📅",
-        "calculate_profits": "Calculate Chicken Profits 🧮",
-        "rewards_input": "Number of Rewards 🎁",
-        "food_input": "Amount of Food Needed 🌽",
-        "calculate_rewards": "Calculate Daily Rewards and Food Profits 🧮",
-        "reset": "Reset 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026",
-        "value": "Value",
-        "category": "Category",
-        "net_profit": "Net Profit 💰",
-        "rent_payment": "Rent Payment 🏠",
-        "profit_before_rent": "Profit Before Rent 📊",
-        "results_title": "📊 Results Summary",
-        "calculation_date": "📅 Calculation Date",
-        "calculation_details": "🔍 Calculation Details",
-        "usd_results": "💵 Results in USD",
-        "iqd_results": "💵 Results in IQD",
-        "scroll_top": "Scroll to Top",
-        "current_prices": "💰 Current Prices",
-        "current_egg_price": "Egg Price",
-        "current_feed_price": "Feed Price",
-        "am": "AM",
-        "pm": "PM"
-    },
-    "Română": {
-        "title": "🐔 Calculator de Găini - Newyolk",
-        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
-        "currency_select": "Monedă 💰",
-        "edit_prices": "Editează Prețurile ⚙️",
-        "new_egg_price": "Prețul Curent al Ouălor 🥚",
-        "new_feed_price": "Prețul Curent al Furajului 🌽",
-        "save_prices": "Salvează Noile Prețuri 💾",
-        "calculation_type": "Tipul Calculului 📊",
-        "chicken_profits": "Profituri din Găini",
-        "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
-        "eggs_input": "Numărul de Ouă 🥚",
-        "days_input": "Numărul de Zile 📅",
-        "calculate_profits": "Calculează Profiturile din Găini 🧮",
-        "rewards_input": "Numărul de Recompense 🎁",
-        "food_input": "Cantitatea de Mâncare Necesară 🌽",
-        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
-        "reset": "Resetează 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026",
-        "value": "Valoare",
-        "category": "Categorie",
-        "net_profit": "Profit Net 💰",
-        "rent_payment": "Plata Chiriei 🏠",
-        "profit_before_rent": "Profit Înainte de Chirie 📊",
-        "results_title": "📊 Rezumatul Rezultatelor",
-        "calculation_date": "📅 Data Calculului",
-        "calculation_details": "🔍 Detalii Calcul",
-        "usd_results": "💵 Rezultate în USD",
-        "iqd_results": "💵 Rezultate în IQD",
-        "scroll_top": "Sari la Început",
-        "current_prices": "💰 Prețuri Actuale",
-        "current_egg_price": "Prețul Ouălor",
-        "current_feed_price": "Prețul Furajului",
-        "am": "AM",
-        "pm": "PM"
-    },
-    "Français": {
-        "title": "🐔 Calculateur de Poulet - Newyolk",
-        "subtitle": "Calculer les Profits de Poulet et les Récompenses Quotidiennes",
-        "currency_select": "Devise 💰",
-        "edit_prices": "Modifier les Prix ⚙️",
-        "new_egg_price": "Prix Actuel des Œufs 🥚",
-        "new_feed_price": "Prix Actuel des Aliments 🌽",
-        "save_prices": "Enregistrer les Nouveaux Prix 💾",
-        "calculation_type": "Type de Calcul 📊",
-        "chicken_profits": "Profits de Poulet",
-        "daily_rewards": "Récompenses Quotidiennes et Profits Alimentaires",
-        "eggs_input": "Nombre d'Œufs 🥚",
-        "days_input": "Nombre de Jours 📅",
-        "calculate_profits": "Calculer les Profits de Poulet 🧮",
-        "rewards_input": "Nombre de Récompenses 🎁",
-        "food_input": "Quantité de Nourriture Nécessaire 🌽",
-        "calculate_rewards": "Calculer les Récompenses et Profits Alimentaires 🧮",
-        "reset": "Réinitialiser 🔄",
-        "copyright": "par Tariq Al-Yaseen © 2025-2026",
-        "value": "Valeur",
-        "category": "Catégorie",
-        "net_profit": "Profit Net 💰",
-        "rent_payment": "Paiement du Loyer 🏠",
-        "profit_before_rent": "Profit Avant Loyer 📊",
-        "results_title": "📊 Résumé des Résultats",
-        "calculation_date": "📅 Date de Calcul",
-        "calculation_details": "🔍 Détails de Calcul",
-        "usd_results": "💵 Résultats en USD",
-        "iqd_results": "💵 Résultats en IQD",
-        "scroll_top": "Revenir en Haut",
-        "current_prices": "💰 Prix Actuels",
-        "current_egg_price": "Prix des Œufs",
-        "current_feed_price": "Prix des Aliments",
-        "am": "AM",
-        "pm": "PM"
-    },
-    "Español": {
-        "title": "🐔 Calculadora de Pollos - Newyolk",
-        "subtitle": "Calcular Ganancias de Pollos y Recompensas Diarias",
-        "currency_select": "Moneda 💰",
-        "edit_prices": "Editar Precios ⚙️",
-        "new_egg_price": "Precio Actual del Huevo 🥚",
-        "new_feed_price": "Precio Actual del Alimento 🌽",
-        "save_prices": "Guardar Nuevos Precios 💾",
-        "calculation_type": "Tipo de Cálculo 📊",
-        "chicken_profits": "Ganancias de Pollos",
-        "daily_rewards": "Recompensas Diarias y Ganancias de Alimentos",
-        "eggs_input": "Número de Huevos 🥚",
-        "days_input": "Número de Días 📅",
-        "calculate_profits": "Calcular Ganancias de Pollos 🧮",
-        "rewards_input": "Número de Recompensas 🎁",
-        "food_input": "Cantidad de Alimento Necesario 🌽",
-        "calculate_rewards": "Calcular Recompensas y Ganancias de Alimentos 🧮",
-        "reset": "Reiniciar 🔄",
-        "copyright": "por Tariq Al-Yaseen © 2025-2026",
-        "value": "Valor",
-        "category": "Categoría",
-        "net_profit": "Beneficio Neto 💰",
-        "rent_payment": "Pago de Alquiler 🏠",
-        "profit_before_rent": "Beneficio Antes de Alquiler 📊",
-        "results_title": "📊 Resumen de Resultados",
-        "calculation_date": "📅 Fecha de Cálculo",
-        "calculation_details": "🔍 Detalles de Cálculo",
-        "usd_results": "💵 Resultados en USD",
-        "iqd_results": "💵 Resultados en IQD",
-        "scroll_top": "Volver Arriba",
-        "current_prices": "💰 Precios Actuales",
-        "current_egg_price": "Precio del Huevo",
-        "current_feed_price": "Precio del Alimento",
-        "am": "AM",
-        "pm": "PM"
-    },
-    "日本語": {
-        "title": "🐔 ニューヨーク・チキン計算機",
-        "subtitle": "鶏の収益と日々の報酬を計算",
-        "currency_select": "通貨 💰",
-        "edit_prices": "価格を編集 ⚙️",
-        "new_egg_price": "現在の卵価格 🥚",
-        "new_feed_price": "現在の飼料価格 🌽",
-        "save_prices": "新価格を保存 💾",
-        "calculation_type": "計算タイプ 📊",
-        "chicken_profits": "鶏の収益",
-        "daily_rewards": "日々の報酬と飼料の収益",
-        "eggs_input": "卵の数 🥚",
-        "days_input": "日数 📅",
-        "calculate_profits": "鶏の収益を計算 🧮",
-        "rewards_input": "報酬の数 🎁",
-        "food_input": "必要な飼料の量 🌽",
-        "calculate_rewards": "日々の報酬と飼料の収益を計算 🧮",
-        "reset": "リセット 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026",
-        "value": "値",
-        "category": "カテゴリー",
-        "net_profit": "純利益 💰",
-        "rent_payment": "家賃 🏠",
-        "profit_before_rent": "家賃控除前利益 📊",
-        "results_title": "📊 結果サマリー",
-        "calculation_date": "📅 計算日",
-        "calculation_details": "🔍 計算詳細",
-        "usd_results": "💵 USD での結果",
-        "iqd_results": "💵 IQD での結果",
-        "scroll_top": "トップへ戻る",
-        "current_prices": "💰 現在の価格",
-        "current_egg_price": "卵の価格",
-        "current_feed_price": "飼料の価格",
-        "am": "AM",
-        "pm": "PM"
-    }
-}
 
 # اختيار اللغة
 language = st.selectbox("Select Language", ["العربية", "English", "Română", "Français", "Español", "日本語"])
@@ -917,3 +736,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# عرض العنوان الرئيسي
+st.markdown(f'<h1 class="main-title">{texts[language]["title"]}</h1>', unsafe_allow_html=True)
