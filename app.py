@@ -159,7 +159,7 @@ col1, col2 = st.columns(2)
 with col1:
     currency = st.selectbox(
         texts[language]["currency_select"],
-        ["دولار أمريكي", "دينار عراقي"] if language == "العربية" else ["US Dollar", "Iraqi Dinar"] if language == "English" else ["Dolar American", "Dinar Irakian"]
+        ["دولار أمريكي", "دينار عراقي"] if language == "العربية" else ["USD", "IQD"] if language == "English" else ["USD", "IQD"]
     )
 
 with col2:
@@ -251,6 +251,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # إنشاء جدول للنتائج
                 results = {
+                    "No.": [1, 2, 3, 4, 5],
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
@@ -270,7 +271,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[[texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
+                df = df[["No.", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
@@ -340,6 +341,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # إنشاء جدول للنتائج
                 results = {
+                    "No.": [1, 2, 3],
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
@@ -355,7 +357,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[[texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
+                df = df[["No.", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
@@ -393,8 +395,8 @@ if st.button(texts[language]["reset"], type="secondary"):
 st.markdown(
     """
     <div style="text-align: center; font-size: 16px; color: gray; margin-top: 30px; font-weight: bold;">
-        <a href="https://farm.newyolk.io" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
-            <img src="https://i.ibb.co/YDKWBRf/internet.png" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
+                    <img src="https://i.ibb.co/YDKWBRf/internet.png" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
         </a>
         <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; color: inherit; margin: 0 10px;">
             <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" style="width: 24px; height: 24px; vertical-align: middle; transition: transform 0.3s ease;">
