@@ -34,30 +34,30 @@ if "food" not in st.session_state:
 
 # النصوص للغات المختلفة
 texts = {
-    "کوردی": {
-        "title": "🐔 ژمێریاری مریشک - Newyolk",
-        "subtitle": "ژمێرکردنی قازانجی مریشک و پاداشتی ڕۆژانە",
-        "currency_select": "دراو 💰",
-        "edit_prices": "دەستکاری نرخەکان ⚙️",
-        "new_egg_price": "نرخی ئێستای هێلکە 🥚",
-        "new_feed_price": "نرخی ئێستای خۆراک 🌽",
-        "save_prices": "پاشەکەوتکردنی نرخە نوێیەکان 💾",
-        "calculation_type": "جۆری ژمێرکردن 📊",
-        "chicken_profits": "قازانجی مریشک",
-        "daily_rewards": "قازانجی پاداشت و خۆراکی ڕۆژانە",
-        "eggs_input": "ژمارەی هێلکە 🥚",
-        "days_input": "ژمارەی ڕۆژەکان 📅",
-        "calculate_profits": "ژمێرکردنی قازانجی مریشک 🧮",
-        "rewards_input": "ژمارەی پاداشتەکان 🎁",
-        "food_input": "بڕی خۆراکی پێویست 🌽",
-        "calculate_rewards": "ژمێرکردنی پاداشت و قازانجی خۆراکی ڕۆژانە 🧮",
-        "reset": "دووبارە ڕێکخستنەوە 🔄",
+    "العربية": {
+        "title": "🐔 حاسبة الدجاج - Newyolk",
+        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
+        "currency_select": "العملة 💰",
+        "edit_prices": "تعديل الأسعار ⚙️",
+        "new_egg_price": "سعر البيض الحالي 🥚",
+        "new_feed_price": "سعر العلف الحالي 🌽",
+        "save_prices": "حفظ الأسعار الجديدة 💾",
+        "calculation_type": "نوع الحساب 📊",
+        "chicken_profits": "أرباح الدجاجة",
+        "daily_rewards": "أرباح المكافآت والطعام اليومي",
+        "eggs_input": "عدد البيض 🥚",
+        "days_input": "عدد الأيام 📅",
+        "calculate_profits": "احسب أرباح الدجاجة 🧮",
+        "rewards_input": "عدد المكافآت 🎁",
+        "food_input": "عدد الطعام المطلوب 🌽",
+        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
+        "reset": "إعادة التعيين 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
-        "value": "بەها",
-        "category": "جۆر",
-        "net_profit": "قازانجی پوخت 💰",
-        "rent_payment": "پارەی کرێ 🏠",
-        "profit_before_rent": "قازانجی پێش کرێ 📊"
+        "value": "القيمة",
+        "category": "الفئة",
+        "net_profit": "صافي الربح 💰",
+        "rent_payment": "دفع الإيجار 🏠",
+        "profit_before_rent": "الربح قبل الإيجار 📊"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -112,10 +112,10 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox("Select Language", ["کوردی", "English", "Română"])
+language = st.selectbox("Select Language", ["العربية", "English", "Română"])
 
 # تغيير اتجاه الكتابة بناءً على اللغة
-direction = "rtl" if language == "کوردی" else "ltr"
+direction = "rtl" if language == "العربية" else "ltr"
 st.markdown(
     f"""
     <style>
@@ -174,7 +174,7 @@ col1, col2 = st.columns(2)
 with col1:
     currency = st.selectbox(
         texts[language]["currency_select"],
-        ["دۆلاری ئەمریکی", "دیناری عێراقی"] if language == "کوردی" else ["USD", "IQD"] if language == "English" else ["USD", "IQD"]
+        ["دولار أمريكي", "دينار عراقي"] if language == "العربية" else ["USD", "IQD"] if language == "English" else ["USD", "IQD"]
     )
 
 with col2:
@@ -197,12 +197,12 @@ if st.button(texts[language]["save_prices"], type="secondary"):
     try:
         st.session_state.egg_price = float(new_egg_price)
         st.session_state.feed_price = float(new_feed_price)
-        st.success("نرخە نوێیەکان بە سەرکەوتوویی پاشەکەوت کران! ✅" if language == "کوردی" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
+        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
     except ValueError:
-        st.error("تکایە ژمارەی دروست بنووسە! ❗️" if language == "کوردی" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+        st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
 
 # تحديث الأسعار بناءً على العملة
-if currency in ["دیناری عێراقی", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
     egg_price_display = st.session_state.egg_price * 1480
     feed_price_display = st.session_state.feed_price * 1480
 else:
@@ -220,7 +220,7 @@ if calculation_type == texts[language]["chicken_profits"]:
         eggs = st.text_input(
             texts[language]["eggs_input"],
             value=st.session_state.eggs,
-            help="ژمارەی هێلکە بنووسە (زۆرترین ٥٨٠)" if language == "کوردی" else "Enter the number of eggs (max 580)" if language == "English" else "Introduceți numărul de ouă (maxim 580)",
+            help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else "Introduceți numărul de ouă (maxim 580)",
             key="eggs_input"
         )
 
@@ -228,7 +228,7 @@ if calculation_type == texts[language]["chicken_profits"]:
         days = st.text_input(
             texts[language]["days_input"],
             value=st.session_state.days,
-            help="ژمارەی ڕۆژەکان بنووسە (زۆرترین ٧٣٠)" if language == "کوردی" else "Enter the number of days (max 730)" if language == "English" else "Introduceți numărul de zile (maxim 730)",
+            help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else "Introduceți numărul de zile (maxim 730)",
             key="days_input"
         )
 
@@ -238,11 +238,11 @@ if calculation_type == texts[language]["chicken_profits"]:
             days = float(days) if days else None
 
             if eggs is None or days is None:
-                st.error("تکایە هەموو بەهاکان بنووسە! ❗️" if language == "کوردی" else "Please enter all required values! ❗️" if language == "English" else "Vă rugăm să introduceți toate valorile necesare! ❗️")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "Vă rugăm să introduceți toate valorile necesare! ❗️")
             elif eggs > 580:
-                st.error("ژمارەی هێلکە نابێت لە ٥٨٠ زیاتر بێت! ❗️" if language == "کوردی" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "Numărul de ouă nu trebuie să depășească 580! ❗️")
+                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "Numărul de ouă nu trebuie să depășească 580! ❗️")
             elif days > 730:
-                st.error("ژمارەی ڕۆژەکان نابێت لە ٧٣٠ زیاتر بێت! ❗️" if language == "کوردی" else "Number of days should not exceed 730! ❗️" if language == "English" else "Numărul de zile nu trebuie să depășească 730! ❗️")
+                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "Numărul de zile nu trebuie să depășească 730! ❗️")
             else:
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
@@ -253,7 +253,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 rent_cost_usd = 6.0 if eggs >= 260 else 0.0
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
-                if currency in ["دیناری عێراقی", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit_before_rent = net_profit_before_rent_usd * 1480
@@ -283,7 +283,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 }
 
                 # عرض النتائج كجدول
-                st.success("تم الحساب بنجاح! ✅" if language == "کوردی" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
@@ -309,7 +309,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("تکایە ژمارەی دروست بنووسە! ❗️" if language == "کوردی" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
 
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
@@ -319,7 +319,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
         rewards = st.text_input(
             texts[language]["rewards_input"],
             value=st.session_state.rewards,
-            help="ژمارەی پاداشتەکان بنووسە" if language == "کوردی" else "Enter the number of rewards" if language == "English" else "Introduceți numărul de recompense",
+            help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards" if language == "English" else "Introduceți numărul de recompense",
             key="rewards_input"
         )
 
@@ -327,7 +327,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
         food = st.text_input(
             texts[language]["food_input"],
             value=st.session_state.food,
-            help="بڕی خۆراکی پێویست بنووسە" if language == "کوردی" else "Enter the amount of food needed" if language == "English" else "Introduceți cantitatea de mâncare necesară",
+            help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food needed" if language == "English" else "Introduceți cantitatea de mâncare necesară",
             key="food_input"
         )
 
@@ -337,14 +337,14 @@ elif calculation_type == texts[language]["daily_rewards"]:
             food = float(food) if food else None
 
             if rewards is None or food is None:
-                st.error("تکایە هەموو بەهاکان بنووسە! ❗️" if language == "کوردی" else "Please enter all required values! ❗️" if language == "English" else "Vă rugăm să introduceți toate valorile necesare! ❗️")
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "Vă rugăm să introduceți toate valorile necesare! ❗️")
             else:
                 # حساب النتائج
                 total_egg_price_usd = rewards * st.session_state.egg_price
                 total_feed_cost_usd = food * st.session_state.feed_price
                 net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-                if currency in ["دیناری عێراقی", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
@@ -368,7 +368,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 }
 
                 # عرض النتائج كجدول
-                st.success("تم الحساب بنجاح! ✅" if language == "کوردی" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
@@ -392,7 +392,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.plotly_chart(fig, use_container_width=True)
 
         except ValueError:
-            st.error("تکایە ژمارەی دروست بنووسە! ❗️" if language == "کوردی" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
@@ -402,7 +402,7 @@ if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.days = ""
     st.session_state.rewards = ""
     st.session_state.food = ""
-    st.success("تم إعادة التعيين بنجاح! ✅" if language == "کوردی" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅")
+    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅")
 
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
