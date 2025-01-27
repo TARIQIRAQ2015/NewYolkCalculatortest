@@ -251,7 +251,6 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # إنشاء جدول للنتائج
                 results = {
-                    "No.": [1, 2, 3, 4, 5],
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
@@ -271,7 +270,6 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[["ت", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
@@ -341,7 +339,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # إنشاء جدول للنتائج
                 results = {
-                    "No.": [1, 2, 3],
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
@@ -357,7 +354,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[["No.", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
