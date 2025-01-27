@@ -870,7 +870,7 @@ if st.session_state.get("show_results", False):
     })
     
     st.table(results_df)
-    
+
     # 2. Summary section with elegant icons
     st.markdown("### 📑 " + texts[language]["summary"])
     st.markdown(f"""
@@ -893,6 +893,50 @@ if st.session_state.get("show_results", False):
     """
     
     st.markdown("### 📋 " + texts[language]["share_results"])
+    st.code(copy_text)
+    st.button("📥 " + texts[language]["copy_results"], 
+             key="copy_button",
+             on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{copy_text}`)</script>', 
+             unsafe_allow_html=True))
+
+# Display results section with exact icons from image
+if st.session_state["show_results"]:
+    # 1. First display the table with categories and values
+    results_df = pd.DataFrame({
+        texts[language]["value"]: [
+            f"{format_decimal(st.session_state['egg_sales'], language)} {currency}",
+            f"{format_decimal(st.session_state['feed_cost'], language)} {currency}",
+            f"{format_decimal(st.session_state['net_profit_before_rent'], language)} {currency}",
+            f"{format_decimal(st.session_state['daily_rewards'], language)} {currency}",
+            f"{format_decimal(st.session_state['net_profit'], language)} {currency}"
+        ],
+        texts[language]["category"]: [
+            f"🥚 {texts[language]['eggs_input']}",
+            f"🌾 {texts[language]['food_input']}",
+            f"📊 {texts[language]['profit_before_rent']}",
+            f"🏠 {texts[language]['rent_payment']}",
+            f"💰 {texts[language]['net_profit']}"
+        ]
+    })
+    
+    st.table(results_df)
+
+    # 2. Display the chart
+    fig = create_custom_chart(results_df, language)
+    st.plotly_chart(fig, use_container_width=True)
+
+    # 3. Display the summary at the end
+    st.markdown("### 📑 " + texts[language]["summary"])
+    copy_text = f"""
+{texts[language]['chicken_calculator_results']} 🐔
+
+{texts[language]['egg_sales']}: {format_decimal(st.session_state['egg_sales'], language)} {currency}
+{texts[language]['feed_cost']}: {format_decimal(st.session_state['feed_cost'], language)} {currency}
+{texts[language]['net_profit_before_rent']}: {format_decimal(st.session_state['net_profit_before_rent'], language)} {currency}
+{texts[language]['daily_rewards']}: {format_decimal(st.session_state['daily_rewards'], language)} {currency}
+{texts[language]['net_profit']}: {format_decimal(st.session_state['net_profit'], language)} {currency}
+    """
+    
     st.code(copy_text)
     st.button("📥 " + texts[language]["copy_results"], 
              key="copy_button",
