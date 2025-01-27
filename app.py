@@ -112,20 +112,6 @@ if "rewards" not in st.session_state:
 if "food" not in st.session_state:
     st.session_state.food = ""
 
-# Initialize session state variables at the start of the app
-if 'show_results' not in st.session_state:
-    st.session_state.show_results = False
-if 'egg_sales' not in st.session_state:
-    st.session_state.egg_sales = 0
-if 'feed_cost' not in st.session_state:
-    st.session_state.feed_cost = 0
-if 'net_profit_before_rent' not in st.session_state:
-    st.session_state.net_profit_before_rent = 0
-if 'daily_rewards' not in st.session_state:
-    st.session_state.daily_rewards = 0
-if 'net_profit' not in st.session_state:
-    st.session_state.net_profit = 0
-
 # النصوص للغات المختلفة
 texts = {
     "العربية": {
@@ -621,7 +607,31 @@ if calculation_type == texts[language]["chicken_profits"]:
                         total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
                     )
 
-                # تنسيق التاريخ والوقت
+                # إنشاء جدول للنتائج
+                results = {
+                    texts[language]["calculation_type"]: [
+                        texts[language]["new_egg_price"] + " 💰",
+                        texts[language]["new_feed_price"] + " 🌽",
+                        texts[language]["profit_before_rent"] + " 📊",
+                        texts[language]["rent_payment"] + " 💸",
+                        texts[language]["net_profit"] + " 💵"
+                    ],
+                    texts[language]["value"]: [
+                        f"{format_decimal(total_egg_price)} {currency}",
+                        f"{format_decimal(total_feed_cost)} {currency}",
+                        f"{format_decimal(net_profit_before_rent)} {currency}",
+                        f"{format_decimal(rent_cost)} {currency}",
+                        f"{format_decimal(net_profit)} {currency}"
+                    ]
+                }
+
+                # عرض النتائج كجدول
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅" if language == "Română" else "Le calcul a été effectué avec succès! ✅" if language == "Français" else "El cálculo se ha realizado con éxito! ✅" if language == "Español" else "計算が正常に完了しました! ✅")
+                df = pd.DataFrame(results)
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
+                st.table(df)
+
+                # تنسيق التاريخ والوقت بنظام 12 ساعة
                 current_time = datetime.now()
                 hour = current_time.hour
                 am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
@@ -631,28 +641,28 @@ if calculation_type == texts[language]["chicken_profits"]:
                     hour = 12
                 formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
 
-                # إنشاء نص النتائج
+                # إنشاء نص النتائج بتنسيق جديد وأنيق
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['results_title']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_date']}: {formatted_time}
-║ {texts[language]['calculation_details']}: {texts[language]['calculation_type']}
+║ {texts[language]['calculation_details']}: {texts[language]['chicken_profits']}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['current_prices']}:
 ║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
 ║ ▸ {texts[language]['current_feed_price']}: {format_decimal(st.session_state.feed_price)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ ▸ {texts[language]['new_egg_price']}: {format_decimal(total_egg_price_usd)} USD
-║ ▸ {texts[language]['new_feed_price']}: {format_decimal(total_feed_cost_usd)} USD
+║ ▸ {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd)} USD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
 ║ ▸ {texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd)} USD
 ║ ▸ {texts[language]['rent_payment']}: {format_decimal(rent_cost_usd)} USD
 ║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ ▸ {texts[language]['new_egg_price']}: {format_decimal(total_egg_price_usd * 1480)} IQD
-║ ▸ {texts[language]['new_feed_price']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
+║ ▸ {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
+║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
 ║ ▸ {texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd * 1480)} IQD
 ║ ▸ {texts[language]['rent_payment']}: {format_decimal(rent_cost_usd * 1480)} IQD
 ║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
@@ -684,46 +694,29 @@ if calculation_type == texts[language]["chicken_profits"]:
                 fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
-                # تنسيق الجدول النهائي
+                # عرض الجدول بتنسيق أنيق
                 st.markdown("""
                 <style>
                 .dataframe {
                     font-size: 14px !important;
                     text-align: center !important;
-                    margin: 0 auto !important;
-                    width: 100% !important;
-                    border-collapse: collapse !important;
                 }
                 .dataframe th {
                     background-color: #4CAF50 !important;
                     color: white !important;
                     font-weight: bold !important;
                     text-align: center !important;
-                    padding: 12px !important;
                 }
                 .dataframe td {
                     text-align: center !important;
-                    padding: 10px !important;
-                    border-bottom: 1px solid #ddd !important;
-                }
-                .dataframe tr:hover {
-                    background-color: #f5f5f5 !important;
                 }
                 </style>
                 """, unsafe_allow_html=True)
-
-                # عرض الجدول النهائي
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
                 st.table(df)
-
-                # Update session state variables
-                st.session_state.egg_sales = total_egg_price_usd
-                st.session_state.feed_cost = total_feed_cost_usd
-                st.session_state.net_profit_before_rent = net_profit_before_rent_usd
-                st.session_state.daily_rewards = rent_cost_usd
-                st.session_state.net_profit = net_profit_usd
-                st.session_state.show_results = True
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
@@ -779,7 +772,27 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         total_egg_price_usd, total_feed_cost_usd, net_profit_usd
                     )
 
-                # تنسيق التاريخ والوقت
+                # إنشاء جدول للنتائج
+                results = {
+                    texts[language]["calculation_type"]: [
+                        texts[language]["new_egg_price"] + " 💰",
+                        texts[language]["new_feed_price"] + " 🌽",
+                        texts[language]["net_profit"] + " 💵"
+                    ],
+                    texts[language]["value"]: [
+                        f"{format_decimal(total_egg_price)} {currency}",
+                        f"{format_decimal(total_feed_cost)} {currency}",
+                        f"{format_decimal(net_profit)} {currency}"
+                    ]
+                }
+
+                # عرض النتائج كجدول
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅" if language == "Română" else "Le calcul a été effectué avec succès! ✅" if language == "Français" else "El cálculo se ha realizado con éxito! ✅" if language == "Español" else "計算が正常に完了しました! ✅")
+                df = pd.DataFrame(results)
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
+                st.table(df)
+
+                # تنسيق التاريخ والوقت بنظام 12 ساعة
                 current_time = datetime.now()
                 hour = current_time.hour
                 am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
@@ -789,13 +802,13 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     hour = 12
                 formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
 
-                # إنشاء نص النتائج
+                # إنشاء نص النتائج بتنسيق جديد وأنيق
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['results_title']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_date']}: {formatted_time}
-║ {texts[language]['calculation_details']}: {texts[language]['calculation_type']}
+║ {texts[language]['calculation_details']}: {texts[language]['daily_rewards']}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['current_prices']}:
 ║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
@@ -832,100 +845,41 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
-                # تنسيق الجدول النهائي
+                # عرض الجدول بتنسيق أنيق
                 st.markdown("""
                 <style>
                 .dataframe {
                     font-size: 14px !important;
                     text-align: center !important;
-                    margin: 0 auto !important;
-                    width: 100% !important;
-                    border-collapse: collapse !important;
                 }
                 .dataframe th {
                     background-color: #4CAF50 !important;
                     color: white !important;
                     font-weight: bold !important;
                     text-align: center !important;
-                    padding: 12px !important;
                 }
                 .dataframe td {
                     text-align: center !important;
-                    padding: 10px !important;
-                    border-bottom: 1px solid #ddd !important;
-                }
-                .dataframe tr:hover {
-                    background-color: #f5f5f5 !important;
                 }
                 </style>
                 """, unsafe_allow_html=True)
-
-                # عرض الجدول النهائي
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
                 st.table(df)
-
-                # Update session state variables
-                st.session_state.egg_sales = total_egg_price_usd
-                st.session_state.feed_cost = total_feed_cost_usd
-                st.session_state.net_profit = net_profit_usd
-                st.session_state.show_results = True
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
-# Display results section with exact icons from image
-if st.session_state.show_results:
-    # 1. First display the table with categories and values
-    results_df = pd.DataFrame({
-        texts[language]["value"]: [
-            f"{format_decimal(st.session_state.egg_sales, language)} {currency}",
-            f"{format_decimal(st.session_state.feed_cost, language)} {currency}",
-            f"{format_decimal(st.session_state.net_profit_before_rent, language)} {currency}",
-            f"{format_decimal(st.session_state.daily_rewards, language)} {currency}",
-            f"{format_decimal(st.session_state.net_profit, language)} {currency}"
-        ],
-        texts[language]["category"]: [
-            f"🥚 {texts[language]['eggs_input']}",
-            f"🌾 {texts[language]['food_input']}",
-            f"📊 {texts[language]['profit_before_rent']}",
-            f"🏠 {texts[language]['rent_payment']}",
-            f"💰 {texts[language]['net_profit']}"
-        ]
-    })
-    
-    st.table(results_df)
-
-    # 2. Display the chart
-    fig = create_custom_chart(results_df, language)
-    st.plotly_chart(fig, use_container_width=True)
-
-    # 3. Display the summary at the end
-    st.markdown("### 📑 " + texts[language]["summary"])
-    copy_text = f"""
-{texts[language]['chicken_calculator_results']} 🐔
-
-{texts[language]['egg_sales']}: {format_decimal(st.session_state.egg_sales, language)} {currency}
-{texts[language]['feed_cost']}: {format_decimal(st.session_state.feed_cost, language)} {currency}
-{texts[language]['profit_before_rent']}: {format_decimal(st.session_state.net_profit_before_rent, language)} {currency}
-{texts[language]['rent_payment']}: {format_decimal(st.session_state.daily_rewards, language)} {currency}
-{texts[language]['net_profit']}: {format_decimal(st.session_state.net_profit, language)} {currency}
-    """
-    
-    st.code(copy_text)
-    st.button("📥 " + texts[language]["copy_results"], 
-             key="copy_button",
-             on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{copy_text}`)</script>', 
-             unsafe_allow_html=True))
-
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
-    st.session_state.show_results = False  # Reset the show_results flag
-    st.session_state.egg_sales = 0
-    st.session_state.feed_cost = 0
-    st.session_state.net_profit_before_rent = 0
-    st.session_state.daily_rewards = 0
-    st.session_state.net_profit = 0
+    st.session_state.egg_price = 0.1155
+    st.session_state.feed_price = 0.0189
+    st.session_state.eggs = ""
+    st.session_state.days = ""
+    st.session_state.rewards = ""
+    st.session_state.food = ""
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅" if language == "Română" else "Réinitialisation réussie! ✅" if language == "Français" else "Reinicio exitoso! ✅" if language == "Español" else "リセットが正常に完了しました! ✅")
 
 # تحديث نص زر التمرير حسب اللغة
