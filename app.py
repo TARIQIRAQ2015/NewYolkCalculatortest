@@ -254,9 +254,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                        "Profit before rent 📊",
-                        "Rent payment 💸",
-                        "Net profit 💵"
+                        "الربح قبل الإيجار 📊",
+                        "دفع الإيجار 💸",
+                        "صافي الربح 💵"
                     ],
                     "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -278,7 +278,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     "Category": [
                         texts[language]["new_egg_price"],
                         texts[language]["new_feed_price"],
-                        "Rent payment"
+                        "دفع الإيجار"
                     ],
                     "Value": [
                         total_egg_price,
@@ -288,7 +288,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 })
 
                 fig = px.bar(chart_data, x="Category", y="Value",
-                             title="Cost and Profit Distribution",
+                             title="توزيع التكاليف والأرباح",
                              color="Category",
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
@@ -343,7 +343,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                        "Daily profit 💵"
+                        "صافي الربح اليومي 💵"
                     ],
                     "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
@@ -371,7 +371,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 })
 
                 fig = px.bar(chart_data, x="Category", y="Value",
-                             title="Cost and Profit Distribution",
+                             title="توزيع التكاليف والأرباح",
                              color="Category",
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
