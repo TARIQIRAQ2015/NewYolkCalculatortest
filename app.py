@@ -271,7 +271,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[["No.", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
+                df = df[["ت", texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
