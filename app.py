@@ -52,7 +52,9 @@ texts = {
         "food_input": "عدد الطعام المطلوب 🌽",
         "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
         "reset": "إعادة التعيين 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "القيمة",
+        "category": "الفئة"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -72,7 +74,9 @@ texts = {
         "food_input": "Amount of Food Needed 🌽",
         "calculate_rewards": "Calculate Daily Rewards and Food Profits 🧮",
         "reset": "Reset 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "Value",
+        "category": "Category"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -92,7 +96,9 @@ texts = {
         "food_input": "Cantitatea de Mâncare Necesară 🌽",
         "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
         "reset": "Resetează 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026"
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "Valoare",
+        "category": "Categorie"
     }
 }
 
@@ -258,7 +264,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                         "دفع الإيجار 💸",
                         "صافي الربح 💵"
                     ],
-                    "Value": [
+                    texts[language]["value"]: [
                         f"{format_decimal(total_egg_price)} {currency}",
                         f"{format_decimal(total_feed_cost)} {currency}",
                         f"{format_decimal(net_profit_before_rent)} {currency}",
@@ -270,26 +276,26 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[[texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
-                    "Category": [
+                    texts[language]["category"]: [
                         texts[language]["new_egg_price"],
                         texts[language]["new_feed_price"],
                         "دفع الإيجار"
                     ],
-                    "Value": [
+                    texts[language]["value"]: [
                         total_egg_price,
                         total_feed_cost,
                         rent_cost
                     ]
                 })
 
-                fig = px.bar(chart_data, x="Category", y="Value",
+                fig = px.bar(chart_data, x=texts[language]["category"], y=texts[language]["value"],
                              title="توزيع التكاليف والأرباح",
-                             color="Category",
+                             color=texts[language]["category"],
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
 
@@ -345,7 +351,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         texts[language]["new_feed_price"] + " 🌽",
                         "صافي الربح اليومي 💵"
                     ],
-                    "Value": [
+                    texts[language]["value"]: [
                         f"{format_decimal(total_egg_price)} {currency}",
                         f"{format_decimal(total_feed_cost)} {currency}",
                         f"{format_decimal(net_profit)} {currency}"
@@ -355,24 +361,24 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # عرض النتائج كجدول
                 st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅")
                 df = pd.DataFrame(results)
-                df = df[[texts[language]["calculation_type"], "Value"]]  # تغيير ترتيب الأعمدة للغة العربية
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
-                    "Category": [
+                    texts[language]["category"]: [
                         texts[language]["new_egg_price"],
                         texts[language]["new_feed_price"]
                     ],
-                    "Value": [
+                    texts[language]["value"]: [
                         total_egg_price,
                         total_feed_cost
                     ]
                 })
 
-                fig = px.bar(chart_data, x="Category", y="Value",
+                fig = px.bar(chart_data, x=texts[language]["category"], y=texts[language]["value"],
                              title="توزيع التكاليف والأرباح",
-                             color="Category",
+                             color=texts[language]["category"],
                              color_discrete_sequence=px.colors.qualitative.Pastel)
                 st.plotly_chart(fig, use_container_width=True)
 
