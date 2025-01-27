@@ -536,7 +536,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
-                total_feed_cost_usd = (days * 0.15) * st.session_state.feed_price
+                total_feed_cost_usd = (days * 2) * st.session_state.feed_price  # تصحيح حساب تكلفة العلف
                 net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
                 rent_cost_usd = rent_cost
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
