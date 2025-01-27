@@ -743,6 +743,23 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
+                df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['rewards_input']}",
+                        f"🌾 {texts[language]['food_input']}"
+                    ],
+                    texts[language]["value"]: [
+                        total_egg_price,
+                        total_feed_cost
+                    ]
+                })
+                
+                # تنسيق القيم في الجدول
+                df = df.round(2)
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+                st.table(df)
+
+                # عرض الرسم البياني
                 chart_df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['rewards_input']}",
