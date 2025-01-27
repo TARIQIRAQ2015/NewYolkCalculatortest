@@ -9,8 +9,7 @@ def format_decimal(number):
 # تحسين الواجهة
 st.set_page_config(
     page_title="Newyolk Chicken Calculator",
-    page_icon="🐔", 
-    layout="wide"
+    page_icon="🐔"
 )
 
 # حالة الوضع (Dark أو Light)
@@ -96,7 +95,7 @@ st.markdown(
     }}
     .stTable {{
         margin: 0 auto; /* توسيط الجدول */
-        width: 50%; /* تحديد عرض الجدول */
+        width: 100%; /* تحديد عرض الجدول */
         text-align: right; /* محاذاة النص إلى اليمين */
     }}
     .stTable th, .stTable td {{
