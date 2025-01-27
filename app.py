@@ -649,7 +649,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown(f"### {texts[language]['results_title']}")
+                st.markdown(f"### 📊 {texts[language]['results_title']}")
                 st.code(results_text)
                 
         except ValueError:
@@ -757,7 +757,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown(f"### {texts[language]['results_title']}")
+                st.markdown(f"### 📊 {texts[language]['results_title']}")
                 st.code(results_text)
                 
         except ValueError:
