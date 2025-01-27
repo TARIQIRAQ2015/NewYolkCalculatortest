@@ -528,11 +528,17 @@ if calculation_type == texts[language]["chicken_profits"]:
             elif days > 730:
                 st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "Numărul de zile nu trebuie să depășească 730! ❗️" if language == "Română" else "Le nombre de jours ne doit pas dépasser 730! ❗️" if language == "Français" else "El número de días no debe exceder 730! ❗️" if language == "Español" else "日数は730を超えることはできません! ❗️")
             else:
+                # حساب الإيجار
+                if days > 365:  # السنة الثانية
+                    rent_cost = 6  # دفع الإيجار للسنة الثانية
+                else:
+                    rent_cost = 0  # لا يوجد إيجار في السنة الأولى
+
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
                 total_feed_cost_usd = (days * 0.15) * st.session_state.feed_price
                 net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
-                rent_cost_usd = days * 0.0082
+                rent_cost_usd = rent_cost
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
                 # تحويل العملة
