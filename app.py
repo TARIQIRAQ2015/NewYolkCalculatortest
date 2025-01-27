@@ -159,7 +159,7 @@ col1, col2 = st.columns(2)
 with col1:
     currency = st.selectbox(
         texts[language]["currency_select"],
-        ["دولار أمريكي", "دينار عراقي"] if language == "العربية" else ["USD", "IQD"] if language == "English" else ["USD", "IQD"]
+        ["دولار أمريكي", "دينار عراقي"] if language == "العربية" else ["US Dollar", "Iraqi Dinar"] if language == "English" else ["Dolar American", "Dinar Irakian"]
     )
 
 with col2:
@@ -383,10 +383,10 @@ elif calculation_type == texts[language]["daily_rewards"]:
 if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.egg_price = 0.1155
     st.session_state.feed_price = 0.0189
-    st.session_state.eggs = "None"
-    st.session_state.days = "None"
-    st.session_state.rewards = "None"
-    st.session_state.food = "None"
+    st.session_state.eggs = ""
+    st.session_state.days = ""
+    st.session_state.rewards = ""
+    st.session_state.food = ""
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅")
 
 # إضافة نص حقوق النشر والأيقونات
