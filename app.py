@@ -486,6 +486,64 @@ def create_copy_button(text_to_copy, button_text):
     
     return button_html
 
+def create_custom_chart(df, language):
+    # تخصيص الألوان والتصميم
+    custom_colors = ['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
+    
+    # إنشاء رسم بياني دائري متقدم
+    fig = px.pie(
+        df,
+        values=texts[language]["value"],
+        names=texts[language]["category"],
+        hole=0.6,  # جعل الرسم البياني دائري مع فراغ في المنتصف
+        color_discrete_sequence=custom_colors
+    )
+    
+    # تخصيص تصميم الرسم البياني
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label',
+        hovertemplate="<b>%{label}</b><br>" +
+                     f"{texts[language]['value']}: %{{value:,.2f}}<br>" +
+                     "النسبة: %{percent}<br><extra></extra>"
+    )
+    
+    # تحديث تخطيط الرسم البياني
+    fig.update_layout(
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="center",
+            x=0.5
+        ),
+        margin=dict(t=60, l=0, r=0, b=0),
+        height=500,
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(size=14),
+        title=dict(
+            text=texts[language]["results_title"],
+            y=0.95,
+            x=0.5,
+            xanchor='center',
+            yanchor='top',
+            font=dict(size=20)
+        ),
+        annotations=[
+            dict(
+                text=texts[language]["net_profit"],
+                x=0.5,
+                y=0.5,
+                font=dict(size=16),
+                showarrow=False
+            )
+        ]
+    )
+    
+    return fig
+
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
     col5, col6 = st.columns(2)
@@ -613,25 +671,52 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # عرض النتائج
                 st.code(results_text, language="text")
 
-                # إضافة رسم بياني شريطي
-                chart_data = pd.DataFrame({
+                # إنشاء DataFrame للرسم البياني
+                chart_data = {
                     texts[language]["category"]: [
-                        texts[language]["new_egg_price"],
-                        texts[language]["new_feed_price"],
-                        texts[language]["rent_payment"]
+                        texts[language]["eggs_input"],
+                        texts[language]["food_input"],
+                        texts[language]["profit_before_rent"],
+                        texts[language]["rent_payment"],
+                        texts[language]["net_profit"]
                     ],
                     texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost,
-                        rent_cost
+                        total_egg_price_usd,
+                        total_feed_cost_usd,
+                        net_profit_before_rent_usd,
+                        rent_cost_usd,
+                        net_profit_usd
                     ]
-                })
-
-                fig = px.bar(chart_data, x=texts[language]["category"], y=texts[language]["value"],
-                             title="توزيع التكاليف والأرباح",
-                             color=texts[language]["category"],
-                             color_discrete_sequence=px.colors.qualitative.Pastel)
+                }
+                df = pd.DataFrame(chart_data)
+                
+                # إنشاء وعرض الرسم البياني المخصص
+                fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
+
+                # عرض الجدول بتنسيق أنيق
+                st.markdown("""
+                <style>
+                .dataframe {
+                    font-size: 14px !important;
+                    text-align: center !important;
+                }
+                .dataframe th {
+                    background-color: #4CAF50 !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                }
+                .dataframe td {
+                    text-align: center !important;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
+                st.table(df)
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
@@ -743,23 +828,46 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # عرض النتائج
                 st.code(results_text, language="text")
 
-                # إضافة رسم بياني شريطي
-                chart_data = pd.DataFrame({
+                # إنشاء DataFrame للرسم البياني
+                chart_data = {
                     texts[language]["category"]: [
-                        texts[language]["new_egg_price"],
-                        texts[language]["new_feed_price"]
+                        texts[language]["rewards_input"],
+                        texts[language]["food_input"]
                     ],
                     texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost
+                        total_egg_price_usd,
+                        total_feed_cost_usd
                     ]
-                })
-
-                fig = px.bar(chart_data, x=texts[language]["category"], y=texts[language]["value"],
-                             title="توزيع التكاليف والأرباح",
-                             color=texts[language]["category"],
-                             color_discrete_sequence=px.colors.qualitative.Pastel)
+                }
+                df = pd.DataFrame(chart_data)
+                
+                # إنشاء وعرض الرسم البياني المخصص
+                fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
+
+                # عرض الجدول بتنسيق أنيق
+                st.markdown("""
+                <style>
+                .dataframe {
+                    font-size: 14px !important;
+                    text-align: center !important;
+                }
+                .dataframe th {
+                    background-color: #4CAF50 !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                }
+                .dataframe td {
+                    text-align: center !important;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
+                st.table(df)
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
