@@ -148,7 +148,9 @@ texts = {
         "current_egg_price": "سعر البيض",
         "current_feed_price": "سعر العلف",
         "am": "صباحاً",
-        "pm": "مساءً"
+        "pm": "مساءً",
+        "summary": "ملخص النتائج",
+        "copy_results": "نسخ النتائج"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -184,7 +186,9 @@ texts = {
         "current_egg_price": "Egg Price",
         "current_feed_price": "Feed Price",
         "am": "AM",
-        "pm": "PM"
+        "pm": "PM",
+        "summary": "Results Summary",
+        "copy_results": "Copy Results"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -220,7 +224,9 @@ texts = {
         "current_egg_price": "Prețul Ouălor",
         "current_feed_price": "Prețul Furajului",
         "am": "AM",
-        "pm": "PM"
+        "pm": "PM",
+        "summary": "Rezumatul Rezultatelor",
+        "copy_results": "Copiază Rezultatele"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -256,7 +262,9 @@ texts = {
         "current_egg_price": "Prix des Œufs",
         "current_feed_price": "Prix des Aliments",
         "am": "AM",
-        "pm": "PM"
+        "pm": "PM",
+        "summary": "Résumé des Résultats",
+        "copy_results": "Copier les Résultats"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -292,7 +300,9 @@ texts = {
         "current_egg_price": "Precio del Huevo",
         "current_feed_price": "Precio del Alimento",
         "am": "AM",
-        "pm": "PM"
+        "pm": "PM",
+        "summary": "Resumen de Resultados",
+        "copy_results": "Copiar Resultados"
     },
     "日本語": {
         "title": "🐔 ニューヨーク・チキン計算機",
@@ -328,7 +338,9 @@ texts = {
         "current_egg_price": "卵の価格",
         "current_feed_price": "飼料の価格",
         "am": "AM",
-        "pm": "PM"
+        "pm": "PM",
+        "summary": "結果サマリー",
+        "copy_results": "結果をコピー"
     }
 }
 
@@ -645,7 +657,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
-                st.code(results_text, language="text")
+                # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
                 chart_data = {
@@ -666,42 +678,22 @@ if calculation_type == texts[language]["chicken_profits"]:
                 }
                 df = pd.DataFrame(chart_data)
                 
-                # إنشاء وعرض الرسم البياني المخصص
-                fig = create_custom_chart(df, language)
-                st.plotly_chart(fig, use_container_width=True)
-
-                # تنسيق الجدول النهائي
-                st.markdown("""
-                <style>
-                .dataframe {
-                    font-size: 14px !important;
-                    text-align: center !important;
-                    margin: 0 auto !important;
-                    width: 100% !important;
-                    border-collapse: collapse !important;
-                }
-                .dataframe th {
-                    background-color: #4CAF50 !important;
-                    color: white !important;
-                    font-weight: bold !important;
-                    text-align: center !important;
-                    padding: 12px !important;
-                }
-                .dataframe td {
-                    text-align: center !important;
-                    padding: 10px !important;
-                    border-bottom: 1px solid #ddd !important;
-                }
-                .dataframe tr:hover {
-                    background-color: #f5f5f5 !important;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-
-                # عرض الجدول النهائي
+                # عرض الجدول النهائي أولاً
                 df = df.round(2)
                 df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
                 st.table(df)
+
+                # عرض الرسم البياني
+                fig = create_custom_chart(df, language)
+                st.plotly_chart(fig, use_container_width=True)
+
+                # عرض ملخص النتائج في النهاية
+                st.markdown("### 📑 " + texts[language]["summary"])
+                st.code(results_text, language="text")
+                st.button("📥 " + texts[language]["copy_results"], 
+                         key="copy_button",
+                         on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', 
+                         unsafe_allow_html=True))
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
@@ -791,7 +783,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
-                st.code(results_text, language="text")
+                # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
                 chart_data = {
@@ -806,42 +798,22 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 }
                 df = pd.DataFrame(chart_data)
                 
-                # إنشاء وعرض الرسم البياني المخصص
-                fig = create_custom_chart(df, language)
-                st.plotly_chart(fig, use_container_width=True)
-
-                # تنسيق الجدول النهائي
-                st.markdown("""
-                <style>
-                .dataframe {
-                    font-size: 14px !important;
-                    text-align: center !important;
-                    margin: 0 auto !important;
-                    width: 100% !important;
-                    border-collapse: collapse !important;
-                }
-                .dataframe th {
-                    background-color: #4CAF50 !important;
-                    color: white !important;
-                    font-weight: bold !important;
-                    text-align: center !important;
-                    padding: 12px !important;
-                }
-                .dataframe td {
-                    text-align: center !important;
-                    padding: 10px !important;
-                    border-bottom: 1px solid #ddd !important;
-                }
-                .dataframe tr:hover {
-                    background-color: #f5f5f5 !important;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-
-                # عرض الجدول النهائي
+                # عرض الجدول النهائي أولاً
                 df = df.round(2)
                 df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
                 st.table(df)
+
+                # عرض الرسم البياني
+                fig = create_custom_chart(df, language)
+                st.plotly_chart(fig, use_container_width=True)
+
+                # عرض ملخص النتائج في النهاية
+                st.markdown("### 📑 " + texts[language]["summary"])
+                st.code(results_text, language="text")
+                st.button("📥 " + texts[language]["copy_results"], 
+                         key="copy_button",
+                         on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', 
+                         unsafe_allow_html=True))
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
