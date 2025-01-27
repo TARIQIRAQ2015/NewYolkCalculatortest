@@ -313,6 +313,53 @@ else:
 st.write(f"{texts[language]['new_egg_price']}: {format_decimal(egg_price_display)} {currency}")
 st.write(f"{texts[language]['new_feed_price']}: {format_decimal(feed_price_display)} {currency}")
 
+# دالة مساعدة لإنشاء زر النسخ
+def create_copy_button(text_to_copy, button_text):
+    # إنشاء معرف فريد للنص
+    button_id = f"copy_button_{hash(text_to_copy)}"
+    
+    # JavaScript لنسخ النص
+    js_code = f"""
+    <script>
+    function copyText{button_id}() {{
+        const el = document.createElement('textarea');
+        el.value = `{text_to_copy}`;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    }}
+    </script>
+    """
+    
+    # HTML لزر النسخ
+    button_html = f"""
+    {js_code}
+    <button 
+        onclick="copyText{button_id}()"
+        style="
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        "
+        onmouseover="this.style.backgroundColor='#45a049'"
+        onmouseout="this.style.backgroundColor='#4CAF50'"
+    >
+        {button_text} 📋
+    </button>
+    """
+    
+    return button_html
+
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
     col5, col6 = st.columns(2)
@@ -424,11 +471,9 @@ if calculation_type == texts[language]["chicken_profits"]:
 {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
 """
 
-                # إضافة زر النسخ
-                if st.button(texts[language]["copy_results"], type="secondary"):
-                    st.code(results_text, language="text")
-                    st.session_state.clipboard_text = results_text
-                    st.success(texts[language]["copy_success"])
+                # عرض النتائج وزر النسخ
+                st.code(results_text, language="text")
+                st.markdown(create_copy_button(results_text.replace('"', '\\"').replace('\n', '\\n'), texts[language]["copy_results"]), unsafe_allow_html=True)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
@@ -544,11 +589,9 @@ elif calculation_type == texts[language]["daily_rewards"]:
 {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
 """
 
-                # إضافة زر النسخ
-                if st.button(texts[language]["copy_results"], type="secondary"):
-                    st.code(results_text, language="text")
-                    st.session_state.clipboard_text = results_text
-                    st.success(texts[language]["copy_success"])
+                # عرض النتائج وزر النسخ
+                st.code(results_text, language="text")
+                st.markdown(create_copy_button(results_text.replace('"', '\\"').replace('\n', '\\n'), texts[language]["copy_results"]), unsafe_allow_html=True)
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
