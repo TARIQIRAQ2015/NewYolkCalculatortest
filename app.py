@@ -15,7 +15,7 @@ st.markdown("""
 .floating-button {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;  
     background-color: #4CAF50;
     color: white;
     width: 50px;
@@ -28,6 +28,7 @@ st.markdown("""
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     z-index: 999;
+    display: none;
 }
 
 .floating-button:hover {
@@ -39,7 +40,7 @@ st.markdown("""
 .scroll-text {
     position: fixed;
     bottom: 75px;
-    right: 10px;
+    left: 10px;  
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 5px 10px;
@@ -52,25 +53,38 @@ st.markdown("""
 .floating-button:hover + .scroll-text {
     opacity: 1;
 }
+
+/* إضافة CSS لإخفاء وإظهار الزر عند التمرير */
+@media screen and (min-height: 400px) {
+    .floating-button {
+        display: block;
+    }
+}
 </style>
 
 <script>
-function scrollToTop() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// إظهار/إخفاء الزر عند التمرير
-window.onscroll = function() {
+// تحديث JavaScript للتمرير
+document.addEventListener('DOMContentLoaded', function() {
     var button = document.querySelector('.floating-button');
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        button.style.display = "block";
-    } else {
-        button.style.display = "none";
-    }
-};
+    
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            button.style.display = "block";
+        } else {
+            button.style.display = "none";
+        }
+    };
+
+    button.onclick = function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+});
 </script>
 
-<div class="floating-button" onclick="scrollToTop()">↑</div>
+<div class="floating-button">↑</div>
 <div class="scroll-text">التمرير إلى الأعلى</div>
 """, unsafe_allow_html=True)
 
@@ -129,7 +143,12 @@ texts = {
         "calculation_details": "🔍 تفاصيل الحساب",
         "usd_results": "💵 النتائج بالدولار الأمريكي",
         "iqd_results": "💵 النتائج بالدينار العراقي",
-        "scroll_top": "التمرير إلى الأعلى"
+        "scroll_top": "التمرير إلى الأعلى",
+        "current_prices": "💰 الأسعار الحالية",
+        "current_egg_price": "سعر البيض",
+        "current_feed_price": "سعر العلف",
+        "am": "صباحاً",
+        "pm": "مساءً"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -160,7 +179,12 @@ texts = {
         "calculation_details": "🔍 Calculation Details",
         "usd_results": "💵 Results in USD",
         "iqd_results": "💵 Results in IQD",
-        "scroll_top": "Scroll to Top"
+        "scroll_top": "Scroll to Top",
+        "current_prices": "💰 Current Prices",
+        "current_egg_price": "Egg Price",
+        "current_feed_price": "Feed Price",
+        "am": "AM",
+        "pm": "PM"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -191,7 +215,12 @@ texts = {
         "calculation_details": "🔍 Detalii Calcul",
         "usd_results": "💵 Rezultate în USD",
         "iqd_results": "💵 Rezultate în IQD",
-        "scroll_top": "Sari la Început"
+        "scroll_top": "Sari la Început",
+        "current_prices": "💰 Prețuri Actuale",
+        "current_egg_price": "Prețul Ouălor",
+        "current_feed_price": "Prețul Furajului",
+        "am": "AM",
+        "pm": "PM"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -222,7 +251,12 @@ texts = {
         "calculation_details": "🔍 Détails de Calcul",
         "usd_results": "💵 Résultats en USD",
         "iqd_results": "💵 Résultats en IQD",
-        "scroll_top": "Revenir en Haut"
+        "scroll_top": "Revenir en Haut",
+        "current_prices": "💰 Prix Actuels",
+        "current_egg_price": "Prix des Œufs",
+        "current_feed_price": "Prix des Aliments",
+        "am": "AM",
+        "pm": "PM"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -253,7 +287,12 @@ texts = {
         "calculation_details": "🔍 Detalles de Cálculo",
         "usd_results": "💵 Resultados en USD",
         "iqd_results": "💵 Resultados en IQD",
-        "scroll_top": "Volver Arriba"
+        "scroll_top": "Volver Arriba",
+        "current_prices": "💰 Precios Actuales",
+        "current_egg_price": "Precio del Huevo",
+        "current_feed_price": "Precio del Alimento",
+        "am": "AM",
+        "pm": "PM"
     },
     "日本語": {
         "title": "🐔 ニューヨーク・チキン計算機",
@@ -284,7 +323,12 @@ texts = {
         "calculation_details": "🔍 計算詳細",
         "usd_results": "💵 USD での結果",
         "iqd_results": "💵 IQD での結果",
-        "scroll_top": "トップへ戻る"
+        "scroll_top": "トップへ戻る",
+        "current_prices": "💰 現在の価格",
+        "current_egg_price": "卵の価格",
+        "current_feed_price": "飼料の価格",
+        "am": "AM",
+        "pm": "PM"
     }
 }
 
@@ -529,14 +573,27 @@ if calculation_type == texts[language]["chicken_profits"]:
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
+                # تنسيق التاريخ والوقت بنظام 12 ساعة
+                current_time = datetime.now()
+                hour = current_time.hour
+                am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
+                if hour > 12:
+                    hour -= 12
+                elif hour == 0:
+                    hour = 12
+                formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
+
                 # إنشاء نص النتائج بتنسيق جديد وأنيق
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['results_title']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_date']}: {current_time}
+║ {texts[language]['calculation_date']}: {formatted_time}
 ║ {texts[language]['calculation_details']}: {texts[language]['chicken_profits']}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['current_prices']}:
+║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
+║ ▸ {texts[language]['current_feed_price']}: {format_decimal(st.session_state.feed_price)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ ▸ {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd)} USD
@@ -650,14 +707,27 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
 
+                # تنسيق التاريخ والوقت بنظام 12 ساعة
+                current_time = datetime.now()
+                hour = current_time.hour
+                am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
+                if hour > 12:
+                    hour -= 12
+                elif hour == 0:
+                    hour = 12
+                formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
+
                 # إنشاء نص النتائج بتنسيق جديد وأنيق
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['results_title']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_date']}: {current_time}
+║ {texts[language]['calculation_date']}: {formatted_time}
 ║ {texts[language]['calculation_details']}: {texts[language]['daily_rewards']}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['current_prices']}:
+║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
+║ ▸ {texts[language]['current_feed_price']}: {format_decimal(st.session_state.feed_price)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ ▸ {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd)} USD
