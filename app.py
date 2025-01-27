@@ -9,7 +9,7 @@ def format_decimal(number):
 # تحسين الواجهة
 st.set_page_config(
     page_title="Newyolk Chicken Calculator",
-    page_icon="🐔"
+    page_icon="\ud83d\udc14"
 )
 
 # حالة الوضع (Dark أو Light)
@@ -35,63 +35,75 @@ if "food" not in st.session_state:
 # النصوص للغات المختلفة
 texts = {
     "العربية": {
-        "title": "🐔 حاسبة الدجاج - Newyolk",
+        "title": "\ud83d\udc14 حاسبة الدجاج - Newyolk",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "currency_select": "العملة 💰",
-        "edit_prices": "تعديل الأسعار ⚙️",
-        "new_egg_price": "سعر البيض الحالي 🥚",
-        "new_feed_price": "سعر العلف الحالي 🌽",
-        "save_prices": "حفظ الأسعار الجديدة 💾",
-        "calculation_type": "نوع الحساب 📊",
+        "currency_select": "العملة \ud83d\udcb0",
+        "edit_prices": "تعديل الأسعار \u2699\ufe0f",
+        "new_egg_price": "سعر البيض الحالي \ud83e\udd5a",
+        "new_feed_price": "سعر العلف الحالي \ud83c\udf3d",
+        "save_prices": "حفظ الأسعار الجديدة \ud83d\udcbe",
+        "calculation_type": "نوع الحساب \ud83d\udcca",
         "chicken_profits": "أرباح الدجاجة",
         "daily_rewards": "أرباح المكافآت والطعام اليومي",
-        "eggs_input": "عدد البيض 🥚",
-        "days_input": "عدد الأيام 📅",
-        "calculate_profits": "احسب أرباح الدجاجة 🧮",
-        "rewards_input": "عدد المكافآت 🎁",
-        "food_input": "عدد الطعام المطلوب 🌽",
-        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
-        "reset": "إعادة التعيين 🔄",
+        "eggs_input": "عدد البيض \ud83e\udd5a",
+        "days_input": "عدد الأيام \ud83d\udcc5",
+        "calculate_profits": "احسب أرباح الدجاجة \ud83e\uddaf",
+        "rewards_input": "عدد المكافآت \ud83c\udf81",
+        "food_input": "عدد الطعام المطلوب \ud83c\udf3d",
+        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي \ud83e\uddaf",
+        "reset": "إعادة التعيين \ud83d\udd04",
+        "profit_before_rent": "الربح قبل الإيجار",
+        "rent_payment": "دفع الإيجار",
+        "net_profit": "صافي الربح",
+        "daily_profit": "الربح اليومي",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     },
     "English": {
-        "title": "🐔 Chicken Calculator - Newyolk",
+        "title": "\ud83d\udc14 Chicken Calculator - Newyolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "currency_select": "Currency 💰",
-        "edit_prices": "Edit Prices ⚙️",
-        "new_egg_price": "Current Egg Price 🥚",
-        "new_feed_price": "Current Feed Price 🌽",
-        "save_prices": "Save New Prices 💾",
-        "calculation_type": "Calculation Type 📊",
+        "currency_select": "Currency \ud83d\udcb0",
+        "edit_prices": "Edit Prices \u2699\ufe0f",
+        "new_egg_price": "Current Egg Price \ud83e\udd5a",
+        "new_feed_price": "Current Feed Price \ud83c\udf3d",
+        "save_prices": "Save New Prices \ud83d\udcbe",
+        "calculation_type": "Calculation Type \ud83d\udcca",
         "chicken_profits": "Chicken Profits",
         "daily_rewards": "Daily Rewards and Food Profits",
-        "eggs_input": "Number of Eggs 🥚",
-        "days_input": "Number of Days 📅",
-        "calculate_profits": "Calculate Chicken Profits 🧮",
-        "rewards_input": "Number of Rewards 🎁",
-        "food_input": "Amount of Food Needed 🌽",
-        "calculate_rewards": "Calculate Daily Rewards and Food Profits 🧮",
-        "reset": "Reset 🔄",
+        "eggs_input": "Number of Eggs \ud83e\udd5a",
+        "days_input": "Number of Days \ud83d\udcc5",
+        "calculate_profits": "Calculate Chicken Profits \ud83e\uddaf",
+        "rewards_input": "Number of Rewards \ud83c\udf81",
+        "food_input": "Amount of Food Needed \ud83c\udf3d",
+        "calculate_rewards": "Calculate Daily Rewards and Food Profits \ud83e\uddaf",
+        "reset": "Reset \ud83d\udd04",
+        "profit_before_rent": "Profit before rent",
+        "rent_payment": "Rent payment",
+        "net_profit": "Net profit",
+        "daily_profit": "Daily profit",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     },
     "Română": {
-        "title": "🐔 Calculator de Găini - Newyolk",
+        "title": "\ud83d\udc14 Calculator de Găini - Newyolk",
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
-        "currency_select": "Monedă 💰",
-        "edit_prices": "Editează Prețurile ⚙️",
-        "new_egg_price": "Prețul Curent al Ouălor 🥚",
-        "new_feed_price": "Prețul Curent al Furajului 🌽",
-        "save_prices": "Salvează Noile Prețuri 💾",
-        "calculation_type": "Tipul Calculului 📊",
+        "currency_select": "Monedă \ud83d\udcb0",
+        "edit_prices": "Editează Prețurile \u2699\ufe0f",
+        "new_egg_price": "Prețul Curent al Ouălor \ud83e\udd5a",
+        "new_feed_price": "Prețul Curent al Furajului \ud83c\udf3d",
+        "save_prices": "Salvează Noile Prețuri \ud83d\udcbe",
+        "calculation_type": "Tipul Calculului \ud83d\udcca",
         "chicken_profits": "Profituri din Găini",
         "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
-        "eggs_input": "Numărul de Ouă 🥚",
-        "days_input": "Numărul de Zile 📅",
-        "calculate_profits": "Calculează Profiturile din Găini 🧮",
-        "rewards_input": "Numărul de Recompense 🎁",
-        "food_input": "Cantitatea de Mâncare Necesară 🌽",
-        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
-        "reset": "Resetează 🔄",
+        "eggs_input": "Numărul de Ouă \ud83e\udd5a",
+        "days_input": "Numărul de Zile \ud83d\udcc5",
+        "calculate_profits": "Calculează Profiturile din Găini \ud83e\uddaf",
+        "rewards_input": "Numărul de Recompense \ud83c\udf81",
+        "food_input": "Cantitatea de Mâncare Necesară \ud83c\udf3d",
+        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare \ud83e\uddaf",
+        "reset": "Resetează \ud83d\udd04",
+        "profit_before_rent": "Profit înainte de chirie",
+        "rent_payment": "Plata chiriei",
+        "net_profit": "Profit net",
+        "daily_profit": "Profit zilnic",
         "copyright": "by Tariq Al-Yaseen © 2025-2026"
     }
 }
@@ -105,50 +117,12 @@ st.markdown(
     f"""
     <style>
     body {{
-        background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
+        background: {{'black' if st.session_state.theme == "Dark" else 'white'}};
+        color: {{'black' if st.session_state.theme == "Dark" else 'white'}};
         direction: {direction};
     }}
-    .title {{
-        font-size: 50px;
-        font-weight: bold;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        padding: 20px;
-    }}
-    .subtitle {{
-        font-size: 30px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        margin-bottom: 30px;
-    }}
-    .rtl {{
-        direction: {direction};
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stSelectbox, .stTextInput {{
-        direction: {direction};
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stButton button {{
-        font-size: 24px;
-    }}
-    .stTable {{
-        margin: 0 auto; /* توسيط الجدول */
-        width: 100%; /* تحديد عرض الجدول */
-        text-align: right; /* محاذاة النص إلى اليمين */
-    }}
-    .stTable th, .stTable td {{
-        text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
-        direction: {direction} !important; /* اتجاه النص من اليمين إلى اليسار */
-    }}
+    .stTable {{ text-align: {direction}; }}
     </style>
-    <div class="title"> {texts[language]["title"]}</div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
 )
