@@ -278,7 +278,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     "Category": [
                         texts[language]["new_egg_price"],
                         texts[language]["new_feed_price"],
-                        texts[language]["Rent payment"]
+                        "Rent payment"
                     ],
                     "Value": [
                         total_egg_price,
