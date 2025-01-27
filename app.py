@@ -202,7 +202,7 @@ if st.button(texts[language]["save_prices"], type="secondary"):
         st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
 
 # تحديث الأسعار بناءً على العملة
-if currency == "دينار عراقي" or currency == "Iraqi Dinar" or currency == "Dinar Irakian":
+if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
     egg_price_display = st.session_state.egg_price * 1480
     feed_price_display = st.session_state.feed_price * 1480
 else:
@@ -253,7 +253,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 rent_cost_usd = 6.0 if eggs >= 260 else 0.0
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
-                if currency == "دينار عراقي" or currency == "Iraqi Dinar" or currency == "Dinar Irakian":
+                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit_before_rent = net_profit_before_rent_usd * 1480
@@ -344,7 +344,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 total_feed_cost_usd = food * st.session_state.feed_price
                 net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-                if currency == "دينار عراقي" or currency == "Iraqi Dinar" or currency == "Dinar Irakian":
+                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
