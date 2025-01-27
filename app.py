@@ -254,9 +254,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                        "Profit before rent 📊",
-                        "Rent payment 💸",
-                        "Net profit 💵"
+                         texts[language] ["Profit before rent 📊"],
+                         texts[language]"Rent payment 💸"],
+                         texts[language]"Net profit 💵"]
                     ],
                     "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
