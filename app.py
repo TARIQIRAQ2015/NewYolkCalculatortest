@@ -559,6 +559,24 @@ if calculation_type == texts[language]["chicken_profits"]:
                         total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
                     )
 
+                # إنشاء جدول للنتائج
+                results = {
+                    texts[language]["calculation_type"]: [
+                        texts[language]["new_egg_price"] + " 💰",
+                        texts[language]["new_feed_price"] + " 🌽",
+                        texts[language]["profit_before_rent"] + " 📊",
+                        texts[language]["rent_payment"] + " 💸",
+                        texts[language]["net_profit"] + " 💵"
+                    ],
+                    texts[language]["value"]: [
+                        f"{format_decimal(total_egg_price)} {currency}",
+                        f"{format_decimal(total_feed_cost)} {currency}",
+                        f"{format_decimal(net_profit_before_rent)} {currency}",
+                        f"{format_decimal(rent_cost)} {currency}",
+                        f"{format_decimal(net_profit)} {currency}"
+                    ]
+                }
+
                 # تعديل طريقة عرض النتائج
                 st.markdown("""
                 <style>
@@ -780,6 +798,20 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         total_egg_price_usd, total_feed_cost_usd, net_profit_usd
                     )
 
+                # إنشاء جدول للنتائج
+                results = {
+                    texts[language]["calculation_type"]: [
+                        texts[language]["new_egg_price"] + " 💰",
+                        texts[language]["new_feed_price"] + " 🌽",
+                        texts[language]["net_profit"] + " 💵"
+                    ],
+                    texts[language]["value"]: [
+                        f"{format_decimal(total_egg_price)} {currency}",
+                        f"{format_decimal(total_feed_cost)} {currency}",
+                        f"{format_decimal(net_profit)} {currency}"
+                    ]
+                }
+
                 # تعديل طريقة عرض النتائج
                 st.markdown("""
                 <style>
@@ -915,55 +947,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
-
-# تعديل عرض النتائج
-if 'results' in st.session_state:
-    # عرض النتائج كنص فقط
-    st.success("تم الحساب بنجاح! ✅" if language == "العربية" else 
-              "Calculation successful! ✅" if language == "English" else 
-              "Calcul reușit! ✅" if language == "Română" else 
-              "Le calcul a été effectué avec succès! ✅" if language == "Français" else 
-              "El cálculo se ha realizado con éxito! ✅" if language == "Español" else 
-              "計算が正常に完了しました! ✅")
-
-    # تنسيق التاريخ والوقت
-    current_time = datetime.now()
-    am_pm = texts[language]["am"] if current_time.hour < 12 else texts[language]["pm"]
-    hour_12 = current_time.hour if current_time.hour <= 12 else current_time.hour - 12
-    if hour_12 == 0:
-        hour_12 = 12
-    formatted_time = f"{hour_12}:{current_time.minute:02d} {am_pm}"
-    formatted_date = current_time.strftime("%Y-%m-%d")
-    
-    st.write(f"{texts[language]['calculation_date']}: {formatted_date} {formatted_time}")
-
-    # إنشاء الرسم البياني
-    fig = create_custom_chart(df, language)
-    st.plotly_chart(fig, use_container_width=True)
-
-    # عرض الجدول النهائي بتنسيق أنيق
-    st.markdown("""
-    <style>
-    .dataframe {
-        font-size: 14px !important;
-        text-align: center !important;
-    }
-    .dataframe th {
-        background-color: #4CAF50 !important;
-        color: white !important;
-        font-weight: bold !important;
-        text-align: center !important;
-    }
-    .dataframe td {
-        text-align: center !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # تنظيم البيانات في الجدول
-    df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
-    df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {texts[language]['currency']}")
-    st.table(df)
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
