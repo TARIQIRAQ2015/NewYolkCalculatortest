@@ -343,7 +343,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     texts[language]["calculation_type"]: [
                         texts[language]["new_egg_price"] + " 💰",
                         texts[language]["new_feed_price"] + " 🌽",
-                         texts[language]["Daily profit"] + "💵",
+                        texts[language]["Daily profit"] + "💵"
                     ],
                     "Value": [
                         f"{format_decimal(total_egg_price)} {currency}",
