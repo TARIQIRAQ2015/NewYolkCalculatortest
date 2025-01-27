@@ -9,20 +9,13 @@ st.set_page_config(
     page_icon="🐔"
 )
 
-# دالة تنسيق الأرقام العشرية
-def format_decimal(number):
-    """تنسيق الأرقام العشرية بشكل أنيق"""
-    if isinstance(number, (int, float)):
-        return f"{number:,.2f}".rstrip('0').rstrip('.')
-    return str(number)
-
 # إضافة CSS للزر العائم للتمرير إلى الأعلى
 st.markdown("""
 <style>
 .floating-button {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    left: 20px;  
     background-color: #4CAF50;
     color: white;
     width: 50px;
@@ -47,7 +40,7 @@ st.markdown("""
 .scroll-text {
     position: fixed;
     bottom: 75px;
-    left: 10px;
+    left: 10px;  
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 5px 10px;
@@ -60,12 +53,19 @@ st.markdown("""
 .floating-button:hover + .scroll-text {
     opacity: 1;
 }
+
+/* إضافة CSS لإخفاء وإظهار الزر عند التمرير */
+@media screen and (min-height: 400px) {
+    .floating-button {
+        display: block;
+    }
+}
 </style>
 
 <script>
+// تحديث JavaScript للتمرير
 document.addEventListener('DOMContentLoaded', function() {
     var button = document.querySelector('.floating-button');
-    var title = document.querySelector('h1');
     
     window.onscroll = function() {
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -74,9 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
             button.style.display = "none";
         }
     };
-    
+
     button.onclick = function() {
-        title.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 });
 </script>
@@ -85,261 +88,306 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="scroll-text">التمرير إلى الأعلى</div>
 """, unsafe_allow_html=True)
 
-# القيم الافتراضية
-if 'egg_price' not in st.session_state:
+# تنسيق الأرقام العشرية
+def format_decimal(number):
+    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+
+# حالة الوضع (Dark أو Light)
+if "theme" not in st.session_state:
+    st.session_state.theme = "Dark"
+
+# الأسعار المبدئية
+if "egg_price" not in st.session_state:
     st.session_state.egg_price = 0.1155
-if 'feed_price' not in st.session_state:
+if "feed_price" not in st.session_state:
     st.session_state.feed_price = 0.0189
-if 'eggs' not in st.session_state:
+
+# حالة الحقول (لإعادة التعيين)
+if "eggs" not in st.session_state:
     st.session_state.eggs = ""
-if 'days' not in st.session_state:
+if "days" not in st.session_state:
     st.session_state.days = ""
-if 'rewards' not in st.session_state:
+if "rewards" not in st.session_state:
     st.session_state.rewards = ""
-if 'food' not in st.session_state:
+if "food" not in st.session_state:
     st.session_state.food = ""
 
-# تعريف النصوص
+# النصوص للغات المختلفة
 texts = {
     "العربية": {
         "title": "🐔 حاسبة الدجاج - Newyolk",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "currency_select": "اختر العملة",
-        "calculation_type": "اختر نوع الحساب",
-        "chicken_profits": "أرباح الدجاج",
-        "daily_rewards": "المكافآت اليومية",
-        "new_egg_price": "سعر البيض الجديد",
-        "new_feed_price": "سعر العلف الجديد",
-        "edit_prices": "تعديل الأسعار",
-        "save_prices": "حفظ الأسعار",
-        "eggs_input": "عدد البيض",
-        "days_input": "عدد الأيام",
-        "calculate_profits": "حساب الأرباح",
-        "rewards_input": "عدد المكافآت",
-        "food_input": "عدد الطعام",
-        "calculate_rewards": "حساب المكافآت",
-        "reset": "إعادة التعيين",
-        "results_title": "نتائج الحساب",
-        "calculation_date": "تاريخ الحساب",
-        "calculation_details": "تفاصيل الحساب",
-        "current_prices": "الأسعار الحالية",
-        "current_egg_price": "سعر البيض الحالي",
-        "current_feed_price": "سعر العلف الحالي",
-        "usd_results": "النتائج بالدولار",
-        "iqd_results": "النتائج بالدينار",
-        "net_profit": "الربح الصافي",
-        "profit_before_rent": "الربح قبل الإيجار",
-        "rent_payment": "دفع الإيجار",
-        "am": "ص",
-        "pm": "م",
-        "scroll_top": "التمرير إلى الأعلى"
+        "currency_select": "العملة 💰",
+        "edit_prices": "تعديل الأسعار ⚙️",
+        "new_egg_price": "سعر البيض الحالي 🥚",
+        "new_feed_price": "سعر العلف الحالي 🌽",
+        "save_prices": "حفظ الأسعار الجديدة 💾",
+        "calculation_type": "نوع الحساب 📊",
+        "chicken_profits": "أرباح الدجاجة",
+        "daily_rewards": "أرباح المكافآت والطعام اليومي",
+        "eggs_input": "عدد البيض 🥚",
+        "days_input": "عدد الأيام 📅",
+        "calculate_profits": "احسب أرباح الدجاجة 🧮",
+        "rewards_input": "عدد المكافآت 🎁",
+        "food_input": "عدد الطعام المطلوب 🌽",
+        "calculate_rewards": "احسب أرباح المكافآت والطعام اليومي 🧮",
+        "reset": "إعادة التعيين 🔄",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "القيمة",
+        "category": "الفئة",
+        "net_profit": "صافي الربح 💰",
+        "rent_payment": "دفع الإيجار 🏠",
+        "profit_before_rent": "الربح قبل الإيجار 📊",
+        "results_title": "📊 ملخص النتائج",
+        "calculation_date": "📅 تاريخ الحساب",
+        "calculation_details": "🔍 تفاصيل الحساب",
+        "usd_results": "💵 النتائج بالدولار الأمريكي",
+        "iqd_results": "💵 النتائج بالدينار العراقي",
+        "scroll_top": "التمرير إلى الأعلى",
+        "current_prices": "💰 الأسعار الحالية",
+        "current_egg_price": "سعر البيض",
+        "current_feed_price": "سعر العلف",
+        "am": "صباحاً",
+        "pm": "مساءً"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "currency_select": "Select Currency",
-        "calculation_type": "Select Calculation Type",
+        "currency_select": "Currency 💰",
+        "edit_prices": "Edit Prices ⚙️",
+        "new_egg_price": "Current Egg Price 🥚",
+        "new_feed_price": "Current Feed Price 🌽",
+        "save_prices": "Save New Prices 💾",
+        "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits",
-        "daily_rewards": "Daily Rewards",
-        "new_egg_price": "New Egg Price",
-        "new_feed_price": "New Feed Price",
-        "edit_prices": "Edit Prices",
-        "save_prices": "Save Prices",
-        "eggs_input": "Number of Eggs",
-        "days_input": "Number of Days",
-        "calculate_profits": "Calculate Profits",
-        "rewards_input": "Number of Rewards",
-        "food_input": "Amount of Food",
-        "calculate_rewards": "Calculate Rewards",
-        "reset": "Reset",
-        "results_title": "Calculation Results",
-        "calculation_date": "Calculation Date",
-        "calculation_details": "Calculation Details",
-        "current_prices": "Current Prices",
-        "current_egg_price": "Current Egg Price",
-        "current_feed_price": "Current Feed Price",
-        "usd_results": "USD Results",
-        "iqd_results": "IQD Results",
-        "net_profit": "Net Profit",
-        "profit_before_rent": "Profit Before Rent",
-        "rent_payment": "Rent Payment",
+        "daily_rewards": "Daily Rewards and Food Profits",
+        "eggs_input": "Number of Eggs 🥚",
+        "days_input": "Number of Days 📅",
+        "calculate_profits": "Calculate Chicken Profits 🧮",
+        "rewards_input": "Number of Rewards 🎁",
+        "food_input": "Amount of Food Needed 🌽",
+        "calculate_rewards": "Calculate Daily Rewards and Food Profits 🧮",
+        "reset": "Reset 🔄",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "Value",
+        "category": "Category",
+        "net_profit": "Net Profit 💰",
+        "rent_payment": "Rent Payment 🏠",
+        "profit_before_rent": "Profit Before Rent 📊",
+        "results_title": "📊 Results Summary",
+        "calculation_date": "📅 Calculation Date",
+        "calculation_details": "🔍 Calculation Details",
+        "usd_results": "💵 Results in USD",
+        "iqd_results": "💵 Results in IQD",
+        "scroll_top": "Scroll to Top",
+        "current_prices": "💰 Current Prices",
+        "current_egg_price": "Egg Price",
+        "current_feed_price": "Feed Price",
         "am": "AM",
-        "pm": "PM",
-        "scroll_top": "Scroll to Top"
+        "pm": "PM"
     },
     "Română": {
-        "title": "🐔 Calculator de pui - Newyolk",
-        "subtitle": "Calculul profiturilor de pui și recompenselor zilnice",
-        "currency_select": "Selectați moneda",
-        "calculation_type": "Selectați tipul de calcul",
-        "chicken_profits": "Profiturile de pui",
-        "daily_rewards": "Recompensele zilnice",
-        "new_egg_price": "Noul preț al ouălor",
-        "new_feed_price": "Noul preț al hranei",
-        "edit_prices": "Editează prețurile",
-        "save_prices": "Salvează prețurile",
-        "eggs_input": "Numărul de ouă",
-        "days_input": "Numărul de zile",
-        "calculate_profits": "Calculează profiturile",
-        "rewards_input": "Numărul de recompense",
-        "food_input": "Cantitatea de hrană",
-        "calculate_rewards": "Calculează recompensele",
-        "reset": "Resetează",
-        "results_title": "Rezultatele calculului",
-        "calculation_date": "Data calculului",
-        "calculation_details": "Detalii calcul",
-        "current_prices": "Prețurile actuale",
-        "current_egg_price": "Prețul actual al ouălor",
-        "current_feed_price": "Prețul actual al hranei",
-        "usd_results": "Rezultatele în USD",
-        "iqd_results": "Rezultatele în IQD",
-        "net_profit": "Profitul net",
-        "profit_before_rent": "Profitul înainte de chirie",
-        "rent_payment": "Plata chiriei",
+        "title": "🐔 Calculator de Găini - Newyolk",
+        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
+        "currency_select": "Monedă 💰",
+        "edit_prices": "Editează Prețurile ⚙️",
+        "new_egg_price": "Prețul Curent al Ouălor 🥚",
+        "new_feed_price": "Prețul Curent al Furajului 🌽",
+        "save_prices": "Salvează Noile Prețuri 💾",
+        "calculation_type": "Tipul Calculului 📊",
+        "chicken_profits": "Profituri din Găini",
+        "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
+        "eggs_input": "Numărul de Ouă 🥚",
+        "days_input": "Numărul de Zile 📅",
+        "calculate_profits": "Calculează Profiturile din Găini 🧮",
+        "rewards_input": "Numărul de Recompense 🎁",
+        "food_input": "Cantitatea de Mâncare Necesară 🌽",
+        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
+        "reset": "Resetează 🔄",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "Valoare",
+        "category": "Categorie",
+        "net_profit": "Profit Net 💰",
+        "rent_payment": "Plata Chiriei 🏠",
+        "profit_before_rent": "Profit Înainte de Chirie 📊",
+        "results_title": "📊 Rezumatul Rezultatelor",
+        "calculation_date": "📅 Data Calculului",
+        "calculation_details": "🔍 Detalii Calcul",
+        "usd_results": "💵 Rezultate în USD",
+        "iqd_results": "💵 Rezultate în IQD",
+        "scroll_top": "Sari la Început",
+        "current_prices": "💰 Prețuri Actuale",
+        "current_egg_price": "Prețul Ouălor",
+        "current_feed_price": "Prețul Furajului",
         "am": "AM",
-        "pm": "PM",
-        "scroll_top": "Derulați spre sus"
+        "pm": "PM"
     },
     "Français": {
-        "title": "🐔 Calculatrice de poulet - Newyolk",
-        "subtitle": "Calcul des profits de poulet et des récompenses quotidiennes",
-        "currency_select": "Sélectionnez la devise",
-        "calculation_type": "Sélectionnez le type de calcul",
-        "chicken_profits": "Profits de poulet",
-        "daily_rewards": "Récompenses quotidiennes",
-        "new_egg_price": "Nouveau prix des œufs",
-        "new_feed_price": "Nouveau prix de la nourriture",
-        "edit_prices": "Éditez les prix",
-        "save_prices": "Enregistrez les prix",
-        "eggs_input": "Nombre d'œufs",
-        "days_input": "Nombre de jours",
-        "calculate_profits": "Calculez les profits",
-        "rewards_input": "Nombre de récompenses",
-        "food_input": "Quantité de nourriture",
-        "calculate_rewards": "Calculez les récompenses",
-        "reset": "Réinitialisez",
-        "results_title": "Résultats du calcul",
-        "calculation_date": "Date du calcul",
-        "calculation_details": "Détails du calcul",
-        "current_prices": "Prix actuels",
-        "current_egg_price": "Prix actuel des œufs",
-        "current_feed_price": "Prix actuel de la nourriture",
-        "usd_results": "Résultats en USD",
-        "iqd_results": "Résultats en IQD",
-        "net_profit": "Bénéfice net",
-        "profit_before_rent": "Bénéfice avant loyer",
-        "rent_payment": "Paiement du loyer",
+        "title": "🐔 Calculateur de Poulet - Newyolk",
+        "subtitle": "Calculer les Profits de Poulet et les Récompenses Quotidiennes",
+        "currency_select": "Devise 💰",
+        "edit_prices": "Modifier les Prix ⚙️",
+        "new_egg_price": "Prix Actuel des Œufs 🥚",
+        "new_feed_price": "Prix Actuel des Aliments 🌽",
+        "save_prices": "Enregistrer les Nouveaux Prix 💾",
+        "calculation_type": "Type de Calcul 📊",
+        "chicken_profits": "Profits de Poulet",
+        "daily_rewards": "Récompenses Quotidiennes et Profits Alimentaires",
+        "eggs_input": "Nombre d'Œufs 🥚",
+        "days_input": "Nombre de Jours 📅",
+        "calculate_profits": "Calculer les Profits de Poulet 🧮",
+        "rewards_input": "Nombre de Récompenses 🎁",
+        "food_input": "Quantité de Nourriture Nécessaire 🌽",
+        "calculate_rewards": "Calculer les Récompenses et Profits Alimentaires 🧮",
+        "reset": "Réinitialiser 🔄",
+        "copyright": "par Tariq Al-Yaseen © 2025-2026",
+        "value": "Valeur",
+        "category": "Catégorie",
+        "net_profit": "Profit Net 💰",
+        "rent_payment": "Paiement du Loyer 🏠",
+        "profit_before_rent": "Profit Avant Loyer 📊",
+        "results_title": "📊 Résumé des Résultats",
+        "calculation_date": "📅 Date de Calcul",
+        "calculation_details": "🔍 Détails de Calcul",
+        "usd_results": "💵 Résultats en USD",
+        "iqd_results": "💵 Résultats en IQD",
+        "scroll_top": "Revenir en Haut",
+        "current_prices": "💰 Prix Actuels",
+        "current_egg_price": "Prix des Œufs",
+        "current_feed_price": "Prix des Aliments",
         "am": "AM",
-        "pm": "PM",
-        "scroll_top": "Défilez vers le haut"
+        "pm": "PM"
     },
     "Español": {
-        "title": "🐔 Calculadora de pollo - Newyolk",
-        "subtitle": "Cálculo de ganancias de pollo y recompensas diarias",
-        "currency_select": "Seleccione la moneda",
-        "calculation_type": "Seleccione el tipo de cálculo",
-        "chicken_profits": "Ganancias de pollo",
-        "daily_rewards": "Recompensas diarias",
-        "new_egg_price": "Nuevo precio de los huevos",
-        "new_feed_price": "Nuevo precio de la comida",
-        "edit_prices": "Editar precios",
-        "save_prices": "Guardar precios",
-        "eggs_input": "Número de huevos",
-        "days_input": "Número de días",
-        "calculate_profits": "Calcular ganancias",
-        "rewards_input": "Número de recompensas",
-        "food_input": "Cantidad de comida",
-        "calculate_rewards": "Calcular recompensas",
-        "reset": "Reiniciar",
-        "results_title": "Resultados del cálculo",
-        "calculation_date": "Fecha del cálculo",
-        "calculation_details": "Detalles del cálculo",
-        "current_prices": "Precios actuales",
-        "current_egg_price": "Precio actual de los huevos",
-        "current_feed_price": "Precio actual de la comida",
-        "usd_results": "Resultados en USD",
-        "iqd_results": "Resultados en IQD",
-        "net_profit": "Beneficio neto",
-        "profit_before_rent": "Beneficio antes de alquiler",
-        "rent_payment": "Pago de alquiler",
+        "title": "🐔 Calculadora de Pollos - Newyolk",
+        "subtitle": "Calcular Ganancias de Pollos y Recompensas Diarias",
+        "currency_select": "Moneda 💰",
+        "edit_prices": "Editar Precios ⚙️",
+        "new_egg_price": "Precio Actual del Huevo 🥚",
+        "new_feed_price": "Precio Actual del Alimento 🌽",
+        "save_prices": "Guardar Nuevos Precios 💾",
+        "calculation_type": "Tipo de Cálculo 📊",
+        "chicken_profits": "Ganancias de Pollos",
+        "daily_rewards": "Recompensas Diarias y Ganancias de Alimentos",
+        "eggs_input": "Número de Huevos 🥚",
+        "days_input": "Número de Días 📅",
+        "calculate_profits": "Calcular Ganancias de Pollos 🧮",
+        "rewards_input": "Número de Recompensas 🎁",
+        "food_input": "Cantidad de Alimento Necesario 🌽",
+        "calculate_rewards": "Calcular Recompensas y Ganancias de Alimentos 🧮",
+        "reset": "Reiniciar 🔄",
+        "copyright": "por Tariq Al-Yaseen © 2025-2026",
+        "value": "Valor",
+        "category": "Categoría",
+        "net_profit": "Beneficio Neto 💰",
+        "rent_payment": "Pago de Alquiler 🏠",
+        "profit_before_rent": "Beneficio Antes de Alquiler 📊",
+        "results_title": "📊 Resumen de Resultados",
+        "calculation_date": "📅 Fecha de Cálculo",
+        "calculation_details": "🔍 Detalles de Cálculo",
+        "usd_results": "💵 Resultados en USD",
+        "iqd_results": "💵 Resultados en IQD",
+        "scroll_top": "Volver Arriba",
+        "current_prices": "💰 Precios Actuales",
+        "current_egg_price": "Precio del Huevo",
+        "current_feed_price": "Precio del Alimento",
         "am": "AM",
-        "pm": "PM",
-        "scroll_top": "Desplazarse hacia arriba"
+        "pm": "PM"
     },
     "日本語": {
-        "title": "🐔 ニューヨーク鶏計算機",
-        "subtitle": "鶏の利益と日次報酬の計算",
-        "currency_select": "通貨を選択",
-        "calculation_type": "計算タイプを選択",
-        "chicken_profits": "鶏の利益",
-        "daily_rewards": "日次報酬",
-        "new_egg_price": "新しい卵の価格",
-        "new_feed_price": "新しい飼料の価格",
-        "edit_prices": "価格を編集",
-        "save_prices": "価格を保存",
-        "eggs_input": "卵の数",
-        "days_input": "日数",
-        "calculate_profits": "利益を計算",
-        "rewards_input": "報酬の数",
-        "food_input": "飼料の量",
-        "calculate_rewards": "報酬を計算",
-        "reset": "リセット",
-        "results_title": "計算結果",
-        "calculation_date": "計算日",
-        "calculation_details": "計算詳細",
-        "current_prices": "現在の価格",
-        "current_egg_price": "現在の卵の価格",
-        "current_feed_price": "現在の飼料の価格",
-        "usd_results": "USD結果",
-        "iqd_results": "IQD結果",
-        "net_profit": "純利益",
-        "profit_before_rent": "家賃前の利益",
-        "rent_payment": "家賃の支払い",
+        "title": "🐔 ニューヨーク・チキン計算機",
+        "subtitle": "鶏の収益と日々の報酬を計算",
+        "currency_select": "通貨 💰",
+        "edit_prices": "価格を編集 ⚙️",
+        "new_egg_price": "現在の卵価格 🥚",
+        "new_feed_price": "現在の飼料価格 🌽",
+        "save_prices": "新価格を保存 💾",
+        "calculation_type": "計算タイプ 📊",
+        "chicken_profits": "鶏の収益",
+        "daily_rewards": "日々の報酬と飼料の収益",
+        "eggs_input": "卵の数 🥚",
+        "days_input": "日数 📅",
+        "calculate_profits": "鶏の収益を計算 🧮",
+        "rewards_input": "報酬の数 🎁",
+        "food_input": "必要な飼料の量 🌽",
+        "calculate_rewards": "日々の報酬と飼料の収益を計算 🧮",
+        "reset": "リセット 🔄",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "value": "値",
+        "category": "カテゴリー",
+        "net_profit": "純利益 💰",
+        "rent_payment": "家賃 🏠",
+        "profit_before_rent": "家賃控除前利益 📊",
+        "results_title": "📊 結果サマリー",
+        "calculation_date": "📅 計算日",
+        "calculation_details": "🔍 計算詳細",
+        "usd_results": "💵 USD での結果",
+        "iqd_results": "💵 IQD での結果",
+        "scroll_top": "トップへ戻る",
+        "current_prices": "💰 現在の価格",
+        "current_egg_price": "卵の価格",
+        "current_feed_price": "飼料の価格",
         "am": "AM",
-        "pm": "PM",
-        "scroll_top": "上にスクロール"
+        "pm": "PM"
     }
 }
 
 # اختيار اللغة
 language = st.selectbox("Select Language", ["العربية", "English", "Română", "Français", "Español", "日本語"])
 
-# عرض العنوان الرئيسي
-st.markdown(f"""
-    <div class="main-title">
-        <h1>{texts[language]['title']}</h1>
-        <p>{texts[language]['subtitle']}</p>
-    </div>
-""", unsafe_allow_html=True)
-
-# إضافة CSS لتحسين الواجهة
-st.markdown("""
-<style>
-    .main-title {
-        text-align: center;
-        padding: 2rem 0;
-        margin-bottom: 2rem;
-        background: linear-gradient(120deg, #f1f8e9, #c8e6c9);
-        border-radius: 10px;
-    }
-    
-    .main-title h1 {
-        color: #2e7d32;
-        font-size: 2.5rem;
+# تغيير اتجاه الكتابة بناءً على اللغة
+direction = "rtl" if language == "العربية" else "ltr"
+st.markdown(
+    f"""
+    <style>
+    body {{
+        background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
+        color: {'black' if st.session_state.theme == "Light" else 'white'};
+        direction: {direction};
+    }}
+    .title {{
+        font-size: 50px;
         font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 1rem;
-    }
-    
-    .main-title p {
-        color: #1b5e20;
-        font-size: 1.2rem;
-        margin: 0;
-    }
-    
-    /* باقي التنسيقات */
-</style>
-""", unsafe_allow_html=True)
+        color: {'black' if st.session_state.theme == "Light" else 'white'};
+        text-align: center;
+        padding: 20px;
+    }}
+    .subtitle {{
+        font-size: 30px;
+        color: {'black' if st.session_state.theme == "Light" else 'white'};
+        text-align: center;
+        margin-bottom: 30px;
+    }}
+    .rtl {{
+        direction: {direction};
+        text-align: right;
+        font-size: 24px;
+        color: {'black' if st.session_state.theme == "Light" else 'white'};
+    }}
+    .stSelectbox, .stTextInput {{
+        direction: {direction};
+        text-align: right;
+        font-size: 24px;
+        color: {'black' if st.session_state.theme == "Light" else 'white'};
+    }}
+    .stButton button {{
+        font-size: 24px;
+    }}
+    .stTable {{
+        margin: 0 auto; /* توسيط الجدول */
+        width: 100%; /* تحديد عرض الجدول */
+        text-align: right; /* محاذاة النص إلى اليمين */
+    }}
+    .stTable th, .stTable td {{
+        text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
+        direction: {direction} !important; /* اتجاه النص من اليمين إلى اليسار */
+    }}
+    </style>
+    <div class="title"> {texts[language]["title"]}</div>
+    <div class="subtitle">{texts[language]["subtitle"]}</div>
+    """,
+    unsafe_allow_html=True
+)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -577,109 +625,11 @@ if calculation_type == texts[language]["chicken_profits"]:
                     ]
                 }
 
-                # تعديل طريقة عرض النتائج
-                st.markdown("""
-                <style>
-                .result-container {
-                    background: linear-gradient(120deg, #1a1a1a, #2d2d2d);
-                    border-radius: 15px;
-                    padding: 20px;
-                    margin: 20px 0;
-                    color: white;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                .result-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 15px;
-                    border-bottom: 1px solid #3d3d3d;
-                    transition: all 0.3s ease;
-                }
-                .result-item:last-child {
-                    border-bottom: none;
-                }
-                .result-item:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                    transform: translateX(5px);
-                }
-                .result-label {
-                    font-size: 18px;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-                .result-value {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #4CAF50;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-
-                st.markdown('<div class="result-container">', unsafe_allow_html=True)
-                
-                # عرض سعر البيض الحالي
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            💰 🥚 {texts[language]['current_egg_price']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(st.session_state.egg_price)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض سعر العلف الحالي
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            🌾 🌾 {texts[language]['current_feed_price']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(st.session_state.feed_price)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض الربح قبل الإيجار
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            📊 📊 {texts[language]['profit_before_rent']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(net_profit_before_rent)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض دفع الإيجار
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            💎 🏠 {texts[language]['rent_payment']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(rent_cost)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض صافي الربح
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            💹 💰 {texts[language]['net_profit']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(net_profit)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
+                # عرض النتائج كجدول
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅" if language == "Română" else "Le calcul a été effectué avec succès! ✅" if language == "Français" else "El cálculo se ha realizado con éxito! ✅" if language == "Español" else "計算が正常に完了しました! ✅")
+                df = pd.DataFrame(results)
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
+                st.table(df)
 
                 # تنسيق التاريخ والوقت بنظام 12 ساعة
                 current_time = datetime.now()
@@ -743,6 +693,30 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # إنشاء وعرض الرسم البياني المخصص
                 fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
+
+                # عرض الجدول بتنسيق أنيق
+                st.markdown("""
+                <style>
+                .dataframe {
+                    font-size: 14px !important;
+                    text-align: center !important;
+                }
+                .dataframe th {
+                    background-color: #4CAF50 !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                }
+                .dataframe td {
+                    text-align: center !important;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
+                st.table(df)
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
@@ -812,85 +786,11 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     ]
                 }
 
-                # تعديل طريقة عرض النتائج
-                st.markdown("""
-                <style>
-                .result-container {
-                    background: linear-gradient(120deg, #1a1a1a, #2d2d2d);
-                    border-radius: 15px;
-                    padding: 20px;
-                    margin: 20px 0;
-                    color: white;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                .result-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 15px;
-                    border-bottom: 1px solid #3d3d3d;
-                    transition: all 0.3s ease;
-                }
-                .result-item:last-child {
-                    border-bottom: none;
-                }
-                .result-item:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                    transform: translateX(5px);
-                }
-                .result-label {
-                    font-size: 18px;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-                .result-value {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #4CAF50;
-                }
-                </style>
-                """, unsafe_allow_html=True)
-
-                st.markdown('<div class="result-container">', unsafe_allow_html=True)
-                
-                # عرض سعر البيض الحالي
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            💰 🥚 {texts[language]['current_egg_price']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(st.session_state.egg_price)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض سعر العلف الحالي
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            🌾 🌾 {texts[language]['current_feed_price']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(st.session_state.feed_price)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # عرض الربح الصافي
-                st.markdown(f"""
-                    <div class="result-item">
-                        <div class="result-label">
-                            💹 💰 {texts[language]['net_profit']}
-                        </div>
-                        <div class="result-value">
-                            {format_decimal(net_profit)} {texts[language]['currency']}
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
+                # عرض النتائج كجدول
+                st.success("تم الحساب بنجاح! ✅" if language == "العربية" else "Calculation successful! ✅" if language == "English" else "Calcul reușit! ✅" if language == "Română" else "Le calcul a été effectué avec succès! ✅" if language == "Français" else "El cálculo se ha realizado con éxito! ✅" if language == "Español" else "計算が正常に完了しました! ✅")
+                df = pd.DataFrame(results)
+                df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
+                st.table(df)
 
                 # تنسيق التاريخ والوقت بنظام 12 ساعة
                 current_time = datetime.now()
@@ -944,6 +844,30 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # إنشاء وعرض الرسم البياني المخصص
                 fig = create_custom_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
+
+                # عرض الجدول بتنسيق أنيق
+                st.markdown("""
+                <style>
+                .dataframe {
+                    font-size: 14px !important;
+                    text-align: center !important;
+                }
+                .dataframe th {
+                    background-color: #4CAF50 !important;
+                    color: white !important;
+                    font-weight: bold !important;
+                    text-align: center !important;
+                }
+                .dataframe td {
+                    text-align: center !important;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                # تنظيم البيانات في الجدول
+                df = df.round(2)  # تقريب الأرقام إلى رقمين عشريين
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} USD")
+                st.table(df)
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
