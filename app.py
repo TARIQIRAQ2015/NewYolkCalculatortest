@@ -846,6 +846,59 @@ elif calculation_type == texts[language]["daily_rewards"]:
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
+# Display results section with new icons and order
+if st.session_state.get("show_results", False):
+    st.markdown("---")
+    st.markdown(f"### {texts[language]['results_title']} 📊")
+    
+    # 1. Display the table first
+    results_df = pd.DataFrame({
+        texts[language]["category"]: [
+            f"🥚 {texts[language]['eggs_input']}",
+            f"🌾 {texts[language]['food_input']}",
+            f"💰 {texts[language]['net_profit']}",
+            f"📅 {texts[language]['profit_before_rent']}",
+            f"⭐ {texts[language]['rent_payment']}"
+        ],
+        texts[language]["value"]: [
+            f"{format_decimal(st.session_state['egg_sales'], language)} {currency}",
+            f"{format_decimal(st.session_state['feed_cost'], language)} {currency}",
+            f"{format_decimal(st.session_state['net_profit'], language)} {currency}",
+            f"{format_decimal(st.session_state['daily_profit'], language)} {currency}",
+            f"{format_decimal(st.session_state['daily_rewards'], language)} {currency}"
+        ]
+    })
+    
+    st.table(results_df)
+    
+    # 2. Summary section with elegant icons
+    st.markdown("### 📑 " + texts[language]["summary"])
+    st.markdown(f"""
+    <div class='results-summary'>
+        <p>💫 {texts[language]['total_investment_return']}: {format_decimal(st.session_state['net_profit'], language)} {currency}</p>
+        <p>✨ {texts[language]['daily_earnings']}: {format_decimal(st.session_state['daily_profit'], language)} {currency}</p>
+        <p>🎯 {texts[language]['daily_rewards']}: {format_decimal(st.session_state['daily_rewards'], language)} {currency}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # 3. Copy results button at the bottom
+    copy_text = f"""
+{texts[language]['chicken_calculator_results']} 🐔
+
+{texts[language]['egg_sales']}: {format_decimal(st.session_state['egg_sales'], language)} {currency}
+{texts[language]['feed_cost']}: {format_decimal(st.session_state['feed_cost'], language)} {currency}
+{texts[language]['net_profit']}: {format_decimal(st.session_state['net_profit'], language)} {currency}
+{texts[language]['daily_profit']}: {format_decimal(st.session_state['daily_profit'], language)} {currency}
+{texts[language]['daily_rewards']}: {format_decimal(st.session_state['daily_rewards'], language)} {currency}
+    """
+    
+    st.markdown("### 📋 " + texts[language]["share_results"])
+    st.code(copy_text)
+    st.button("📥 " + texts[language]["copy_results"], 
+             key="copy_button",
+             on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{copy_text}`)</script>', 
+             unsafe_allow_html=True))
+
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.egg_price = 0.1155
