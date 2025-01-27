@@ -468,11 +468,15 @@ def create_profit_chart(df, language):
         values=texts[language]["value"],
         names=texts[language]["category"],
         title=texts[language]["results_title"],
-        hole=0.6,
-        color_discrete_sequence=px.colors.qualitative.Set3
+        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
     )
     
     # تحديث تصميم الرسم البياني
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label'
+    )
+    
     fig.update_layout(
         title_x=0.5,
         title_font_size=24,
@@ -619,18 +623,29 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.table(df)
 
                 # عرض الرسم البياني
-                fig = create_profit_chart(df, language)
+                chart_df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['eggs_input']}",
+                        f"🌾 {texts[language]['food_input']}",
+                        f"📊 {texts[language]['profit_before_rent']}",
+                        f"🏠 {texts[language]['rent_payment']}",
+                        f"💰 {texts[language]['net_profit']}"
+                    ],
+                    texts[language]["value"]: [
+                        float(str(total_egg_price).replace(currency, "").strip()),
+                        float(str(total_feed_cost).replace(currency, "").strip()),
+                        float(str(net_profit_before_rent).replace(currency, "").strip()),
+                        float(str(rent_cost).replace(currency, "").strip()),
+                        float(str(net_profit).replace(currency, "").strip())
+                    ]
+                })
+                fig = create_profit_chart(chart_df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### 📊 {texts[language]['results_title']}")
                 st.code(results_text)
                 
-                # زر نسخ النتائج
-                if st.button("📋 " + texts[language]["copy_results"], key="copy_results"):
-                    st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', unsafe_allow_html=True)
-                    st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "Results copied successfully! ✅")
-
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
@@ -728,8 +743,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         f"🌾 {texts[language]['food_input']}"
                     ],
                     texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost
+                        float(str(total_egg_price).replace(currency, "").strip()),
+                        float(str(total_feed_cost).replace(currency, "").strip())
                     ]
                 })
                 fig = create_profit_chart(chart_df, language)
@@ -739,11 +754,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.markdown(f"### 📊 {texts[language]['results_title']}")
                 st.code(results_text)
                 
-                # زر نسخ النتائج
-                if st.button("📋 " + texts[language]["copy_results"], key="copy_results"):
-                    st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', unsafe_allow_html=True)
-                    st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "Results copied successfully! ✅")
-
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
