@@ -7,206 +7,250 @@ from datetime import datetime
 st.set_page_config(
     page_title="Newyolk Chicken Calculator",
     page_icon="🐔",
-    layout="wide"  # استخدام العرض الكامل للشاشة
+    layout="wide"
 )
 
-# إضافة CSS لتحسين الواجهة
-st.markdown("""
-<style>
-    /* تنسيق عام */
-    .stApp {
-        max-width: 1200px;
-        margin: 0 auto;
+# تعريف النصوص
+texts = {
+    "العربية": {
+        "title": "🐔 حاسبة الدجاج - Newyolk",
+        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
+        "currency_select": "اختر العملة",
+        "calculation_type": "اختر نوع الحساب",
+        "chicken_profits": "أرباح الدجاج",
+        "daily_rewards": "المكافآت اليومية",
+        "new_egg_price": "سعر البيض الجديد",
+        "new_feed_price": "سعر العلف الجديد",
+        "edit_prices": "تعديل الأسعار",
+        "save_prices": "حفظ الأسعار",
+        "eggs_input": "عدد البيض",
+        "days_input": "عدد الأيام",
+        "calculate_profits": "حساب الأرباح",
+        "rewards_input": "عدد المكافآت",
+        "food_input": "عدد الطعام",
+        "calculate_rewards": "حساب المكافآت",
+        "reset": "إعادة التعيين",
+        "results_title": "نتائج الحساب",
+        "calculation_date": "تاريخ الحساب",
+        "calculation_details": "تفاصيل الحساب",
+        "current_prices": "الأسعار الحالية",
+        "current_egg_price": "سعر البيض الحالي",
+        "current_feed_price": "سعر العلف الحالي",
+        "usd_results": "النتائج بالدولار",
+        "iqd_results": "النتائج بالدينار",
+        "net_profit": "الربح الصافي",
+        "profit_before_rent": "الربح قبل الإيجار",
+        "rent_payment": "دفع الإيجار",
+        "am": "ص",
+        "pm": "م",
+        "scroll_top": "التمرير إلى الأعلى"
+    },
+    "English": {
+        "title": "🐔 Chicken Calculator - Newyolk",
+        "subtitle": "Calculate Chicken Profits and Daily Rewards",
+        "currency_select": "Select Currency",
+        "calculation_type": "Select Calculation Type",
+        "chicken_profits": "Chicken Profits",
+        "daily_rewards": "Daily Rewards",
+        "new_egg_price": "New Egg Price",
+        "new_feed_price": "New Feed Price",
+        "edit_prices": "Edit Prices",
+        "save_prices": "Save Prices",
+        "eggs_input": "Number of Eggs",
+        "days_input": "Number of Days",
+        "calculate_profits": "Calculate Profits",
+        "rewards_input": "Number of Rewards",
+        "food_input": "Amount of Food",
+        "calculate_rewards": "Calculate Rewards",
+        "reset": "Reset",
+        "results_title": "Calculation Results",
+        "calculation_date": "Calculation Date",
+        "calculation_details": "Calculation Details",
+        "current_prices": "Current Prices",
+        "current_egg_price": "Current Egg Price",
+        "current_feed_price": "Current Feed Price",
+        "usd_results": "USD Results",
+        "iqd_results": "IQD Results",
+        "net_profit": "Net Profit",
+        "profit_before_rent": "Profit Before Rent",
+        "rent_payment": "Rent Payment",
+        "am": "AM",
+        "pm": "PM",
+        "scroll_top": "Scroll to Top"
+    },
+    "Română": {
+        "title": "🐔 Calculator de pui - Newyolk",
+        "subtitle": "Calculul profiturilor de pui și recompenselor zilnice",
+        "currency_select": "Selectați moneda",
+        "calculation_type": "Selectați tipul de calcul",
+        "chicken_profits": "Profiturile de pui",
+        "daily_rewards": "Recompensele zilnice",
+        "new_egg_price": "Noul preț al ouălor",
+        "new_feed_price": "Noul preț al hranei",
+        "edit_prices": "Editează prețurile",
+        "save_prices": "Salvează prețurile",
+        "eggs_input": "Numărul de ouă",
+        "days_input": "Numărul de zile",
+        "calculate_profits": "Calculează profiturile",
+        "rewards_input": "Numărul de recompense",
+        "food_input": "Cantitatea de hrană",
+        "calculate_rewards": "Calculează recompensele",
+        "reset": "Resetează",
+        "results_title": "Rezultatele calculului",
+        "calculation_date": "Data calculului",
+        "calculation_details": "Detalii calcul",
+        "current_prices": "Prețurile actuale",
+        "current_egg_price": "Prețul actual al ouălor",
+        "current_feed_price": "Prețul actual al hranei",
+        "usd_results": "Rezultatele în USD",
+        "iqd_results": "Rezultatele în IQD",
+        "net_profit": "Profitul net",
+        "profit_before_rent": "Profitul înainte de chirie",
+        "rent_payment": "Plata chiriei",
+        "am": "AM",
+        "pm": "PM",
+        "scroll_top": "Derulați spre sus"
+    },
+    "Français": {
+        "title": "🐔 Calculatrice de poulet - Newyolk",
+        "subtitle": "Calcul des profits de poulet et des récompenses quotidiennes",
+        "currency_select": "Sélectionnez la devise",
+        "calculation_type": "Sélectionnez le type de calcul",
+        "chicken_profits": "Profits de poulet",
+        "daily_rewards": "Récompenses quotidiennes",
+        "new_egg_price": "Nouveau prix des œufs",
+        "new_feed_price": "Nouveau prix de la nourriture",
+        "edit_prices": "Éditez les prix",
+        "save_prices": "Enregistrez les prix",
+        "eggs_input": "Nombre d'œufs",
+        "days_input": "Nombre de jours",
+        "calculate_profits": "Calculez les profits",
+        "rewards_input": "Nombre de récompenses",
+        "food_input": "Quantité de nourriture",
+        "calculate_rewards": "Calculez les récompenses",
+        "reset": "Réinitialisez",
+        "results_title": "Résultats du calcul",
+        "calculation_date": "Date du calcul",
+        "calculation_details": "Détails du calcul",
+        "current_prices": "Prix actuels",
+        "current_egg_price": "Prix actuel des œufs",
+        "current_feed_price": "Prix actuel de la nourriture",
+        "usd_results": "Résultats en USD",
+        "iqd_results": "Résultats en IQD",
+        "net_profit": "Bénéfice net",
+        "profit_before_rent": "Bénéfice avant loyer",
+        "rent_payment": "Paiement du loyer",
+        "am": "AM",
+        "pm": "PM",
+        "scroll_top": "Défilez vers le haut"
+    },
+    "Español": {
+        "title": "🐔 Calculadora de pollo - Newyolk",
+        "subtitle": "Cálculo de ganancias de pollo y recompensas diarias",
+        "currency_select": "Seleccione la moneda",
+        "calculation_type": "Seleccione el tipo de cálculo",
+        "chicken_profits": "Ganancias de pollo",
+        "daily_rewards": "Recompensas diarias",
+        "new_egg_price": "Nuevo precio de los huevos",
+        "new_feed_price": "Nuevo precio de la comida",
+        "edit_prices": "Editar precios",
+        "save_prices": "Guardar precios",
+        "eggs_input": "Número de huevos",
+        "days_input": "Número de días",
+        "calculate_profits": "Calcular ganancias",
+        "rewards_input": "Número de recompensas",
+        "food_input": "Cantidad de comida",
+        "calculate_rewards": "Calcular recompensas",
+        "reset": "Reiniciar",
+        "results_title": "Resultados del cálculo",
+        "calculation_date": "Fecha del cálculo",
+        "calculation_details": "Detalles del cálculo",
+        "current_prices": "Precios actuales",
+        "current_egg_price": "Precio actual de los huevos",
+        "current_feed_price": "Precio actual de la comida",
+        "usd_results": "Resultados en USD",
+        "iqd_results": "Resultados en IQD",
+        "net_profit": "Beneficio neto",
+        "profit_before_rent": "Beneficio antes de alquiler",
+        "rent_payment": "Pago de alquiler",
+        "am": "AM",
+        "pm": "PM",
+        "scroll_top": "Desplazarse hacia arriba"
+    },
+    "日本語": {
+        "title": "🐔 ニューヨーク鶏計算機",
+        "subtitle": "鶏の利益と日次報酬の計算",
+        "currency_select": "通貨を選択",
+        "calculation_type": "計算タイプを選択",
+        "chicken_profits": "鶏の利益",
+        "daily_rewards": "日次報酬",
+        "new_egg_price": "新しい卵の価格",
+        "new_feed_price": "新しい飼料の価格",
+        "edit_prices": "価格を編集",
+        "save_prices": "価格を保存",
+        "eggs_input": "卵の数",
+        "days_input": "日数",
+        "calculate_profits": "利益を計算",
+        "rewards_input": "報酬の数",
+        "food_input": "飼料の量",
+        "calculate_rewards": "報酬を計算",
+        "reset": "リセット",
+        "results_title": "計算結果",
+        "calculation_date": "計算日",
+        "calculation_details": "計算詳細",
+        "current_prices": "現在の価格",
+        "current_egg_price": "現在の卵の価格",
+        "current_feed_price": "現在の飼料の価格",
+        "usd_results": "USD結果",
+        "iqd_results": "IQD結果",
+        "net_profit": "純利益",
+        "profit_before_rent": "家賃前の利益",
+        "rent_payment": "家賃の支払い",
+        "am": "AM",
+        "pm": "PM",
+        "scroll_top": "上にスクロール"
     }
-    
-    /* تنسيق العنوان */
-    .main-title {
-        text-align: center;
-        padding: 2rem 0;
-        color: #2e7d32;
-        font-size: 2.5rem;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        background: linear-gradient(120deg, #f1f8e9, #c8e6c9);
-        border-radius: 10px;
-        margin-bottom: 2rem;
-    }
-    
-    /* تنسيق الأقسام */
-    .section-container {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-bottom: 2rem;
-    }
-    
-    /* تنسيق الأزرار */
-    .stButton button {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 20px;
-        padding: 0.5rem 2rem;
-        border: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .stButton button:hover {
-        background-color: #45a049;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transform: translateY(-2px);
-    }
-    
-    /* تنسيق الجداول */
-    .dataframe {
-        width: 100%;
-        margin: 1rem 0;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .dataframe th {
-        background-color: #4CAF50 !important;
-        color: white !important;
-        padding: 1rem !important;
-        font-weight: bold !important;
-        text-align: center !important;
-    }
-    
-    .dataframe td {
-        padding: 0.8rem !important;
-        text-align: center !important;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #dee2e6;
-    }
-    
-    /* زر التمرير */
-    .floating-button {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background-color: #4CAF50;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
-        text-align: center;
-        line-height: 50px;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-        z-index: 999;
-        display: none;
-    }
-    
-    .floating-button:hover {
-        background-color: #45a049;
-        transform: scale(1.1);
-        box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
-    }
-    
-    .scroll-text {
-        position: fixed;
-        bottom: 75px;
-        left: 10px;
-        background-color: rgba(0,0,0,0.7);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 12px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    
-    .floating-button:hover + .scroll-text {
-        opacity: 1;
-    }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.querySelector('.floating-button');
-    var mainTitle = document.querySelector('.main-title');
-    
-    window.onscroll = function() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            button.style.display = "block";
-        } else {
-            button.style.display = "none";
-        }
-    };
-    
-    button.onclick = function() {
-        mainTitle.scrollIntoView({ behavior: 'smooth' });
-    };
-});
-</script>
-
-<div class="floating-button">↑</div>
-<div class="scroll-text">التمرير إلى الأعلى</div>
-""", unsafe_allow_html=True)
+}
 
 # اختيار اللغة
 language = st.selectbox("Select Language", ["العربية", "English", "Română", "Français", "Español", "日本語"])
 
-# تغيير اتجاه الكتابة بناءً على اللغة
-direction = "rtl" if language == "العربية" else "ltr"
-st.markdown(
-    f"""
-    <style>
-    body {{
-        background: {'#ffffff' if st.session_state.theme == "Light" else 'linear-gradient(to right, #4B0082, #8A2BE2)'};
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        direction: {direction};
-    }}
-    .title {{
-        font-size: 50px;
+# عرض العنوان الرئيسي
+st.markdown(f"""
+    <div class="main-title">
+        <h1>{texts[language]['title']}</h1>
+        <p>{texts[language]['subtitle']}</p>
+    </div>
+""", unsafe_allow_html=True)
+
+# إضافة CSS لتحسين الواجهة
+st.markdown("""
+<style>
+    .main-title {
+        text-align: center;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        background: linear-gradient(120deg, #f1f8e9, #c8e6c9);
+        border-radius: 10px;
+    }
+    
+    .main-title h1 {
+        color: #2e7d32;
+        font-size: 2.5rem;
         font-weight: bold;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        padding: 20px;
-    }}
-    .subtitle {{
-        font-size: 30px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-        text-align: center;
-        margin-bottom: 30px;
-    }}
-    .rtl {{
-        direction: {direction};
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stSelectbox, .stTextInput {{
-        direction: {direction};
-        text-align: right;
-        font-size: 24px;
-        color: {'black' if st.session_state.theme == "Light" else 'white'};
-    }}
-    .stButton button {{
-        font-size: 24px;
-    }}
-    .stTable {{
-        margin: 0 auto; /* توسيط الجدول */
-        width: 100%; /* تحديد عرض الجدول */
-        text-align: right; /* محاذاة النص إلى اليمين */
-    }}
-    .stTable th, .stTable td {{
-        text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
-        direction: {direction} !important; /* اتجاه النص من اليمين إلى اليسار */
-    }}
-    </style>
-    <div class="title"> {texts[language]["title"]}</div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
-    """,
-    unsafe_allow_html=True
-)
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+    }
+    
+    .main-title p {
+        color: #1b5e20;
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    
+    /* باقي التنسيقات */
+</style>
+""", unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -736,6 +780,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# عرض العنوان الرئيسي
-st.markdown(f'<h1 class="main-title">{texts[language]["title"]}</h1>', unsafe_allow_html=True)
