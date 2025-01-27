@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import json
+from datetime import datetime
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -57,7 +59,10 @@ texts = {
         "category": "الفئة",
         "net_profit": "صافي الربح 💰",
         "rent_payment": "دفع الإيجار 🏠",
-        "profit_before_rent": "الربح قبل الإيجار 📊"
+        "profit_before_rent": "الربح قبل الإيجار 📊",
+        "copy_results": "نسخ النتائج 📋",
+        "copy_success": "تم نسخ النتائج بنجاح! ✅",
+        "results_copied": "النتائج (بالدولار الأمريكي والدينار العراقي):"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -82,7 +87,10 @@ texts = {
         "category": "Category",
         "net_profit": "Net Profit 💰",
         "rent_payment": "Rent Payment 🏠",
-        "profit_before_rent": "Profit Before Rent 📊"
+        "profit_before_rent": "Profit Before Rent 📊",
+        "copy_results": "Copy Results 📋",
+        "copy_success": "Results copied successfully! ✅",
+        "results_copied": "Results (in USD and IQD):"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -107,7 +115,10 @@ texts = {
         "category": "Categorie",
         "net_profit": "Profit Net 💰",
         "rent_payment": "Plata Chiriei 🏠",
-        "profit_before_rent": "Profit Înainte de Chirie 📊"
+        "profit_before_rent": "Profit Înainte de Chirie 📊",
+        "copy_results": "Copiați Rezultatele 📋",
+        "copy_success": "Rezultatele au fost copiate cu succes! ✅",
+        "results_copied": "Rezultate (în USD și IQD):"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -132,7 +143,10 @@ texts = {
         "category": "Catégorie",
         "net_profit": "Profit Net 💰",
         "rent_payment": "Paiement du Loyer 🏠",
-        "profit_before_rent": "Profit Avant Loyer 📊"
+        "profit_before_rent": "Profit Avant Loyer 📊",
+        "copy_results": "Copier les Résultats 📋",
+        "copy_success": "Résultats copiés avec succès! ✅",
+        "results_copied": "Résultats (en USD et IQD):"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -157,7 +171,10 @@ texts = {
         "category": "Categoría",
         "net_profit": "Beneficio Neto 💰",
         "rent_payment": "Pago de Alquiler 🏠",
-        "profit_before_rent": "Beneficio Antes de Alquiler 📊"
+        "profit_before_rent": "Beneficio Antes de Alquiler 📊",
+        "copy_results": "Copiar Resultados 📋",
+        "copy_success": "¡Resultados copiados con éxito! ✅",
+        "results_copied": "Resultados (en USD y IQD):"
     },
     "日本語": {
         "title": "🐔 ニューヨーク チキン計算機",
@@ -182,7 +199,10 @@ texts = {
         "category": "カテゴリー",
         "net_profit": "純利益 💰",
         "rent_payment": "家賃支払い 🏠",
-        "profit_before_rent": "家賃控除前利益 📊"
+        "profit_before_rent": "家賃控除前利益 📊",
+        "copy_results": "結果をコピー 📋",
+        "copy_success": "結果が正常にコピーされました! ✅",
+        "results_copied": "結果 (USDとIQDで):"
     }
 }
 
@@ -327,14 +347,13 @@ if calculation_type == texts[language]["chicken_profits"]:
             else:
                 # حساب النتائج
                 total_egg_price_usd = eggs * st.session_state.egg_price
-                total_feed_cost_usd = (days * 2) * st.session_state.feed_price
+                total_feed_cost_usd = (days * 0.15) * st.session_state.feed_price
                 net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
-
-                # حساب تكلفة الإيجار بناءً على عدد البيض
-                rent_cost_usd = 6.0 if eggs >= 260 else 0.0
+                rent_cost_usd = days * 0.0082
                 net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
 
-                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+                # تحويل العملة
+                if currency in ["دينار عراقي", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit_before_rent = net_profit_before_rent_usd * 1480
@@ -380,6 +399,36 @@ if calculation_type == texts[language]["chicken_profits"]:
                 df = pd.DataFrame(results)
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
+
+                # إنشاء نص النتائج للنسخ
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                results_text = f"""
+{texts[language]['results_copied']}
+{texts[language]['calculation_type']}: {texts[language]['chicken_profits']}
+{current_time}
+
+بالدولار الأمريكي (USD):
+------------------------
+{texts[language]['value']} {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd)} USD
+{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
+{texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd)} USD
+{texts[language]['rent_payment']}: {format_decimal(rent_cost_usd)} USD
+{texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
+
+بالدينار العراقي (IQD):
+------------------------
+{texts[language]['value']} {texts[language]['eggs_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
+{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
+{texts[language]['profit_before_rent']}: {format_decimal(net_profit_before_rent_usd * 1480)} IQD
+{texts[language]['rent_payment']}: {format_decimal(rent_cost_usd * 1480)} IQD
+{texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
+"""
+
+                # إضافة زر النسخ
+                if st.button(texts[language]["copy_results"], type="secondary"):
+                    st.code(results_text, language="text")
+                    st.session_state.clipboard_text = results_text
+                    st.success(texts[language]["copy_success"])
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
@@ -437,7 +486,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 total_feed_cost_usd = food * st.session_state.feed_price
                 net_profit_usd = total_egg_price_usd - total_feed_cost_usd
 
-                if currency in ["دينار عراقي", "Iraqi Dinar", "Dinar Irakian", "IQD"]:
+                # تحويل العملة
+                if currency in ["دينار عراقي", "IQD"]:
                     total_egg_price = total_egg_price_usd * 1480
                     total_feed_cost = total_feed_cost_usd * 1480
                     net_profit = net_profit_usd * 1480
@@ -473,6 +523,32 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 df = pd.DataFrame(results)
                 df = df[[texts[language]["calculation_type"], texts[language]["value"]]]  # تغيير ترتيب الأعمدة للغة العربية
                 st.table(df)
+
+                # إنشاء نص النتائج للنسخ
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                results_text = f"""
+{texts[language]['results_copied']}
+{texts[language]['calculation_type']}: {texts[language]['daily_rewards']}
+{current_time}
+
+بالدولار الأمريكي (USD):
+------------------------
+{texts[language]['value']} {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd)} USD
+{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
+{texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
+
+بالدينار العراقي (IQD):
+------------------------
+{texts[language]['value']} {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
+{texts[language]['value']} {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
+{texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
+"""
+
+                # إضافة زر النسخ
+                if st.button(texts[language]["copy_results"], type="secondary"):
+                    st.code(results_text, language="text")
+                    st.session_state.clipboard_text = results_text
+                    st.success(texts[language]["copy_success"])
 
                 # إضافة رسم بياني شريطي
                 chart_data = pd.DataFrame({
