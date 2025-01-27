@@ -451,107 +451,43 @@ else:
 st.write(f"{texts[language]['new_egg_price']}: {format_decimal(egg_price_display)} {currency}")
 st.write(f"{texts[language]['new_feed_price']}: {format_decimal(feed_price_display)} {currency}")
 
-# دالة مساعدة لإنشاء زر النسخ
-def create_copy_button(text_to_copy, button_text):
-    # إنشاء معرف فريد للنص
-    button_id = f"copy_button_{hash(text_to_copy)}"
+# دالة إنشاء الرسم البياني
+def create_profit_chart(df, language):
+    # تخصيص الألوان
+    colors = {
+        'عدد البيض 🥚': '#4CAF50',
+        'عدد الطعام المطلوب 🌾': '#FF9800',
+        'الربح قبل الإيجار 📊': '#2196F3',
+        'دفع الإيجار 🏠': '#F44336',
+        'صافي الربح 💰': '#9C27B0'
+    }
     
-    # JavaScript لنسخ النص
-    js_code = f"""
-    <script>
-    function copyText{button_id}() {{
-        const el = document.createElement('textarea');
-        el.value = `{text_to_copy}`;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    }}
-    </script>
-    """
-    
-    # HTML لزر النسخ
-    button_html = f"""
-    {js_code}
-    <button 
-        onclick="copyText{button_id}()"
-        style="
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        "
-        onmouseover="this.style.backgroundColor='#45a049'"
-        onmouseout="this.style.backgroundColor='#4CAF50'"
-    >
-        {button_text} 📋
-    </button>
-    """
-    
-    return button_html
-
-def create_custom_chart(df, language):
-    # تخصيص الألوان والتصميم
-    custom_colors = ['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
-    
-    # إنشاء رسم بياني دائري متقدم
+    # إنشاء الرسم البياني
     fig = px.pie(
         df,
         values=texts[language]["value"],
         names=texts[language]["category"],
-        hole=0.6,  # جعل الرسم البياني دائري مع فراغ في المنتصف
-        color_discrete_sequence=custom_colors
+        title=texts[language]["results_title"],
+        hole=0.6,
+        color_discrete_sequence=px.colors.qualitative.Set3
     )
     
-    # تخصيص تصميم الرسم البياني
-    fig.update_traces(
-        textposition='outside',
-        textinfo='percent+label',
-        hovertemplate="<b>%{label}</b><br>" +
-                     f"{texts[language]['value']}: %{{value:,.2f}}<br>" +
-                     "النسبة: %{percent}<br><extra></extra>"
-    )
-    
-    # تحديث تخطيط الرسم البياني
+    # تحديث تصميم الرسم البياني
     fig.update_layout(
+        title_x=0.5,
+        title_font_size=24,
         showlegend=True,
         legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.3,
+            y=-0.2,
             xanchor="center",
             x=0.5
         ),
         margin=dict(t=60, l=0, r=0, b=0),
         height=500,
-        plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
-        font=dict(size=14),
-        title=dict(
-            text=texts[language]["results_title"],
-            y=0.95,
-            x=0.5,
-            xanchor='center',
-            yanchor='top',
-            font=dict(size=20)
-        ),
-        annotations=[
-            dict(
-                text=texts[language]["net_profit"],
-                x=0.5,
-                y=0.5,
-                font=dict(size=16),
-                showarrow=False
-            )
-        ]
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     
     return fig
@@ -660,40 +596,40 @@ if calculation_type == texts[language]["chicken_profits"]:
                 # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
-                chart_data = {
+                df = pd.DataFrame({
                     texts[language]["category"]: [
-                        texts[language]["eggs_input"],
-                        texts[language]["food_input"],
-                        texts[language]["profit_before_rent"],
-                        texts[language]["rent_payment"],
-                        texts[language]["net_profit"]
+                        f"🥚 {texts[language]['eggs_input']}",
+                        f"🌾 {texts[language]['food_input']}",
+                        f"📊 {texts[language]['profit_before_rent']}",
+                        f"🏠 {texts[language]['rent_payment']}",
+                        f"💰 {texts[language]['net_profit']}"
                     ],
                     texts[language]["value"]: [
-                        total_egg_price_usd,
-                        total_feed_cost_usd,
-                        net_profit_before_rent_usd,
-                        rent_cost_usd,
-                        net_profit_usd
+                        total_egg_price,
+                        total_feed_cost,
+                        net_profit_before_rent,
+                        rent_cost,
+                        net_profit
                     ]
-                }
-                df = pd.DataFrame(chart_data)
+                })
                 
                 # عرض الجدول النهائي أولاً
                 df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
                 st.table(df)
 
                 # عرض الرسم البياني
-                fig = create_custom_chart(df, language)
+                fig = create_profit_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown("### 📑 " + texts[language]["summary"])
-                st.code(results_text, language="text")
-                st.button("📥 " + texts[language]["copy_results"], 
-                         key="copy_button",
-                         on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', 
-                         unsafe_allow_html=True))
+                st.markdown(f"### 📊 {texts[language]['results_title']}")
+                st.code(results_text)
+                
+                # زر نسخ النتائج
+                if st.button("📋 " + texts[language]["copy_results"], key="copy_results"):
+                    st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', unsafe_allow_html=True)
+                    st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "Results copied successfully! ✅")
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
@@ -786,34 +722,27 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
-                chart_data = {
+                chart_df = pd.DataFrame({
                     texts[language]["category"]: [
-                        texts[language]["rewards_input"],
-                        texts[language]["food_input"]
+                        f"🥚 {texts[language]['rewards_input']}",
+                        f"🌾 {texts[language]['food_input']}"
                     ],
                     texts[language]["value"]: [
-                        total_egg_price_usd,
-                        total_feed_cost_usd
+                        total_egg_price,
+                        total_feed_cost
                     ]
-                }
-                df = pd.DataFrame(chart_data)
-                
-                # عرض الجدول النهائي أولاً
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x:,.2f} {currency}")
-                st.table(df)
-
-                # عرض الرسم البياني
-                fig = create_custom_chart(df, language)
+                })
+                fig = create_profit_chart(chart_df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown("### 📑 " + texts[language]["summary"])
-                st.code(results_text, language="text")
-                st.button("📥 " + texts[language]["copy_results"], 
-                         key="copy_button",
-                         on_click=lambda: st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', 
-                         unsafe_allow_html=True))
+                st.markdown(f"### 📊 {texts[language]['results_title']}")
+                st.code(results_text)
+                
+                # زر نسخ النتائج
+                if st.button("📋 " + texts[language]["copy_results"], key="copy_results"):
+                    st.write(f'<script>navigator.clipboard.writeText(`{results_text}`)</script>', unsafe_allow_html=True)
+                    st.success("تم نسخ النتائج بنجاح! ✅" if language == "العربية" else "Results copied successfully! ✅")
 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
