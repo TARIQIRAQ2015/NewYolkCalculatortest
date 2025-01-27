@@ -3,6 +3,71 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime
 
+# إضافة CSS للزر العائم للتمرير إلى الأعلى
+st.markdown("""
+<style>
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.floating-button:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+}
+
+.scroll-text {
+    position: fixed;
+    bottom: 75px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.floating-button:hover + .scroll-text {
+    opacity: 1;
+}
+</style>
+
+<script>
+function scrollToTop() {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// إظهار/إخفاء الزر عند التمرير
+window.onscroll = function() {
+    var button = document.querySelector('.floating-button');
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        button.style.display = "block";
+    } else {
+        button.style.display = "none";
+    }
+};
+</script>
+
+<div class="floating-button" onclick="scrollToTop()">↑</div>
+<div class="scroll-text">التمرير إلى الأعلى</div>
+""", unsafe_allow_html=True)
+
 # تنسيق الأرقام العشرية
 def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
@@ -63,7 +128,8 @@ texts = {
         "calculation_date": "📅 تاريخ الحساب",
         "calculation_details": "🔍 تفاصيل الحساب",
         "usd_results": "💵 النتائج بالدولار الأمريكي",
-        "iqd_results": "💵 النتائج بالدينار العراقي"
+        "iqd_results": "💵 النتائج بالدينار العراقي",
+        "scroll_top": "التمرير إلى الأعلى"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -93,7 +159,8 @@ texts = {
         "calculation_date": "📅 Calculation Date",
         "calculation_details": "🔍 Calculation Details",
         "usd_results": "💵 Results in USD",
-        "iqd_results": "💵 Results in IQD"
+        "iqd_results": "💵 Results in IQD",
+        "scroll_top": "Scroll to Top"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -123,7 +190,8 @@ texts = {
         "calculation_date": "📅 Data Calculului",
         "calculation_details": "🔍 Detalii Calcul",
         "usd_results": "💵 Rezultate în USD",
-        "iqd_results": "💵 Rezultate în IQD"
+        "iqd_results": "💵 Rezultate în IQD",
+        "scroll_top": "Sari la Început"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -153,7 +221,8 @@ texts = {
         "calculation_date": "📅 Date de Calcul",
         "calculation_details": "🔍 Détails de Calcul",
         "usd_results": "💵 Résultats en USD",
-        "iqd_results": "💵 Résultats en IQD"
+        "iqd_results": "💵 Résultats en IQD",
+        "scroll_top": "Revenir en Haut"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -183,37 +252,39 @@ texts = {
         "calculation_date": "📅 Fecha de Cálculo",
         "calculation_details": "🔍 Detalles de Cálculo",
         "usd_results": "💵 Resultados en USD",
-        "iqd_results": "💵 Resultados en IQD"
+        "iqd_results": "💵 Resultados en IQD",
+        "scroll_top": "Volver Arriba"
     },
     "日本語": {
-        "title": "🐔 ニューヨーク チキン計算機",
-        "subtitle": "鶏の利益と日々の報酬を計算",
+        "title": "🐔 ニューヨーク・チキン計算機",
+        "subtitle": "鶏の収益と日々の報酬を計算",
         "currency_select": "通貨 💰",
         "edit_prices": "価格を編集 ⚙️",
         "new_egg_price": "現在の卵価格 🥚",
-        "new_feed_price": "現在の餌価格 🌽",
+        "new_feed_price": "現在の飼料価格 🌽",
         "save_prices": "新価格を保存 💾",
         "calculation_type": "計算タイプ 📊",
-        "chicken_profits": "鶏の利益",
-        "daily_rewards": "日々の報酬と餌の利益",
+        "chicken_profits": "鶏の収益",
+        "daily_rewards": "日々の報酬と飼料の収益",
         "eggs_input": "卵の数 🥚",
         "days_input": "日数 📅",
-        "calculate_profits": "鶏の利益を計算 🧮",
+        "calculate_profits": "鶏の収益を計算 🧮",
         "rewards_input": "報酬の数 🎁",
-        "food_input": "必要な餌の量 🌽",
-        "calculate_rewards": "日々の報酬と餌の利益を計算 🧮",
+        "food_input": "必要な飼料の量 🌽",
+        "calculate_rewards": "日々の報酬と飼料の収益を計算 🧮",
         "reset": "リセット 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "値",
         "category": "カテゴリー",
         "net_profit": "純利益 💰",
-        "rent_payment": "家賃支払い 🏠",
+        "rent_payment": "家賃 🏠",
         "profit_before_rent": "家賃控除前利益 📊",
-        "results_title": "📊 結果の要約",
+        "results_title": "📊 結果サマリー",
         "calculation_date": "📅 計算日",
-        "calculation_details": "🔍 計算の詳細",
-        "usd_results": "💵 結果（USD）",
-        "iqd_results": "💵 結果（IQD）"
+        "calculation_details": "🔍 計算詳細",
+        "usd_results": "💵 USD での結果",
+        "iqd_results": "💵 IQD での結果",
+        "scroll_top": "トップへ戻る"
     }
 }
 
@@ -632,6 +703,14 @@ if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.rewards = ""
     st.session_state.food = ""
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "Resetare reușită! ✅" if language == "Română" else "Réinitialisation réussie! ✅" if language == "Français" else "Reinicio exitoso! ✅" if language == "Español" else "リセットが正常に完了しました! ✅")
+
+# تحديث نص زر التمرير حسب اللغة
+scroll_text = texts[language].get("scroll_top", "Scroll to Top")
+st.markdown(f"""
+<script>
+document.querySelector('.scroll-text').innerText = "{scroll_text}";
+</script>
+""", unsafe_allow_html=True)
 
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
