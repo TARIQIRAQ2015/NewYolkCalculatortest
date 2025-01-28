@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import pyperclip
 from datetime import datetime, timedelta
+from streamlit_js_eval import streamlit_js_eval
 
 # تحسين الواجهة - يجب أن يكون هذا أول أمر
 st.set_page_config(
@@ -101,52 +103,25 @@ st.markdown("""
     height: 50px;
     border-radius: 50%;
     text-align: center;
-    line-height: 50px;
+    line-height: 45px;
     font-size: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1000;
-    display: none;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .scroll-to-top:hover {
     background-color: #45a049;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
-
 </style>
-<script>
-// إضافة jQuery
-var jquery_script = document.createElement('script');
-jquery_script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-jquery_script.type = 'text/javascript';
-document.getElementsByTagName('head')[0].appendChild(jquery_script);
-
-// انتظار تحميل jQuery
-jquery_script.onload = function() {
-    // إضافة زر التمرير
-    var scrollButton = document.createElement('div');
-    scrollButton.className = 'scroll-to-top';
-    scrollButton.innerHTML = '⬆️';
-    document.body.appendChild(scrollButton);
-
-    // إظهار/إخفاء الزر عند التمرير
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 300) {
-            $('.scroll-to-top').fadeIn();
-        } else {
-            $('.scroll-to-top').fadeOut();
-        }
-    });
-
-    // التمرير إلى الأعلى عند النقر
-    $('.scroll-to-top').click(function() {
-        $('html, body').animate({scrollTop: 0}, 800);
-        return false;
-    });
-};
-</script>
 """, unsafe_allow_html=True)
+
+# إضافة زر ثابت في أسفل الصفحة
+if st.button("⬆️", key="scroll_to_top", help="التمرير إلى الأعلى"):
+    streamlit_js_eval(js_expressions="window.scrollTo(0, 0);")
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
@@ -264,13 +239,13 @@ texts = {
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini",
-        "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
+        "daily_rewards": "Recompense Zilnice și Profituri Alimentare",
         "eggs_input": "Numărul de Ouă 🥚",
         "days_input": "Numărul de Zile 📅",
         "calculate_profits": "Calculează Profiturile din Găini 🧮",
         "rewards_input": "Numărul de Recompense 🎁",
         "food_input": "Cantitatea de Mâncare Necesară 🌽",
-        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
+        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile Alimentare 🧮",
         "reset": "Resetează 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "Valoare",
