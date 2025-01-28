@@ -121,7 +121,7 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
+language = st.selectbox(texts["العربية"]["language"] + " 🌐", ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
@@ -573,7 +573,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 🐔 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
