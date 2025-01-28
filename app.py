@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 # إضافة زر التمرير إلى الأعلى
 st.markdown("""
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .floating-button {
             position: fixed;
@@ -110,11 +111,19 @@ st.markdown("""
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
         }
         
         .floating-button:hover {
             transform: translateY(-5px);
             box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #45a049;
+        }
+
+        .floating-button.show {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 
@@ -123,28 +132,24 @@ st.markdown("""
     </div>
 
     <script>
-        // إضافة زر التمرير
-        const scrollButton = document.getElementById('scrollToTopBtn');
-        
-        // إظهار/إخفاء الزر عند التمرير
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollButton.style.display = 'flex';
-            } else {
-                scrollButton.style.display = 'none';
-            }
-        });
-        
-        // التمرير إلى الأعلى عند النقر
-        scrollButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        $(document).ready(function() {
+            const scrollButton = $('#scrollToTopBtn');
+            
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    scrollButton.addClass('show');
+                } else {
+                    scrollButton.removeClass('show');
+                }
+            });
+            
+            scrollButton.click(function() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
             });
         });
-
-        // إخفاء الزر في البداية
-        scrollButton.style.display = 'none';
     </script>
 """, unsafe_allow_html=True)
 
