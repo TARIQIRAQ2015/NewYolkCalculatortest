@@ -22,7 +22,7 @@ texts = {
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
         "egg_price": "سعر البيض الحالي 🥚",
-        "feed_price": "سعر العلف الحالي 🌾",
+        "feed_price": "سعر العلف الحالي 🌽",
         "save_prices": "حفظ الأسعار الجديدة 💾",
         "calculation_type": "نوع الحساب 📊",
         "chicken_profits": "أرباح الدجاج 🐔",
@@ -37,7 +37,7 @@ texts = {
         "category": "الفئة",
         "net_profit": "الربح قبل حساب الايجار 📈",
         "total_rewards": "إجمالي المكافآت ⭐",
-        "total_food_cost": "اجمالي العلف 🌾",
+        "total_food_cost": "اجمالي العلف 🌽",
         "first_year_rental": "الإيجار 🏠",
         "final_profit": "الربح الصافي 💰",
         "calculation_time": "وقت الحساب ⏰",
@@ -55,7 +55,7 @@ texts = {
         "language": "Language 🌍",
         "currency": "Currency 💵",
         "egg_price": "Current Egg Price 🥚",
-        "feed_price": "Current Feed Price 🌾",
+        "feed_price": "Current Feed Price 🌽",
         "save_prices": "Save New Prices 💾",
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits 🐔",
@@ -70,7 +70,7 @@ texts = {
         "category": "Category",
         "net_profit": "Profit Before Rent 📈",
         "total_rewards": "Total Rewards ⭐",
-        "total_food_cost": "Total Feed 🌾",
+        "total_food_cost": "Total Feed 🌽",
         "first_year_rental": "Rental 🏠",
         "final_profit": "Final Profit 💰",
         "calculation_time": "Calculation Time ⏰",
@@ -88,7 +88,7 @@ texts = {
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
         "egg_price": "Prețul Curent al Ouălor 🥚",
-        "feed_price": "Prețul Curent al Furajului 🌾",
+        "feed_price": "Prețul Curent al Furajului 🌽",
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini 🐔",
@@ -103,7 +103,7 @@ texts = {
         "category": "Categorie",
         "net_profit": "Profit Înainte de Chirie 📈",
         "total_rewards": "Total Recompense ⭐",
-        "total_food_cost": "Total Furaje 🌾",
+        "total_food_cost": "Total Furaje 🌽",
         "first_year_rental": "Chirie 🏠",
         "final_profit": "Profit Final 💰",
         "calculation_time": "Ora Calculului ⏰",
@@ -233,7 +233,7 @@ def create_profit_chart(df, language):
     # تخصيص الألوان
     colors = {
         'عدد البيض 🥚': '#4CAF50',
-        'عدد الطعام المطلوب 🌾': '#FF9800',
+        'عدد الطعام المطلوب 🌽': '#FF9800',
         'الربح قبل الإيجار 📊': '#2196F3',
         'دفع الإيجار 🏠': '#F44336',
         'صافي الربح 💰': '#9C27B0'
@@ -360,7 +360,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['eggs_input']}",
-                        f"🌾 {texts[language]['food_input']}",
+                        f"🌽 {texts[language]['food_input']}",
                         f"📈 {texts[language]['net_profit']}",
                         f"🏠 {texts[language]['first_year_rental']}",
                         f"💰 {texts[language]['final_profit']}"
@@ -383,7 +383,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 chart_df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['eggs_input']}",
-                        f"🌾 {texts[language]['food_input']}",
+                        f"🌽 {texts[language]['food_input']}",
                         f"📈 {texts[language]['net_profit']}",
                         f"🏠 {texts[language]['first_year_rental']}",
                         f"💰 {texts[language]['final_profit']}"
@@ -469,7 +469,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['total_rewards']}",
-                        f"🌾 {texts[language]['total_food_cost']}",
+                        f"🌽 {texts[language]['total_food_cost']}",
                         f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
@@ -488,7 +488,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 chart_df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['total_rewards']}",
-                        f"🌾 {texts[language]['total_food_cost']}",
+                        f"🌽 {texts[language]['total_food_cost']}",
                         f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
