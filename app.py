@@ -150,7 +150,8 @@ texts = {
         "am": "صباحاً",
         "pm": "مساءً",
         "summary": "ملخص النتائج",
-        "copy_results": "نسخ النتائج"
+        "copy_results": "نسخ النتائج",
+        "daily_profit": "الربح اليومي"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -188,7 +189,8 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "summary": "Results Summary",
-        "copy_results": "Copy Results"
+        "copy_results": "Copy Results",
+        "daily_profit": "Daily Profit"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -226,7 +228,8 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "summary": "Rezumatul Rezultatelor",
-        "copy_results": "Copiază Rezultatele"
+        "copy_results": "Copiază Rezultatele",
+        "daily_profit": "Profit Zilnic"
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -264,7 +267,8 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "summary": "Résumé des Résultats",
-        "copy_results": "Copier les Résultats"
+        "copy_results": "Copier les Résultats",
+        "daily_profit": "Profit Quotidien"
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -302,7 +306,8 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "summary": "Resumen de Resultados",
-        "copy_results": "Copiar Resultados"
+        "copy_results": "Copiar Resultados",
+        "daily_profit": "Beneficio Diario"
     },
     "日本語": {
         "title": "🐔 ニューヨーク・チキン計算機",
@@ -340,7 +345,8 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "summary": "結果サマリー",
-        "copy_results": "結果をコピー"
+        "copy_results": "結果をコピー",
+        "daily_profit": "日次利益"
     }
 }
 
@@ -683,28 +689,18 @@ elif calculation_type == texts[language]["daily_rewards"]:
             if rewards is None or food is None:
                 st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "Vă rugăm să introduceți toate valorile necesare! ❗️" if language == "Română" else "Veuillez entrer toutes les valeurs requises! ❗️" if language == "Français" else "Por favor, introduzca todos los valores necesarios! ❗️" if language == "Español" else "すべての必要な値を入力してください! ❗️")
             else:
-                # حساب النتائج
-                total_egg_price_usd = rewards * st.session_state.egg_price
-                total_feed_cost_usd = food * st.session_state.feed_price
-                net_profit_usd = total_egg_price_usd - total_feed_cost_usd
+                # حساب الربح اليومي
+                daily_profit = rewards * st.session_state.egg_price - food * st.session_state.feed_price
 
                 # تحويل العملة
                 if currency in ["دينار عراقي", "IQD"]:
-                    total_egg_price = total_egg_price_usd * 1480
-                    total_feed_cost = total_feed_cost_usd * 1480
-                    net_profit = net_profit_usd * 1480
+                    daily_profit = daily_profit * 1480
                 elif currency in ["EUR"]:
-                    total_egg_price = total_egg_price_usd * 0.88
-                    total_feed_cost = total_feed_cost_usd * 0.88
-                    net_profit = net_profit_usd * 0.88
+                    daily_profit = daily_profit * 0.88
                 elif currency in ["JPY"]:
-                    total_egg_price = total_egg_price_usd * 110.45
-                    total_feed_cost = total_feed_cost_usd * 110.45
-                    net_profit = net_profit_usd * 110.45
+                    daily_profit = daily_profit * 110.45
                 else:
-                    total_egg_price, total_feed_cost, net_profit = (
-                        total_egg_price_usd, total_feed_cost_usd, net_profit_usd
-                    )
+                    daily_profit = daily_profit
 
                 # تنسيق التاريخ والوقت
                 current_time = datetime.now()
@@ -729,14 +725,14 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ ▸ {texts[language]['current_feed_price']}: {format_decimal(st.session_state.feed_price)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ ▸ {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd)} USD
-║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd)} USD
-║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd)} USD
+║ ▸ {texts[language]['rewards_input']}: {format_decimal(rewards * st.session_state.egg_price)} USD
+║ ▸ {texts[language]['food_input']}: {format_decimal(food * st.session_state.feed_price)} USD
+║ ▸ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ ▸ {texts[language]['rewards_input']}: {format_decimal(total_egg_price_usd * 1480)} IQD
-║ ▸ {texts[language]['food_input']}: {format_decimal(total_feed_cost_usd * 1480)} IQD
-║ ▸ {texts[language]['net_profit']}: {format_decimal(net_profit_usd * 1480)} IQD
+║ ▸ {texts[language]['rewards_input']}: {format_decimal(rewards * st.session_state.egg_price * 1480)} IQD
+║ ▸ {texts[language]['food_input']}: {format_decimal(food * st.session_state.feed_price * 1480)} IQD
+║ ▸ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
@@ -746,11 +742,13 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['rewards_input']}",
-                        f"🌾 {texts[language]['food_input']}"
+                        f"🌾 {texts[language]['food_input']}",
+                        f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost
+                        rewards * st.session_state.egg_price,
+                        food * st.session_state.feed_price,
+                        daily_profit
                     ]
                 })
                 
@@ -763,11 +761,13 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 chart_df = pd.DataFrame({
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['rewards_input']}",
-                        f"🌾 {texts[language]['food_input']}"
+                        f"🌾 {texts[language]['food_input']}",
+                        f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
-                        float(str(total_egg_price).replace(currency, "").strip()),
-                        float(str(total_feed_cost).replace(currency, "").strip())
+                        float(str(rewards * st.session_state.egg_price).replace(currency, "").strip()),
+                        float(str(food * st.session_state.feed_price).replace(currency, "").strip()),
+                        float(str(daily_profit).replace(currency, "").strip())
                     ]
                 })
                 fig = create_profit_chart(chart_df, language)
