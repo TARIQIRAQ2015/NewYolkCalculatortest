@@ -120,19 +120,25 @@ texts = {
     }
 }
 
-# تعريف اللغة الافتراضية
+# تهيئة session state للغة
 if 'language' not in st.session_state:
     st.session_state.language = "العربية"
 
-# اختيار اللغة
+# تحديد اللغة الحالية
+current_language = st.session_state.language
+
+# قائمة اختيار اللغة
 language = st.selectbox(
-    texts[st.session_state.language]["language"],
-    ["العربية", "English", "Română"],
+    label=texts[current_language]["language"],
+    options=["العربية", "English", "Română"],
+    index=["العربية", "English", "Română"].index(current_language),
     key="language_selector"
 )
 
-# تحديث اللغة في session state
-st.session_state.language = language
+# تحديث اللغة في session state إذا تغيرت
+if language != current_language:
+    st.session_state.language = language
+    st.experimental_rerun()
 
 # تحسين الواجهة
 st.markdown(
@@ -161,15 +167,13 @@ st.markdown(
         .stButton {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
         }}
         .stSelectbox, .stTextInput {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
         }}
         .stButton button {{
-            font-size: 24px;
+            font-size: 18px;
             padding: 10px 24px;
             border-radius: 12px;
             width: 100%;
@@ -190,6 +194,14 @@ st.markdown(
         }}
         tbody tr td:first-child {{
             text-align: {'right' if language == 'العربية' else 'left'} !important;
+        }}
+        div[data-testid="stSelectbox"] label {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
+        }}
+        div[data-testid="stSelectbox"] div[data-testid="stMarkdownContainer"] {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
         }}
     </style>
     <div class="title">{texts[language]["title"]}</div>
