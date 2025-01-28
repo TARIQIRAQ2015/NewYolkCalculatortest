@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import pyperclip
 from datetime import datetime, timedelta
-from streamlit_js_eval import streamlit_js_eval
 
 # تحسين الواجهة - يجب أن يكون هذا أول أمر
 st.set_page_config(
@@ -88,81 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="floating-button">↑</div>
 <div class="scroll-text">التمرير إلى الأعلى</div>
-""", unsafe_allow_html=True)
-
-# إضافة زر التمرير إلى الأعلى في الشريط الجانبي
-with st.sidebar:
-    st.markdown("""
-        <style>
-            .scroll-top {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                padding: 10px;
-                background-color: #4CAF50;
-                color: white;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                text-align: center;
-                line-height: 30px;
-                font-size: 24px;
-                cursor: pointer;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                border: none;
-                transition: all 0.3s;
-            }
-            .scroll-top:hover {
-                background-color: #45a049;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            }
-            .element-container:has(button) {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 999999;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    if st.button("⬆️", key="scroll_top", help="التمرير إلى الأعلى"):
-        st.markdown("""
-            <script>
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            </script>
-        """, unsafe_allow_html=True)
-
-# إضافة زر التمرير إلى الأعلى
-st.markdown("""
-    <style>
-        [data-testid="stSidebarNav"] {
-            display: none;
-        }
-        .scroll-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 999999;
-            display: block;
-            text-decoration: none;
-            line-height: 50px;
-        }
-        .scroll-btn:hover {
-            background-color: #45a049;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-    </style>
-    <a href="#top" class="scroll-btn" title="التمرير إلى الأعلى">⬆️</a>
 """, unsafe_allow_html=True)
 
 # تنسيق الأرقام العشرية
@@ -281,13 +204,13 @@ texts = {
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini",
-        "daily_rewards": "Recompense Zilnice și Profituri Alimentare",
+        "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
         "eggs_input": "Numărul de Ouă 🥚",
         "days_input": "Numărul de Zile 📅",
         "calculate_profits": "Calculează Profiturile din Găini 🧮",
         "rewards_input": "Numărul de Recompense 🎁",
         "food_input": "Cantitatea de Mâncare Necesară 🌽",
-        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile Alimentare 🧮",
+        "calculate_rewards": "Calculează Recompensele Zilnice și Profiturile din Mâncare 🧮",
         "reset": "Resetează 🔄",
         "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "Valoare",
