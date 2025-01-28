@@ -124,8 +124,19 @@ texts = {
 if 'language' not in st.session_state:
     st.session_state.language = "العربية"
 
+def on_language_change():
+    st.session_state.current_label = texts[st.session_state.language_selector]["language"]
+
 # اختيار اللغة
-language = st.selectbox(texts[st.session_state.language]["language"], ["العربية", "English", "Română"], key='language_selector')
+if 'current_label' not in st.session_state:
+    st.session_state.current_label = texts[st.session_state.language]["language"]
+
+language = st.selectbox(
+    st.session_state.current_label,
+    ["العربية", "English", "Română"],
+    key='language_selector',
+    on_change=on_language_change
+)
 st.session_state.language = language
 
 # تحسين الواجهة
