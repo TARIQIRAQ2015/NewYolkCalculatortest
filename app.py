@@ -120,124 +120,72 @@ texts = {
     }
 }
 
-# تعيين اللغة الافتراضية
-if 'language' not in st.session_state:
-    st.session_state.language = "العربية"
-
 # اختيار اللغة
-language = st.selectbox("اللغة | Language | Limbă 🌐", ["العربية", "English", "Română"])
-st.session_state.language = language
+language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
 
-# عرض الواجهة المناسبة حسب اللغة المختارة
-if language == "العربية":
-    st.markdown("""
-        <style>
-            .stApp {
-                direction: rtl;
-            }
-            .title {
-                font-size: 36px;
-                font-weight: bold;
-                text-align: center;
-                padding: 20px;
-            }
-            .subtitle {
-                font-size: 24px;
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .stButton {
-                direction: rtl;
-                text-align: right;
-            }
-            .stSelectbox, .stTextInput {
-                direction: rtl;
-                text-align: right;
-            }
-            [data-testid="stMarkdownContainer"] {
-                direction: rtl;
-                text-align: right;
-            }
-        </style>
-        <div class="title">🐔 حاسبة الدجاج - نيويولك</div>
-        <div class="subtitle">حساب أرباح الدجاج والمكافآت اليومية</div>
-    """, unsafe_allow_html=True)
-
-def show_english_interface():
-    st.markdown("""
-        <style>
-            .stApp {
-                direction: ltr;
-            }
-            .title {
-                font-size: 36px;
-                font-weight: bold;
-                text-align: center;
-                padding: 20px;
-            }
-            .subtitle {
-                font-size: 24px;
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .stButton {
-                direction: ltr;
-                text-align: left;
-            }
-            .stSelectbox, .stTextInput {
-                direction: ltr;
-                text-align: left;
-            }
-            [data-testid="stMarkdownContainer"] {
-                direction: ltr;
-                text-align: left;
-            }
-        </style>
-        <div class="title">🐔 Chicken Calculator - Newyolk</div>
-        <div class="subtitle">Calculate Chicken Profits and Daily Rewards</div>
-    """, unsafe_allow_html=True)
-
-def show_romanian_interface():
-    st.markdown("""
-        <style>
-            .stApp {
-                direction: ltr;
-            }
-            .title {
-                font-size: 36px;
-                font-weight: bold;
-                text-align: center;
-                padding: 20px;
-            }
-            .subtitle {
-                font-size: 24px;
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .stButton {
-                direction: ltr;
-                text-align: left;
-            }
-            .stSelectbox, .stTextInput {
-                direction: ltr;
-                text-align: left;
-            }
-            [data-testid="stMarkdownContainer"] {
-                direction: ltr;
-                text-align: left;
-            }
-        </style>
-        <div class="title">🐔 Calculator de Găini - Newyolk</div>
-        <div class="subtitle">Calculează Profiturile și Recompensele Zilnice</div>
-    """, unsafe_allow_html=True)
-
-# عرض الواجهة المناسبة حسب اللغة المختارة
-if language == "العربية":
-    show_arabic_interface()
-elif language == "English":
-    show_english_interface()
-else:
-    show_romanian_interface()
+# تحسين الواجهة
+st.markdown(
+    f"""
+    <style>
+        .stApp {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+        }}
+        .title {{
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        .subtitle {{
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        .stButton {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
+            font-size: 24px;
+        }}
+        .stSelectbox, .stTextInput {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
+            font-size: 24px;
+        }}
+        .stButton button {{
+            font-size: 24px;
+            padding: 10px 24px;
+            border-radius: 12px;
+            width: 100%;
+        }}
+        .stTable th, .stTable td {{
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
+            direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
+        }}
+        [data-testid="stMarkdownContainer"] {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
+        }}
+        .element-container {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+        }}
+        thead tr th:first-child {{
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
+        }}
+        tbody tr td:first-child {{
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
+        }}
+    </style>
+    <div class="title">{texts[language]["title"]}</div>
+    <div class="subtitle">{texts[language]["subtitle"]}</div>
+    """,
+    unsafe_allow_html=True
+)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -625,7 +573,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen 🐔 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
