@@ -92,45 +92,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
 # إضافة زر التمرير إلى الأعلى
 st.markdown("""
-<style>
-#scrollToTop {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 45px;
-    font-size: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 9999;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: none;
-}
-
-#scrollToTop:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    transform: translateY(-2px);
-}
-
-</style>
-<div id="scrollToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</div>
-<script>
-    window.onscroll = function() {
-        var scrollButton = document.getElementById("scrollToTop");
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            scrollButton.style.display = "block";
-        } else {
-            scrollButton.style.display = "none";
+    <style>
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 9999;
         }
-    };
-</script>
+        
+        .floating-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+    <div class="floating-button" id="scrollToTopBtn" title="التمرير إلى الأعلى">
+        ⬆️
+    </div>
+
+    <script>
+        // إضافة زر التمرير
+        const scrollButton = document.getElementById('scrollToTopBtn');
+        
+        // إظهار/إخفاء الزر عند التمرير
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollButton.style.display = 'flex';
+            } else {
+                scrollButton.style.display = 'none';
+            }
+        });
+        
+        // التمرير إلى الأعلى عند النقر
+        scrollButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // إخفاء الزر في البداية
+        scrollButton.style.display = 'none';
+    </script>
 """, unsafe_allow_html=True)
 
 # تنسيق الأرقام العشرية
