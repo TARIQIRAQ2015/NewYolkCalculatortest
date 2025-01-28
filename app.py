@@ -160,6 +160,8 @@ texts = {
         "estimated_profit": "الربح المتوقع",
         "positive_result": "نتيجة إيجابية! 🎉",
         "negative_result": "نتيجة سلبية! ⚠️",
+        "calculate_future": "حساب الربح المستقبلي",
+        "calculate": "حساب",
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -207,6 +209,8 @@ texts = {
         "estimated_profit": "Estimated Profit",
         "positive_result": "Positive Result! 🎉",
         "negative_result": "Negative Result! ⚠️",
+        "calculate_future": "Calculate Future Profit",
+        "calculate": "Calculate",
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -254,6 +258,8 @@ texts = {
         "estimated_profit": "Profit Estimat",
         "positive_result": "Rezultat Pozitiv! 🎉",
         "negative_result": "Rezultat Negativ! ⚠️",
+        "calculate_future": "Calculează Profitul Viitor",
+        "calculate": "Calculează",
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -301,6 +307,8 @@ texts = {
         "estimated_profit": "Profit Estimé",
         "positive_result": "Résultat Positif! 🎉",
         "negative_result": "Résultat Négatif! ⚠️",
+        "calculate_future": "Calculer le Profit Futur",
+        "calculate": "Calculer",
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -348,6 +356,8 @@ texts = {
         "estimated_profit": "Beneficio Estimado",
         "positive_result": "Resultado Positivo! 🎉",
         "negative_result": "Resultado Negativo! ⚠️",
+        "calculate_future": "Calcular Beneficio Futuro",
+        "calculate": "Calcular",
     },
     "日本語": {
         "title": "🐔 ニューヨーク・チキン計算機",
@@ -395,6 +405,8 @@ texts = {
         "estimated_profit": "予想利益",
         "positive_result": "正の結果! 🎉",
         "negative_result": "負の結果! ⚠️",
+        "calculate_future": "将来の利益を計算",
+        "calculate": "計算",
     }
 }
 
@@ -862,7 +874,7 @@ def show_result_animation(is_positive):
 st.markdown(f"### {texts[language]['future_profit']}")
 months = st.number_input(texts[language]['months'], min_value=1, max_value=12, value=1)
 
-if st.button(texts[language]['calculate'], key="future_profit_button"):
+if st.button(texts[language]['calculate_future'], key="future_profit_button"):
     # حساب الربح المستقبلي
     if 'daily_profit' in locals():
         future_profit = daily_profit * (months * 30)  # تقريباً 30 يوم في الشهر
