@@ -120,25 +120,8 @@ texts = {
     }
 }
 
-# تهيئة session state للغة
-if 'language' not in st.session_state:
-    st.session_state.language = "العربية"
-
-# تحديد اللغة الحالية
-current_language = st.session_state.language
-
-# قائمة اختيار اللغة
-language = st.selectbox(
-    label=texts[current_language]["language"],
-    options=["العربية", "English", "Română"],
-    index=["العربية", "English", "Română"].index(current_language),
-    key="language_selector"
-)
-
-# تحديث اللغة في session state إذا تغيرت
-if language != current_language:
-    st.session_state.language = language
-    st.experimental_rerun()
+# اختيار اللغة
+language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
@@ -148,60 +131,35 @@ st.markdown(
             direction: {'rtl' if language == 'العربية' else 'ltr'};
         }}
         .title {{
-            font-size: 36px;
+            font-size: 50px;
             font-weight: bold;
             text-align: center;
             padding: 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }}
         .subtitle {{
-            font-size: 24px;
+            font-size: 30px;
             text-align: center;
             margin-bottom: 30px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }}
         .stButton {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
+            text-align: right;
+            font-size: 24px;
         }}
         .stSelectbox, .stTextInput {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
+            text-align: right;
+            font-size: 24px;
         }}
         .stButton button {{
-            font-size: 18px;
+            font-size: 24px;
             padding: 10px 24px;
             border-radius: 12px;
             width: 100%;
         }}
         .stTable th, .stTable td {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
+            text-align: right !important;
             direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
-        }}
-        [data-testid="stMarkdownContainer"] {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-        }}
-        .element-container {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        thead tr th:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-        tbody tr td:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-        div[data-testid="stSelectbox"] label {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-        }}
-        div[data-testid="stSelectbox"] div[data-testid="stMarkdownContainer"] {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
         }}
     </style>
     <div class="title">{texts[language]["title"]}</div>
