@@ -152,7 +152,14 @@ texts = {
         "pm": "مساءً",
         "summary": "ملخص النتائج",
         "copy_results": "نسخ النتائج",
-        "daily_profit": "الربح اليومي"
+        "daily_profit": "الربح اليومي",
+        "dark_mode": "الوضع الليلي 🌙",
+        "light_mode": "الوضع النهاري ☀️",
+        "future_profit": "حساب الربح المستقبلي 📈",
+        "months": "عدد الأشهر",
+        "estimated_profit": "الربح المتوقع",
+        "positive_result": "نتيجة إيجابية! 🎉",
+        "negative_result": "نتيجة سلبية! ⚠️",
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -192,7 +199,14 @@ texts = {
         "pm": "PM",
         "summary": "Results Summary",
         "copy_results": "Copy Results",
-        "daily_profit": "Daily Profit"
+        "daily_profit": "Daily Profit",
+        "dark_mode": "Dark Mode 🌙",
+        "light_mode": "Light Mode ☀️",
+        "future_profit": "Future Profit Calculator 📈",
+        "months": "Number of Months",
+        "estimated_profit": "Estimated Profit",
+        "positive_result": "Positive Result! 🎉",
+        "negative_result": "Negative Result! ⚠️",
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -232,7 +246,14 @@ texts = {
         "pm": "PM",
         "summary": "Rezumatul Rezultatelor",
         "copy_results": "Copiază Rezultatele",
-        "daily_profit": "Profit Zilnic"
+        "daily_profit": "Profit Zilnic",
+        "dark_mode": "Modul Întunecat 🌙",
+        "light_mode": "Modul Luminos ☀️",
+        "future_profit": "Calculator de Profit Viitor 📈",
+        "months": "Numărul de Luni",
+        "estimated_profit": "Profit Estimat",
+        "positive_result": "Rezultat Pozitiv! 🎉",
+        "negative_result": "Rezultat Negativ! ⚠️",
     },
     "Français": {
         "title": "🐔 Calculateur de Poulet - Newyolk",
@@ -252,7 +273,7 @@ texts = {
         "food_input": "Quantité de Nourriture Nécessaire 🌽",
         "calculate_rewards": "Calculer les Récompenses et Profits Alimentaires 🧮",
         "reset": "Réinitialiser 🔄",
-        "copyright": "par Tariq Al-Yaseen © 2025-2026",
+        "copyright": "by Tariq Al-Yaseen © 2025-2026",
         "value": "Valeur",
         "category": "Catégorie",
         "net_profit": "Profit Net 💰",
@@ -272,7 +293,14 @@ texts = {
         "pm": "PM",
         "summary": "Résumé des Résultats",
         "copy_results": "Copier les Résultats",
-        "daily_profit": "Profit Quotidien"
+        "daily_profit": "Profit Quotidien",
+        "dark_mode": "Mode Sombre 🌙",
+        "light_mode": "Mode Clair ☀️",
+        "future_profit": "Calculateur de Profit Futur 📈",
+        "months": "Nombre de Mois",
+        "estimated_profit": "Profit Estimé",
+        "positive_result": "Résultat Positif! 🎉",
+        "negative_result": "Résultat Négatif! ⚠️",
     },
     "Español": {
         "title": "🐔 Calculadora de Pollos - Newyolk",
@@ -312,7 +340,14 @@ texts = {
         "pm": "PM",
         "summary": "Resumen de Resultados",
         "copy_results": "Copiar Resultados",
-        "daily_profit": "Beneficio Diario"
+        "daily_profit": "Beneficio Diario",
+        "dark_mode": "Modo Oscuro 🌙",
+        "light_mode": "Modo Claro ☀️",
+        "future_profit": "Calculadora de Beneficio Futuro 📈",
+        "months": "Número de Meses",
+        "estimated_profit": "Beneficio Estimado",
+        "positive_result": "Resultado Positivo! 🎉",
+        "negative_result": "Resultado Negativo! ⚠️",
     },
     "日本語": {
         "title": "🐔 ニューヨーク・チキン計算機",
@@ -352,7 +387,14 @@ texts = {
         "pm": "PM",
         "summary": "結果サマリー",
         "copy_results": "結果をコピー",
-        "daily_profit": "日次利益"
+        "daily_profit": "日次利益",
+        "dark_mode": "ダークモード 🌙",
+        "light_mode": "ライトモード ☀️",
+        "future_profit": "将来の利益計算機 📈",
+        "months": "月数",
+        "estimated_profit": "予想利益",
+        "positive_result": "正の結果! 🎉",
+        "negative_result": "負の結果! ⚠️",
     }
 }
 
@@ -774,6 +816,68 @@ elif calculation_type == texts[language]["daily_rewards"]:
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️" if language == "Română" else "Veuillez entrer des nombres valides! ❗️" if language == "Français" else "Por favor, introduzca números válidos! ❗️" if language == "Español" else "有効な数字を入力してください! ❗️")
 
+# دالة لعرض الأيقونة المتحركة
+def show_result_animation(is_positive):
+    if is_positive:
+        st.markdown("""
+        <style>
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .positive-result {
+            animation: celebrate 1s infinite;
+            display: inline-block;
+            color: #4CAF50;
+            font-size: 24px;
+        }
+        </style>
+        <div class="positive-result">
+            🎉 
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <style>
+        @keyframes warning {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+        .negative-result {
+            animation: warning 0.5s infinite;
+            display: inline-block;
+            color: #f44336;
+            font-size: 24px;
+        }
+        </style>
+        <div class="negative-result">
+            ⚠️
+        </div>
+        """, unsafe_allow_html=True)
+
+# إضافة قسم حساب الربح المستقبلي
+st.markdown(f"### {texts[language]['future_profit']}")
+months = st.number_input(texts[language]['months'], min_value=1, max_value=12, value=1)
+
+if st.button(texts[language]['calculate'], key="future_profit_button"):
+    # حساب الربح المستقبلي
+    if 'daily_profit' in locals():
+        future_profit = daily_profit * (months * 30)  # تقريباً 30 يوم في الشهر
+        
+        # عرض النتيجة مع الأيقونة المتحركة
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.markdown(f"#### {texts[language]['estimated_profit']}: {format_decimal(future_profit)} {currency}")
+        with col2:
+            show_result_animation(future_profit > 0)
+            if future_profit > 0:
+                st.markdown(f"<p style='color: #4CAF50'>{texts[language]['positive_result']}</p>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<p style='color: #f44336'>{texts[language]['negative_result']}</p>", unsafe_allow_html=True)
+
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     st.session_state.egg_price = 0.1155
@@ -819,3 +923,46 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# إضافة وضع الظلام/النور وتحديث النصوص
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = False
+
+def apply_theme():
+    if st.session_state.dark_mode:
+        dark_theme = """
+        <style>
+        .stApp {
+            background-color: #1E1E1E;
+            color: #FFFFFF;
+        }
+        .stButton button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .stTextInput input {
+            background-color: #2D2D2D;
+            color: white;
+        }
+        .stNumberInput input {
+            background-color: #2D2D2D;
+            color: white;
+        }
+        .stSelectbox select {
+            background-color: #2D2D2D;
+            color: white;
+        }
+        div[data-testid="stTable"] {
+            background-color: #2D2D2D;
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(dark_theme, unsafe_allow_html=True)
+
+apply_theme()
+
+with st.sidebar:
+    if st.button(texts[language]["dark_mode"] if not st.session_state.dark_mode else texts[language]["light_mode"]):
+        st.session_state.dark_mode = not st.session_state.dark_mode
+        st.experimental_rerun()
