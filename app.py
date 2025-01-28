@@ -515,16 +515,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
 
 # زر إعادة التعيين
-reset_button = st.button(texts[language]["reset"], type="secondary")
-if reset_button:
-    if language == "العربية":
-        st.success("تم إعادة التعيين بنجاح! ✅")
-    elif language == "English":
-        st.success("Reset successful! ✅")
-    elif language == "Română":
-        st.success("Resetare cu succes! ✅")
-    st.session_state.clear()
-    st.rerun()
+if st.button(texts[language]["reset"], type="secondary"):
+    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
 # إضافة الأيقونات والروابط
 st.markdown(
