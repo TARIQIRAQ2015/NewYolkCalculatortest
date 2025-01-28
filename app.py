@@ -202,146 +202,96 @@ with col2:
         [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
     )
 
-# قسم تعديل الأسعار
-st.subheader(texts[language]["save_prices"])
-col3, col4 = st.columns(2)
-
-with col3:
-    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
-
-with col4:
-    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
-
-if st.button(texts[language]["save_prices"], type="secondary"):
+# دالة التحقق من المدخلات
+def is_number(value):
     try:
-        new_egg_price = float(new_egg_price)
-        new_feed_price = float(new_feed_price)
-        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "")
+        float(value)
+        return True
     except ValueError:
-        st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
-
-# تحديث الأسعار بناءً على العملة
-if currency == "IQD":
-    egg_price_display = float(new_egg_price) * 1480
-    feed_price_display = float(new_feed_price) * 1480
-else:
-    egg_price_display = float(new_egg_price)
-    feed_price_display = float(new_feed_price)
-
-st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
-st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
-
-# دالة إنشاء الرسم البياني
-def create_profit_chart(df, language):
-    # تخصيص الألوان
-    colors = {
-        'عدد البيض 🥚': '#4CAF50',
-        'عدد الطعام المطلوب 🌽': '#FF9800',
-        'الربح قبل الإيجار 📊': '#2196F3',
-        'دفع الإيجار 🏠': '#F44336',
-        'صافي الربح 💰': '#9C27B0'
-    }
-    
-    # إنشاء الرسم البياني
-    fig = px.pie(
-        df,
-        values=texts[language]["value"],
-        names=texts[language]["category"],
-        title=texts[language]["summary"],
-        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
-    )
-    
-    # تحديث تصميم الرسم البياني
-    fig.update_traces(
-        textposition='outside',
-        textinfo='percent+label'
-    )
-    
-    fig.update_layout(
-        title_x=0.5,
-        title_font_size=24,
-        showlegend=True,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.2,
-            xanchor="center",
-            x=0.5
-        ),
-        margin=dict(t=60, l=0, r=0, b=0),
-        height=500,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    return fig
+        return False
 
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
     col5, col6 = st.columns(2)
 
     with col5:
-        eggs = st.text_input(
-            texts[language]["eggs_input"],
-            value="",
-            help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else ""
-        )
+        eggs_input = st.text_input(texts[language]["eggs_input"])
+        if eggs_input and not is_number(eggs_input):
+            st.error("الرجاء إدخال أرقام فقط")
+            eggs_input = "0"
+        eggs = float(eggs_input) if eggs_input else 0
 
     with col6:
-        days = st.text_input(
-            texts[language]["days_input"],
-            value="",
-            help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else ""
-        )
+        days_input = st.text_input(texts[language]["days_input"])
+        if days_input and not is_number(days_input):
+            st.error("الرجاء إدخال أرقام فقط")
+            days_input = "0"
+        days = float(days_input) if days_input else 0
 
-    if st.button(texts[language]["calculate_profits"], type="primary"):
-        try:
-            eggs = float(eggs) if eggs else None
-            days = float(days) if days else None
+    if st.button(texts[language]["calculate_profits"] + " 🧮"):
+        if eggs > 0 and days > 0:
+            # حساب الأرباح
+            egg_price = 0.25 if currency == "USD" else 370
+            feed_price = 0.50 if currency == "USD" else 740
+            total_egg_price = eggs * egg_price
+            total_feed_cost = (eggs * 0.12) * feed_price
+            
+            # حساب الإيجار
+            daily_rent = 6 if currency == "USD" else 8880  # 6 دولار يومياً
+            total_rent = daily_rent * days if eggs >= 260 else 0
+            
+            net_profit = total_egg_price - total_feed_cost - total_rent
 
-            if eggs is None or days is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
-            elif eggs > 580:
-                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "")
-            elif days > 730:
-                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
-            else:
-                # حساب الإيجار
-                if days > 365:  # السنة الثانية
-                    rent_cost = 6  # دفع الإيجار للسنة الثانية
-                else:
-                    rent_cost = 0  # لا يوجد إيجار في السنة الأولى
+            # إنشاء DataFrame للنتائج
+            df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['eggs_input']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📊 {texts[language]['net_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"💰 {texts[language]['net_profit']}"
+                ],
+                texts[language]["value"]: [
+                    f"{format_decimal(eggs)}",
+                    f"{format_decimal(eggs * 0.12)}",
+                    f"{format_decimal(total_egg_price - total_feed_cost)}",
+                    f"{format_decimal(total_rent)}",
+                    f"{format_decimal(net_profit)}"
+                ]
+            })
+            
+            # عرض الجدول النهائي أولاً
+            df = df.round(2)
+            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+            st.table(df)
 
-                # حساب النتائج
-                total_egg_price_usd = eggs * float(new_egg_price)
-                total_feed_cost_usd = (days * 2) * float(new_feed_price)  # تصحيح حساب تكلفة العلف
-                net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
-                rent_cost_usd = rent_cost
-                net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
+            # عرض الرسم البياني
+            chart_df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['eggs_input']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📊 {texts[language]['net_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"💰 {texts[language]['net_profit']}"
+                ],
+                texts[language]["value"]: [
+                    float(str(eggs).replace(currency, "").strip()),
+                    float(str(eggs * 0.12).replace(currency, "").strip()),
+                    float(str(total_egg_price - total_feed_cost).replace(currency, "").strip()),
+                    float(str(total_rent).replace(currency, "").strip()),
+                    float(str(net_profit).replace(currency, "").strip())
+                ]
+            })
+            fig = create_profit_chart(chart_df, language)
+            st.plotly_chart(fig, use_container_width=True)
 
-                # تحويل العملة
-                if currency == "IQD":
-                    total_egg_price = total_egg_price_usd * 1480
-                    total_feed_cost = total_feed_cost_usd * 1480
-                    net_profit_before_rent = net_profit_before_rent_usd * 1480
-                    rent_cost = rent_cost_usd * 1480
-                    net_profit = net_profit_usd * 1480
-                else:
-                    total_egg_price, total_feed_cost, net_profit_before_rent, rent_cost, net_profit = (
-                        total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
-                    )
-
-                # تنسيق التاريخ والوقت حسب توقيت بغداد
-                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-                date_str = current_time.strftime("%Y-%m-%d")
-                time_str = current_time.strftime("%I:%M %p")
-
-                # إنشاء نص النتائج
-                results_text = f"""
+            # عرض ملخص النتائج في النهاية
+            st.markdown(f"### 📊 {texts[language]['summary']}")
+            st.code(f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['summary']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_time']}: {date_str} {time_str}
+║ {texts[language]['calculation_time']}: {datetime.now().strftime("%Y-%m-%d %I:%M %p")}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
@@ -352,60 +302,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
 ║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
 ║ {texts[language]['net_profit']}: {format_decimal(net_profit * 1480)} IQD
-╚══════════════════════════════════════════════════════════════════╝"""
-
-                # عرض النتائج
-                # st.code(results_text, language="text")
-
-                # إنشاء DataFrame للرسم البياني
-                df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📊 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['net_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost,
-                        net_profit_before_rent,
-                        rent_cost,
-                        net_profit
-                    ]
-                })
-                
-                # عرض الجدول النهائي أولاً
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-                st.table(df)
-
-                # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📊 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['net_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(total_egg_price).replace(currency, "").strip()),
-                        float(str(total_feed_cost).replace(currency, "").strip()),
-                        float(str(net_profit_before_rent).replace(currency, "").strip()),
-                        float(str(rent_cost).replace(currency, "").strip()),
-                        float(str(net_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
-                st.plotly_chart(fig, use_container_width=True)
-
-                # عرض ملخص النتائج في النهاية
-                st.markdown(f"### 📊 {texts[language]['summary']}")
-                st.code(results_text)
-                
-        except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+╚══════════════════════════════════════════════════════════════════╝""")
 
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
@@ -508,6 +405,51 @@ elif calculation_type == texts[language]["daily_rewards"]:
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
 
+# دالة إنشاء الرسم البياني
+def create_profit_chart(df, language):
+    # تخصيص الألوان
+    colors = {
+        'عدد البيض 🥚': '#4CAF50',
+        'عدد الطعام المطلوب 🌽': '#FF9800',
+        'الربح قبل الإيجار 📊': '#2196F3',
+        'دفع الإيجار 🏠': '#F44336',
+        'صافي الربح 💰': '#9C27B0'
+    }
+    
+    # إنشاء الرسم البياني
+    fig = px.pie(
+        df,
+        values=texts[language]["value"],
+        names=texts[language]["category"],
+        title=texts[language]["summary"],
+        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
+    )
+    
+    # تحديث تصميم الرسم البياني
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label'
+    )
+    
+    fig.update_layout(
+        title_x=0.5,
+        title_font_size=24,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.2,
+            xanchor="center",
+            x=0.5
+        ),
+        margin=dict(t=60, l=0, r=0, b=0),
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    return fig
+
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
@@ -573,7 +515,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
