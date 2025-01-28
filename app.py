@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # تحسين الواجهة - يجب أن يكون هذا أول أمر
 st.set_page_config(
@@ -140,6 +140,7 @@ texts = {
         "profit_before_rent": "الربح قبل الإيجار 📊",
         "results_title": "ملخص النتائج",
         "calculation_date": "تاريخ الحساب",
+        "calculation_time": "وقت الحساب",
         "calculation_details": "تفاصيل الحساب",
         "usd_results": "النتائج بالدولار الأمريكي",
         "iqd_results": "النتائج بالدينار العراقي",
@@ -179,6 +180,7 @@ texts = {
         "profit_before_rent": "Profit Before Rent 📊",
         "results_title": "Results Summary",
         "calculation_date": "Calculation Date",
+        "calculation_time": "Calculation Time",
         "calculation_details": "Calculation Details",
         "usd_results": "Results in USD",
         "iqd_results": "Results in IQD",
@@ -218,6 +220,7 @@ texts = {
         "profit_before_rent": "Profit Înainte de Chirie 📊",
         "results_title": "Rezumatul Rezultatelor",
         "calculation_date": "Data Calculului",
+        "calculation_time": "Ora Calculului",
         "calculation_details": "Detalii Calcul",
         "usd_results": "Rezultate în USD",
         "iqd_results": "Rezultate în IQD",
@@ -257,6 +260,7 @@ texts = {
         "profit_before_rent": "Profit Avant Loyer 📊",
         "results_title": "Résumé des Résultats",
         "calculation_date": "Date de Calcul",
+        "calculation_time": "Heure de Calcul",
         "calculation_details": "Détails de Calcul",
         "usd_results": "Résultats en USD",
         "iqd_results": "Résultats en IQD",
@@ -296,6 +300,7 @@ texts = {
         "profit_before_rent": "Beneficio Antes de Alquiler 📊",
         "results_title": "Resumen de Resultados",
         "calculation_date": "Fecha de Cálculo",
+        "calculation_time": "Hora de Cálculo",
         "calculation_details": "Detalles de Cálculo",
         "usd_results": "Resultados en USD",
         "iqd_results": "Resultados en IQD",
@@ -335,6 +340,7 @@ texts = {
         "profit_before_rent": "家賃控除前利益 📊",
         "results_title": "結果サマリー",
         "calculation_date": "計算日",
+        "calculation_time": "計算時間",
         "calculation_details": "計算詳細",
         "usd_results": "USD での結果",
         "iqd_results": "IQD での結果",
@@ -571,23 +577,18 @@ if calculation_type == texts[language]["chicken_profits"]:
                         total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
                     )
 
-                # تنسيق التاريخ والوقت
-                current_time = datetime.now()
-                hour = current_time.hour
-                am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
-                if hour > 12:
-                    hour -= 12
-                elif hour == 0:
-                    hour = 12
-                formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
+                # تنسيق التاريخ والوقت حسب توقيت بغداد
+                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+                date_str = current_time.strftime("%Y-%m-%d")
+                time_str = current_time.strftime("%I:%M %p")
 
                 # إنشاء نص النتائج
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['results_title']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_date']}: {formatted_time}
-║ {texts[language]['calculation_details']}: {texts[language]['calculation_type']}
+║ {texts[language]['calculation_date']}: {date_str}
+║ {texts[language]['calculation_time']}: {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['current_prices']}:
 ║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
@@ -702,23 +703,16 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 else:
                     daily_profit = daily_profit
 
-                # تنسيق التاريخ والوقت
-                current_time = datetime.now()
-                hour = current_time.hour
-                am_pm = texts[language]["am"] if hour < 12 else texts[language]["pm"]
-                if hour > 12:
-                    hour -= 12
-                elif hour == 0:
-                    hour = 12
-                formatted_time = current_time.strftime(f"%Y-%m-%d {hour}:%M") + f" {am_pm}"
+                # تنسيق التاريخ والوقت حسب توقيت بغداد
+                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+                date_str = current_time.strftime("%Y-%m-%d")
+                time_str = current_time.strftime("%I:%M %p")
 
                 # إنشاء نص النتائج
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
-║                  {texts[language]['results_title']}                    ║
-╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_date']}: {formatted_time}
-║ {texts[language]['calculation_details']}: {texts[language]['calculation_type']}
+║ {texts[language]['calculation_date']}: {date_str}
+║ {texts[language]['calculation_time']}: {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['current_prices']}:
 ║ ▸ {texts[language]['current_egg_price']}: {format_decimal(st.session_state.egg_price)} USD
@@ -732,7 +726,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ {texts[language]['iqd_results']}:
 ║ ▸ {texts[language]['rewards_input']}: {format_decimal(rewards * st.session_state.egg_price * 1480)} IQD
 ║ ▸ {texts[language]['food_input']}: {format_decimal(food * st.session_state.feed_price * 1480)} IQD
-║ ▸ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} IQD
+║ ▸ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
