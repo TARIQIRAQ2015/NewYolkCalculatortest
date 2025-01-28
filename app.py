@@ -199,6 +199,14 @@ with col2:
         [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
     )
 
+# دالة التحقق من المدخلات
+def is_number(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
 # قسم تعديل الأسعار
 st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
@@ -210,23 +218,22 @@ with col4:
     new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
 
 if st.button(texts[language]["save_prices"], type="secondary"):
-    try:
-        new_egg_price = float(new_egg_price)
-        new_feed_price = float(new_feed_price)
-        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "")
-    except ValueError:
-        st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+    if not is_number(new_egg_price) or not is_number(new_feed_price):
+        st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+    else:
+        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
 
 # تحديث الأسعار بناءً على العملة
-if currency == "IQD":
-    egg_price_display = float(new_egg_price) * 1480
-    feed_price_display = float(new_feed_price) * 1480
-else:
-    egg_price_display = float(new_egg_price)
-    feed_price_display = float(new_feed_price)
+if is_number(new_egg_price) and is_number(new_feed_price):
+    if currency == "IQD":
+        egg_price_display = float(new_egg_price) * 1480
+        feed_price_display = float(new_feed_price) * 1480
+    else:
+        egg_price_display = float(new_egg_price)
+        feed_price_display = float(new_feed_price)
 
-st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
-st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
+    st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
+    st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
 
 # دالة إنشاء الرسم البياني
 def create_profit_chart(df, language):
