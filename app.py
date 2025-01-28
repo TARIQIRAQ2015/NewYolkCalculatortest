@@ -121,7 +121,7 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
+language = st.selectbox("اللغة | Language | Limbă 🌐", ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
