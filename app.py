@@ -579,7 +579,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
