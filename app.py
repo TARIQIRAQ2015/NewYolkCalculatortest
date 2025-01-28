@@ -18,6 +18,7 @@ def format_decimal(number):
 texts = {
     "العربية": {
         "title": "🐔 حاسبة الدجاج - نيويولك",
+        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌐",
         "currency": "العملة 💰",
         "egg_price": "سعر البيض 🥚",
@@ -49,6 +50,7 @@ texts = {
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
+        "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌐",
         "currency": "Currency 💰",
         "egg_price": "Egg Price 🥚",
@@ -77,60 +79,90 @@ texts = {
         "summary": "Results Summary",
         "copy_results": "Copy Results",
         "daily_profit": "Daily Profit"
+    },
+    "Română": {
+        "title": "🐔 Calculator de Găini - Newyolk",
+        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
+        "language": "Limbă 🌐",
+        "currency": "Monedă 💰",
+        "egg_price": "Prețul Ouălor 🥚",
+        "feed_price": "Prețul Furajului 🌾",
+        "save_prices": "Salvează Noile Prețuri 💾",
+        "calculation_type": "Tipul Calculului 📊",
+        "chicken_profits": "Profituri din Găini",
+        "daily_rewards": "Recompense Zilnice și Profituri din Mâncare",
+        "eggs_input": "Numărul de Ouă 🥚",
+        "days_input": "Numărul de Zile 📅",
+        "calculate_profits": "Calculează Profiturile din Găini 🧮",
+        "food_input": "Cantitatea de Mâncare Necesară 🌽",
+        "calculate_rewards": "Calculează Recompensele și Profiturile din Mâncare 🧮",
+        "reset": "Resetează 🔄",
+        "copyright": "de Tariq Al-Yaseen © 2025-2026",
+        "value": "Valoare",
+        "category": "Categorie",
+        "net_profit": "Profit Net 💰",
+        "total_rewards": "Total Recompense 🎁",
+        "total_food_cost": "Cost Total Furaje 🌾",
+        "first_year_rental": "Chirie Primul An 🏠",
+        "second_year_rental": "Chirie Al Doilea An 🏠",
+        "calculation_time": "Ora Calculului ⏰",
+        "am": "AM",
+        "pm": "PM",
+        "summary": "Rezumatul Rezultatelor",
+        "copy_results": "Copiază Rezultatele",
+        "daily_profit": "Profit Zilnic"
     }
 }
 
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language"], ["العربية", "English"])
+language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
     f"""
     <style>
-    body {{
-        background: #ffffff;
-        color: black;
-        direction: {'rtl' if language == 'العربية' else 'ltr'};
-    }}
-    .title {{
-        font-size: 50px;
-        font-weight: bold;
-        color: black;
-        text-align: center;
-        padding: 20px;
-    }}
-    .subtitle {{
-        font-size: 30px;
-        color: black;
-        text-align: center;
-        margin-bottom: 30px;
-    }}
-    .rtl {{
-        direction: {'rtl' if language == 'العربية' else 'ltr'};
-        text-align: right;
-        font-size: 24px;
-        color: black;
-    }}
-    .stSelectbox, .stTextInput {{
-        direction: {'rtl' if language == 'العربية' else 'ltr'};
-        text-align: right;
-        font-size: 24px;
-        color: black;
-    }}
-    .stButton button {{
-        font-size: 24px;
-    }}
-    .stTable {{
-        margin: 0 auto; /* توسيط الجدول */
-        width: 100%; /* تحديد عرض الجدول */
-        text-align: right; /* محاذاة النص إلى اليمين */
-    }}
-    .stTable th, .stTable td {{
-        text-align: right !important; /* محاذاة النص داخل الخلايا إلى اليمين */
-        direction: {'rtl' if language == 'العربية' else 'ltr'} !important; /* اتجاه النص من اليمين إلى اليسار */
-    }}
+        .stApp {{
+            background: #ffffff;
+            color: black;
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+        }}
+        .title {{
+            font-size: 50px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            padding: 20px;
+        }}
+        .subtitle {{
+            font-size: 30px;
+            color: black;
+            text-align: center;
+            margin-bottom: 30px;
+        }}
+        .stButton {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: right;
+            font-size: 24px;
+            color: black;
+        }}
+        .stSelectbox, .stTextInput {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: right;
+            font-size: 24px;
+            color: black;
+        }}
+        .stButton button {{
+            font-size: 24px;
+            padding: 10px 24px;
+            border-radius: 12px;
+            width: 100%;
+        }}
+        .stTable th, .stTable td {{
+            text-align: right !important;
+            direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
+        }}
     </style>
-    <div class="title"> {texts[language]["title"]}</div>
+    <div class="title">{texts[language]["title"]}</div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
