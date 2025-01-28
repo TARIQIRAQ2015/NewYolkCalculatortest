@@ -21,8 +21,8 @@ texts = {
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌐",
         "currency": "العملة 💰",
-        "egg_price": "سعر البيض 🥚",
-        "feed_price": "سعر العلف 🌾",
+        "egg_price": "سعر البيض الحالي 🥚",
+        "feed_price": "سعر العلف الحالي 🌽",
         "save_prices": "حفظ الأسعار الجديدة 💾",
         "calculation_type": "نوع الحساب 📊",
         "chicken_profits": "أرباح الدجاج",
@@ -38,7 +38,7 @@ texts = {
         "category": "الفئة",
         "net_profit": "صافي الربح 💰",
         "total_rewards": "إجمالي المكافآت 🎁",
-        "total_food_cost": "إجمالي تكلفة العلف 🌾",
+        "total_food_cost": "اجمالي العلف 🌽",
         "first_year_rental": "إيجار السنة الأولى 🏠",
         "second_year_rental": "إيجار السنة الثانية 🏠",
         "calculation_time": "وقت الحساب ⏰",
@@ -55,8 +55,8 @@ texts = {
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌐",
         "currency": "Currency 💰",
-        "egg_price": "Egg Price 🥚",
-        "feed_price": "Feed Price 🌾",
+        "egg_price": "Current Egg Price 🥚",
+        "feed_price": "Current Feed Price 🌽",
         "save_prices": "Save New Prices 💾",
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits",
@@ -72,7 +72,7 @@ texts = {
         "category": "Category",
         "net_profit": "Net Profit 💰",
         "total_rewards": "Total Rewards 🎁",
-        "total_food_cost": "Total Food Cost 🌾",
+        "total_food_cost": "Total Feed 🌽",
         "first_year_rental": "First Year Rental 🏠",
         "second_year_rental": "Second Year Rental 🏠",
         "calculation_time": "Calculation Time ⏰",
@@ -89,8 +89,8 @@ texts = {
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
         "language": "Limbă 🌐",
         "currency": "Monedă 💰",
-        "egg_price": "Prețul Ouălor 🥚",
-        "feed_price": "Prețul Furajului 🌾",
+        "egg_price": "Prețul Curent al Ouălor 🥚",
+        "feed_price": "Prețul Curent al Furajului 🌽",
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini",
@@ -106,7 +106,7 @@ texts = {
         "category": "Categorie",
         "net_profit": "Profit Net 💰",
         "total_rewards": "Total Recompense 🎁",
-        "total_food_cost": "Cost Total Furaje 🌾",
+        "total_food_cost": "Total Furaje 🌽",
         "first_year_rental": "Chirie Primul An 🏠",
         "second_year_rental": "Chirie Al Doilea An 🏠",
         "calculation_time": "Ora Calculului ⏰",
@@ -121,7 +121,7 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox("اللغة | Language | Limbă 🌐", ["العربية", "English", "Română"])
+language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
@@ -306,29 +306,30 @@ if calculation_type == texts[language]["chicken_profits"]:
             elif days > 730:
                 st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
             else:
+                # حساب الأرباح
+                egg_price = 0.25 if currency == "USD" else 370
+                feed_price = 0.50 if currency == "USD" else 740
+                total_egg_price = eggs * egg_price
+                total_feed_cost = (eggs * 0.12) * feed_price
+                
                 # حساب الإيجار
-                if days > 365:  # السنة الثانية
-                    rent_cost = 6  # دفع الإيجار للسنة الثانية
-                else:
-                    rent_cost = 0  # لا يوجد إيجار في السنة الأولى
-
+                daily_rent = 6 if currency == "USD" else 8880  # 6 دولار يومياً
+                total_rent = daily_rent * days if eggs >= 260 else 0
+                
                 # حساب النتائج
-                total_egg_price_usd = eggs * float(new_egg_price)
-                total_feed_cost_usd = (days * 2) * float(new_feed_price)  # تصحيح حساب تكلفة العلف
-                net_profit_before_rent_usd = total_egg_price_usd - total_feed_cost_usd
-                rent_cost_usd = rent_cost
-                net_profit_usd = net_profit_before_rent_usd - rent_cost_usd
+                net_profit_before_rent = total_egg_price - total_feed_cost
+                net_profit = net_profit_before_rent - total_rent
 
                 # تحويل العملة
                 if currency == "IQD":
-                    total_egg_price = total_egg_price_usd * 1480
-                    total_feed_cost = total_feed_cost_usd * 1480
-                    net_profit_before_rent = net_profit_before_rent_usd * 1480
-                    rent_cost = rent_cost_usd * 1480
-                    net_profit = net_profit_usd * 1480
+                    total_egg_price = total_egg_price * 1480
+                    total_feed_cost = total_feed_cost * 1480
+                    net_profit_before_rent = net_profit_before_rent * 1480
+                    total_rent = total_rent * 1480
+                    net_profit = net_profit * 1480
                 else:
-                    total_egg_price, total_feed_cost, net_profit_before_rent, rent_cost, net_profit = (
-                        total_egg_price_usd, total_feed_cost_usd, net_profit_before_rent_usd, rent_cost_usd, net_profit_usd
+                    total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
+                        total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit
                     )
 
                 # تنسيق التاريخ والوقت حسب توقيت بغداد
@@ -370,7 +371,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                         total_egg_price,
                         total_feed_cost,
                         net_profit_before_rent,
-                        rent_cost,
+                        total_rent,
                         net_profit
                     ]
                 })
@@ -393,7 +394,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                         float(str(total_egg_price).replace(currency, "").strip()),
                         float(str(total_feed_cost).replace(currency, "").strip()),
                         float(str(net_profit_before_rent).replace(currency, "").strip()),
-                        float(str(rent_cost).replace(currency, "").strip()),
+                        float(str(total_rent).replace(currency, "").strip()),
                         float(str(net_profit).replace(currency, "").strip())
                     ]
                 })
