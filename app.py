@@ -497,17 +497,18 @@ if st.button(texts[language]["reset"], type="secondary"):
 st.markdown(
     """
     <div style="text-align: center; margin-top: 30px;">
-        <a href="https://www.facebook.com/profile.php?id=100092359345851" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="32" height="32" alt="Facebook">
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" width="32" height="32" alt="Facebook">
         </a>
-        <a href="https://t.me/NewYolkChat" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://img.icons8.com/color/48/000000/telegram-app--v1.png" width="32" height="32" alt="Telegram">
+        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="32" height="32" alt="Telegram">
         </a>
-        <a href="https://discord.gg/newyolk" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://img.icons8.com/color/48/000000/discord-new-logo.png" width="32" height="32" alt="Discord">
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="32" height="32" alt="Discord">
         </a>
         <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/000000/external-website-social-media-tanah-basah-glyph-tanah-basah.png" width="32" height="32" alt="Website">
+            <span style="color: #007bff; font-weight: bold; font-size: 16px;">Website</span>
+            <img src="https://i.ibb.co/YDKWBRf/internet.png" width="32" height="32" alt="Website" style="margin-left: 5px;">
         </a>
         <br>
         <br>
@@ -520,6 +521,9 @@ st.markdown(
         a img:hover {
             transform: scale(1.2);
             filter: brightness(1.2);
+        }
+        a:hover span {
+            text-decoration: underline;
         }
     </style>
     """,
