@@ -131,24 +131,30 @@ st.markdown(
             direction: {'rtl' if language == 'العربية' else 'ltr'};
         }}
         .title {{
-            font-size: 50px;
+            font-size: 36px;
             font-weight: bold;
             text-align: center;
             padding: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }}
         .subtitle {{
-            font-size: 30px;
+            font-size: 24px;
             text-align: center;
             margin-bottom: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }}
         .stButton {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: right;
+            text-align: {'right' if language == 'العربية' else 'left'};
             font-size: 24px;
         }}
         .stSelectbox, .stTextInput {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: right;
+            text-align: {'right' if language == 'العربية' else 'left'};
             font-size: 24px;
         }}
         .stButton button {{
@@ -158,8 +164,21 @@ st.markdown(
             width: 100%;
         }}
         .stTable th, .stTable td {{
-            text-align: right !important;
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
             direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
+        }}
+        [data-testid="stMarkdownContainer"] {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            text-align: {'right' if language == 'العربية' else 'left'};
+        }}
+        .element-container {{
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
+        }}
+        thead tr th:first-child {{
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
+        }}
+        tbody tr td:first-child {{
+            text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
     <div class="title">{texts[language]["title"]}</div>
