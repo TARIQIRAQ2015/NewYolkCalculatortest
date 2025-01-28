@@ -307,10 +307,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
             else:
                 # حساب الأرباح
-                egg_price = 0.25 if currency == "USD" else 370
-                feed_price = 0.50 if currency == "USD" else 740
-                total_egg_price = eggs * egg_price
-                total_feed_cost = (eggs * 0.12) * feed_price
+                total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
+                total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
                 
                 # حساب الإيجار
                 daily_rent = 6 if currency == "USD" else 8880  # 6 دولار يومياً
