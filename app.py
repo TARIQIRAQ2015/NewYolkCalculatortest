@@ -43,7 +43,11 @@ texts = {
         "calculation_time": "وقت الحساب ⏰",
         "summary": "ملخص النتائج ✨",
         "usd_results": "النتائج بالدولار الأمريكي 💵",
-        "iqd_results": "النتائج بالدينار العراقي 💵"
+        "iqd_results": "النتائج بالدينار العراقي 💵",
+        "daily_profit": "الربح اليومي 📈",
+        "am": "صباحاً",
+        "pm": "مساءً",
+        "copy_results": "نسخ النتائج"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -72,7 +76,11 @@ texts = {
         "calculation_time": "Calculation Time ⏰",
         "summary": "Results Summary ✨",
         "usd_results": "Results in USD 💵",
-        "iqd_results": "Results in IQD 💵"
+        "iqd_results": "Results in IQD 💵",
+        "daily_profit": "Daily Profit 📈",
+        "am": "AM",
+        "pm": "PM",
+        "copy_results": "Copy Results"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -101,12 +109,16 @@ texts = {
         "calculation_time": "Ora Calculului ⏰",
         "summary": "Rezumatul Rezultatelor ✨",
         "usd_results": "Rezultate în USD 💵",
-        "iqd_results": "Rezultate în IQD 💵"
+        "iqd_results": "Rezultate în IQD 💵",
+        "daily_profit": "Profit Zilnic 📈",
+        "am": "AM",
+        "pm": "PM",
+        "copy_results": "Copiază Rezultatele"
     }
 }
 
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
+language = st.selectbox("اللغة | Language | Limbă 🌍", ["العربية", "English", "Română"])
 
 # تحسين الواجهة
 st.markdown(
