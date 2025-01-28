@@ -516,7 +516,10 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
-    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
+    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else 
+              "Reset successful! ✅" if language == "English" else 
+              "Resetare cu succes! ✅")
+    st.rerun()
 
 # إضافة الأيقونات والروابط
 st.markdown(
