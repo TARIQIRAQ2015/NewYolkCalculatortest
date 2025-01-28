@@ -134,65 +134,35 @@ with st.sidebar:
 
 # إضافة زر التمرير إلى الأعلى
 st.markdown("""
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .floating-button {
+        [data-testid="stSidebarNav"] {
+            display: none;
+        }
+        .scroll-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
             width: 50px;
             height: 50px;
-            background-color: #4CAF50;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            text-align: center;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 999999;
+            display: block;
+            text-decoration: none;
+            line-height: 50px;
         }
-        
-        .floating-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.2);
+        .scroll-btn:hover {
             background-color: #45a049;
-        }
-
-        .floating-button.show {
-            opacity: 1;
-            visibility: visible;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
     </style>
-
-    <div class="floating-button" id="scrollToTopBtn" title="التمرير إلى الأعلى">
-        ⬆️
-    </div>
-
-    <script>
-        $(document).ready(function() {
-            const scrollButton = $('#scrollToTopBtn');
-            
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 300) {
-                    scrollButton.addClass('show');
-                } else {
-                    scrollButton.removeClass('show');
-                }
-            });
-            
-            scrollButton.click(function() {
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 800);
-                return false;
-            });
-        });
-    </script>
+    <a href="#top" class="scroll-btn" title="التمرير إلى الأعلى">⬆️</a>
 """, unsafe_allow_html=True)
 
 # تنسيق الأرقام العشرية
