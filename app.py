@@ -493,6 +493,26 @@ elif calculation_type == texts[language]["daily_rewards"]:
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
+# إضافة حقوق الملكية في أسفل الصفحة
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    </style>
+    <div class="footer">By Tariq Al-Yaseen 2025-2026</div>
+    """,
+    unsafe_allow_html=True
+)
+
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
     """
