@@ -120,8 +120,13 @@ texts = {
     }
 }
 
+# تعيين اللغة الافتراضية
+if 'language' not in st.session_state:
+    st.session_state.language = "العربية"
+
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language"], ["العربية", "English", "Română"])
+language = st.selectbox(texts[st.session_state.language]["language"], ["العربية", "English", "Română"], key='language_selector')
+st.session_state.language = language
 
 # تحسين الواجهة
 st.markdown(
