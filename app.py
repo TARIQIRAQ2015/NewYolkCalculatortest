@@ -497,8 +497,17 @@ if st.button(texts[language]["reset"], type="secondary"):
 st.markdown(
     """
     <div style="text-align: center; margin-top: 30px;">
+        <a href="https://www.facebook.com/profile.php?id=100092359345851" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" width="32" height="32" alt="Facebook">
+        </a>
+        <a href="https://t.me/NewYolkChat" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://img.icons8.com/color/48/000000/telegram-app--v1.png" width="32" height="32" alt="Telegram">
+        </a>
+        <a href="https://discord.gg/newyolk" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://img.icons8.com/color/48/000000/discord-new-logo.png" width="32" height="32" alt="Discord">
+        </a>
         <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://img.icons8.com/fluency/48/000000/globe.png" width="32" height="32" alt="Website">
+            <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/000000/external-website-social-media-tanah-basah-glyph-tanah-basah.png" width="32" height="32" alt="Website">
         </a>
         <br>
         <br>
@@ -506,9 +515,11 @@ st.markdown(
     <style>
         a img {
             transition: transform 0.3s ease;
+            filter: brightness(1);
         }
         a img:hover {
             transform: scale(1.2);
+            filter: brightness(1.2);
         }
     </style>
     """,
@@ -555,7 +566,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen ©️ 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
