@@ -19,14 +19,14 @@ texts = {
     "العربية": {
         "title": "🐔 حاسبة الدجاج - نيويولك",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "language": "اللغة 🌐",
-        "currency": "العملة 💰",
+        "language": "اللغة 🌍",
+        "currency": "العملة 💵",
         "egg_price": "سعر البيض الحالي 🥚",
-        "feed_price": "سعر العلف الحالي 🌽",
+        "feed_price": "سعر العلف الحالي 🌾",
         "save_prices": "حفظ الأسعار الجديدة 💾",
         "calculation_type": "نوع الحساب 📊",
-        "chicken_profits": "أرباح الدجاج",
-        "daily_rewards": "المكافآت اليومية",
+        "chicken_profits": "أرباح الدجاج 🐔",
+        "daily_rewards": "المكافآت اليومية ✨",
         "eggs_input": "عدد البيض",
         "days_input": "عدد الأيام",
         "food_input": "عدد الطعام المطلوب",
@@ -35,31 +35,27 @@ texts = {
         "reset": "إعادة تعيين",
         "value": "القيمة",
         "category": "الفئة",
-        "net_profit": "الربح قبل حساب الايجار 💰",
-        "total_rewards": "إجمالي المكافآت 🎁",
-        "total_food_cost": "اجمالي العلف 🌽",
-        "first_year_rental": "إيجار السنة الأولى 🏠",
-        "second_year_rental": "إيجار السنة الثانية 🏠",
+        "net_profit": "الربح قبل حساب الايجار 📈",
+        "total_rewards": "إجمالي المكافآت ⭐",
+        "total_food_cost": "اجمالي العلف 🌾",
+        "first_year_rental": "الإيجار 🏠",
+        "final_profit": "الربح الصافي 💰",
         "calculation_time": "وقت الحساب ⏰",
-        "am": "صباحاً",
-        "pm": "مساءً",
-        "summary": "ملخص النتائج",
-        "copy_results": "نسخ النتائج",
-        "daily_profit": "الربح اليومي",
-        "usd_results": "بالدولار الأمريكي",
-        "iqd_results": "بالدينار العراقي"
+        "summary": "ملخص النتائج ✨",
+        "usd_results": "النتائج بالدولار الأمريكي 💵",
+        "iqd_results": "النتائج بالدينار العراقي 💵"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "language": "Language 🌐",
-        "currency": "Currency 💰",
+        "language": "Language 🌍",
+        "currency": "Currency 💵",
         "egg_price": "Current Egg Price 🥚",
-        "feed_price": "Current Feed Price 🌽",
+        "feed_price": "Current Feed Price 🌾",
         "save_prices": "Save New Prices 💾",
         "calculation_type": "Calculation Type 📊",
-        "chicken_profits": "Chicken Profits",
-        "daily_rewards": "Daily Rewards",
+        "chicken_profits": "Chicken Profits 🐔",
+        "daily_rewards": "Daily Rewards ✨",
         "eggs_input": "Number of Eggs",
         "days_input": "Number of Days",
         "food_input": "Amount of Food Needed",
@@ -68,31 +64,27 @@ texts = {
         "reset": "Reset",
         "value": "Value",
         "category": "Category",
-        "net_profit": "Profit Before Rent 💰",
-        "total_rewards": "Total Rewards 🎁",
-        "total_food_cost": "Total Feed 🌽",
-        "first_year_rental": "First Year Rental 🏠",
-        "second_year_rental": "Second Year Rental 🏠",
+        "net_profit": "Profit Before Rent 📈",
+        "total_rewards": "Total Rewards ⭐",
+        "total_food_cost": "Total Feed 🌾",
+        "first_year_rental": "Rental 🏠",
+        "final_profit": "Final Profit 💰",
         "calculation_time": "Calculation Time ⏰",
-        "am": "AM",
-        "pm": "PM",
-        "summary": "Results Summary",
-        "copy_results": "Copy Results",
-        "daily_profit": "Daily Profit",
-        "usd_results": "In USD",
-        "iqd_results": "In IQD"
+        "summary": "Results Summary ✨",
+        "usd_results": "Results in USD 💵",
+        "iqd_results": "Results in IQD 💵"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
-        "language": "Limbă 🌐",
-        "currency": "Monedă 💰",
+        "language": "Limbă 🌍",
+        "currency": "Monedă 💵",
         "egg_price": "Prețul Curent al Ouălor 🥚",
-        "feed_price": "Prețul Curent al Furajului 🌽",
+        "feed_price": "Prețul Curent al Furajului 🌾",
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
-        "chicken_profits": "Profituri din Găini",
-        "daily_rewards": "Recompense Zilnice",
+        "chicken_profits": "Profituri din Găini 🐔",
+        "daily_rewards": "Recompense Zilnice ✨",
         "eggs_input": "Număr de Ouă",
         "days_input": "Număr de Zile",
         "food_input": "Cantitate de Hrană Necesară",
@@ -101,19 +93,15 @@ texts = {
         "reset": "Resetare",
         "value": "Valoare",
         "category": "Categorie",
-        "net_profit": "Profit Înainte de Chirie 💰",
-        "total_rewards": "Total Recompense 🎁",
-        "total_food_cost": "Total Furaje 🌽",
-        "first_year_rental": "Chirie Primul An 🏠",
-        "second_year_rental": "Chirie Al Doilea An 🏠",
+        "net_profit": "Profit Înainte de Chirie 📈",
+        "total_rewards": "Total Recompense ⭐",
+        "total_food_cost": "Total Furaje 🌾",
+        "first_year_rental": "Chirie 🏠",
+        "final_profit": "Profit Final 💰",
         "calculation_time": "Ora Calculului ⏰",
-        "am": "AM",
-        "pm": "PM",
-        "summary": "Rezumatul Rezultatelor",
-        "copy_results": "Copiază Rezultatele",
-        "daily_profit": "Profit Zilnic",
-        "usd_results": "În USD",
-        "iqd_results": "În IQD"
+        "summary": "Rezumatul Rezultatelor ✨",
+        "usd_results": "Rezultate în USD 💵",
+        "iqd_results": "Rezultate în IQD 💵"
     }
 }
 
@@ -341,12 +329,16 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['usd_results']}:
 ║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
 ║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit)} USD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} USD
+║ {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
+║ {texts[language]['final_profit']}: {format_decimal(net_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
 ║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
 ║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit * 1480)} IQD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * 1480)} IQD
+║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
+║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
@@ -357,9 +349,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['eggs_input']}",
                         f"🌾 {texts[language]['food_input']}",
-                        f"📊 {texts[language]['net_profit']}",
+                        f"📈 {texts[language]['net_profit']}",
                         f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['net_profit']}"
+                        f"💰 {texts[language]['final_profit']}"
                     ],
                     texts[language]["value"]: [
                         total_egg_price,
@@ -380,9 +372,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["category"]: [
                         f"🥚 {texts[language]['eggs_input']}",
                         f"🌾 {texts[language]['food_input']}",
-                        f"📊 {texts[language]['net_profit']}",
+                        f"📈 {texts[language]['net_profit']}",
                         f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['net_profit']}"
+                        f"💰 {texts[language]['final_profit']}"
                     ],
                     texts[language]["value"]: [
                         float(str(total_egg_price).replace(currency, "").strip()),
@@ -396,7 +388,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown(f"### 📊 {texts[language]['summary']}")
+                st.markdown(f"### ✨ {texts[language]['summary']}")
                 st.code(results_text)
                 
         except ValueError:
@@ -497,7 +489,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
-                st.markdown(f"### 📊 {texts[language]['summary']}")
+                st.markdown(f"### ✨ {texts[language]['summary']}")
                 st.code(results_text)
                 
         except ValueError:
