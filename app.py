@@ -503,9 +503,10 @@ st.markdown(
         margin-top: 50px;
         font-size: 18px;
         font-weight: bold;
+        opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen ©️ 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
@@ -527,7 +528,6 @@ st.markdown(
         </a>
         <br>
         <br>
-        {texts[language]['copyright']}
     </div>
     <style>
         a img:hover {
