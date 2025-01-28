@@ -90,6 +90,48 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="scroll-text">التمرير إلى الأعلى</div>
 """, unsafe_allow_html=True)
 
+# إضافة زر التمرير إلى الأعلى في الشريط الجانبي
+with st.sidebar:
+    st.markdown("""
+        <style>
+            .scroll-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                line-height: 30px;
+                font-size: 24px;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                border: none;
+                transition: all 0.3s;
+            }
+            .scroll-top:hover {
+                background-color: #45a049;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            }
+            .element-container:has(button) {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 999999;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    if st.button("⬆️", key="scroll_top", help="التمرير إلى الأعلى"):
+        st.markdown("""
+            <script>
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            </script>
+        """, unsafe_allow_html=True)
+
 # إضافة زر التمرير إلى الأعلى
 st.markdown("""
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
