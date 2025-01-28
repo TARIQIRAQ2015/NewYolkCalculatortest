@@ -493,20 +493,24 @@ elif calculation_type == texts[language]["daily_rewards"]:
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
-# إضافة نص حقوق النشر في نهاية الصفحة
+# إضافة الأيقونات والروابط
 st.markdown(
     """
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://img.icons8.com/fluency/48/000000/globe.png" width="32" height="32" alt="Website">
+        </a>
+        <br>
+        <br>
+    </div>
     <style>
-    .copyright {
-        text-align: center;
-        padding: 20px;
-        margin-top: 50px;
-        font-size: 18px;
-        font-weight: bold;
-        opacity: 0.9;
-    }
+        a img {
+            transition: transform 0.3s ease;
+        }
+        a img:hover {
+            transform: scale(1.2);
+        }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen ©️ 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
@@ -534,6 +538,24 @@ st.markdown(
             transform: scale(1.2);
         }
     </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر في نهاية الصفحة
+st.markdown(
+    """
+    <style>
+    .copyright {
+        text-align: center;
+        padding: 20px;
+        margin-top: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        opacity: 0.9;
+    }
+    </style>
+    <div class="copyright">By Tariq Al-Yaseen ©️ 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
