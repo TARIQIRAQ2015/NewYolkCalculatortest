@@ -311,8 +311,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
                 
                 # حساب الإيجار
-                daily_rent = 6 if currency == "USD" else 8880  # 6 دولار يومياً
-                total_rent = daily_rent * days if eggs >= 260 else 0
+                total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
                 
                 # حساب النتائج
                 net_profit_before_rent = total_egg_price - total_feed_cost
