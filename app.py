@@ -11,8 +11,11 @@ st.set_page_config(
 )
 
 # تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+def format_number(number):
+    try:
+        return "{:,.2f}".format(float(number))
+    except:
+        return str(number)
 
 # تعريف النصوص بجميع اللغات
 texts = {
@@ -252,17 +255,17 @@ if calculation_type == texts[language]["chicken_profits"]:
                     f"💰 {texts[language]['net_profit']}"
                 ],
                 texts[language]["value"]: [
-                    f"{format_decimal(eggs)}",
-                    f"{format_decimal(eggs * 0.12)}",
-                    f"{format_decimal(total_egg_price - total_feed_cost)}",
-                    f"{format_decimal(total_rent)}",
-                    f"{format_decimal(net_profit)}"
+                    format_number(eggs),
+                    format_number(eggs * 0.12),
+                    format_number(total_egg_price - total_feed_cost),
+                    format_number(total_rent),
+                    format_number(net_profit)
                 ]
             })
             
             # عرض الجدول النهائي أولاً
             df = df.round(2)
-            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x} {currency}")
             st.table(df)
 
             # عرض الرسم البياني
@@ -275,11 +278,11 @@ if calculation_type == texts[language]["chicken_profits"]:
                     f"💰 {texts[language]['net_profit']}"
                 ],
                 texts[language]["value"]: [
-                    float(str(eggs).replace(currency, "").strip()),
-                    float(str(eggs * 0.12).replace(currency, "").strip()),
-                    float(str(total_egg_price - total_feed_cost).replace(currency, "").strip()),
-                    float(str(total_rent).replace(currency, "").strip()),
-                    float(str(net_profit).replace(currency, "").strip())
+                    float(eggs),
+                    float(eggs * 0.12),
+                    float(total_egg_price - total_feed_cost),
+                    float(total_rent),
+                    float(net_profit)
                 ]
             })
             fig = create_profit_chart(chart_df, language)
@@ -294,14 +297,14 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['calculation_time']}: {datetime.now().strftime("%Y-%m-%d %I:%M %p")}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit)} USD
+║ {texts[language]['egg_price']}: {format_number(total_egg_price)} USD
+║ {texts[language]['feed_price']}: {format_number(total_feed_cost)} USD
+║ {texts[language]['net_profit']}: {format_number(net_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_number(total_egg_price * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_number(total_feed_cost * 1480)} IQD
+║ {texts[language]['net_profit']}: {format_number(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝""")
 
 elif calculation_type == texts[language]["daily_rewards"]:
@@ -350,14 +353,14 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
+║ {texts[language]['egg_price']}: {format_number(rewards * float(new_egg_price))} USD
+║ {texts[language]['feed_price']}: {format_number(food * float(new_feed_price))} USD
+║ {texts[language]['daily_profit']}: {format_number(daily_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_number(rewards * float(new_egg_price) * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_number(food * float(new_feed_price) * 1480)} IQD
+║ {texts[language]['daily_profit']}: {format_number(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
@@ -371,15 +374,15 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
-                        rewards * float(new_egg_price),
-                        food * float(new_feed_price),
-                        daily_profit
+                        format_number(rewards * float(new_egg_price)),
+                        format_number(food * float(new_feed_price)),
+                        format_number(daily_profit)
                     ]
                 })
                 
                 # تنسيق القيم في الجدول
                 df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{x} {currency}")
                 st.table(df)
 
                 # عرض الرسم البياني
