@@ -33,7 +33,7 @@ texts = {
         "food_input": "كمية العلف المطلوبة 🌽",
         "calculate_rewards": "حساب المكافآت وأرباح العلف 🧮",
         "reset": "إعادة تعيين 🔄",
-        "copyright": "تطوير طارق الياسين © 2025-2026",
+        "copyright": "By Tariq Al-Yaseen ©️ 2025-2026",
         "value": "القيمة",
         "category": "الفئة",
         "net_profit": "صافي الربح 💰",
@@ -46,7 +46,9 @@ texts = {
         "pm": "مساءً",
         "summary": "ملخص النتائج",
         "copy_results": "نسخ النتائج",
-        "daily_profit": "الربح اليومي"
+        "daily_profit": "الربح اليومي",
+        "usd_results": "بالدولار الأمريكي",
+        "iqd_results": "بالدينار العراقي"
     },
     "English": {
         "title": "🐔 Chicken Calculator - Newyolk",
@@ -65,7 +67,7 @@ texts = {
         "food_input": "Required Feed Amount 🌽",
         "calculate_rewards": "Calculate Rewards and Feed Profits 🧮",
         "reset": "Reset 🔄",
-        "copyright": "by Tariq Al-Yaseen © 2025-2026",
+        "copyright": "By Tariq Al-Yaseen ©️ 2025-2026",
         "value": "Value",
         "category": "Category",
         "net_profit": "Net Profit 💰",
@@ -78,7 +80,9 @@ texts = {
         "pm": "PM",
         "summary": "Results Summary",
         "copy_results": "Copy Results",
-        "daily_profit": "Daily Profit"
+        "daily_profit": "Daily Profit",
+        "usd_results": "In USD",
+        "iqd_results": "In IQD"
     },
     "Română": {
         "title": "🐔 Calculator de Găini - Newyolk",
@@ -97,7 +101,7 @@ texts = {
         "food_input": "Cantitatea de Mâncare Necesară 🌽",
         "calculate_rewards": "Calculează Recompensele și Profiturile din Mâncare 🧮",
         "reset": "Resetează 🔄",
-        "copyright": "de Tariq Al-Yaseen © 2025-2026",
+        "copyright": "By Tariq Al-Yaseen ©️ 2025-2026",
         "value": "Valoare",
         "category": "Categorie",
         "net_profit": "Profit Net 💰",
@@ -110,7 +114,9 @@ texts = {
         "pm": "PM",
         "summary": "Rezumatul Rezultatelor",
         "copy_results": "Copiază Rezultatele",
-        "daily_profit": "Profit Zilnic"
+        "daily_profit": "Profit Zilnic",
+        "usd_results": "În USD",
+        "iqd_results": "În IQD"
     }
 }
 
@@ -122,20 +128,16 @@ st.markdown(
     f"""
     <style>
         .stApp {{
-            background: #ffffff;
-            color: black;
             direction: {'rtl' if language == 'العربية' else 'ltr'};
         }}
         .title {{
             font-size: 50px;
             font-weight: bold;
-            color: black;
             text-align: center;
             padding: 20px;
         }}
         .subtitle {{
             font-size: 30px;
-            color: black;
             text-align: center;
             margin-bottom: 30px;
         }}
@@ -143,13 +145,11 @@ st.markdown(
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: right;
             font-size: 24px;
-            color: black;
         }}
         .stSelectbox, .stTextInput {{
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: right;
             font-size: 24px;
-            color: black;
         }}
         .stButton button {{
             font-size: 24px;
@@ -324,9 +324,15 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} {currency}
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} {currency}
-║ {texts[language]['net_profit']}: {format_decimal(net_profit)} {currency}
+║ {texts[language]['usd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
+║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
@@ -427,9 +433,15 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ╔══════════════════════════════════════════════════════════════════╗
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} {currency}
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} {currency}
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} {currency}
+║ {texts[language]['usd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
+║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
+║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # عرض النتائج
