@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 # إضافة زر التمرير إلى الأعلى
 st.markdown("""
 <style>
-.scroll-to-top {
+#scrollToTop {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -107,21 +107,31 @@ st.markdown("""
     font-size: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 9999;
     border: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
 }
 
-.scroll-to-top:hover {
+#scrollToTop:hover {
     background-color: #45a049;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
 }
-</style>
-""", unsafe_allow_html=True)
 
-# إضافة زر ثابت في أسفل الصفحة
-if st.button("⬆️", key="scroll_to_top", help="التمرير إلى الأعلى"):
-    streamlit_js_eval(js_expressions="window.scrollTo(0, 0);")
+</style>
+<div id="scrollToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️</div>
+<script>
+    window.onscroll = function() {
+        var scrollButton = document.getElementById("scrollToTop");
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollButton.style.display = "block";
+        } else {
+            scrollButton.style.display = "none";
+        }
+    };
+</script>
+""", unsafe_allow_html=True)
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
