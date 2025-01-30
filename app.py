@@ -154,7 +154,20 @@ texts = {
         "calculate_profits": "حساب الأرباح",
         "reset": "إعادة تعيين",
         "theme_toggle": "تبديل المظهر ",
-        "currency": "العملة"
+        "currency": "العملة",
+        "value": "القيمة",
+        "category": "الفئة",
+        "net_profit": "الربح قبل حساب الايجار",
+        "total_rewards": "إجمالي المكافآت",
+        "total_food_cost": "اجمالي العلف",
+        "first_year_rental": "الإيجار",
+        "final_profit": "الربح الصافي",
+        "calculation_time": "وقت الحساب",
+        "summary": "ملخص النتائج",
+        "usd_results": "النتائج بالدولار الأمريكي",
+        "iqd_results": "النتائج بالدينار العراقي",
+        "daily_profit": "الربح اليومي",
+        "copy_results": "نسخ النتائج"
     },
     "English": {
         "title": "Newyolk Calculator",
@@ -170,7 +183,20 @@ texts = {
         "calculate_profits": "Calculate Profits",
         "reset": "Reset",
         "theme_toggle": "Toggle Theme ",
-        "currency": "Currency"
+        "currency": "Currency",
+        "value": "Value",
+        "category": "Category",
+        "net_profit": "Profit Before Rent",
+        "total_rewards": "Total Rewards",
+        "total_food_cost": "Total Feed",
+        "first_year_rental": "Rental",
+        "final_profit": "Final Profit",
+        "calculation_time": "Calculation Time",
+        "summary": "Results Summary",
+        "usd_results": "Results in USD",
+        "iqd_results": "Results in IQD",
+        "daily_profit": "Daily Profit",
+        "copy_results": "Copy Results"
     }
 }
 
@@ -185,6 +211,34 @@ if st.sidebar.button(texts[language]["theme_toggle"]):
             document.documentElement.setAttribute('data-theme', '{st.session_state.theme}');
         </script>
     """, unsafe_allow_html=True)
+
+# قسم تعديل الأسعار
+st.subheader(texts[language]["save_prices"])
+col3, col4 = st.columns(2)
+
+with col3:
+    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
+
+with col4:
+    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
+
+if st.button(texts[language]["save_prices"], type="secondary"):
+    if not is_number(new_egg_price) or not is_number(new_feed_price):
+        st.error("يرجى إدخال أرقام صحيحة" if language == "العربية" else "Please enter valid numbers!")
+    else:
+        st.success("تم حفظ الأسعار الجديدة بنجاح!" if language == "العربية" else "New prices saved successfully!")
+
+# تحديث الأسعار بناءً على العملة
+if is_number(new_egg_price) and is_number(new_feed_price):
+    if language == "العربية":
+        egg_price_display = float(new_egg_price) * 1480
+        feed_price_display = float(new_feed_price) * 1480
+    else:
+        egg_price_display = float(new_egg_price)
+        feed_price_display = float(new_feed_price)
+
+    st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} IQD" if language == "العربية" else f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} USD")
+    st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} IQD" if language == "العربية" else f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} USD")
 
 # اختيار نوع الحساب
 calculation_type = st.selectbox(
@@ -300,9 +354,143 @@ if calculation_type == texts[language]["simple_calculator"]:
 elif calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"])
     
-    # هنا يمكنك إضافة حساب أرباح الدجاج
+    col5, col6 = st.columns(2)
+
+    with col5:
+        eggs = st.text_input(
+            texts[language]["eggs_input"],
+            value="",
+            help="أدخل عدد البيض (الحد الأقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)"
+        )
+
+    with col6:
+        days = st.text_input(
+            texts[language]["days_input"],
+            value="",
+            help="أدخل عدد الأيام (الحد الأقصى 730)" if language == "العربية" else "Enter the number of days (max 730)"
+        )
+
+    if st.button(texts[language]["calculate_profits"], type="primary"):
+        try:
+            eggs = float(eggs) if eggs else None
+            days = float(days) if days else None
+
+            if eggs is None or days is None:
+                st.error("الرجاء إدخال جميع القيم المطلوبة" if language == "العربية" else "Please enter all required values!")
+            elif eggs > 580:
+                st.error("يجب ألا يتجاوز عدد البيض 580" if language == "العربية" else "Number of eggs should not exceed 580!")
+            elif days > 730:
+                st.error("يجب ألا يتجاوز عدد الأيام 730" if language == "العربية" else "Number of days should not exceed 730!")
+            else:
+                # حساب الأرباح
+                total_egg_price = eggs * float(new_egg_price)
+                total_feed_cost = (days * 2) * float(new_feed_price)
+                total_rent = 6 if eggs >= 260 else 0
+                
+                net_profit_before_rent = total_egg_price - total_feed_cost
+                net_profit = net_profit_before_rent - total_rent
+
+                # تحويل العملة
+                if language == "العربية":
+                    total_egg_price = total_egg_price * 1480
+                    total_feed_cost = total_feed_cost * 1480
+                    net_profit_before_rent = net_profit_before_rent * 1480
+                    total_rent = total_rent * 1480
+                    net_profit = net_profit * 1480
+
+                # إنشاء DataFrame للعرض
+                df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        texts[language]["eggs_input"],
+                        texts[language]["total_food_cost"],
+                        texts[language]["net_profit"],
+                        texts[language]["first_year_rental"],
+                        texts[language]["final_profit"]
+                    ],
+                    texts[language]["value"]: [
+                        total_egg_price,
+                        total_feed_cost,
+                        net_profit_before_rent,
+                        total_rent,
+                        net_profit
+                    ]
+                })
+
+                # تنسيق وعرض النتائج
+                df = df.round(2)
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(
+                    lambda x: f"{format_decimal(x)} IQD" if language == "العربية" else f"{format_decimal(x)} USD"
+                )
+                st.table(df)
+
+                # إنشاء رسم بياني
+                fig = px.pie(
+                    df,
+                    values=texts[language]["value"].apply(lambda x: float(str(x).replace("IQD", "").replace("USD", "").strip())),
+                    names=texts[language]["category"],
+                    title=texts[language]["summary"]
+                )
+                
+                fig.update_layout(
+                    title_x=0.5,
+                    title_font_size=24
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+
+        except ValueError:
+            st.error("الرجاء إدخال أرقام صحيحة" if language == "العربية" else "Please enter valid numbers!")
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"]):
     st.success("" if language == "العربية" else "Reset successful")
     st.rerun()
+
+# إضافة الأيقونات والروابط
+st.markdown(
+    """
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://i.ibb.co/YDKWBRf/internet.png" width="32" height="32" alt="Website">
+        </a>
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="32" height="32" alt="Discord">
+        </a>
+        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="32" height="32" alt="Telegram">
+        </a>
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" width="32" height="32" alt="Facebook">
+        </a>
+    </div>
+    <style>
+        a img {
+            transition: transform 0.3s ease;
+            filter: brightness(1);
+        }
+        a img:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر في نهاية الصفحة
+st.markdown(
+    """
+    <style>
+    .copyright {
+        text-align: center;
+        padding: 20px;
+        margin-top: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        opacity: 0.9;
+    }
+    </style>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+    """,
+    unsafe_allow_html=True
+)
