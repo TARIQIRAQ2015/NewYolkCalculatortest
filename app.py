@@ -27,6 +27,7 @@ texts = {
         "calculation_type": "نوع الحساب 📊",
         "chicken_profits": "أرباح الدجاج 🐔",
         "daily_rewards": "المكافآت اليومية 🥚",
+        "simple_calculator": "الحاسبة البسيطة 🔢",
         "eggs_input": "عدد البيض 🥚",
         "days_input": "عدد الأيام 📅",
         "food_input": "عدد الطعام المطلوب 🌽",
@@ -60,6 +61,7 @@ texts = {
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits 🐔",
         "daily_rewards": "Daily Rewards 🥚",
+        "simple_calculator": "Simple Calculator 🔢",
         "eggs_input": "Number of Eggs 🥚",
         "days_input": "Number of Days 📅",
         "food_input": "Amount of Food Needed 🌽",
@@ -93,6 +95,7 @@ texts = {
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini 🐔",
         "daily_rewards": "Recompense Zilnice 🥚",
+        "simple_calculator": "Calculator Simplu 🔢",
         "eggs_input": "Număr de Ouă 🥚",
         "days_input": "Număr de Zile 📅",
         "food_input": "Cantitate de Hrană Necesară 🌽",
@@ -196,7 +199,7 @@ with col1:
 with col2:
     calculation_type = st.selectbox(
         texts[language]["calculation_type"],
-        [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
+        [texts[language]["chicken_profits"], texts[language]["daily_rewards"], texts[language]["simple_calculator"]]
     )
 
 # دالة التحقق من المدخلات
@@ -513,6 +516,39 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+
+elif calculation_type == texts[language]["simple_calculator"]:
+    st.subheader("الحاسبة البسيطة 🔢")
+    
+    col9, col10 = st.columns(2)
+    
+    with col9:
+        num1 = st.number_input("الرقم الأول", value=0.0)
+        operation = st.selectbox("العملية الحسابية", ["+", "-", "×", "÷"])
+        
+    with col10:
+        num2 = st.number_input("الرقم الثاني", value=0.0)
+        
+    if st.button("احسب النتيجة ✨"):
+        try:
+            if operation == "+":
+                result = num1 + num2
+            elif operation == "-":
+                result = num1 - num2
+            elif operation == "×":
+                result = num1 * num2
+            elif operation == "÷":
+                if num2 != 0:
+                    result = num1 / num2
+                else:
+                    st.error("لا يمكن القسمة على صفر! ❌")
+                    result = None
+                    
+            if result is not None:
+                st.success(f"النتيجة: {format_decimal(result)} ✅")
+                
+        except Exception as e:
+            st.error("حدث خطأ في العملية الحسابية! ❌")
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
