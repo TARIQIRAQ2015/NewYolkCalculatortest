@@ -3,6 +3,13 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
 
+# إعدادات الصفحة
+st.set_page_config(
+    page_title="Chicken Calculator - Newyolk",
+    page_icon="🐔",
+    layout="wide"
+)
+
 # إخفاء أزرار Streamlit
 st.markdown("""
     <style>
@@ -13,11 +20,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # تحسين الواجهة
-st.set_page_config(
-    page_title="Chicken Calculator - Newyolk",
-    page_icon="🐔",
-    layout="wide"
-)
+# st.set_page_config(
+#     page_title="Chicken Calculator - Newyolk",
+#     page_icon="🐔",
+#     layout="wide"
+# )
 
 # تنسيق الأرقام العشرية
 def format_decimal(number):
