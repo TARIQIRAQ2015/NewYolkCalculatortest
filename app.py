@@ -529,9 +529,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
         st.session_state.operation = None
         
     # تحسين شكل الحاسبة
-    st.markdown("""
+    st.markdown(f"""
         <style>
-        .calculator-display {
+        .calculator-display {{
             background-color: var(--background-color);
             color: var(--text-color);
             padding: 20px;
@@ -541,9 +541,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
             font-family: monospace;
             font-size: 24px;
             border: 1px solid rgba(128, 128, 128, 0.2);
-        }
+        }}
         
-        .stButton > button {
+        .stButton > button {{
             background-color: var(--background-color);
             color: var(--text-color);
             border: 1px solid rgba(128, 128, 128, 0.2);
@@ -552,29 +552,29 @@ elif calculation_type == texts[language]["simple_calculator"]:
             font-size: 18px;
             margin: 2px;
             transition: all 0.3s;
-        }
+        }}
         
-        .stButton > button:hover {
+        .stButton > button:hover {{
             background-color: rgba(128, 128, 128, 0.2);
-        }
+        }}
         
-        @media (prefers-color-scheme: dark) {
-            :root {
+        @media (prefers-color-scheme: dark) {{
+            :root {{
                 --background-color: #2b2b2b;
                 --text-color: #ffffff;
-            }
-        }
+            }}
+        }}
         
-        @media (prefers-color-scheme: light) {
-            :root {
+        @media (prefers-color-scheme: light) {{
+            :root {{
                 --background-color: #f0f2f6;
                 --text-color: #000000;
-            }
-        }
+            }}
+        }}
         </style>
         
-        <div class="calculator-display">{}</div>
-    """.format(st.session_state.calc_result), unsafe_allow_html=True)
+        <div class="calculator-display">{st.session_state.calc_result}</div>
+    """, unsafe_allow_html=True)
     
     # تنظيم الأزرار في صفوف
     col1, col2 = st.columns(2)
