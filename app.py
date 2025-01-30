@@ -845,3 +845,69 @@ elif calculation_type == texts[language]["simple_calculator"]:
                 
 if __name__ == "__main__":
     app()
+    # إضافة الأيقونات والروابط
+st.markdown(
+    """
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://i.ibb.co/YDKWBRf/internet.png" width="32" height="32" alt="Website">
+        </a>
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="32" height="32" alt="Discord">
+        </a>
+        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="32" height="32" alt="Telegram">
+        </a>
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" width="32" height="32" alt="Facebook">
+        </a>
+        <br>
+        <br>
+    </div>
+    <style>
+        a img {
+            transition: transform 0.3s ease;
+            filter: brightness(1);
+        }
+        a img:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر والأيقونات
+st.markdown(
+    """
+        <br>
+        <br>
+    </div>
+    <style>
+        a img:hover {
+            transform: scale(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر في نهاية الصفحة
+st.markdown(
+    """
+    <style>
+    .copyright {
+        text-align: center;
+        padding: 20px;
+        margin-top: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        opacity: 0.9;
+    }
+    </style>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+    """,
+    unsafe_allow_html=True
+)
+
