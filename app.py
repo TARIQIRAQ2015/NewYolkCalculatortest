@@ -3,6 +3,10 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
 
+# تنسيق الأرقام العشرية
+def format_decimal(number):
+    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+
 # تعيين إعدادات الصفحة
 st.set_page_config(
     page_title="Future Calculator",
