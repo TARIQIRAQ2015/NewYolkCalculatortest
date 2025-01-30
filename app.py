@@ -3,6 +3,15 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
 
+# إخفاء أزرار Streamlit
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
+
 # تحسين الواجهة
 st.set_page_config(
     page_title="Chicken Calculator - Newyolk",
