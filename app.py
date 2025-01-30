@@ -10,25 +10,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# إضافة الستايل
-st.markdown("""
-<style>
-    .main {
-        padding: 0rem 2rem;
-    }
-    .stButton>button {
-        width: 100%;
-    }
-    .stSelectbox>div>div {
-        text-align: right;
-    }
-    /* إخفاء أزرار المشاركة */
-    .st-emotion-cache-zq5wmm.ezrtsby0 {
-        display: none !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
 # تنسيق الأرقام العشرية
 def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
@@ -843,8 +824,57 @@ elif calculation_type == texts[language]["simple_calculator"]:
             except Exception as e:
                 st.error("حدث خطأ في العملية الحسابية!")
                 
-if __name__ == "__main__":
-    app()
+# زر إعادة التعيين
+if st.button(texts[language]["reset"], type="secondary"):
+    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
+
+# إضافة الأيقونات والروابط
+st.markdown(
+    """
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://i.ibb.co/YDKWBRf/internet.png" width="32" height="32" alt="Website">
+        </a>
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="32" height="32" alt="Discord">
+        </a>
+        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="32" height="32" alt="Telegram">
+        </a>
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; margin: 0 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" width="32" height="32" alt="Facebook">
+        </a>
+        <br>
+        <br>
+    </div>
+    <style>
+        a img {
+            transition: transform 0.3s ease;
+            filter: brightness(1);
+        }
+        a img:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر والأيقونات
+st.markdown(
+    """
+        <br>
+        <br>
+    </div>
+    <style>
+        a img:hover {
+            transform: scale(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # إضافة نص حقوق النشر في نهاية الصفحة
 st.markdown(
@@ -856,15 +886,7 @@ st.markdown(
         margin-top: 50px;
         font-size: 18px;
         font-weight: bold;
-        color: rgba(49, 51, 63, 0.8);
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
-        border-radius: 15px;
-        backdrop-filter: blur(5px);
-    }
-    @media (prefers-color-scheme: dark) {
-        .copyright {
-            color: rgba(250, 250, 250, 0.8);
-        }
+        opacity: 0.9;
     }
     </style>
     <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
