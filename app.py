@@ -527,6 +527,8 @@ elif calculation_type == texts[language]["simple_calculator"]:
         st.session_state.prev_number = None
     if 'operation' not in st.session_state:
         st.session_state.operation = None
+    if 'clear_next' not in st.session_state:
+        st.session_state.clear_next = False
         
     # تحسين شكل الحاسبة
     st.markdown(f"""
@@ -577,144 +579,163 @@ elif calculation_type == texts[language]["simple_calculator"]:
     """, unsafe_allow_html=True)
     
     # تنظيم الأزرار في صفوف
-    col1, col2 = st.columns(2)
-    
-    # الصف الأول
-    with col1:
-        if st.button("C", use_container_width=True):
-            st.session_state.calc_result = '0'
-            st.session_state.prev_number = None
-            st.session_state.operation = None
-    with col2:
-        if st.button("CE", use_container_width=True):
-            st.session_state.calc_result = '0'
-    
-    # الصف الثاني
-    col5, col6, col7 = st.columns(3)
-    with col5:
-        if st.button("x²", use_container_width=True):
-            try:
-                num = float(st.session_state.calc_result)
-                st.session_state.calc_result = str(num * num)
-            except: pass
-    with col6:
-        if st.button("√x", use_container_width=True):
-            try:
-                num = float(st.session_state.calc_result)
-                if num >= 0:
-                    st.session_state.calc_result = str(num ** 0.5)
-                else:
-                    st.error("لا يمكن حساب الجذر التربيعي لعدد سالب!")
-            except: pass
-    with col7:
-        if st.button("÷", use_container_width=True):
-            try:
-                st.session_state.prev_number = float(st.session_state.calc_result)
-                st.session_state.operation = '÷'
-                st.session_state.calc_result = '0'
-            except: pass
+    if st.button("C", use_container_width=True):
+        st.session_state.calc_result = '0'
+        st.session_state.prev_number = None
+        st.session_state.operation = None
+        st.session_state.clear_next = False
+        st.rerun()
     
     # الصف الثالث
     col9, col10, col11, col12 = st.columns(4)
     with col9:
         if st.button("7", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '7'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '7'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '7'
+                else:
+                    st.session_state.calc_result += '7'
+            st.rerun()
     with col10:
         if st.button("8", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '8'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '8'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '8'
+                else:
+                    st.session_state.calc_result += '8'
+            st.rerun()
     with col11:
         if st.button("9", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '9'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '9'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '9'
+                else:
+                    st.session_state.calc_result += '9'
+            st.rerun()
     with col12:
         if st.button("×", use_container_width=True):
-            try:
-                st.session_state.prev_number = float(st.session_state.calc_result)
-                st.session_state.operation = '×'
-                st.session_state.calc_result = '0'
-            except: pass
+            st.session_state.prev_number = float(st.session_state.calc_result)
+            st.session_state.operation = '*'
+            st.session_state.clear_next = True
+            st.rerun()
     
     # الصف الرابع
     col13, col14, col15, col16 = st.columns(4)
     with col13:
         if st.button("4", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '4'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '4'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '4'
+                else:
+                    st.session_state.calc_result += '4'
+            st.rerun()
     with col14:
         if st.button("5", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '5'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '5'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '5'
+                else:
+                    st.session_state.calc_result += '5'
+            st.rerun()
     with col15:
         if st.button("6", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '6'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '6'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '6'
+                else:
+                    st.session_state.calc_result += '6'
+            st.rerun()
     with col16:
         if st.button("-", use_container_width=True):
-            try:
-                st.session_state.prev_number = float(st.session_state.calc_result)
-                st.session_state.operation = '-'
-                st.session_state.calc_result = '0'
-            except: pass
+            st.session_state.prev_number = float(st.session_state.calc_result)
+            st.session_state.operation = '-'
+            st.session_state.clear_next = True
+            st.rerun()
     
     # الصف الخامس
     col17, col18, col19, col20 = st.columns(4)
     with col17:
         if st.button("1", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '1'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '1'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '1'
+                else:
+                    st.session_state.calc_result += '1'
+            st.rerun()
     with col18:
         if st.button("2", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '2'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '2'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '2'
+                else:
+                    st.session_state.calc_result += '2'
+            st.rerun()
     with col19:
         if st.button("3", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '3'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '3'
+                if st.session_state.calc_result == '0':
+                    st.session_state.calc_result = '3'
+                else:
+                    st.session_state.calc_result += '3'
+            st.rerun()
     with col20:
         if st.button("+", use_container_width=True):
-            try:
-                st.session_state.prev_number = float(st.session_state.calc_result)
-                st.session_state.operation = '+'
-                st.session_state.calc_result = '0'
-            except: pass
+            st.session_state.prev_number = float(st.session_state.calc_result)
+            st.session_state.operation = '+'
+            st.session_state.clear_next = True
+            st.rerun()
     
     # الصف السادس
     col21, col22, col23, col24 = st.columns(4)
     with col21:
         if st.button("+/-", use_container_width=True):
-            try:
-                st.session_state.calc_result = str(-float(st.session_state.calc_result))
-            except: pass
+            st.session_state.calc_result = str(-float(st.session_state.calc_result))
+            st.rerun()
     with col22:
         if st.button("0", use_container_width=True):
-            if st.session_state.calc_result == '0':
+            if st.session_state.clear_next:
                 st.session_state.calc_result = '0'
+                st.session_state.clear_next = False
             else:
-                st.session_state.calc_result += '0'
+                if st.session_state.calc_result != '0':
+                    st.session_state.calc_result += '0'
+            st.rerun()
     with col23:
         if st.button(".", use_container_width=True):
-            if '.' not in st.session_state.calc_result:
-                st.session_state.calc_result += '.'
+            if st.session_state.clear_next:
+                st.session_state.calc_result = '0.'
+                st.session_state.clear_next = False
+            else:
+                if '.' not in st.session_state.calc_result:
+                    st.session_state.calc_result += '.'
+            st.rerun()
     with col24:
         if st.button("=", use_container_width=True, type="primary"):
             try:
@@ -725,9 +746,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
                         result = num1 + num2
                     elif st.session_state.operation == '-':
                         result = num1 - num2
-                    elif st.session_state.operation == '×':
+                    elif st.session_state.operation == '*':
                         result = num1 * num2
-                    elif st.session_state.operation == '÷':
+                    elif st.session_state.operation == '/':
                         if num2 != 0:
                             result = num1 / num2
                         else:
@@ -736,6 +757,8 @@ elif calculation_type == texts[language]["simple_calculator"]:
                     st.session_state.calc_result = str(result)
                     st.session_state.prev_number = None
                     st.session_state.operation = None
+                    st.session_state.clear_next = True
+                    st.rerun()
             except Exception as e:
                 st.error("حدث خطأ في العملية الحسابية!")
                 
