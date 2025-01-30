@@ -528,55 +528,76 @@ elif calculation_type == texts[language]["simple_calculator"]:
     if 'operation' not in st.session_state:
         st.session_state.operation = None
         
-    # عرض النتيجة
-    st.markdown(f"""
-        <div style='background-color: #f0f2f6; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: left; direction: ltr;'>
-            <h2 style='font-family: monospace; margin: 0;'>{st.session_state.calc_result}</h2>
-        </div>
-    """, unsafe_allow_html=True)
+    # تحسين شكل الحاسبة
+    st.markdown("""
+        <style>
+        .calculator-display {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-family: monospace;
+            font-size: 24px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+        
+        .stButton > button {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            width: 100%;
+            padding: 20px 0;
+            font-size: 18px;
+            margin: 2px;
+            transition: all 0.3s;
+        }
+        
+        .stButton > button:hover {
+            background-color: rgba(128, 128, 128, 0.2);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #2b2b2b;
+                --text-color: #ffffff;
+            }
+        }
+        
+        @media (prefers-color-scheme: light) {
+            :root {
+                --background-color: #f0f2f6;
+                --text-color: #000000;
+            }
+        }
+        </style>
+        
+        <div class="calculator-display">{}</div>
+    """.format(st.session_state.calc_result), unsafe_allow_html=True)
     
     # تنظيم الأزرار في صفوف
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2 = st.columns(2)
     
     # الصف الأول
     with col1:
-        if st.button("%", use_container_width=True):
-            try:
-                st.session_state.calc_result = str(float(st.session_state.calc_result) / 100)
-            except: pass
-    with col2:
-        if st.button("CE", use_container_width=True):
-            st.session_state.calc_result = '0'
-    with col3:
         if st.button("C", use_container_width=True):
             st.session_state.calc_result = '0'
             st.session_state.prev_number = None
             st.session_state.operation = None
-    with col4:
-        if st.button("⌫", use_container_width=True):
-            if len(st.session_state.calc_result) > 1:
-                st.session_state.calc_result = st.session_state.calc_result[:-1]
-            else:
-                st.session_state.calc_result = '0'
+    with col2:
+        if st.button("CE", use_container_width=True):
+            st.session_state.calc_result = '0'
     
     # الصف الثاني
-    col5, col6, col7, col8 = st.columns(4)
+    col5, col6, col7 = st.columns(3)
     with col5:
-        if st.button("¹/x", use_container_width=True):
-            try:
-                num = float(st.session_state.calc_result)
-                if num != 0:
-                    st.session_state.calc_result = str(1 / num)
-                else:
-                    st.error("لا يمكن القسمة على صفر!")
-            except: pass
-    with col6:
         if st.button("x²", use_container_width=True):
             try:
                 num = float(st.session_state.calc_result)
                 st.session_state.calc_result = str(num * num)
             except: pass
-    with col7:
+    with col6:
         if st.button("√x", use_container_width=True):
             try:
                 num = float(st.session_state.calc_result)
@@ -585,7 +606,7 @@ elif calculation_type == texts[language]["simple_calculator"]:
                 else:
                     st.error("لا يمكن حساب الجذر التربيعي لعدد سالب!")
             except: pass
-    with col8:
+    with col7:
         if st.button("÷", use_container_width=True):
             try:
                 st.session_state.prev_number = float(st.session_state.calc_result)
