@@ -534,43 +534,59 @@ elif calculation_type == texts[language]["simple_calculator"]:
     st.markdown(f"""
         <style>
         .calculator-display {{
-            background-color: var(--background-color);
+            background-color: rgba(0, 0, 0, 0.1);
             color: var(--text-color);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin-bottom: 20px;
             text-align: right;
             font-family: monospace;
-            font-size: 24px;
-            border: 1px solid rgba(128, 128, 128, 0.2);
+            font-size: 28px;
+            border: 2px solid rgba(128, 128, 128, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }}
         
         .stButton > button {{
-            background-color: var(--background-color);
+            background-color: rgba(255, 255, 255, 0.05);
             color: var(--text-color);
             border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 12px;
             width: 100%;
-            padding: 20px 0;
-            font-size: 18px;
-            margin: 2px;
+            padding: 25px 0;
+            font-size: 20px;
+            margin: 4px;
             transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }}
         
         .stButton > button:hover {{
             background-color: rgba(128, 128, 128, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }}
+        
+        .stButton > button:active {{
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }}
         
         @media (prefers-color-scheme: dark) {{
             :root {{
-                --background-color: #2b2b2b;
+                --background-color: #1e1e1e;
                 --text-color: #ffffff;
+            }}
+            .calculator-display {{
+                background-color: rgba(255, 255, 255, 0.05);
             }}
         }}
         
         @media (prefers-color-scheme: light) {{
             :root {{
-                --background-color: #f0f2f6;
+                --background-color: #ffffff;
                 --text-color: #000000;
+            }}
+            .calculator-display {{
+                background-color: rgba(0, 0, 0, 0.05);
             }}
         }}
         </style>
@@ -578,13 +594,15 @@ elif calculation_type == texts[language]["simple_calculator"]:
         <div class="calculator-display">{st.session_state.calc_result}</div>
     """, unsafe_allow_html=True)
     
-    # تنظيم الأزرار في صفوف
-    if st.button("C", use_container_width=True):
-        st.session_state.calc_result = '0'
-        st.session_state.prev_number = None
-        st.session_state.operation = None
-        st.session_state.clear_next = False
-        st.rerun()
+    # زر المسح
+    col_clear = st.columns(1)
+    with col_clear[0]:
+        if st.button("C", use_container_width=True):
+            st.session_state.calc_result = '0'
+            st.session_state.prev_number = None
+            st.session_state.operation = None
+            st.session_state.clear_next = False
+            st.rerun()
     
     # الصف الثالث
     col9, col10, col11, col12 = st.columns(4)
@@ -715,8 +733,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
     # الصف السادس
     col21, col22, col23, col24 = st.columns(4)
     with col21:
-        if st.button("+/-", use_container_width=True):
-            st.session_state.calc_result = str(-float(st.session_state.calc_result))
+        if st.button("-", key="negative", use_container_width=True):
+            if float(st.session_state.calc_result) > 0:
+                st.session_state.calc_result = str(-float(st.session_state.calc_result))
             st.rerun()
     with col22:
         if st.button("0", use_container_width=True):
@@ -728,13 +747,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
                     st.session_state.calc_result += '0'
             st.rerun()
     with col23:
-        if st.button(".", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '0.'
-                st.session_state.clear_next = False
-            else:
-                if '.' not in st.session_state.calc_result:
-                    st.session_state.calc_result += '.'
+        if st.button("+", key="positive", use_container_width=True):
+            if float(st.session_state.calc_result) < 0:
+                st.session_state.calc_result = str(abs(float(st.session_state.calc_result)))
             st.rerun()
     with col24:
         if st.button("=", use_container_width=True, type="primary"):
