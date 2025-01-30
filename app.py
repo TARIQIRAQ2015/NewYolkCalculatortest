@@ -824,10 +824,6 @@ elif calculation_type == texts[language]["simple_calculator"]:
             except Exception as e:
                 st.error("حدث خطأ في العملية الحسابية!")
                 
-# زر إعادة التعيين
-if st.button(texts[language]["reset"], type="secondary"):
-    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
-
 # إضافة الأيقونات والروابط
 st.markdown(
     """
