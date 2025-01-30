@@ -529,6 +529,8 @@ elif calculation_type == texts[language]["simple_calculator"]:
         st.session_state.operation = None
     if 'clear_next' not in st.session_state:
         st.session_state.clear_next = False
+    if 'display_operation' not in st.session_state:
+        st.session_state.display_operation = ''
         
     # تحسين شكل الحاسبة
     st.markdown(f"""
@@ -544,6 +546,12 @@ elif calculation_type == texts[language]["simple_calculator"]:
             font-size: 28px;
             border: 2px solid rgba(128, 128, 128, 0.2);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }}
+        
+        .operation-display {{
+            font-size: 16px;
+            color: rgba(128, 128, 128, 0.8);
+            margin-bottom: 5px;
         }}
         
         .stButton > button {{
@@ -589,9 +597,16 @@ elif calculation_type == texts[language]["simple_calculator"]:
                 background-color: rgba(0, 0, 0, 0.05);
             }}
         }}
+        
+        div[data-testid="stHorizontalBlock"] {{
+            gap: 0.5rem;
+        }}
         </style>
         
-        <div class="calculator-display">{st.session_state.calc_result}</div>
+        <div class="calculator-display">
+            <div class="operation-display">{st.session_state.display_operation}</div>
+            {st.session_state.calc_result}
+        </div>
     """, unsafe_allow_html=True)
     
     # زر المسح
@@ -602,6 +617,7 @@ elif calculation_type == texts[language]["simple_calculator"]:
             st.session_state.prev_number = None
             st.session_state.operation = None
             st.session_state.clear_next = False
+            st.session_state.display_operation = ''
             st.rerun()
     
     # الصف الثالث
@@ -643,6 +659,7 @@ elif calculation_type == texts[language]["simple_calculator"]:
         if st.button("×", use_container_width=True):
             st.session_state.prev_number = float(st.session_state.calc_result)
             st.session_state.operation = '*'
+            st.session_state.display_operation = f"{st.session_state.calc_result} × "
             st.session_state.clear_next = True
             st.rerun()
     
@@ -685,6 +702,7 @@ elif calculation_type == texts[language]["simple_calculator"]:
         if st.button("-", use_container_width=True):
             st.session_state.prev_number = float(st.session_state.calc_result)
             st.session_state.operation = '-'
+            st.session_state.display_operation = f"{st.session_state.calc_result} - "
             st.session_state.clear_next = True
             st.rerun()
     
@@ -727,15 +745,20 @@ elif calculation_type == texts[language]["simple_calculator"]:
         if st.button("+", use_container_width=True):
             st.session_state.prev_number = float(st.session_state.calc_result)
             st.session_state.operation = '+'
+            st.session_state.display_operation = f"{st.session_state.calc_result} + "
             st.session_state.clear_next = True
             st.rerun()
     
     # الصف السادس
     col21, col22, col23, col24 = st.columns(4)
     with col21:
-        if st.button("-", key="negative", use_container_width=True):
-            if float(st.session_state.calc_result) > 0:
-                st.session_state.calc_result = str(-float(st.session_state.calc_result))
+        if st.button(".", use_container_width=True):
+            if st.session_state.clear_next:
+                st.session_state.calc_result = '0.'
+                st.session_state.clear_next = False
+            else:
+                if '.' not in st.session_state.calc_result:
+                    st.session_state.calc_result += '.'
             st.rerun()
     with col22:
         if st.button("0", use_container_width=True):
@@ -747,9 +770,11 @@ elif calculation_type == texts[language]["simple_calculator"]:
                     st.session_state.calc_result += '0'
             st.rerun()
     with col23:
-        if st.button("+", key="positive", use_container_width=True):
-            if float(st.session_state.calc_result) < 0:
-                st.session_state.calc_result = str(abs(float(st.session_state.calc_result)))
+        if st.button("÷", use_container_width=True):
+            st.session_state.prev_number = float(st.session_state.calc_result)
+            st.session_state.operation = '/'
+            st.session_state.display_operation = f"{st.session_state.calc_result} ÷ "
+            st.session_state.clear_next = True
             st.rerun()
     with col24:
         if st.button("=", use_container_width=True, type="primary"):
@@ -757,6 +782,9 @@ elif calculation_type == texts[language]["simple_calculator"]:
                 if st.session_state.prev_number is not None and st.session_state.operation is not None:
                     num1 = st.session_state.prev_number
                     num2 = float(st.session_state.calc_result)
+                    operation_symbol = {'+':" + ", '-':" - ", '*':" × ", '/':" ÷ "}[st.session_state.operation]
+                    st.session_state.display_operation = f"{num1}{operation_symbol}{num2} ="
+                    
                     if st.session_state.operation == '+':
                         result = num1 + num2
                     elif st.session_state.operation == '-':
@@ -769,7 +797,13 @@ elif calculation_type == texts[language]["simple_calculator"]:
                         else:
                             st.error("لا يمكن القسمة على صفر!")
                             result = 0
-                    st.session_state.calc_result = str(result)
+                    
+                    # تنسيق النتيجة لإزالة الأصفار غير الضرورية
+                    if result == int(result):
+                        st.session_state.calc_result = str(int(result))
+                    else:
+                        st.session_state.calc_result = f"{result:.10f}".rstrip('0').rstrip('.')
+                    
                     st.session_state.prev_number = None
                     st.session_state.operation = None
                     st.session_state.clear_next = True
