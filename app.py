@@ -3,32 +3,163 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
 
-# إعدادات الصفحة
+# تعيين إعدادات الصفحة
 st.set_page_config(
-    page_title="Chicken Calculator - Newyolk",
-    page_icon="🐔",
-    layout="wide"
+    page_title="Future Calculator",
+    page_icon="🌟",
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# إخفاء أزرار Streamlit
+# إضافة زر تبديل الوضع وتحسين التصميم
 st.markdown("""
     <style>
+        /* إخفاء عناصر Streamlit */
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         footer {visibility: hidden;}
+        
+        /* تصميم عصري للصفحة */
+        .stApp {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+        }
+        
+        /* تصميم الحاسبة */
+        .calculator-container {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 20px auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        /* شاشة العرض */
+        .calculator-display {
+            background: linear-gradient(145deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: right;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .operation-display {
+            font-size: 20px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+        
+        /* تصميم الأزرار */
+        .stButton > button {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            width: 100%;
+            padding: 25px 0;
+            font-size: 24px;
+            margin: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .stButton > button:active {
+            transform: translateY(1px);
+        }
+        
+        /* أزرار العمليات */
+        .stButton > button[data-baseweb="button"] {
+            background: linear-gradient(145deg, #4a90e2 0%, #357abd 100%);
+        }
+        
+        /* زر المساواة */
+        button[kind="primary"] {
+            background: linear-gradient(145deg, #2ecc71 0%, #27ae60 100%) !important;
+        }
+        
+        /* زر المسح */
+        [data-testid="stHorizontalBlock"] > div:first-child button {
+            background: linear-gradient(145deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        /* زر الرجوع */
+        [data-testid="stHorizontalBlock"] > div:nth-child(2) button {
+            background: linear-gradient(145deg, #f39c12 0%, #d35400 100%);
+        }
+        
+        /* زر تبديل الوضع */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* تحسين المسافات */
+        div[data-testid="stHorizontalBlock"] {
+            gap: 0.5rem;
+            padding: 0.25rem;
+        }
     </style>
+    
+    <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        🌙
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            const body = document.querySelector('.stApp');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (body.style.background.includes('1a1a1a')) {
+                body.style.background = 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)';
+                body.style.color = '#000000';
+                themeToggle.innerHTML = '☀️';
+            } else {
+                body.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)';
+                body.style.color = '#ffffff';
+                themeToggle.innerHTML = '🌙';
+            }
+        }
+    </script>
 """, unsafe_allow_html=True)
 
-# تحسين الواجهة
-# st.set_page_config(
-#     page_title="Chicken Calculator - Newyolk",
-#     page_icon="🐔",
-#     layout="wide"
-# )
-
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+# بداية الحاسبة
+st.markdown('<div class="calculator-container">', unsafe_allow_html=True)
 
 # تعريف النصوص بجميع اللغات
 texts = {
@@ -139,70 +270,6 @@ texts = {
 # اختيار اللغة
 language = st.selectbox("اللغة | Language | Limbă 🌍", ["العربية", "English", "Română"])
 
-# تحسين الواجهة
-st.markdown(
-    f"""
-    <style>
-        .stApp {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        .title {{
-            font-size: 36px;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }}
-        .subtitle {{
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }}
-        .stButton {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
-        }}
-        .stButton button {{
-            font-size: 24px;
-            padding: 10px 24px;
-            border-radius: 12px;
-            width: 100%;
-        }}
-        .stTable th, .stTable td {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-            direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
-        }}
-        [data-testid="stMarkdownContainer"] {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-        }}
-        .element-container {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        thead tr th:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-        tbody tr td:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-    </style>
-    <div class="title">{texts[language]["title"]}</div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
-    """,
-    unsafe_allow_html=True
-)
-
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
 
@@ -254,50 +321,255 @@ if is_number(new_egg_price) and is_number(new_feed_price):
     st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
     st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
 
-# دالة إنشاء الرسم البياني
-def create_profit_chart(df, language):
-    # تخصيص الألوان
-    colors = {
-        'عدد البيض 🥚': '#4CAF50',
-        'عدد الطعام المطلوب 🌽': '#FF9800',
-        'الربح قبل الإيجار 📊': '#2196F3',
-        'دفع الإيجار 🏠': '#F44336',
-        'صافي الربح 💰': '#9C27B0'
-    }
-    
-    # إنشاء الرسم البياني
-    fig = px.pie(
-        df,
-        values=texts[language]["value"],
-        names=texts[language]["category"],
-        title=texts[language]["summary"],
-        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
-    )
-    
-    # تحديث تصميم الرسم البياني
-    fig.update_traces(
-        textposition='outside',
-        textinfo='percent+label'
-    )
-    
-    fig.update_layout(
-        title_x=0.5,
-        title_font_size=24,
-        showlegend=True,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.2,
-            xanchor="center",
-            x=0.5
-        ),
-        margin=dict(t=60, l=0, r=0, b=0),
-        height=500,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    return fig
+# متغيرات الحاسبة
+if 'calc_result' not in st.session_state:
+    st.session_state.calc_result = '0'
+if 'prev_number' not in st.session_state:
+    st.session_state.prev_number = None
+if 'operation' not in st.session_state:
+    st.session_state.operation = None
+if 'clear_next' not in st.session_state:
+    st.session_state.clear_next = False
+if 'display_operation' not in st.session_state:
+    st.session_state.display_operation = ''
+
+# شاشة العرض
+st.markdown(f"""
+    <div class="calculator-display">
+        <div class="operation-display">{st.session_state.display_operation}</div>
+        {st.session_state.calc_result}
+    </div>
+""", unsafe_allow_html=True)
+
+# صف أزرار التحكم
+col_control = st.columns(4)
+with col_control[0]:
+    if st.button("C", use_container_width=True):
+        st.session_state.calc_result = '0'
+        st.session_state.prev_number = None
+        st.session_state.operation = None
+        st.session_state.clear_next = False
+        st.session_state.display_operation = ''
+        st.rerun()
+with col_control[1]:
+    if st.button("⌫", use_container_width=True):
+        if len(st.session_state.calc_result) > 1:
+            st.session_state.calc_result = st.session_state.calc_result[:-1]
+        else:
+            st.session_state.calc_result = '0'
+        st.rerun()
+with col_control[2]:
+    if st.button("±", use_container_width=True):
+        current = float(st.session_state.calc_result)
+        st.session_state.calc_result = str(-current)
+        st.rerun()
+with col_control[3]:
+    if st.button("÷", use_container_width=True):
+        st.session_state.prev_number = float(st.session_state.calc_result)
+        st.session_state.operation = '/'
+        st.session_state.display_operation = f"{st.session_state.calc_result} ÷ "
+        st.session_state.clear_next = True
+        st.rerun()
+
+# صف الأرقام 7-8-9
+col789 = st.columns(4)
+with col789[0]:
+    if st.button("7", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '7'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '7'
+            else:
+                st.session_state.calc_result += '7'
+        st.rerun()
+with col789[1]:
+    if st.button("8", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '8'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '8'
+            else:
+                st.session_state.calc_result += '8'
+        st.rerun()
+with col789[2]:
+    if st.button("9", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '9'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '9'
+            else:
+                st.session_state.calc_result += '9'
+        st.rerun()
+with col789[3]:
+    if st.button("×", use_container_width=True):
+        st.session_state.prev_number = float(st.session_state.calc_result)
+        st.session_state.operation = '*'
+        st.session_state.display_operation = f"{st.session_state.calc_result} × "
+        st.session_state.clear_next = True
+        st.rerun()
+
+# صف الأرقام 4-5-6
+col456 = st.columns(4)
+with col456[0]:
+    if st.button("4", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '4'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '4'
+            else:
+                st.session_state.calc_result += '4'
+        st.rerun()
+with col456[1]:
+    if st.button("5", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '5'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '5'
+            else:
+                st.session_state.calc_result += '5'
+        st.rerun()
+with col456[2]:
+    if st.button("6", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '6'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '6'
+            else:
+                st.session_state.calc_result += '6'
+        st.rerun()
+with col456[3]:
+    if st.button("-", use_container_width=True):
+        st.session_state.prev_number = float(st.session_state.calc_result)
+        st.session_state.operation = '-'
+        st.session_state.display_operation = f"{st.session_state.calc_result} - "
+        st.session_state.clear_next = True
+        st.rerun()
+
+# صف الأرقام 1-2-3
+col123 = st.columns(4)
+with col123[0]:
+    if st.button("1", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '1'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '1'
+            else:
+                st.session_state.calc_result += '1'
+        st.rerun()
+with col123[1]:
+    if st.button("2", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '2'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '2'
+            else:
+                st.session_state.calc_result += '2'
+        st.rerun()
+with col123[2]:
+    if st.button("3", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '3'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result == '0':
+                st.session_state.calc_result = '3'
+            else:
+                st.session_state.calc_result += '3'
+        st.rerun()
+with col123[3]:
+    if st.button("+", use_container_width=True):
+        st.session_state.prev_number = float(st.session_state.calc_result)
+        st.session_state.operation = '+'
+        st.session_state.display_operation = f"{st.session_state.calc_result} + "
+        st.session_state.clear_next = True
+        st.rerun()
+
+# صف الأرقام 0 والعمليات
+col_last = st.columns(4)
+with col_last[0]:
+    if st.button("00", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '0'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result != '0':
+                st.session_state.calc_result += '00'
+        st.rerun()
+with col_last[1]:
+    if st.button("0", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '0'
+            st.session_state.clear_next = False
+        else:
+            if st.session_state.calc_result != '0':
+                st.session_state.calc_result += '0'
+        st.rerun()
+with col_last[2]:
+    if st.button(".", use_container_width=True):
+        if st.session_state.clear_next:
+            st.session_state.calc_result = '0.'
+            st.session_state.clear_next = False
+        else:
+            if '.' not in st.session_state.calc_result:
+                st.session_state.calc_result += '.'
+        st.rerun()
+with col_last[3]:
+    if st.button("=", use_container_width=True, type="primary"):
+        try:
+            if st.session_state.prev_number is not None and st.session_state.operation is not None:
+                num1 = st.session_state.prev_number
+                num2 = float(st.session_state.calc_result)
+                operation_symbol = {'+':" + ", '-':" - ", '*':" × ", '/':" ÷ "}[st.session_state.operation]
+                st.session_state.display_operation = f"{num1}{operation_symbol}{num2} ="
+                
+                if st.session_state.operation == '+':
+                    result = num1 + num2
+                elif st.session_state.operation == '-':
+                    result = num1 - num2
+                elif st.session_state.operation == '*':
+                    result = num1 * num2
+                elif st.session_state.operation == '/':
+                    if num2 != 0:
+                        result = num1 / num2
+                    else:
+                        st.error("لا يمكن القسمة على صفر!")
+                        result = 0
+                
+                if result == int(result):
+                    st.session_state.calc_result = str(int(result))
+                else:
+                    decimal_str = str(result).split('.')
+                    if len(decimal_str) > 1:
+                        decimal_places = min(len(decimal_str[1]), 8)
+                        st.session_state.calc_result = f"{result:.{decimal_places}f}"
+                    else:
+                        st.session_state.calc_result = str(result)
+                
+                st.session_state.prev_number = None
+                st.session_state.operation = None
+                st.session_state.clear_next = True
+                st.rerun()
+        except Exception as e:
+            st.error("حدث خطأ في العملية الحسابية!")
+
+# إغلاق حاوية الحاسبة
+st.markdown('</div>', unsafe_allow_html=True)
 
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
@@ -535,311 +807,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
 elif calculation_type == texts[language]["simple_calculator"]:
     st.subheader("الحاسبة البسيطة 🔢")
-    
-    # إنشاء متغير للنتيجة في session state
-    if 'calc_result' not in st.session_state:
-        st.session_state.calc_result = '0'
-    if 'prev_number' not in st.session_state:
-        st.session_state.prev_number = None
-    if 'operation' not in st.session_state:
-        st.session_state.operation = None
-    if 'clear_next' not in st.session_state:
-        st.session_state.clear_next = False
-    if 'display_operation' not in st.session_state:
-        st.session_state.display_operation = ''
-        
-    # تحسين شكل الحاسبة
-    st.markdown(f"""
-        <style>
-        .calculator-display {{
-            background: linear-gradient(145deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
-            color: var(--text-color);
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            text-align: right;
-            font-family: 'Courier New', monospace;
-            font-size: 32px;
-            border: 2px solid rgba(128, 128, 128, 0.2);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-        }}
-        
-        .operation-display {{
-            font-size: 18px;
-            color: rgba(128, 128, 128, 0.8);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }}
-        
-        .stButton > button {{
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            color: var(--text-color);
-            border: 1px solid rgba(128, 128, 128, 0.2);
-            border-radius: 15px;
-            width: 100%;
-            padding: 28px 0;
-            font-size: 22px;
-            margin: 4px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-        }}
-        
-        .stButton > button:hover {{
-            background-color: rgba(128, 128, 128, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }}
-        
-        .stButton > button:active {{
-            transform: translateY(1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }}
-        
-        /* تخصيص أزرار العمليات */
-        .stButton > button[kind="primary"] {{
-            background: linear-gradient(145deg, #2e7d32, #1b5e20);
-            color: white;
-        }}
-        
-        @media (prefers-color-scheme: dark) {{
-            :root {{
-                --background-color: #1e1e1e;
-                --text-color: #ffffff;
-            }}
-            .calculator-display {{
-                background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            }}
-        }}
-        
-        @media (prefers-color-scheme: light) {{
-            :root {{
-                --background-color: #ffffff;
-                --text-color: #000000;
-            }}
-            .calculator-display {{
-                background: linear-gradient(145deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.02));
-            }}
-        }}
-        
-        div[data-testid="stHorizontalBlock"] {{
-            gap: 0.5rem;
-        }}
-        </style>
-        
-        <div class="calculator-display">
-            <div class="operation-display">{st.session_state.display_operation}</div>
-            {st.session_state.calc_result}
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # زر المسح
-    col_clear = st.columns(1)
-    with col_clear[0]:
-        if st.button("C", use_container_width=True):
-            st.session_state.calc_result = '0'
-            st.session_state.prev_number = None
-            st.session_state.operation = None
-            st.session_state.clear_next = False
-            st.session_state.display_operation = ''
-            st.rerun()
-    
-    # الصف الأول (1-2-3)
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        if st.button("1", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '1'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '1'
-                else:
-                    st.session_state.calc_result += '1'
-            st.rerun()
-    with col2:
-        if st.button("2", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '2'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '2'
-                else:
-                    st.session_state.calc_result += '2'
-            st.rerun()
-    with col3:
-        if st.button("3", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '3'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '3'
-                else:
-                    st.session_state.calc_result += '3'
-            st.rerun()
-    with col4:
-        if st.button("×", use_container_width=True):
-            st.session_state.prev_number = float(st.session_state.calc_result)
-            st.session_state.operation = '*'
-            st.session_state.display_operation = f"{st.session_state.calc_result} × "
-            st.session_state.clear_next = True
-            st.rerun()
-    
-    # الصف الثاني (4-5-6)
-    col5, col6, col7, col8 = st.columns(4)
-    with col5:
-        if st.button("4", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '4'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '4'
-                else:
-                    st.session_state.calc_result += '4'
-            st.rerun()
-    with col6:
-        if st.button("5", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '5'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '5'
-                else:
-                    st.session_state.calc_result += '5'
-            st.rerun()
-    with col7:
-        if st.button("6", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '6'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '6'
-                else:
-                    st.session_state.calc_result += '6'
-            st.rerun()
-    with col8:
-        if st.button("-", use_container_width=True):
-            st.session_state.prev_number = float(st.session_state.calc_result)
-            st.session_state.operation = '-'
-            st.session_state.display_operation = f"{st.session_state.calc_result} - "
-            st.session_state.clear_next = True
-            st.rerun()
-    
-    # الصف الثالث (7-8-9)
-    col9, col10, col11, col12 = st.columns(4)
-    with col9:
-        if st.button("7", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '7'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '7'
-                else:
-                    st.session_state.calc_result += '7'
-            st.rerun()
-    with col10:
-        if st.button("8", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '8'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '8'
-                else:
-                    st.session_state.calc_result += '8'
-            st.rerun()
-    with col11:
-        if st.button("9", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '9'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result == '0':
-                    st.session_state.calc_result = '9'
-                else:
-                    st.session_state.calc_result += '9'
-            st.rerun()
-    with col12:
-        if st.button("+", use_container_width=True):
-            st.session_state.prev_number = float(st.session_state.calc_result)
-            st.session_state.operation = '+'
-            st.session_state.display_operation = f"{st.session_state.calc_result} + "
-            st.session_state.clear_next = True
-            st.rerun()
-    
-    # الصف الرابع (0 والعمليات)
-    col13, col14, col15, col16 = st.columns(4)
-    with col13:
-        if st.button("±", use_container_width=True):
-            current = float(st.session_state.calc_result)
-            st.session_state.calc_result = str(-current)
-            st.rerun()
-    with col14:
-        if st.button("0", use_container_width=True):
-            if st.session_state.clear_next:
-                st.session_state.calc_result = '0'
-                st.session_state.clear_next = False
-            else:
-                if st.session_state.calc_result != '0':
-                    st.session_state.calc_result += '0'
-            st.rerun()
-    with col15:
-        if st.button("÷", use_container_width=True):
-            st.session_state.prev_number = float(st.session_state.calc_result)
-            st.session_state.operation = '/'
-            st.session_state.display_operation = f"{st.session_state.calc_result} ÷ "
-            st.session_state.clear_next = True
-            st.rerun()
-    with col16:
-        if st.button("=", use_container_width=True, type="primary"):
-            try:
-                if st.session_state.prev_number is not None and st.session_state.operation is not None:
-                    num1 = st.session_state.prev_number
-                    num2 = float(st.session_state.calc_result)
-                    operation_symbol = {'+':" + ", '-':" - ", '*':" × ", '/':" ÷ "}[st.session_state.operation]
-                    st.session_state.display_operation = f"{num1}{operation_symbol}{num2} ="
-                    
-                    if st.session_state.operation == '+':
-                        result = num1 + num2
-                    elif st.session_state.operation == '-':
-                        result = num1 - num2
-                    elif st.session_state.operation == '*':
-                        result = num1 * num2
-                    elif st.session_state.operation == '/':
-                        if num2 != 0:
-                            result = num1 / num2
-                        else:
-                            st.error("لا يمكن القسمة على صفر!")
-                            result = 0
-                    
-                    # تنسيق النتيجة لإزالة الأصفار غير الضرورية
-                    if result == int(result):
-                        st.session_state.calc_result = str(int(result))
-                    else:
-                        # تحديد عدد الأرقام العشرية بناءً على الحاجة
-                        decimal_str = str(result).split('.')
-                        if len(decimal_str) > 1:
-                            decimal_places = min(len(decimal_str[1]), 5)  # الحد الأقصى 5 أرقام عشرية
-                            st.session_state.calc_result = f"{result:.{decimal_places}f}"
-                        else:
-                            st.session_state.calc_result = str(result)
-                    
-                    st.session_state.prev_number = None
-                    st.session_state.operation = None
-                    st.session_state.clear_next = True
-                    st.rerun()
-            except Exception as e:
-                st.error("حدث خطأ في العملية الحسابية!")
-                
+
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
@@ -909,3 +877,48 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# دالة إنشاء الرسم البياني
+def create_profit_chart(df, language):
+    # تخصيص الألوان
+    colors = {
+        'عدد البيض 🥚': '#4CAF50',
+        'عدد الطعام المطلوب 🌽': '#FF9800',
+        'الربح قبل الإيجار 📊': '#2196F3',
+        'دفع الإيجار 🏠': '#F44336',
+        'صافي الربح 💰': '#9C27B0'
+    }
+    
+    # إنشاء الرسم البياني
+    fig = px.pie(
+        df,
+        values=texts[language]["value"],
+        names=texts[language]["category"],
+        title=texts[language]["summary"],
+        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
+    )
+    
+    # تحديث تصميم الرسم البياني
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label'
+    )
+    
+    fig.update_layout(
+        title_x=0.5,
+        title_font_size=24,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.2,
+            xanchor="center",
+            x=0.5
+        ),
+        margin=dict(t=60, l=0, r=0, b=0),
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    return fig
