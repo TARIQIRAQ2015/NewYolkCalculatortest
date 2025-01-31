@@ -7,21 +7,127 @@ from datetime import datetime, timedelta
 st.set_page_config(
     page_title="Chicken Calculator - Newyolk",
     page_icon="🐔",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# إخفاء أزرار التحكم بالمظهر
-st.markdown("""
+# إعداد الثيم في session state
+if 'theme' not in st.session_state:
+    st.session_state.theme = 'light'
+
+# إضافة التنسيقات CSS
+st.markdown(f"""
     <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
+        #MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        header {{visibility: hidden;}}
+        
+        /* تنسيق حاوية الأزرار */
+        div.theme-buttons {{
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }}
+        
+        /* تنسيق الأزرار */
+        div.theme-buttons > div {{
+            width: auto !important;
+            flex: 0 0 auto !important;
+        }}
+        
+        div.theme-buttons button {{
+            width: 40px !important;
+            height: 40px !important;
+            padding: 0.5rem !important;
+            border: none !important;
+            border-radius: 15px !important;
+            background: transparent !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1.2rem !important;
+            margin: 0 !important;
+        }}
+        
+        div.theme-buttons button:hover {{
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px) !important;
+        }}
+        
+        div.theme-buttons button.active {{
+            background: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            animation: glow 2s ease-in-out infinite !important;
+        }}
+        
+        @keyframes glow {{
+            0% {{ text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }}
+            50% {{ text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }}
+            100% {{ text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }}
+        }}
+        
+        /* تنسيقات الألوان للأوضاع المختلفة */
+        .stApp {{
+            transition: all 0.3s ease;
+        }}
+        
+        .light-theme {{
+            background-color: #ffffff !important;
+            color: #1a1a1a !important;
+        }}
+        
+        .dark-theme {{
+            background-color: #0e1117 !important;
+            color: #ffffff !important;
+        }}
+        
+        .solar-theme {{
+            background-color: #fdf6e3 !important;
+            color: #657b83 !important;
+        }}
     </style>
 """, unsafe_allow_html=True)
 
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+# إنشاء صف للأزرار
+col1, col2, col3 = st.columns(3)
+
+# وضع الأزرار في حاوية منسقة
+with st.container():
+    st.markdown('<div class="theme-buttons">', unsafe_allow_html=True)
+    
+    # إضافة الأزرار
+    if st.button('☀️', key='light'):
+        st.session_state.theme = 'light'
+        st.experimental_rerun()
+        
+    if st.button('🌙', key='dark'):
+        st.session_state.theme = 'dark'
+        st.experimental_rerun()
+        
+    if st.button('🌞', key='solar'):
+        st.session_state.theme = 'solar'
+        st.experimental_rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# تطبيق الثيم الحالي
+st.markdown(f"""
+    <script>
+        document.documentElement.className = '{st.session_state.theme}-theme';
+    </script>
+""", unsafe_allow_html=True)
 
 # تعريف النصوص بجميع اللغات
 texts = {
@@ -588,7 +694,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
