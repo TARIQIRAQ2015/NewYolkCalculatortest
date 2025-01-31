@@ -31,6 +31,19 @@ st.markdown("""
         .css-18ni7ap {display: none;}
         div[data-testid="stDecoration"] {display: none;}
         div[data-testid="stToolbar"] {display: none;}
+        .css-j7qwjs {display: none;}
+        .css-1vq4p4l {display: none;}
+        .css-1dp5vir {display: none;}
+        .css-1wrcr25 {display: none;}
+        .css-6qob1r {display: none;}
+        .css-3mmywe {display: none;}
+        .css-1q8dd3e {display: none;}
+        [data-testid="stHeader"] {display: none;}
+        [data-testid="stFooter"] {display: none;}
+        [data-testid="stToolbar"] {display: none;}
+        .stApp iframe[title="streamlit_analytics"] {display: none;}
+        .stApp > header {display: none;}
+        .stApp > footer {display: none;}
     </style>
 """, unsafe_allow_html=True)
 
