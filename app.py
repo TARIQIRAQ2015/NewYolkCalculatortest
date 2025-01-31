@@ -7,7 +7,8 @@ from datetime import datetime, timedelta
 st.set_page_config(
     page_title="Chicken Calculator - Newyolk",
     page_icon="🐔",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # إخفاء أزرار التحكم بالمظهر
@@ -18,73 +19,126 @@ st.markdown("""
         header {visibility: hidden;}
         
         /* تنسيق زر تغيير المظهر */
-        .theme-toggle {
+        .theme-switcher {
             position: fixed;
             left: 1rem;
             top: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.5rem;
-            border-radius: 10px;
-            cursor: pointer;
             z-index: 1000;
-            transition: all 0.3s ease;
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                        0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .theme-toggle select {
-            background: transparent;
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
             border: none;
-            color: inherit;
-            padding: 0.3rem;
-            font-size: 0.9rem;
+            border-radius: 15px;
             cursor: pointer;
-            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
         }
-        
-        .theme-toggle select option {
-            background: var(--background-color);
-            color: var(--text-color);
+
+        .theme-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transform: scale(0);
+            transition: transform 0.3s ease;
         }
-        
+
+        .theme-btn:hover::before {
+            transform: scale(1);
+        }
+
+        .theme-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .theme-btn:not(.active) {
+            opacity: 0.7;
+        }
+
+        /* تنسيقات الألوان للأوضاع المختلفة */
         [data-theme="light"] {
             --background-color: #ffffff;
-            --text-color: #000000;
+            --text-color: #1a1a1a;
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
         
         [data-theme="dark"] {
             --background-color: #0e1117;
             --text-color: #ffffff;
+            --shadow-color: rgba(255, 255, 255, 0.1);
         }
         
         [data-theme="solar"] {
             --background-color: #fdf6e3;
             --text-color: #657b83;
+            --shadow-color: rgba(101, 123, 131, 0.1);
+        }
+
+        /* تأثير النص المضيء */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+        }
+
+        .theme-btn.active span {
+            animation: glow 2s ease-in-out infinite;
         }
     </style>
     
-    <div class="theme-toggle">
-        <select id="theme-select" onchange="changeTheme(this.value)">
-            <option value="light">☀️ فاتح</option>
-            <option value="dark">🌙 داكن</option>
-            <option value="solar">🌞 شمسي</option>
-        </select>
+    <div class="theme-switcher">
+        <button class="theme-btn" onclick="setTheme('light')" id="light-btn">
+            <span>☀️</span>
+        </button>
+        <button class="theme-btn" onclick="setTheme('dark')" id="dark-btn">
+            <span>🌙</span>
+        </button>
+        <button class="theme-btn" onclick="setTheme('solar')" id="solar-btn">
+            <span>🌞</span>
+        </button>
     </div>
     
     <script>
-        function changeTheme(theme) {
+        function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
+            
+            // إزالة الفئة النشطة من جميع الأزرار
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // إضافة الفئة النشطة للزر المحدد
+            document.getElementById(theme + '-btn').classList.add('active');
         }
         
         // استعادة المظهر المحفوظ
         const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('theme-select').value = savedTheme;
+        setTheme(savedTheme);
     </script>
 """, unsafe_allow_html=True)
 
