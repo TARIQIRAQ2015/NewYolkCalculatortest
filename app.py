@@ -25,6 +25,12 @@ st.markdown("""
         .css-17ziqus {visibility: hidden;}
         .css-14xtw13 {visibility: hidden;}
         .css-pkbazv {visibility: hidden;}
+        .css-5uatcg {display: none;}
+        .css-eh5xgm {display: none;}
+        .css-1avcm0n {display: none;}
+        .css-18ni7ap {display: none;}
+        div[data-testid="stDecoration"] {display: none;}
+        div[data-testid="stToolbar"] {display: none;}
     </style>
 """, unsafe_allow_html=True)
 
