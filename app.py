@@ -100,9 +100,6 @@ st.markdown(f"""
     </style>
 """, unsafe_allow_html=True)
 
-# إنشاء صف للأزرار
-col1, col2, col3 = st.columns(3)
-
 # وضع الأزرار في حاوية منسقة
 with st.container():
     st.markdown('<div class="theme-buttons">', unsafe_allow_html=True)
