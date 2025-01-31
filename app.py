@@ -16,7 +16,76 @@ st.markdown("""
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        
+        /* تنسيق زر تغيير المظهر */
+        .theme-toggle {
+            position: fixed;
+            left: 1rem;
+            top: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .theme-toggle select {
+            background: transparent;
+            border: none;
+            color: inherit;
+            padding: 0.3rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .theme-toggle select option {
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        [data-theme="light"] {
+            --background-color: #ffffff;
+            --text-color: #000000;
+        }
+        
+        [data-theme="dark"] {
+            --background-color: #0e1117;
+            --text-color: #ffffff;
+        }
+        
+        [data-theme="solar"] {
+            --background-color: #fdf6e3;
+            --text-color: #657b83;
+        }
     </style>
+    
+    <div class="theme-toggle">
+        <select id="theme-select" onchange="changeTheme(this.value)">
+            <option value="light">☀️ فاتح</option>
+            <option value="dark">🌙 داكن</option>
+            <option value="solar">🌞 شمسي</option>
+        </select>
+    </div>
+    
+    <script>
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        
+        // استعادة المظهر المحفوظ
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-select').value = savedTheme;
+    </script>
 """, unsafe_allow_html=True)
 
 # تنسيق الأرقام العشرية
@@ -588,7 +657,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
