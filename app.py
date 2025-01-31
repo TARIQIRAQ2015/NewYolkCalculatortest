@@ -11,120 +11,123 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# إضافة التنسيقات CSS
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        .theme-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .theme-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+        }
+        
+        .light-theme {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        
+        .dark-theme {
+            background-color: #0e1117;
+            color: #ffffff;
+        }
+        
+        .solar-theme {
+            background-color: #fdf6e3;
+            color: #657b83;
+        }
+        
+        .stApp {
+            transition: all 0.3s ease;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # إعداد الثيم في session state
 if 'theme' not in st.session_state:
     st.session_state.theme = 'light'
 
-# تحديث المظهر
-theme = st.sidebar.radio(
-    "",
-    ['☀️ فاتح', '🌙 داكن', '🌞 شمسي'],
-    key='theme_radio',
-    horizontal=True,
-    label_visibility='collapsed'
-)
+# إضافة أزرار تغيير المظهر باستخدام HTML
+theme_buttons = f"""
+<div class="theme-container">
+    <button class="theme-btn {'active' if st.session_state.theme == 'light' else ''}" 
+            onclick="changeTheme('light')" id="light-btn">☀️</button>
+    <button class="theme-btn {'active' if st.session_state.theme == 'dark' else ''}" 
+            onclick="changeTheme('dark')" id="dark-btn">🌙</button>
+    <button class="theme-btn {'active' if st.session_state.theme == 'solar' else ''}" 
+            onclick="changeTheme('solar')" id="solar-btn">🌞</button>
+</div>
 
-# تحويل اختيار المستخدم إلى قيمة الثيم
-theme_mapping = {
-    '☀️ فاتح': 'light',
-    '🌙 داكن': 'dark',
-    '🌞 شمسي': 'solar'
-}
-current_theme = theme_mapping[theme]
+<script>
+    function changeTheme(theme) {
+        const form = new FormData();
+        form.append('theme', theme);
+        fetch('/', {
+            method: 'POST',
+            body: form
+        }).then(() => {
+            document.documentElement.className = theme + '-theme';
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(theme + '-btn').classList.add('active');
+        });
+    }
+    
+    // تطبيق الثيم الحالي
+    document.documentElement.className = '{st.session_state.theme}-theme';
+</script>
+"""
 
-# إضافة التنسيقات CSS
-st.markdown(f"""
-    <style>
-        #MainMenu {{visibility: hidden;}}
-        footer {{visibility: hidden;}}
-        header {{visibility: hidden;}}
+st.markdown(theme_buttons, unsafe_allow_html=True)
 
-        /* تنسيق زر تغيير المظهر */
-        .stRadio > label {{
-            display: none;
-        }}
-
-        .stRadio [role='radiogroup'] {{
-            position: fixed !important;
-            left: 1rem !important;
-            top: 1rem !important;
-            z-index: 1000 !important;
-            background: rgba(0, 0, 0, 0.1) !important;
-            backdrop-filter: blur(10px) !important;
-            padding: 0.5rem !important;
-            border-radius: 20px !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
-                        0 5px 15px rgba(0, 0, 0, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            flex-direction: row !important;
-            gap: 0.5rem !important;
-            width: auto !important;
-        }}
-
-        .stRadio [role='radio'] {{
-            width: 40px !important;
-            height: 40px !important;
-            border: none !important;
-            border-radius: 15px !important;
-            background: transparent !important;
-            color: rgba(255, 255, 255, 0.8) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 1.2rem !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }}
-
-        .stRadio [role='radio'][aria-checked='true'] {{
-            background: rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-            transform: translateY(-2px) !important;
-            animation: glow 2s ease-in-out infinite !important;
-        }}
-
-        .stRadio [role='radio']:not([aria-checked='true']) {{
-            opacity: 0.7 !important;
-        }}
-
-        .stRadio [role='radio']:hover {{
-            background: rgba(255, 255, 255, 0.1) !important;
-        }}
-
-        /* تنسيقات الألوان للأوضاع المختلفة */
-        :root[data-theme="light"] {{
-            --background-color: #ffffff;
-            --text-color: #1a1a1a;
-        }}
-        
-        :root[data-theme="dark"] {{
-            --background-color: #0e1117;
-            --text-color: #ffffff;
-        }}
-        
-        :root[data-theme="solar"] {{
-            --background-color: #fdf6e3;
-            --text-color: #657b83;
-        }}
-
-        /* تأثير النص المضيء */
-        @keyframes glow {{
-            0% {{ text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }}
-            50% {{ text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }}
-            100% {{ text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }}
-        }}
-
-        /* تطبيق الثيم الحالي */
-        .stApp {{
-            background-color: var(--background-color) !important;
-            color: var(--text-color) !important;
-        }}
-    </style>
-    <script>
-        document.documentElement.setAttribute('data-theme', '{current_theme}');
-    </script>
-""", unsafe_allow_html=True)
+# معالجة تغيير الثيم
+if st.experimental_get_query_params().get('theme'):
+    st.session_state.theme = st.experimental_get_query_params()['theme'][0]
+    st.experimental_rerun()
 
 # تعريف النصوص بجميع اللغات
 texts = {
