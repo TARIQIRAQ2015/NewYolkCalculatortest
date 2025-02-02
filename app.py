@@ -426,18 +426,26 @@ st.markdown("""
         
         /* تحسين ملخص النتائج */
         pre {
-            background: rgba(30, 33, 43, 0.7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
+            background: rgba(30, 33, 43, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 12px !important;
             color: #ffffff !important;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 20px !important;
             margin: 15px 0 !important;
             font-family: 'Courier New', monospace !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+        
+        pre:hover {
+            background: rgba(22, 27, 37, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         
         pre::before {
@@ -450,7 +458,7 @@ st.markdown("""
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.08),
                 transparent
             );
             transition: all 0.5s ease;
@@ -459,13 +467,6 @@ st.markdown("""
         
         pre:hover::before {
             left: 100%;
-        }
-        
-        pre:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
         /* تحسين الإيموجي في العنوان */
@@ -611,67 +612,12 @@ texts = {
     }
 }
 
-# CSS styles
-st.markdown('''
-    <style>
-    [data-testid="stAppViewContainer"] {
-        background-color: #0e1117;
-    }
-    
-    .stApp {
-        margin: 0 auto;
-    }
-    
-    .main-title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-    
-    .chicken-emoji {
-        font-size: 32px;
-        text-decoration: none;
-        transition: transform 0.3s;
-        display: inline-block;
-    }
-    
-    .chicken-emoji:hover {
-        transform: scale(1.2) rotate(10deg);
-    }
-    
-    .title-text {
-        font-size: 32px;
-        font-weight: bold;
-        color: white;
-    }
-    
-    .subtitle-text {
-        text-align: center;
-        color: #e0e0e0;
-        font-size: 18px;
-        margin-bottom: 30px;
-    }
-    </style>
-''', unsafe_allow_html=True)
-
 # اختيار اللغة
 language = st.selectbox(
     "اللغة | Language | Limbă 🌍",
     ["العربية", "English", "Română"],
     key="language_selector"
 )
-
-# Title and subtitle
-st.markdown(f'''
-    <div class="main-title" style="direction: {'rtl' if language == 'العربية' else 'ltr'}">
-        <a href="https://newyolkcalculator.streamlit.app/" class="chicken-emoji" target="_blank">🐔</a>
-        <div class="title-text">{texts[language]["title"]}</div>
-    </div>
-    <div class="subtitle-text">{texts[language]["subtitle"]}</div>
-''', unsafe_allow_html=True)
 
 # تحسين الواجهة
 st.markdown(
@@ -731,48 +677,7 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <style>
-        .title-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            gap: 12px;
-            direction: {('rtl' if language == 'العربية' else 'ltr')};
-        }
-        
-        .emoji-link {
-            text-decoration: none;
-            font-size: 32px !important;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            cursor: pointer;
-            color: currentColor;
-            line-height: 1;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title-text {
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #e0e0e0;
-            margin-bottom: 30px;
-            font-size: 18px;
-        }
-    </style>
-    
-    <div class="title-container">
+    <div class="title">
         <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
@@ -780,6 +685,24 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# تحسين العنوان مع الإيموجي
+st.markdown("""
+    <style>
+        .emoji-link {
+            text-decoration: none;
+            font-size: 2em !important;
+            padding: 0 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white !important;
+            font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -809,10 +732,16 @@ st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
+    new_egg_price = st.text_input(
+        texts[language]["egg_price"],
+        value="0.1155"
+    )
 
 with col4:
-    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
+    new_feed_price = st.text_input(
+        texts[language]["feed_price"],
+        value="0.0189"
+    )
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
@@ -1210,4 +1139,36 @@ st.markdown("""
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            gap: 10px;
+            direction: rtl;
+        }
+        
+        .title-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# تحديث العنوان
+st.markdown(f"""
+    <div class="title">
+        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
+    </div>
 """, unsafe_allow_html=True)
