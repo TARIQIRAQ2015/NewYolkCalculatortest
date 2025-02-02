@@ -19,246 +19,123 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# تحسين الواجهة
+# تحسين المظهر العام والخلفية
 st.markdown("""
     <style>
-        /* تحسينات عامة */
+        /* تحسين المظهر العام والخلفية */
         .stApp {
-            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-            color: #e2e2e2;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stApp::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
-            z-index: 0;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* جعل المحتوى فوق الخلفية المتحركة */
-        .stApp > * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* تنسيق القوائم المنسدلة */
-        .stSelectbox [data-baseweb="select"] {
-            background-color: rgba(10, 25, 47, 0.3) !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(100, 255, 218, 0.2) !important;
-            border-radius: 15px !important;
-        }
-        
-        .stSelectbox [data-baseweb="select"]:hover {
-            border-color: rgba(100, 255, 218, 0.5) !important;
-            box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
-        }
-        
-        .stSelectbox [data-baseweb="popover"] {
-            background-color: rgba(10, 25, 47, 0.95) !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(100, 255, 218, 0.2) !important;
-            border-radius: 10px !important;
-        }
-        
-        .stSelectbox [data-baseweb="select"] * {
-            color: #e2e2e2 !important;
-        }
-        
-        /* إضافة تأثير اللمعان */
-        .stButton > button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(100, 255, 218, 0.3),
-                transparent
-            );
-            transition: 0.5s;
-            transform: skewX(-15deg);
-        }
-        
-        .stButton > button:hover::before {
-            left: 100%;
-        }
-        
-        .stButton > button {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* تحسين تأثير الضوء للعناصر */
-        .stTextInput > div > div:focus-within {
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
-        }
-        
-        .title {
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
-        }
-        
-        /* تحسينات عامة */
-        .stApp {
-            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-            color: #e2e2e2;
-        }
-        
-        /* تنسيق الأقسام */
-        [data-testid="stSidebar"] {
-            background-color: rgba(17, 34, 64, 0.8) !important;
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-        }
-        
-        .stSelectbox > div,
-        .stTextInput > div {
-            background-color: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            color: #e2e2e2 !important;
             transition: all 0.3s ease;
         }
         
-        .stSelectbox > div:hover,
-        .stTextInput > div:hover {
-            border-color: rgba(74, 144, 226, 0.5) !important;
-            box-shadow: 0 0 15px rgba(74, 144, 226, 0.2);
+        /* تأثيرات حركية للعناصر */
+        .element-container {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .element-container:hover {
+            transform: translateY(-2px);
         }
         
-        /* تنسيق العنوان والعنوان الفرعي */
+        /* تحسين أزرار التحكم */
+        .stButton > button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            color: #1f1f1f;
+        }
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+        }
+        
+        /* تحسين القوائم المنسدلة */
+        .stSelectbox > div {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .stSelectbox > div:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* تحسين حقول الإدخال */
+        .stTextInput > div > div {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .stTextInput > div > div:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* تحسين العناوين */
+        h1, h2, h3 {
+            color: #1f1f1f;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        h1:hover, h2:hover, h3:hover {
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين الجداول */
+        .stTable {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .stTable:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين النصوص */
         .title {
-            font-size: 42px;
-            font-weight: bold;
-            text-align: center;
-            padding: 25px;
-            margin-bottom: 10px;
-            background: linear-gradient(120deg, #64ffda, #00bfa5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #1f1f1f;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .title:hover {
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
         }
         
         .subtitle {
-            font-size: 28px;
-            text-align: center;
-            margin-bottom: 35px;
-            color: #8892b0;
-            font-weight: 300;
-        }
-        
-        /* تنسيق الأزرار */
-        .stButton > button {
-            background: linear-gradient(135deg, #64ffda 0%, #00bfa5 100%);
-            color: #0a192f;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+            color: #2f2f2f;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
+        .subtitle:hover {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+        }
         
-        .stButton > button:hover {
+        /* تأثير زجاجي للبطاقات */
+        .stMarkdown {
+            background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .stMarkdown:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.4);
-        }
-        
-        /* تنسيق النتائج */
-        pre {
-            background: rgba(10, 25, 47, 0.7);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            color: #e2e2e2;
-            font-family: 'Consolas', monospace;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* تنسيق العناوين الفرعية */
-        h3 {
-            color: #64ffda;
-            font-size: 24px;
-            font-weight: 500;
-            margin: 25px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid rgba(100, 255, 218, 0.3);
-        }
-        
-        /* تنسيق الجداول */
-        .stTable {
-            background: rgba(10, 25, 47, 0.7);
-            border-radius: 15px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-        
-        .stTable th {
-            background: rgba(100, 255, 218, 0.1);
-            color: #64ffda;
-            font-weight: 500;
-        }
-        
-        .stTable td {
-            border-color: rgba(255, 255, 255, 0.05);
-            color: #e2e2e2;
-        }
-        
-        /* تنسيق الإشعارات */
-        .stAlert {
-            background: rgba(10, 25, 47, 0.7) !important;
-            border: 1px solid rgba(100, 255, 218, 0.2) !important;
-            border-radius: 15px !important;
-            color: #e2e2e2 !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        /* تحسين التوافق مع الأجهزة المحمولة */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 32px;
-                padding: 15px;
-            }
-            
-            .subtitle {
-                font-size: 22px;
-                margin-bottom: 25px;
-            }
-        }
-        
-        /* تنسيق الرسوم البيانية */
-        .js-plotly-plot {
-            background: rgba(10, 25, 47, 0.7) !important;
-            border-radius: 15px !important;
-            padding: 15px !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* تنسيق حقوق النشر */
-        .copyright {
-            text-align: center;
-            padding: 20px;
-            color: #8892b0;
-            font-size: 14px;
-            margin-top: 40px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -431,10 +308,7 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <div class="title">
-        <span class="emoji-icon">🐔</span>
-        {texts[language]["title"].replace('🐔', '')}
-    </div>
+    <div class="title">{texts[language]["title"]}</div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
@@ -457,14 +331,10 @@ with col2:
 
 # دالة التحقق من المدخلات
 def is_number(value):
-    if not value:  # التحقق من القيم الفارغة
-        return False
     try:
-        # إزالة الفواصل والمسافات
-        cleaned_value = str(value).replace(',', '').replace(' ', '')
-        float(cleaned_value)
+        float(value)
         return True
-    except (ValueError, TypeError):
+    except ValueError:
         return False
 
 # قسم تعديل الأسعار
@@ -497,51 +367,45 @@ if is_number(new_egg_price) and is_number(new_feed_price):
 
 # دالة إنشاء الرسم البياني
 def create_profit_chart(df, language):
-    # تحويل القيم إلى أرقام
-    df['value'] = pd.to_numeric(df['value'].str.replace(r'[^\d.]', '', regex=True), errors='coerce')
+    # تخصيص الألوان
+    colors = {
+        'عدد البيض 🥚': '#4CAF50',
+        'عدد الطعام المطلوب 🌽': '#FF9800',
+        'الربح قبل الإيجار 📊': '#2196F3',
+        'دفع الإيجار 🏠': '#F44336',
+        'صافي الربح 💰': '#9C27B0'
+    }
     
-    fig = px.line(df, x='category', y='value',
-                  title=texts[language]["summary"],
-                  labels={'value': texts[language]["value"],
-                         'category': texts[language]["category"]})
-    
-    # تحديث مظهر الرسم البياني
-    fig.update_layout(
-        plot_bgcolor='rgba(10, 25, 47, 0.7)',
-        paper_bgcolor='rgba(10, 25, 47, 0)',
-        font=dict(color='#e2e2e2', family='Arial, sans-serif'),
-        title=dict(
-            font=dict(size=24, color='#64ffda'),
-            x=0.5,
-            xanchor='center'
-        ),
-        xaxis=dict(
-            gridcolor='rgba(255, 255, 255, 0.1)',
-            linecolor='rgba(255, 255, 255, 0.2)',
-            tickfont=dict(size=12),
-            title_font=dict(color='#8892b0')
-        ),
-        yaxis=dict(
-            gridcolor='rgba(255, 255, 255, 0.1)',
-            linecolor='rgba(255, 255, 255, 0.2)',
-            tickfont=dict(size=12),
-            title_font=dict(color='#8892b0')
-        ),
-        showlegend=False,
-        hovermode='x unified',
-        margin=dict(t=80, b=40, l=40, r=40)
+    # إنشاء الرسم البياني
+    fig = px.pie(
+        df,
+        values=texts[language]["value"],
+        names=texts[language]["category"],
+        title=texts[language]["summary"],
+        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
     )
     
-    # تحديث خط الرسم البياني
+    # تحديث تصميم الرسم البياني
     fig.update_traces(
-        line=dict(color='#64ffda', width=3),
-        mode='lines+markers',
-        marker=dict(
-            size=8,
-            color='#00bfa5',
-            line=dict(color='#64ffda', width=2)
+        textposition='outside',
+        textinfo='percent+label'
+    )
+    
+    fig.update_layout(
+        title_x=0.5,
+        title_font_size=24,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.2,
+            xanchor="center",
+            x=0.5
         ),
-        hovertemplate='%{y:,.2f}<extra></extra>'
+        margin=dict(t=60, l=0, r=0, b=0),
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     
     return fig
@@ -553,57 +417,59 @@ if calculation_type == texts[language]["chicken_profits"]:
     with col5:
         eggs = st.text_input(
             texts[language]["eggs_input"],
-            value="30",
+            value="",
             help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else ""
         )
 
     with col6:
         days = st.text_input(
             texts[language]["days_input"],
-            value="30",
+            value="",
             help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else ""
         )
 
-    if st.button(texts[language]["calculate_profits"]):
-        if not is_number(eggs) or not is_number(days) or not is_number(new_egg_price) or not is_number(new_feed_price):
-            st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
-        else:
-            # تحويل المدخلات إلى أرقام
-            eggs = float(str(eggs).replace(',', '').replace(' ', ''))
-            days = float(str(days).replace(',', '').replace(' ', ''))
-            new_egg_price = float(str(new_egg_price).replace(',', '').replace(' ', ''))
-            new_feed_price = float(str(new_feed_price).replace(',', '').replace(' ', ''))
+    if st.button(texts[language]["calculate_profits"], type="primary"):
+        try:
+            eggs = float(eggs) if eggs else None
+            days = float(days) if days else None
 
-            # حساب الأرباح
-            total_egg_price = eggs * new_egg_price  # ضرب عدد البيض في سعر البيض الحالي
-            total_feed_cost = (days * 2) * new_feed_price  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
-            
-            # حساب الإيجار
-            total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
-            
-            # حساب النتائج
-            net_profit_before_rent = total_egg_price - total_feed_cost
-            net_profit = net_profit_before_rent - total_rent
-
-            # تحويل العملة
-            if currency == "IQD":
-                total_egg_price = total_egg_price * 1480
-                total_feed_cost = total_feed_cost * 1480
-                net_profit_before_rent = net_profit_before_rent * 1480
-                total_rent = total_rent * 1480
-                net_profit = net_profit * 1480
+            if eggs is None or days is None:
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
+            elif eggs > 580:
+                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "")
+            elif days > 730:
+                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
             else:
-                total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
-                    total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit
-                )
+                # حساب الأرباح
+                total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
+                total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
+                
+                # حساب الإيجار
+                total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
+                
+                # حساب النتائج
+                net_profit_before_rent = total_egg_price - total_feed_cost
+                net_profit = net_profit_before_rent - total_rent
 
-            # تنسيق التاريخ والوقت حسب توقيت بغداد
-            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-            date_str = current_time.strftime("%Y-%m-%d")
-            time_str = current_time.strftime("%I:%M %p")
+                # تحويل العملة
+                if currency == "IQD":
+                    total_egg_price = total_egg_price * 1480
+                    total_feed_cost = total_feed_cost * 1480
+                    net_profit_before_rent = net_profit_before_rent * 1480
+                    total_rent = total_rent * 1480
+                    net_profit = net_profit * 1480
+                else:
+                    total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
+                        total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit
+                    )
 
-            # إنشاء نص النتائج
-            results_text = f"""
+                # تنسيق التاريخ والوقت حسب توقيت بغداد
+                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+                date_str = current_time.strftime("%Y-%m-%d")
+                time_str = current_time.strftime("%I:%M %p")
+
+                # إنشاء نص النتائج
+                results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['summary']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
@@ -624,56 +490,59 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-            # عرض النتائج
-            # st.code(results_text, language="text")
+                # عرض النتائج
+                # st.code(results_text, language="text")
 
-            # إنشاء DataFrame للرسم البياني
-            df = pd.DataFrame({
-                texts[language]["category"]: [
-                    f"🥚 {texts[language]['eggs_input']}",
-                    f"🌽 {texts[language]['food_input']}",
-                    f"📈 {texts[language]['net_profit']}",
-                    f"🏠 {texts[language]['first_year_rental']}",
-                    f"💰 {texts[language]['final_profit']}"
-                ],
-                texts[language]["value"]: [
-                    total_egg_price,
-                    total_feed_cost,
-                    net_profit_before_rent,
-                    total_rent,
-                    net_profit
-                ]
-            })
-            
-            # تنسيق القيم في الجدول
-            df = df.round(2)
-            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-            st.table(df)
-
-            # عرض الرسم البياني
-            chart_df = pd.DataFrame({
-                texts[language]["category"]: [
-                    f"🥚 {texts[language]['eggs_input']}",
-                    f"🌽 {texts[language]['food_input']}",
-                    f"📈 {texts[language]['net_profit']}",
-                    f"🏠 {texts[language]['first_year_rental']}",
-                    f"💰 {texts[language]['final_profit']}"
-                ],
-                texts[language]["value"]: [
-                    float(str(total_egg_price).replace(currency, "").strip()),
-                    float(str(total_feed_cost).replace(currency, "").strip()),
-                    float(str(net_profit_before_rent).replace(currency, "").strip()),
-                    float(str(total_rent).replace(currency, "").strip()),
-                    float(str(net_profit).replace(currency, "").strip())
-                ]
-            })
-            fig = create_profit_chart(chart_df, language)
-            st.plotly_chart(fig, use_container_width=True)
-
-            # عرض ملخص النتائج في النهاية
-            st.markdown(f"### ✨ {texts[language]['summary']}")
-            st.code(results_text)
+                # إنشاء DataFrame للرسم البياني
+                df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['eggs_input']}",
+                        f"🌽 {texts[language]['food_input']}",
+                        f"📈 {texts[language]['net_profit']}",
+                        f"🏠 {texts[language]['first_year_rental']}",
+                        f"💰 {texts[language]['final_profit']}"
+                    ],
+                    texts[language]["value"]: [
+                        total_egg_price,
+                        total_feed_cost,
+                        net_profit_before_rent,
+                        total_rent,
+                        net_profit
+                    ]
+                })
                 
+                # عرض الجدول النهائي أولاً
+                df = df.round(2)
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+                st.table(df)
+
+                # عرض الرسم البياني
+                chart_df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['eggs_input']}",
+                        f"🌽 {texts[language]['food_input']}",
+                        f"📈 {texts[language]['net_profit']}",
+                        f"🏠 {texts[language]['first_year_rental']}",
+                        f"💰 {texts[language]['final_profit']}"
+                    ],
+                    texts[language]["value"]: [
+                        float(str(total_egg_price).replace(currency, "").strip()),
+                        float(str(total_feed_cost).replace(currency, "").strip()),
+                        float(str(net_profit_before_rent).replace(currency, "").strip()),
+                        float(str(total_rent).replace(currency, "").strip()),
+                        float(str(net_profit).replace(currency, "").strip())
+                    ]
+                })
+                fig = create_profit_chart(chart_df, language)
+                st.plotly_chart(fig, use_container_width=True)
+
+                # عرض ملخص النتائج في النهاية
+                st.markdown(f"### ✨ {texts[language]['summary']}")
+                st.code(results_text)
+                
+        except ValueError:
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
     col7, col8 = st.columns(2)
@@ -692,88 +561,89 @@ elif calculation_type == texts[language]["daily_rewards"]:
             help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food needed" if language == "English" else ""
         )
 
-    if st.button(texts[language]["calculate_rewards"]):
-        if not is_number(rewards) or not is_number(food) or not is_number(new_egg_price) or not is_number(new_feed_price):
-            st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
-        else:
-            # تحويل المدخلات إلى أرقام
-            rewards = float(str(rewards).replace(',', '').replace(' ', ''))
-            food = float(str(food).replace(',', '').replace(' ', ''))
-            new_egg_price = float(str(new_egg_price).replace(',', '').replace(' ', ''))
-            new_feed_price = float(str(new_feed_price).replace(',', '').replace(' ', ''))
+    if st.button(texts[language]["calculate_rewards"], type="primary"):
+        try:
+            rewards = float(rewards) if rewards else None
+            food = float(food) if food else None
 
-            # حساب الربح اليومي
-            daily_profit = rewards * new_egg_price - food * new_feed_price
-
-            # تحويل العملة
-            if currency == "IQD":
-                daily_profit = daily_profit * 1480
+            if rewards is None or food is None:
+                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
             else:
-                daily_profit = daily_profit
+                # حساب الربح اليومي
+                daily_profit = rewards * float(new_egg_price) - food * float(new_feed_price)
 
-            # تنسيق التاريخ والوقت حسب توقيت بغداد
-            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-            date_str = current_time.strftime("%Y-%m-%d")
-            time_str = current_time.strftime("%I:%M %p")
+                # تحويل العملة
+                if currency == "IQD":
+                    daily_profit = daily_profit * 1480
+                else:
+                    daily_profit = daily_profit
 
-            # إنشاء نص النتائج
-            results_text = f"""
+                # تنسيق التاريخ والوقت حسب توقيت بغداد
+                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+                date_str = current_time.strftime("%Y-%m-%d")
+                time_str = current_time.strftime("%I:%M %p")
+
+                # إنشاء نص النتائج
+                results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * new_egg_price)} USD
-║ {texts[language]['feed_price']}: {format_decimal(food * new_feed_price)} USD
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * new_egg_price * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(food * new_feed_price * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-            # عرض النتائج
-            # st.code(results_text, language="text")
+                # عرض النتائج
+                # st.code(results_text, language="text")
 
-            # إنشاء DataFrame للرسم البياني
-            df = pd.DataFrame({
-                texts[language]["category"]: [
-                    f"🥚 {texts[language]['total_rewards']}",
-                    f"🌽 {texts[language]['total_food_cost']}",
-                    f"💰 {texts[language]['daily_profit']}"
-                ],
-                texts[language]["value"]: [
-                    rewards * new_egg_price,
-                    food * new_feed_price,
-                    daily_profit
-                ]
-            })
-            
-            # تنسيق القيم في الجدول
-            df = df.round(2)
-            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-            st.table(df)
-
-            # عرض الرسم البياني
-            chart_df = pd.DataFrame({
-                texts[language]["category"]: [
-                    f"🥚 {texts[language]['total_rewards']}",
-                    f"🌽 {texts[language]['total_food_cost']}",
-                    f"💰 {texts[language]['daily_profit']}"
-                ],
-                texts[language]["value"]: [
-                    float(str(rewards * new_egg_price).replace(currency, "").strip()),
-                    float(str(food * new_feed_price).replace(currency, "").strip()),
-                    float(str(daily_profit).replace(currency, "").strip())
-                ]
-            })
-            fig = create_profit_chart(chart_df, language)
-            st.plotly_chart(fig, use_container_width=True)
-
-            # عرض ملخص النتائج في النهاية
-            st.markdown(f"### ✨ {texts[language]['summary']}")
-            st.code(results_text)
+                # إنشاء DataFrame للرسم البياني
+                df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['total_rewards']}",
+                        f"🌽 {texts[language]['total_food_cost']}",
+                        f"💰 {texts[language]['daily_profit']}"
+                    ],
+                    texts[language]["value"]: [
+                        rewards * float(new_egg_price),
+                        food * float(new_feed_price),
+                        daily_profit
+                    ]
+                })
                 
+                # تنسيق القيم في الجدول
+                df = df.round(2)
+                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+                st.table(df)
+
+                # عرض الرسم البياني
+                chart_df = pd.DataFrame({
+                    texts[language]["category"]: [
+                        f"🥚 {texts[language]['total_rewards']}",
+                        f"🌽 {texts[language]['total_food_cost']}",
+                        f"💰 {texts[language]['daily_profit']}"
+                    ],
+                    texts[language]["value"]: [
+                        float(str(rewards * float(new_egg_price)).replace(currency, "").strip()),
+                        float(str(food * float(new_feed_price)).replace(currency, "").strip()),
+                        float(str(daily_profit).replace(currency, "").strip())
+                    ]
+                })
+                fig = create_profit_chart(chart_df, language)
+                st.plotly_chart(fig, use_container_width=True)
+
+                # عرض ملخص النتائج في النهاية
+                st.markdown(f"### ✨ {texts[language]['summary']}")
+                st.code(results_text)
+                
+        except ValueError:
+            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
@@ -814,115 +684,32 @@ st.markdown(
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
     """
+        <br>
+        <br>
+    </div>
+    <style>
+        a img:hover {
+            transform: scale(1.2);
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# إضافة نص حقوق النشر في نهاية الصفحة
+st.markdown(
+    """
     <style>
     .copyright {
         text-align: center;
         padding: 20px;
-        color: #8892b0;
-        font-size: 14px;
-        margin-top: 40px;
+        margin-top: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        opacity: 0.9;
     }
     </style>
     <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
-
-# تحسين الواجهة
-st.markdown("""
-    <style>
-        /* تحسينات عامة */
-        .stApp {
-            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-            color: #e2e2e2;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* تأثيرات التفاعل عند تحريك الماوس */
-        .element-container:hover {
-            transform: translateY(-2px);
-            transition: transform 0.3s ease;
-        }
-        
-        /* تنسيق القوائم المنسدلة */
-        .stSelectbox [data-baseweb="select"] {
-            background-color: rgba(10, 25, 47, 0.8) !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(100, 255, 218, 0.2) !important;
-            border-radius: 15px !important;
-            transition: all 0.3s ease !important;
-        }
-        
-        .stSelectbox [data-baseweb="select"]:hover {
-            border-color: rgba(100, 255, 218, 0.5) !important;
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2) !important;
-            transform: translateY(-2px);
-        }
-        
-        .stSelectbox [data-baseweb="popover"] {
-            background-color: rgba(10, 25, 47, 0.95) !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(100, 255, 218, 0.2) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .stSelectbox [data-baseweb="popover"] div {
-            color: #e2e2e2 !important;
-            transition: all 0.2s ease !important;
-        }
-        
-        .stSelectbox [data-baseweb="popover"] div:hover {
-            background-color: rgba(100, 255, 218, 0.1) !important;
-            color: #64ffda !important;
-        }
-        
-        /* تحسين الايموجي */
-        .emoji-icon {
-            font-size: 2em;
-            margin-right: 10px;
-            background: linear-gradient(120deg, #64ffda, #00bfa5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
-            display: inline-block;
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .emoji-icon:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        /* تحسين تأثير الضوء للعناصر */
-        .stTextInput > div:hover,
-        .stSelectbox > div:hover,
-        .stButton > button:hover {
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-        
-        /* تحسين العنوان */
-        .title {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #64ffda, transparent);
-            transition: width 0.3s ease;
-        }
-        
-        .title:hover::after {
-            width: 80%;
-        }
-    </style>
-""", unsafe_allow_html=True)
