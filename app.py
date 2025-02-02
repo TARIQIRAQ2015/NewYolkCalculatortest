@@ -552,7 +552,7 @@ st.markdown(
         }}
     </style>
     <style>
-        .title {
+        .title-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -587,8 +587,15 @@ st.markdown(
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #b8b8b8;
+            margin-bottom: 24px;
+        }
     </style>
-    <div class="title">
+    <div class="title-container">
         <a href="https://newyolkcalculator.streamlit.app/" class="title-emoji">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
@@ -995,7 +1002,7 @@ st.markdown("""
     <style>
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div,
-        .stNumberInput > div > div {
+        .stNumberInput > div > div {{
             background: rgba(22, 27, 37, 0.95) !important;  
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
@@ -1008,36 +1015,21 @@ st.markdown("""
             min-height: 48px !important;
             font-size: 16px !important;
             line-height: 1.5 !important;
-        }
+        }}
         
-        .stSelectbox > div > div:hover,
-        .stNumberInput > div > div:hover {
-            background: rgba(22, 27, 37, 0.98) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div,
         div[data-baseweb="popover"] > div,
-        div[data-baseweb="menu"] {
+        div[data-baseweb="menu"] {{
             background: rgba(22, 27, 37, 0.98) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             padding: 8px !important;
-        }
-        
-        div[data-baseweb="select"] ul,
-        div[data-baseweb="menu"] ul {
-            background: transparent !important;
-            padding: 4px !important;
-        }
+        }}
         
         div[data-baseweb="select"] ul li,
-        div[data-baseweb="menu"] ul li {
+        div[data-baseweb="menu"] ul li {{
             color: #ffffff !important;
             font-size: 16px !important;
             padding: 12px !important;
@@ -1045,130 +1037,11 @@ st.markdown("""
             border-radius: 6px !important;
             line-height: 1.5 !important;
             background: transparent !important;
-        }
+        }}
         
         div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {
+        div[data-baseweb="menu"] ul li:hover {{
             background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        /* تحسين النصوص في القوائم */
-        .stSelectbox label {
-            color: #ffffff !important;
-            font-size: 18px !important;
-            font-weight: 500 !important;
-            margin-bottom: 12px !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين الأيقونة في القائمة المنسدلة */
-        .stSelectbox svg {
-            fill: #ffffff !important;
-            width: 24px !important;
-            height: 24px !important;
-        }
-        
-        /* تحسين العنوان */
-        .subtitle {
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        /* تحسين أزرار الحساب */
-        .stButton > button {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            color: #e2e2e2 !important;
-            border-radius: 8px !important;
-            padding: 8px 16px !important;
-            font-weight: 500 !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        
-        .stButton > button:hover {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)) !important;
-            border-color: rgba(255,255,255,0.3) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .stButton > button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        /* تحسين حقول الإدخال */
-        .stNumberInput > div > div > input {
-            background: rgba(22, 27, 34, 0.8) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 8px !important;
-            color: #e2e2e2 !important;
-            padding: 8px 12px !important;
-            transition: all 0.3s ease;
-        }
-        
-        .stNumberInput > div > div > input:focus {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-        }
-        
-        /* تحسين حقوق النشر */
-        .copyright {
-            text-align: center;
-            color: rgba(255,255,255,0.9);
-            padding: 24px 0;
-            font-size: 22px !important;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        
-        .main-title {
-            text-align: center;
-            margin-bottom: 12px;
-        }
-        
-        .title-emoji {
-            font-size: 36px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 100;
-            -webkit-text-fill-color: initial;
-            background: none;
-            border: none;
-            padding: 0;
-            margin-right: 12px;
-            cursor: pointer;
-            transform: scale(1);
-        }
-        
-        .title-emoji:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title-text {
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: inline-block;
-        }
-        
-        .subtitle {
-            text-align: center;
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-        }
+        }}
     </style>
 """, unsafe_allow_html=True)
