@@ -55,7 +55,7 @@ st.markdown("""
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div,
         .stNumberInput > div > div {
-            background: rgba(22, 27, 34, 0.8) !important;
+            background: #161b25 !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -64,8 +64,9 @@ st.markdown("""
             padding: 12px !important;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             height: auto !important;
-            min-height: 45px !important;
+            min-height: 48px !important;
             font-size: 16px !important;
+            line-height: 1.5 !important;
         }
         
         .stSelectbox > div > div:hover,
@@ -79,7 +80,7 @@ st.markdown("""
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div,
         div[data-baseweb="popover"] > div {
-            background: rgba(22, 27, 34, 0.95) !important;
+            background: #161b25 !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -89,7 +90,7 @@ st.markdown("""
         
         div[data-baseweb="select"] ul,
         div[data-baseweb="menu"] ul {
-            background: transparent !important;
+            background: #161b25 !important;
             padding: 4px !important;
         }
         
@@ -119,7 +120,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: rgba(22, 27, 34, 0.8) !important;
+            background: #161b25 !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -131,15 +132,15 @@ st.markdown("""
         .stNumberInput > div > div > input:focus {
             border-color: rgba(255, 255, 255, 0.3) !important;
             box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-            background: rgba(22, 27, 34, 0.9) !important;
+            background: #161b25 !important;
         }
         
         /* تحسين ملخص النتائج */
         pre {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 12px !important;
-            color: #e2e2e2 !important;
+            background: #161b25 !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
             backdrop-filter: blur(10px);
             padding: 20px !important;
             margin: 15px 0 !important;
@@ -176,13 +177,12 @@ st.markdown("""
         
         /* تحسين الجداول */
         .stDataFrame {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-radius: 12px !important;
+            background: #161b25 !important;
+            border-radius: 8px !important;
             backdrop-filter: blur(10px);
             padding: 15px !important;
             margin: 10px 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
         .stDataFrame:hover {
@@ -259,7 +259,7 @@ st.markdown("""
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div {
-            background: rgba(22, 27, 34, 0.8) !important;
+            background: #161b25 !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -275,7 +275,7 @@ st.markdown("""
         
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div {
-            background: rgba(22, 27, 34, 0.95) !important;
+            background: #161b25 !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -285,7 +285,7 @@ st.markdown("""
         }
         
         div[data-baseweb="select"] ul {
-            background: transparent !important;
+            background: #161b25 !important;
             padding: 4px !important;
         }
         
@@ -350,7 +350,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: rgba(22, 27, 34, 0.8) !important;
+            background: #161b25 !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 8px !important;
             color: #e2e2e2 !important;
