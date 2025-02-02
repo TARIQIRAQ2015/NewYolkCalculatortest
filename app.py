@@ -426,7 +426,7 @@ st.markdown("""
         
         /* تحسين ملخص النتائج */
         pre {
-            background: rgba(30, 33, 43, 0.7) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -462,44 +462,10 @@ st.markdown("""
         }
         
         pre:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
+            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        /* تحسين الإيموجي في العنوان */
-        .emoji-link {
-            text-decoration: none;
-            font-size: 36px !important;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            line-height: 1;
-            cursor: pointer;
-            margin-right: 12px;
-            color: inherit;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-        
-        .title-text {
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -677,13 +643,49 @@ st.markdown(
         }}
     </style>
     <div class="title">
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
+        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
 )
+
+st.markdown("""
+    <style>
+        /* تحسين العنوان */
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+        
+        .title-text {
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        /* تحسين الإيموجي */
+        .emoji-link {
+            text-decoration: none;
+            font-size: 32px !important;
+            line-height: 1;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            color: inherit;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -713,10 +715,16 @@ st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
+    new_egg_price = st.text_input(
+        texts[language]["egg_price"],
+        value="0.1155"
+    )
 
 with col4:
-    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
+    new_feed_price = st.text_input(
+        texts[language]["feed_price"],
+        value="0.0189"
+    )
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
@@ -1073,7 +1081,7 @@ st.markdown("""
             letter-spacing: 0.5px;
         }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
@@ -1084,13 +1092,11 @@ st.markdown("""
         .emoji-link {
             text-decoration: none;
             font-size: 36px !important;
-            display: inline-flex;
-            align-items: center;
+            display: inline-block;
             transition: all 0.3s ease;
             line-height: 1;
             cursor: pointer;
             margin-right: 12px;
-            color: inherit;
         }
         
         .emoji-link:hover {
@@ -1102,9 +1108,6 @@ st.markdown("""
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
         }
         
         .title-text {
@@ -1112,6 +1115,8 @@ st.markdown("""
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 32px;
+            font-weight: bold;
         }
     </style>
 """, unsafe_allow_html=True)
