@@ -507,7 +507,6 @@ def format_decimal(number):
 # تعريف النصوص بجميع اللغات
 texts = {
     "العربية": {
-        "title": "حاسبة الدجاج - نيويولك",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
@@ -540,7 +539,6 @@ texts = {
         "copy_results": "نسخ النتائج"
     },
     "English": {
-        "title": "Chicken Calculator - Newyolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
@@ -573,7 +571,6 @@ texts = {
         "copy_results": "Copy Results"
     },
     "Română": {
-        "title": "Calculator de Găini - Newyolk",
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
