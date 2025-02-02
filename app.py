@@ -611,11 +611,69 @@ texts = {
     }
 }
 
+# تعريف الأنماط والعنوان
+title_style = """
+<style>
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+
+.emoji-link {
+    text-decoration: none;
+    font-size: 32px !important;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    color: currentColor;
+    line-height: 1;
+}
+
+.emoji-link:hover {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.title-text {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(120deg, #ffffff, #e2e2e2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+    text-align: center;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+</style>
+"""
+
+# تطبيق الأنماط
+st.markdown(title_style, unsafe_allow_html=True)
+
 # اختيار اللغة
 language = st.selectbox(
     "اللغة | Language | Limbă 🌍",
     ["العربية", "English", "Română"],
     key="language_selector"
+)
+
+# عرض العنوان
+st.markdown(
+    f"""
+    <div class="title-container" dir="{('rtl' if language == 'العربية' else 'ltr')}">
+        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
+    </div>
+    <div class="subtitle">{texts[language]["subtitle"]}</div>
+    """,
+    unsafe_allow_html=True
 )
 
 # تحسين الواجهة
@@ -683,6 +741,7 @@ st.markdown(
             justify-content: center;
             margin-bottom: 12px;
             gap: 12px;
+            direction: {('rtl' if language == 'العربية' else 'ltr')};
         }
         
         .emoji-link {
@@ -706,6 +765,13 @@ st.markdown(
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            font-size: 18px;
         }
     </style>
     
