@@ -1191,16 +1191,14 @@ st.markdown("""
         });
 
         // التمرير السلس إلى الرابط المحدد
-        function scrollToTop(e) {
-            e.preventDefault();
-            window.location.replace('https://testnewyolkcalculatortest.streamlit.app/~/+/#:~:text=%D8%AD%D8%B3%D8%A7%D8%A8%20%D8%A3%D8%B1%D8%A8%D8%A7%D8%AD%20%D8%A7%D9%84%D8%AF%D8%AC%D8%A7%D8%AC%20%D9%88%D8%A7%D9%84%D9%85%D9%83%D8%A7%D9%81%D8%A2%D8%AA%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A%D8%A9');
-            return false;
+        function scrollToTop() {
+            window.top.location = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#:~:text=%D8%AD%D8%B3%D8%A7%D8%A8%20%D8%A3%D8%B1%D8%A8%D8%A7%D8%AD%20%D8%A7%D9%84%D8%AF%D8%AC%D8%A7%D8%AC%20%D9%88%D8%A7%D9%84%D9%85%D9%83%D8%A7%D9%81%D8%A7%D8%AA%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A%D8%A9';
         }
     </script>
 
-    <a href="javascript:void(0)" onclick="scrollToTop(event)" class="scroll-to-top">
+    <div onclick="scrollToTop()" class="scroll-to-top">
         <span class="arrow">➤</span>
-    </a>
+    </div>
 """, unsafe_allow_html=True)
 
 # إضافة الأيقونات والروابط
