@@ -705,7 +705,7 @@ st.markdown("""
 # عرض العنوان الرئيسي مع الإيموجي المتحرك
 st.markdown(f"""
     <div class="main-title">
-        <span>{texts[language]["title"]}</span>
+        حاسبة الدجاج - نيويولك
         <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
     </div>
     <div class="subtitle">
@@ -717,9 +717,9 @@ st.markdown(f"""
 st.markdown("""
     <style>
         .subtitle {
-            font-size: 1.2em;
+            font-size: 2em;
             text-align: center;
-            margin-bottom: 2em;
+            margin-bottom: 1.5em;
             color: #e2e2e2;
             opacity: 0.9;
         }
