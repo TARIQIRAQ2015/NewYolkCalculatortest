@@ -382,6 +382,7 @@ st.markdown("""
                 transparent
             );
             transition: all 0.5s ease;
+            z-index: 1;
         }
         
         .stProgress > div > div:hover::before {
@@ -644,7 +645,6 @@ st.markdown(
     </style>
     <div class="title">
         <span class="title-text">{texts[language]["title"]}</span>
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
@@ -653,13 +653,11 @@ st.markdown(
 
 st.markdown("""
     <style>
-        /* تحسين العنوان */
         .title {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
-            gap: 12px;
         }
         
         .title-text {
@@ -669,20 +667,8 @@ st.markdown("""
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: 32px;
             font-weight: bold;
-        }
-        
-        /* تحسين الإيموجي */
-        .emoji-link {
-            text-decoration: none;
-            font-size: 32px !important;
-            line-height: 1;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            color: inherit;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2);
+            text-align: center;
+            width: 100%;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -715,16 +701,10 @@ st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input(
-        texts[language]["egg_price"],
-        value="0.1155"
-    )
+    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
 
 with col4:
-    new_feed_price = st.text_input(
-        texts[language]["feed_price"],
-        value="0.0189"
-    )
+    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
@@ -1081,7 +1061,7 @@ st.markdown("""
             letter-spacing: 0.5px;
         }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
@@ -1091,12 +1071,12 @@ st.markdown("""
         /* تحسين الإيموجي في العنوان */
         .emoji-link {
             text-decoration: none;
-            font-size: 36px !important;
+            font-size: 24px !important;
             display: inline-block;
             transition: all 0.3s ease;
             line-height: 1;
             cursor: pointer;
-            margin-right: 12px;
+            margin-right: 8px;
         }
         
         .emoji-link:hover {
