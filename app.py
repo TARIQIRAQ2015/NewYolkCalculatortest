@@ -55,19 +55,22 @@ st.markdown("""
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div,
         .stNumberInput > div > div {
-            background: rgba(13, 17, 23, 0.7) !important;
+            background: rgba(22, 27, 34, 0.8) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            padding: 8px !important;
+            padding: 12px !important;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            height: auto !important;
+            min-height: 45px !important;
+            font-size: 16px !important;
         }
         
         .stSelectbox > div > div:hover,
         .stNumberInput > div > div:hover {
-            background: rgba(13, 17, 23, 0.8) !important;
+            background: rgba(22, 27, 34, 0.9) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -76,11 +79,12 @@ st.markdown("""
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div,
         div[data-baseweb="popover"] > div {
-            background: rgba(13, 17, 23, 0.95) !important;
+            background: rgba(22, 27, 34, 0.95) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 8px !important;
         }
         
         div[data-baseweb="select"] ul,
@@ -103,16 +107,11 @@ st.markdown("""
             background: rgba(255, 255, 255, 0.1) !important;
         }
         
-        /* تحسين الأيقونة في القائمة المنسدلة */
-        .stSelectbox svg {
-            fill: #ffffff !important;
-        }
-        
         /* تحسين النصوص في القوائم */
         .stSelectbox label,
         .stNumberInput label {
             color: #ffffff !important;
-            font-size: 16px !important;
+            font-size: 18px !important;
             font-weight: 500 !important;
             margin-bottom: 8px !important;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -120,7 +119,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: rgba(13, 17, 23, 0.7) !important;
+            background: rgba(22, 27, 34, 0.8) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -132,7 +131,7 @@ st.markdown("""
         .stNumberInput > div > div > input:focus {
             border-color: rgba(255, 255, 255, 0.3) !important;
             box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-            background: rgba(13, 17, 23, 0.8) !important;
+            background: rgba(22, 27, 34, 0.9) !important;
         }
         
         /* تحسين ملخص النتائج */
@@ -162,7 +161,11 @@ st.markdown("""
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             color: #e2e2e2 !important;
             border-radius: 8px !important;
-            transition: all 0.3s ease;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         button[data-testid="StyledFullScreenButton"]:hover {
@@ -238,19 +241,81 @@ st.markdown("""
         
         /* تحسين العنوان */
         .title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-align: center;
             background: linear-gradient(120deg, #ffffff, #e2e2e2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
+        .title-text {
+            text-decoration: none;
+            color: inherit;
+            margin-left: 8px;
+        }
+        
+        /* تحسين القوائم المنسدلة */
+        .stSelectbox > div > div {
+            background: rgba(22, 27, 34, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 12px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            height: auto !important;
+            min-height: 48px !important;
+            font-size: 16px !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* تحسين قائمة الخيارات المنسدلة */
+        div[data-baseweb="select"] > div {
+            background: rgba(22, 27, 34, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 8px !important;
+            min-width: 200px !important;
+        }
+        
+        div[data-baseweb="select"] ul {
+            background: transparent !important;
+            padding: 4px !important;
+        }
+        
+        div[data-baseweb="select"] ul li {
+            color: #ffffff !important;
+            font-size: 16px !important;
+            padding: 12px !important;
+            margin: 4px 0 !important;
+            border-radius: 6px !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* تحسين النصوص في القوائم */
+        .stSelectbox label {
+            color: #ffffff !important;
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            margin-bottom: 12px !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.5 !important;
+        }
+        
+        /* تحسين الأيقونة في القائمة المنسدلة */
+        .stSelectbox svg {
+            fill: #ffffff !important;
+            width: 24px !important;
+            height: 24px !important;
+        }
+        
+        /* تحسين العنوان */
         .subtitle {
             font-size: 18px;
             color: #b8b8b8;
@@ -285,7 +350,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: rgba(13, 17, 23, 0.8) !important;
+            background: rgba(22, 27, 34, 0.8) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 8px !important;
             color: #e2e2e2 !important;
@@ -306,129 +371,6 @@ st.markdown("""
             font-size: 14px;
             margin-top: 32px;
             border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stButton > button {
-            background: rgba(13, 17, 23, 0.7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 8px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        
-        .stSelectbox > div > div:hover,
-        .stButton > button:hover {
-            background: rgba(13, 17, 23, 0.8) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="popover"] > div {
-            background: rgba(13, 17, 23, 0.95) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        div[data-baseweb="select"] ul,
-        div[data-baseweb="menu"] ul {
-            background: transparent !important;
-            padding: 4px !important;
-        }
-        
-        div[data-baseweb="select"] ul li,
-        div[data-baseweb="menu"] ul li {
-            color: #ffffff !important;
-            transition: all 0.2s ease;
-            border-radius: 4px !important;
-            margin: 2px 0 !important;
-            padding: 8px 12px !important;
-            font-size: 16px !important;
-        }
-        
-        div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        /* تحسين أيقونات التواصل الاجتماعي */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .social-links a {
-            font-size: 24px !important;
-            color: rgba(255,255,255,0.8) !important;
-            text-decoration: none !important;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            color: #ffffff !important;
-            transform: translateY(-2px);
-        }
-        
-        /* تحسين حقوق النشر */
-        .copyright {
-            text-align: center;
-            color: rgba(255,255,255,0.8);
-            padding: 24px;
-            font-size: 18px;
-            margin-top: 32px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-weight: 500;
-        }
-        
-        /* تحسين العنوان */
-        .title {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            text-align: center;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .emoji-link {
-            font-size: 32px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin: 0 12px;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
-            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
-        }
-        
-        /* تحسين النصوص في القوائم */
-        .stSelectbox label,
-        .stNumberInput label,
-        .stButton label {
-            color: #ffffff !important;
-            font-size: 16px !important;
-            font-weight: 500 !important;
-            margin-bottom: 8px !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -596,7 +538,7 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'};
         }}
         .element-container {{
-            margin: 1.5rem 0 !important;
+            direction: {'rtl' if language == 'العربية' else 'ltr'};
         }}
         thead tr th:first-child {{
             text-align: {'right' if language == 'العربية' else 'left'} !important;
@@ -606,8 +548,7 @@ st.markdown(
         }}
     </style>
     <div class="title">
-        <a href="javascript:window.location.reload()" class="emoji-link">🐔</a>
-        {texts[language]["title"]}
+        🐔 <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="title-text">{texts[language]["title"]}</a>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
@@ -951,72 +892,59 @@ if st.button(texts[language]["reset"], type="secondary"):
 # إضافة الأيقونات والروابط
 st.markdown(
     """
-    <div style="text-align: center; margin-top: 30px;">
-        <a href="https://farm.newyolk.io/" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://i.ibb.co/YDKWBRf/internet.png" width="32" height="32" alt="Website">
-        </a>
-        <a href="https://discord.gg/RYDExGGWXh" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="32" height="32" alt="Discord">
-        </a>
-        <a href="https://t.me/newyolkfarm" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="32" height="32" alt="Telegram">
-        </a>
-        <a href="https://www.facebook.com/newyolkfarming" target="_blank" style="text-decoration: none; margin: 0 10px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" width="32" height="32" alt="Facebook">
-        </a>
-        <br>
-        <br>
-    </div>
     <style>
-        a img {
-            transition: transform 0.3s ease;
-            filter: brightness(1);
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0 20px;
         }
-        a img:hover {
-            transform: scale(1.2);
+        
+        .social-links a {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links img {
+            width: 36px;
+            height: 36px;
+            filter: brightness(1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover img {
+            transform: translateY(-3px);
             filter: brightness(1.2);
         }
     </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# إضافة نص حقوق النشر والأيقونات
-st.markdown(
-    """
-        <br>
-        <br>
+    <div class="social-links">
+        <a href="https://farm.newyolk.io/" target="_blank">
+            <img src="https://i.ibb.co/YDKWBRf/internet.png" alt="Website">
+        </a>
+        <a href="https://discord.gg/RYDExGGWXh" target="_blank">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+        </a>
+        <a href="https://t.me/newyolkfarm" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+        </a>
+        <a href="https://www.facebook.com/newyolkfarming" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+        </a>
     </div>
+    
     <style>
-        a img:hover {
-            transform: scale(1.2);
+        .copyright {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            padding: 24px 0;
+            font-size: 22px !important;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
     </style>
+    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
-
-# إضافة نص حقوق النشر في نهاية الصفحة
-st.markdown(
-    """
-    <style>
-    .copyright {
-        color: #757575;
-        text-align: center;
-        padding: 1rem;
-        font-size: 14px;
-    }
-    </style>
-    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
-    """,
-    unsafe_allow_html=True
-)
-
-# إضافة روابط التواصل الاجتماعي وحقوق النشر
-st.markdown("""
-    <div class="social-links">
-        <a href="https://t.me/NewYolkCalculator" target="_blank">💬</a>
-        <a href="https://t.me/TariqAlYaseen" target="_blank">👤</a>
-    </div>
-    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
-""", unsafe_allow_html=True)
