@@ -19,6 +19,154 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# تحسين الواجهة
+st.markdown("""
+    <style>
+        /* تحسينات عامة */
+        .stApp {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e2e2e2;
+        }
+        
+        /* تنسيق العنوان والعنوان الفرعي */
+        .title {
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            padding: 30px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #B8B8B8;
+            font-weight: 300;
+        }
+        
+        /* تنسيق الأزرار */
+        .stButton button {
+            background: linear-gradient(45deg, #4A90E2, #67B26F);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stButton button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* تنسيق مربعات الإدخال */
+        .stTextInput input, .stSelectbox select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #e2e2e2;
+            padding: 10px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .stTextInput input:focus, .stSelectbox select:focus {
+            border-color: #4A90E2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+        
+        /* تنسيق العناوين الفرعية */
+        .stMarkdown h3 {
+            color: #4A90E2;
+            font-size: 24px;
+            font-weight: 500;
+            margin: 25px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        /* تنسيق الجداول */
+        .stTable {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stTable th {
+            background: rgba(74, 144, 226, 0.1);
+            color: #4A90E2;
+            padding: 12px 15px;
+            font-weight: 500;
+        }
+        
+        .stTable td {
+            background: rgba(255, 255, 255, 0.02);
+            color: #e2e2e2;
+            padding: 10px 15px;
+        }
+        
+        /* تنسيق الرسوم البيانية */
+        [data-testid="stPlotlyChart"] {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تحسين القابلية للاستجابة */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+                padding: 20px;
+            }
+            
+            .subtitle {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+            
+            .stButton button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
+        
+        /* تنسيق نتائج الحساب */
+        .results-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+        
+        /* تنسيق حقوق النشر */
+        .copyright {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* تأثيرات إضافية للتفاعل */
+        .stSelectbox:hover, .stTextInput:hover {
+            transform: translateY(-1px);
+            transition: transform 0.2s ease;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # تنسيق الأرقام العشرية
 def format_decimal(number):
     return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
@@ -128,70 +276,6 @@ texts = {
 
 # اختيار اللغة
 language = st.selectbox("اللغة | Language | Limbă 🌍", ["العربية", "English", "Română"])
-
-# تحسين الواجهة
-st.markdown(
-    f"""
-    <style>
-        .stApp {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        .title {{
-            font-size: 36px;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }}
-        .subtitle {{
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }}
-        .stButton {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
-        }}
-        .stSelectbox, .stTextInput {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-            font-size: 24px;
-        }}
-        .stButton button {{
-            font-size: 24px;
-            padding: 10px 24px;
-            border-radius: 12px;
-            width: 100%;
-        }}
-        .stTable th, .stTable td {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-            direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
-        }}
-        [data-testid="stMarkdownContainer"] {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-            text-align: {'right' if language == 'العربية' else 'left'};
-        }}
-        .element-container {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        thead tr th:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-        tbody tr td:first-child {{
-            text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-    </style>
-    <div class="title">{texts[language]["title"]}</div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
-    """,
-    unsafe_allow_html=True
-)
 
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
@@ -588,7 +672,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
