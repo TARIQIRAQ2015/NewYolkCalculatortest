@@ -891,8 +891,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.markdown("""
                     <style>
                         .stCodeBlock {
-                            background: rgba(255, 255, 255, 0.05) !important;
-                            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                            background: rgba(255, 255, 255, 0.25) !important;
+                            border: 1px solid rgba(255, 255, 255, 0.3) !important;
                             border-radius: 10px !important;
                             backdrop-filter: blur(10px) !important;
                         }
@@ -1017,8 +1017,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.markdown("""
                     <style>
                         .stCodeBlock {
-                            background: rgba(255, 255, 255, 0.05) !important;
-                            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                            background: rgba(255, 255, 255, 0.25) !important;
+                            border: 1px solid rgba(255, 255, 255, 0.3) !important;
                             border-radius: 10px !important;
                             backdrop-filter: blur(10px) !important;
                         }
