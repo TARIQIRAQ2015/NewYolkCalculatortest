@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(10,10) scale(0.8)">
+        <!-- Head -->
+        <path d="M50 80 Q65 65 70 45 Q75 25 60 15 Q45 5 30 15 Q15 25 20 45 Q25 65 40 80 Z" 
+              fill="white" stroke="none"/>
+        
+        <!-- Beak -->
+        <path d="M30 40 L10 45 L30 50 Z" 
+              fill="#ffb700" stroke="none"/>
+        
+        <!-- Comb -->
+        <path d="M45 15 L55 5 L65 15 L75 5 L70 20 L60 15 Z" 
+              fill="#ff4444" stroke="none"/>
+    </g>
+</svg>
