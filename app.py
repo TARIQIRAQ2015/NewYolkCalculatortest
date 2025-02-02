@@ -579,6 +579,9 @@ texts = {
     }
 }
 
+# تعريف اللغة الافتراضية
+language = "العربية"
+
 # تحسين الواجهة
 st.markdown("""
     <style>
@@ -1122,26 +1125,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# تحديث العنوان
-st.markdown(f"""
-    <div class="title">
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
-        <span class="title-text">{texts[language]["title"]}</span>
-    </div>
-""", unsafe_allow_html=True)
-
 # تحديث اختيار اللغة
 language = st.selectbox(
     "",
     ["العربية", "English"],
-    format_func=lambda x: texts[x]["language"]
+    format_func=lambda x: texts[x]["language"],
+    key="language_selector"
 )
 
 st.markdown("""
     <style>
         /* تحسين الإيموجي في العنوان */
         .emoji-link {
-            text-decoration: none;
+            text-decoration: none !important;
             font-size: 32px !important;
             padding: 0 10px;
             display: inline-flex;
@@ -1187,11 +1183,5 @@ st.markdown(f"""
         <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
+    <div class="subtitle">{texts[language]["subtitle"]}</div>
 """, unsafe_allow_html=True)
-
-# تحديث اختيار اللغة
-language = st.selectbox(
-    "",
-    ["العربية", "English"],
-    format_func=lambda x: texts[x]["language"]
-)
