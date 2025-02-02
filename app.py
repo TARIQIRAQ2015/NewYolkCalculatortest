@@ -507,6 +507,7 @@ def format_decimal(number):
 # تعريف النصوص بجميع اللغات
 texts = {
     "العربية": {
+        "title": "حاسبة الدجاج - نيويولك",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
@@ -514,8 +515,8 @@ texts = {
         "feed_price": "سعر العلف الحالي 🌽",
         "save_prices": "حفظ الأسعار 💾",
         "calculation_type": "نوع الحساب 📊",
-        "chicken_profits": "أرباح الدجاج 🐔",
-        "daily_rewards": "المكافآت اليومية ✨",
+        "chicken_profits": "أرباح الدجاج",
+        "daily_rewards": "المكافآت اليومية",
         "eggs_input": "عدد البيض 🥚",
         "days_input": "عدد الأيام 📅",
         "food_input": "عدد الطعام المطلوب 🌽",
@@ -539,6 +540,7 @@ texts = {
         "copy_results": "نسخ النتائج"
     },
     "English": {
+        "title": "Chicken Calculator - Newyolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
@@ -546,8 +548,8 @@ texts = {
         "feed_price": "Current Feed Price 🌽",
         "save_prices": "Save Prices 💾",
         "calculation_type": "Calculation Type 📊",
-        "chicken_profits": "Chicken Profits 🐔",
-        "daily_rewards": "Daily Rewards ✨",
+        "chicken_profits": "Chicken Profits",
+        "daily_rewards": "Daily Rewards",
         "eggs_input": "Number of Eggs 🥚",
         "days_input": "Number of Days 📅",
         "food_input": "Amount of Food Needed 🌽",
@@ -571,6 +573,7 @@ texts = {
         "copy_results": "Copy Results"
     },
     "Română": {
+        "title": "Calculator de Găini - Newyolk",
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
@@ -578,8 +581,8 @@ texts = {
         "feed_price": "Preț Curent Furaje 🌽",
         "save_prices": "Salvează Prețurile 💾",
         "calculation_type": "Tipul Calculului 📊",
-        "chicken_profits": "Profituri din Găini 🐔",
-        "daily_rewards": "Recompense Zilnice ✨",
+        "chicken_profits": "Profituri din Găini",
+        "daily_rewards": "Recompense Zilnice",
         "eggs_input": "Număr de Ouă 🥚",
         "days_input": "Număr de Zile 📅",
         "food_input": "Cantitate de Hrană Necesară 🌽",
@@ -669,79 +672,35 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <div class="title">
-        <span class="title-text">{texts[language]["title"]}</span>
+    <div class="main-title">
+        حاسبة الدجاج - نيويولك
+        <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
+        <div class="subtitle">
+            حساب أرباح الدجاج والمكافآت اليومية
+        </div>
     </div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
 )
 
 st.markdown("""
     <style>
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-        
-        .title-text {
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 32px;
-            font-weight: bold;
-            text-align: center;
-            width: 100%;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# عرض العنوان الرئيسي مع الإيموجي المتحرك
-st.markdown(f"""
-    <div class="main-title">
-        حاسبة الدجاج - نيويولك
-        <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
-    </div>
-    <div class="subtitle">
-        حساب أرباح الدجاج والمكافآت اليومية
-    </div>
-""", unsafe_allow_html=True)
-
-# إضافة نمط CSS للعنوان الفرعي
-st.markdown("""
-    <style>
         .main-title {
-            font-size: 3em !important;
+            font-size: 2.5em !important;
             font-weight: bold !important;
             text-align: center !important;
-            margin-bottom: 0.3em !important;
+            margin-bottom: 0.2em !important;
             color: #ffffff !important;
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
         
         .subtitle {
-            font-size: 1.8em;
+            font-size: 0.7em;
             text-align: center;
-            margin-bottom: 2em;
+            margin-top: 0.5em;
             color: #e2e2e2;
-            opacity: 0.85;
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 0.8em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
-            text-decoration: none;
-        }
-        
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
+            opacity: 0.9;
+            font-weight: normal;
         }
     </style>
 """, unsafe_allow_html=True)
