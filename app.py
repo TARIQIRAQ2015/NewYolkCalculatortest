@@ -7,43 +7,15 @@ from datetime import datetime, timedelta
 st.set_page_config(
     page_title="Chicken Calculator - Newyolk",
     page_icon="🐔",
-    layout="wide",
-    initial_sidebar_state="collapsed"
+    layout="wide"
 )
 
-# إخفاء أزرار التحكم بالمظهر والعناصر الأخرى
+# إخفاء أزرار التحكم بالمظهر
 st.markdown("""
     <style>
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        .viewerBadge_container__1QSob {display: none;}
-        .styles_terminalButton__1x3Ql {display: none;}
-        .stDeployButton {display: none;}
-        button[title="View fullscreen"] {display: none;}
-        .css-1rs6os {visibility: hidden;}
-        .css-17ziqus {visibility: hidden;}
-        .css-14xtw13 {visibility: hidden;}
-        .css-pkbazv {visibility: hidden;}
-        .css-5uatcg {display: none;}
-        .css-eh5xgm {display: none;}
-        .css-1avcm0n {display: none;}
-        .css-18ni7ap {display: none;}
-        div[data-testid="stDecoration"] {display: none;}
-        div[data-testid="stToolbar"] {display: none;}
-        .css-j7qwjs {display: none;}
-        .css-1vq4p4l {display: none;}
-        .css-1dp5vir {display: none;}
-        .css-1wrcr25 {display: none;}
-        .css-6qob1r {display: none;}
-        .css-3mmywe {display: none;}
-        .css-1q8dd3e {display: none;}
-        [data-testid="stHeader"] {display: none;}
-        [data-testid="stFooter"] {display: none;}
-        [data-testid="stToolbar"] {display: none;}
-        .stApp iframe[title="streamlit_analytics"] {display: none;}
-        .stApp > header {display: none;}
-        .stApp > footer {display: none;}
     </style>
 """, unsafe_allow_html=True)
 
@@ -58,8 +30,8 @@ texts = {
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
-        "egg_price": "سعر البيض الحالي 🥚",
-        "feed_price": "سعر العلف الحالي 🌽",
+        "egg_price": "قيمة البيض الحالي 🥚",
+        "feed_price": "قيمة العلف الحالي 🌽",
         "save_prices": "حفظ الأسعار الجديدة 💾",
         "calculation_type": "نوع الحساب 📊",
         "chicken_profits": "أرباح الدجاج 🐔",
@@ -91,8 +63,8 @@ texts = {
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
-        "egg_price": "Current Egg Price 🥚",
-        "feed_price": "Current Feed Price 🌽",
+        "egg_price": "Current Egg Value 🥚",
+        "feed_price": "Current Feed Value 🌽",
         "save_prices": "Save New Prices 💾",
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits 🐔",
@@ -124,8 +96,8 @@ texts = {
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
-        "egg_price": "Prețul Curent al Ouălor 🥚",
-        "feed_price": "Prețul Curent al Furajului 🌽",
+        "egg_price": "Valoarea Curentă a Ouălor 🥚",
+        "feed_price": "Valoarea Curentă a Furajului 🌽",
         "save_prices": "Salvează Noile Prețuri 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini 🐔",
