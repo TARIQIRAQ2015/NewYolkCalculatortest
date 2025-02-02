@@ -423,6 +423,50 @@ st.markdown("""
         div[data-baseweb="menu"] ul li:hover {
             background: rgba(22, 27, 37, 0.8) !important;
         }
+        
+        /* تحسين ملخص النتائج */
+        pre {
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+            padding: 20px !important;
+            margin: 15px 0 !important;
+            font-family: 'Courier New', monospace !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+        
+        pre:hover::before {
+            left: 100%;
+        }
+        
+        pre:hover {
+            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -599,7 +643,8 @@ st.markdown(
         }}
     </style>
     <div class="title">
-        🐔 <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="title-text">{texts[language]["title"]}</a>
+        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
@@ -941,8 +986,7 @@ if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
 # إضافة الأيقونات والروابط
-st.markdown(
-    """
+st.markdown("""
     <style>
         .social-links {
             display: flex;
@@ -999,3 +1043,38 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+st.markdown("""
+    <style>
+        /* تحسين الإيموجي في العنوان */
+        .emoji-link {
+            text-decoration: none;
+            font-size: 36px !important;
+            display: inline-block;
+            transition: all 0.3s ease;
+            line-height: 1;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        
+        .title-text {
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 32px;
+            font-weight: bold;
+        }
+    </style>
+""", unsafe_allow_html=True)
