@@ -307,6 +307,129 @@ st.markdown("""
             margin-top: 32px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
+        
+        /* تحسين القوائم المنسدلة */
+        .stSelectbox > div > div,
+        .stButton > button {
+            background: rgba(13, 17, 23, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 8px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stSelectbox > div > div:hover,
+        .stButton > button:hover {
+            background: rgba(13, 17, 23, 0.8) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين قائمة الخيارات المنسدلة */
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="popover"] > div {
+            background: rgba(13, 17, 23, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        div[data-baseweb="select"] ul,
+        div[data-baseweb="menu"] ul {
+            background: transparent !important;
+            padding: 4px !important;
+        }
+        
+        div[data-baseweb="select"] ul li,
+        div[data-baseweb="menu"] ul li {
+            color: #ffffff !important;
+            transition: all 0.2s ease;
+            border-radius: 4px !important;
+            margin: 2px 0 !important;
+            padding: 8px 12px !important;
+            font-size: 16px !important;
+        }
+        
+        div[data-baseweb="select"] ul li:hover,
+        div[data-baseweb="menu"] ul li:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* تحسين أيقونات التواصل الاجتماعي */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            font-size: 24px !important;
+            color: rgba(255,255,255,0.8) !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #ffffff !important;
+            transform: translateY(-2px);
+        }
+        
+        /* تحسين حقوق النشر */
+        .copyright {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            padding: 24px;
+            font-size: 18px;
+            margin-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-weight: 500;
+        }
+        
+        /* تحسين العنوان */
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-align: center;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .emoji-link {
+            font-size: 32px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 0 12px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
+        }
+        
+        /* تحسين النصوص في القوائم */
+        .stSelectbox label,
+        .stNumberInput label,
+        .stButton label {
+            color: #ffffff !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            margin-bottom: 8px !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -473,7 +596,7 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'};
         }}
         .element-container {{
-            direction: {'rtl' if language == 'العربية' else 'ltr'};
+            margin: 1.5rem 0 !important;
         }}
         thead tr th:first-child {{
             text-align: {'right' if language == 'العربية' else 'left'} !important;
@@ -884,7 +1007,16 @@ st.markdown(
         font-size: 14px;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
+
+# إضافة روابط التواصل الاجتماعي وحقوق النشر
+st.markdown("""
+    <div class="social-links">
+        <a href="https://t.me/NewYolkCalculator" target="_blank">💬</a>
+        <a href="https://t.me/TariqAlYaseen" target="_blank">👤</a>
+    </div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
+""", unsafe_allow_html=True)
