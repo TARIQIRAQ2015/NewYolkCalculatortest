@@ -1214,7 +1214,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # إضافة زر العودة إلى الأعلى في نهاية الصفحة
-if st.button("⬆", help="العودة إلى الأعلى", key="back_to_top"):
+if st.button("⬆", help="العودة إلى الأعلى", key="back_to_top_unique"):
     st.experimental_rerun()
 
 # إضافة الأيقونات والروابط
@@ -1498,5 +1498,5 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # إضافة زر العودة للأعلى في نهاية الصفحة
-if st.button("⬆", help="العودة إلى الأعلى", key="back_to_top"):
+if st.button("⬆", help="العودة إلى الأعلى", key="back_to_top_unique"):
     st.experimental_rerun()
