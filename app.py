@@ -394,24 +394,26 @@ st.markdown("""
         
         /* تحسين الشريط العلوي */
         .stProgress > div > div {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: rgba(30, 37, 48, 0.7) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             overflow: hidden;
             position: relative;
             height: 48px !important;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
         
         .stProgress > div > div > div {
             background: linear-gradient(90deg, 
                 rgba(255,255,255,0.1),
-                rgba(255,255,255,0.2),
+                rgba(255,255,255,0.15),
                 rgba(255,255,255,0.1)
             ) !important;
             border-radius: 6px !important;
             height: 100% !important;
             transition: all 0.3s ease !important;
+            backdrop-filter: blur(5px);
         }
         
         .stProgress > div > div::before {
@@ -435,10 +437,39 @@ st.markdown("""
         }
         
         .stProgress > div > div:hover {
-            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+            background: rgba(22, 27, 37, 0.8) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* تحديث شفافية القوائم المنسدلة */
+        .stSelectbox > div > div,
+        .stNumberInput > div > div {
+            background: rgba(30, 37, 48, 0.7) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stSelectbox > div > div:hover,
+        .stNumberInput > div > div:hover {
+            background: rgba(22, 27, 37, 0.8) !important;
+        }
+        
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="popover"] > div {
+            background: rgba(30, 37, 48, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+        
+        div[data-baseweb="select"] ul,
+        div[data-baseweb="menu"] ul {
+            background: rgba(30, 37, 48, 0.7) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        div[data-baseweb="select"] ul li:hover,
+        div[data-baseweb="menu"] ul li:hover {
+            background: rgba(22, 27, 37, 0.8) !important;
         }
     </style>
 """, unsafe_allow_html=True)
