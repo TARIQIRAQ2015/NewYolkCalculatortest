@@ -55,7 +55,7 @@ st.markdown("""
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div,
         .stNumberInput > div > div {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -80,7 +80,7 @@ st.markdown("""
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div,
         div[data-baseweb="popover"] > div {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -90,7 +90,7 @@ st.markdown("""
         
         div[data-baseweb="select"] ul,
         div[data-baseweb="menu"] ul {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             padding: 4px !important;
         }
         
@@ -120,7 +120,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -132,12 +132,12 @@ st.markdown("""
         .stNumberInput > div > div > input:focus {
             border-color: rgba(255, 255, 255, 0.3) !important;
             box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
         }
         
         /* تحسين ملخص النتائج */
         pre {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -177,7 +177,7 @@ st.markdown("""
         
         /* تحسين الجداول */
         .stDataFrame {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border-radius: 8px !important;
             backdrop-filter: blur(10px);
             padding: 15px !important;
@@ -259,7 +259,7 @@ st.markdown("""
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -275,7 +275,7 @@ st.markdown("""
         
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -285,7 +285,7 @@ st.markdown("""
         }
         
         div[data-baseweb="select"] ul {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             padding: 4px !important;
         }
         
@@ -350,7 +350,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: #1e2530 !important;
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 8px !important;
             color: #e2e2e2 !important;
