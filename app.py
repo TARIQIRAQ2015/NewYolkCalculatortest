@@ -55,7 +55,7 @@ st.markdown("""
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div,
         .stNumberInput > div > div {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -71,8 +71,10 @@ st.markdown("""
             overflow: hidden;
         }
         
+        /* تأثير الموجة عند التحويم */
         .stSelectbox > div > div::before,
-        .stNumberInput > div > div::before {
+        .stNumberInput > div > div::before,
+        div[data-baseweb="select"] ul li::before {
             content: '';
             position: absolute;
             top: 0;
@@ -86,25 +88,27 @@ st.markdown("""
                 transparent
             );
             transition: all 0.5s ease;
+            z-index: 1;
         }
         
         .stSelectbox > div > div:hover::before,
-        .stNumberInput > div > div:hover::before {
+        .stNumberInput > div > div:hover::before,
+        div[data-baseweb="select"] ul li:hover::before {
             left: 100%;
         }
         
+        /* تأثير التحويم */
         .stSelectbox > div > div:hover,
         .stNumberInput > div > div:hover {
-            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
         /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="popover"] > div {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+        div[data-baseweb="select"] > div {
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -113,102 +117,50 @@ st.markdown("""
             transition: all 0.3s ease;
         }
         
-        div[data-baseweb="select"] ul,
-        div[data-baseweb="menu"] ul {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+        div[data-baseweb="select"] ul {
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             padding: 4px !important;
+            border-radius: 8px !important;
+            backdrop-filter: blur(10px);
         }
         
-        div[data-baseweb="select"] ul li,
-        div[data-baseweb="menu"] ul li {
+        /* تحسين عناصر القائمة */
+        div[data-baseweb="select"] ul li {
+            background: transparent !important;
             transition: all 0.3s ease;
             border-radius: 6px;
             margin: 2px 0;
+            padding: 10px 12px !important;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8) !important;
         }
         
-        div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {
-            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+        div[data-baseweb="select"] ul li:hover {
+            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
             transform: translateX(4px);
-        }
-        
-        /* تحسين حقول الإدخال */
-        .stNumberInput > div > div > input {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
             color: #ffffff !important;
-            padding: 12px !important;
+        }
+        
+        /* تحسين الأيقونات في القوائم */
+        .stSelectbox svg,
+        div[data-baseweb="select"] svg {
             transition: all 0.3s ease;
+            fill: rgba(255, 255, 255, 0.7) !important;
         }
         
-        .stNumberInput > div > div > input:hover {
-            background: linear-gradient(135deg, #161b25, #1e2530) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
+        .stSelectbox:hover svg,
+        div[data-baseweb="select"]:hover svg {
+            fill: rgba(255, 255, 255, 1) !important;
+            transform: translateY(1px);
         }
         
-        .stNumberInput > div > div > input:focus {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-            background: linear-gradient(135deg, #161b25, #1e2530) !important;
-        }
-        
-        /* تحسين ملخص النتائج */
-        pre {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
+        /* تحسين النص المحدد */
+        div[data-baseweb="select"] [aria-selected="true"] {
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            padding: 20px !important;
-            margin: 15px 0 !important;
-            font-family: 'Courier New', monospace !important;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        pre:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-        }
-        
-        /* تحسين أزرار النسخ */
-        button[data-testid="StyledFullScreenButton"] {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: #e2e2e2 !important;
-            border-radius: 8px !important;
-            padding: 8px 16px !important;
             font-weight: 500 !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        
-        button[data-testid="StyledFullScreenButton"]:hover {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
-            transform: translateY(-2px);
-        }
-        
-        /* تحسين الجداول */
-        .stDataFrame {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
-            border-radius: 8px !important;
-            backdrop-filter: blur(10px);
-            padding: 15px !important;
-            margin: 10px 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        .stDataFrame:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
         }
         
         /* تحسين الخط والقراءة */
@@ -278,7 +230,7 @@ st.markdown("""
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -294,7 +246,7 @@ st.markdown("""
         
         /* تحسين قائمة الخيارات المنسدلة */
         div[data-baseweb="select"] > div {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -304,7 +256,7 @@ st.markdown("""
         }
         
         div[data-baseweb="select"] ul {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             padding: 4px !important;
         }
         
@@ -369,7 +321,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 8px !important;
             color: #e2e2e2 !important;
