@@ -676,7 +676,40 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <div class="title">
+    <style>
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+        
+        .emoji-link {
+            text-decoration: none;
+            font-size: 32px !important;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            color: currentColor;
+            line-height: 1;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .title-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+    
+    <div class="title-container">
         <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
