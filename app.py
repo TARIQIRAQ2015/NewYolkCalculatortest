@@ -706,8 +706,24 @@ st.markdown("""
 st.markdown(f"""
     <div class="main-title">
         <span>{texts[language]["title"]}</span>
-        <span class="chicken-emoji">🐔</span>
+        <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
     </div>
+    <div class="subtitle">
+        حساب أرباح الدجاج والمكافآت اليومية
+    </div>
+""", unsafe_allow_html=True)
+
+# إضافة نمط CSS للعنوان الفرعي
+st.markdown("""
+    <style>
+        .subtitle {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 2em;
+            color: #e2e2e2;
+            opacity: 0.9;
+        }
+    </style>
 """, unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
@@ -1104,7 +1120,7 @@ st.markdown("""
             letter-spacing: 0.5px;
         }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen &copy; 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
