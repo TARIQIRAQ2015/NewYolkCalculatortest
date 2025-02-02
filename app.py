@@ -1007,41 +1007,83 @@ st.markdown("""
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 12px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            height: auto !important;
-            min-height: 48px !important;
-            font-size: 16px !important;
-            line-height: 1.5 !important;
         }}
         
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="popover"] > div,
-        div[data-baseweb="menu"] {{
-            background: rgba(22, 27, 37, 0.98) !important;
-            backdrop-filter: blur(10px) !important;
+        div[data-baseweb="select"] > div {{
+            background: rgba(22, 27, 37, 0.95) !important;
             border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 8px !important;
         }}
         
-        div[data-baseweb="select"] ul li,
-        div[data-baseweb="menu"] ul li {{
+        div[data-baseweb="select"] ul li {{
+            background: rgba(22, 27, 37, 0.95) !important;
             color: #ffffff !important;
-            font-size: 16px !important;
-            padding: 12px !important;
-            margin: 4px 0 !important;
-            border-radius: 6px !important;
-            line-height: 1.5 !important;
-            background: transparent !important;
-        }}
-        
-        div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {{
-            background: rgba(255, 255, 255, 0.1) !important;
         }}
     </style>
-""", unsafe_allow_html=True)
+    <style>
+        div.title-wrapper {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }}
+        
+        a.title-emoji {{
+            font-size: 36px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+            -webkit-text-fill-color: initial;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }}
+        
+        a.title-emoji:hover {{
+            transform: scale(1.2) rotate(10deg);
+        }}
+        
+        span.title-text {{
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+        
+        div.subtitle {{
+            text-align: center;
+            font-size: 18px;
+            color: #b8b8b8;
+            margin-bottom: 24px;
+        }}
+        
+        .stSelectbox > div > div {{
+            background: rgba(22, 27, 37, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+        }}
+        
+        div[data-baseweb="select"] > div {{
+            background: rgba(22, 27, 37, 0.95) !important;
+            border-radius: 8px !important;
+        }}
+        
+        div[data-baseweb="select"] ul li {{
+            background: rgba(22, 27, 37, 0.95) !important;
+            color: #ffffff !important;
+        }}
+    </style>
+    <div class="title-wrapper">
+        <a href="https://newyolkcalculator.streamlit.app/" class="title-emoji">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
+    </div>
+    <div class="subtitle">{texts[language]["subtitle"]}</div>
+    """,
+    unsafe_allow_html=True
+)
