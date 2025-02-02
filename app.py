@@ -67,14 +67,38 @@ st.markdown("""
             min-height: 48px !important;
             font-size: 16px !important;
             line-height: 1.5 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stSelectbox > div > div::before,
+        .stNumberInput > div > div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+        
+        .stSelectbox > div > div:hover::before,
+        .stNumberInput > div > div:hover::before {
+            left: 100%;
         }
         
         .stSelectbox > div > div:hover,
         .stNumberInput > div > div:hover {
-            background: rgba(22, 27, 34, 0.9) !important;
+            background: linear-gradient(135deg, #161b25, #1e2530) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
         /* تحسين قائمة الخيارات المنسدلة */
@@ -86,6 +110,7 @@ st.markdown("""
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             padding: 8px !important;
+            transition: all 0.3s ease;
         }
         
         div[data-baseweb="select"] ul,
@@ -96,26 +121,15 @@ st.markdown("""
         
         div[data-baseweb="select"] ul li,
         div[data-baseweb="menu"] ul li {
-            color: #ffffff !important;
-            transition: all 0.2s ease;
-            border-radius: 4px !important;
-            margin: 2px 0 !important;
-            padding: 8px 12px !important;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 2px 0;
         }
         
         div[data-baseweb="select"] ul li:hover,
         div[data-baseweb="menu"] ul li:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-        /* تحسين النصوص في القوائم */
-        .stSelectbox label,
-        .stNumberInput label {
-            color: #ffffff !important;
-            font-size: 18px !important;
-            font-weight: 500 !important;
-            margin-bottom: 8px !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+            transform: translateX(4px);
         }
         
         /* تحسين حقول الإدخال */
@@ -124,15 +138,20 @@ st.markdown("""
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
-            padding: 8px 12px !important;
+            padding: 12px !important;
             transition: all 0.3s ease;
-            font-size: 16px !important;
+        }
+        
+        .stNumberInput > div > div > input:hover {
+            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
         }
         
         .stNumberInput > div > div > input:focus {
             border-color: rgba(255, 255, 255, 0.3) !important;
             box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            background: linear-gradient(135deg, #161b25, #1e2530) !important;
         }
         
         /* تحسين ملخص النتائج */
