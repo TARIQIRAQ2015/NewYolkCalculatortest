@@ -19,117 +19,108 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# تحسين المظهر العام
+# تحسين الواجهة
 st.markdown("""
     <style>
-        /* تحسين المظهر العام */
+        /* تحسينات عامة */
         .stApp {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #e2e2e2;
         }
         
-        /* تنسيق العناوين */
+        /* تنسيق العنوان والعنوان الفرعي */
         .title {
             font-size: 42px;
-            font-weight: 800;
+            font-weight: bold;
             text-align: center;
-            padding: 30px;
-            background: linear-gradient(90deg, #00b4d8, #90e0ef, #00b4d8);
+            padding: 25px;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, #ffd700, #daa520);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .subtitle {
             font-size: 28px;
             text-align: center;
-            margin-bottom: 40px;
-            color: #caf0f8;
-            font-weight: 600;
+            margin-bottom: 35px;
+            color: #b8b8b8;
+            font-weight: 300;
         }
         
         /* تنسيق الأزرار */
         .stButton > button {
-            background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             color: white;
             border: none;
-            padding: 15px 32px;
+            padding: 12px 30px;
             border-radius: 15px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+            font-size: 18px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
             transition: all 0.3s ease;
         }
         
         .stButton > button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
         }
         
         /* تنسيق مربعات الإدخال */
         .stTextInput > div > div {
-            background-color: #1f2937;
-            border: 2px solid #374151;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: #e2e2e2;
-            transition: all 0.3s ease;
+            padding: 8px 12px;
         }
         
-        .stTextInput > div > div:hover {
-            border-color: #00b4d8;
+        .stTextInput > div > div:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
         }
         
         /* تنسيق القوائم المنسدلة */
         .stSelectbox > div > div {
-            background-color: #1f2937;
-            border: 2px solid #374151;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: #e2e2e2;
         }
         
-        .stSelectbox > div > div:hover {
-            border-color: #00b4d8;
-        }
-        
-        /* تنسيق النتائج والجداول */
-        .element-container {
-            background-color: #1f2937;
-            padding: 20px;
+        /* تنسيق الجداول */
+        .stTable {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            margin: 10px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
         
-        /* تنسيق الرسوم البيانية */
-        .js-plotly-plot {
-            background-color: #1f2937 !important;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        .stTable th {
+            background: rgba(74, 144, 226, 0.1);
+            color: #4a90e2;
+            font-weight: 500;
         }
         
-        /* تحسين العرض على الأجهزة المحمولة */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 32px;
-                padding: 20px;
-            }
-            
-            .subtitle {
-                font-size: 22px;
-                margin-bottom: 30px;
-            }
-            
-            .stButton > button {
-                padding: 12px 24px;
-                font-size: 16px;
-            }
+        .stTable td {
+            border-color: rgba(255, 255, 255, 0.05);
+            color: #e2e2e2;
         }
         
-        /* تنسيق ملخص النتائج */
+        /* تنسيق العناوين الفرعية */
+        h3 {
+            color: #4a90e2;
+            font-size: 24px;
+            font-weight: 500;
+            margin: 25px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        /* تنسيق النتائج */
         pre {
-            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-            border: 2px solid #4b5563;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(74, 144, 226, 0.2);
             border-radius: 15px;
             padding: 20px;
             color: #e2e2e2;
@@ -137,34 +128,47 @@ st.markdown("""
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
-        /* تنسيق الروابط */
-        a {
-            color: #00b4d8;
-            text-decoration: none;
-            transition: all 0.3s ease;
+        /* تحسين التوافق مع الأجهزة المحمولة */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+                padding: 15px;
+            }
+            
+            .subtitle {
+                font-size: 22px;
+                margin-bottom: 25px;
+            }
+            
+            .stButton > button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
         }
         
-        a:hover {
-            color: #90e0ef;
-            text-decoration: underline;
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         /* تنسيق حقوق النشر */
         .copyright {
             text-align: center;
             padding: 20px;
-            color: #9ca3af;
+            color: #888;
             font-size: 14px;
             margin-top: 40px;
         }
         
-        /* تنسيق العناوين الفرعية */
-        h3 {
-            background: linear-gradient(90deg, #00b4d8, #0077b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            margin: 25px 0;
+        /* تنسيق الإشعارات */
+        .stAlert {
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            border-radius: 10px;
+            color: #e2e2e2;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -401,40 +405,40 @@ def create_profit_chart(df, language):
                   labels={'value': texts[language]["value"],
                          'category': texts[language]["category"]})
     
-    # تحسين مظهر الرسم البياني
+    # تحديث مظهر الرسم البياني
     fig.update_layout(
-        plot_bgcolor='rgba(31, 41, 55, 0.1)',
-        paper_bgcolor='rgba(31, 41, 55, 0.1)',
-        title_font=dict(size=24, color='#e2e2e2'),
+        plot_bgcolor='rgba(26, 26, 46, 0.8)',
+        paper_bgcolor='rgba(26, 26, 46, 0)',
         font=dict(color='#e2e2e2'),
-        title_x=0.5,
+        title=dict(
+            font=dict(size=24, color='#4a90e2'),
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            linecolor='rgba(255, 255, 255, 0.2)',
+            tickfont=dict(size=12)
+        ),
+        yaxis=dict(
+            gridcolor='rgba(255, 255, 255, 0.1)',
+            linecolor='rgba(255, 255, 255, 0.2)',
+            tickfont=dict(size=12)
+        ),
         showlegend=False,
         hovermode='x unified',
-        margin=dict(t=100, pad=10),
+        margin=dict(t=80, b=40, l=40, r=40)
     )
     
-    # تحسين خطوط الشبكة والمحاور
-    fig.update_xaxes(
-        showgrid=True,
-        gridwidth=1,
-        gridcolor='rgba(156, 163, 175, 0.2)',
-        showline=True,
-        linewidth=2,
-        linecolor='#4b5563'
-    )
-    
-    fig.update_yaxes(
-        showgrid=True,
-        gridwidth=1,
-        gridcolor='rgba(156, 163, 175, 0.2)',
-        showline=True,
-        linewidth=2,
-        linecolor='#4b5563'
-    )
-    
-    # تحسين خط الرسم البياني
+    # تحديث خط الرسم البياني
     fig.update_traces(
-        line=dict(width=4, color='#00b4d8'),
+        line=dict(color='#4a90e2', width=3),
+        mode='lines+markers',
+        marker=dict(
+            size=8,
+            color='#ffd700',
+            line=dict(color='#4a90e2', width=2)
+        ),
         hovertemplate='%{y:,.2f}<extra></extra>'
     )
     
@@ -733,10 +737,9 @@ st.markdown(
     .copyright {
         text-align: center;
         padding: 20px;
-        margin-top: 50px;
-        font-size: 18px;
-        font-weight: bold;
-        opacity: 0.9;
+        color: #888;
+        font-size: 14px;
+        margin-top: 40px;
     }
     </style>
     <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
