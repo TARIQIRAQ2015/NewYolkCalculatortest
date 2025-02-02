@@ -1172,7 +1172,7 @@ st.markdown("""
             var scrollButton = document.getElementById('scrollTopBtn');
             
             function toggleScrollButton() {
-                if (window.pageYOffset > 300) {
+                if (window.scrollY > 100) {
                     scrollButton.classList.add('show');
                 } else {
                     scrollButton.classList.remove('show');
