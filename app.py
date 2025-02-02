@@ -1100,10 +1100,10 @@ st.markdown("""
         /* تنسيق زر العودة إلى الأعلى */
         .scroll-to-top {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 50px;
-            height: 50px;
+            bottom: clamp(20px, 5vh, 40px);
+            left: clamp(20px, 5vw, 40px);
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 50%;
             display: flex;
@@ -1111,59 +1111,36 @@ st.markdown("""
             justify-content: center;
             color: white;
             text-decoration: none;
-            font-size: 24px;
+            font-size: clamp(18px, 4vw, 28px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
             opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
+            visibility: hidden;
+            transform: translateY(20px);
         }
 
         .scroll-to-top:hover {
             transform: translateY(-5px);
             background: linear-gradient(135deg, #16213e, #0f3460);
             border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        .scroll-to-top::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(135deg, #1a1a2e, #0f3460);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-to-top:hover::before {
+        .scroll-to-top.show {
             opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* تأثير السهم المتحرك */
         .scroll-to-top .arrow {
             transform: rotate(-90deg);
             display: inline-block;
             transition: transform 0.3s ease;
             animation: bounce 2s infinite;
+            line-height: 1;
         }
 
         @keyframes bounce {
@@ -1177,28 +1154,38 @@ st.markdown("""
                 transform: rotate(-90deg) translateX(-3px);
             }
         }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: 15px;
+                left: 15px;
+            }
+        }
     </style>
 
-    <script>
-        // إظهار/إخفاء الزر عند التمرير
-        window.addEventListener('scroll', function() {
-            var button = document.querySelector('.scroll-to-top');
-            if (window.scrollY > 300) {
-                button.style.display = 'flex';
-            } else {
-                button.style.display = 'none';
-            }
-        });
-
-        // التمرير السلس إلى الرابط المحدد
-        function scrollToTop() {
-            window.top.location = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#:~:text=%D8%AD%D8%B3%D8%A7%D8%A8%20%D8%A3%D8%B1%D8%A8%D8%A7%D8%AD%20%D8%A7%D9%84%D8%AF%D8%AC%D8%A7%D8%AC%20%D9%88%D8%A7%D9%84%D9%85%D9%83%D8%A7%D9%81%D8%A7%D8%AA%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A%D8%A9';
-        }
-    </script>
-
-    <div onclick="scrollToTop()" class="scroll-to-top">
+    <button class="scroll-to-top" id="scrollTopBtn" onclick="window.location.href='https://testnewyolkcalculatortest.streamlit.app/~/+/#:~:text=%D8%AD%D8%B3%D8%A7%D8%A8%20%D8%A3%D8%B1%D8%A8%D8%A7%D8%AD%20%D8%A7%D9%84%D8%AF%D8%AC%D8%A7%D8%AC%20%D9%88%D8%A7%D9%84%D9%85%D9%83%D8%A7%D9%81%D8%A2%D8%AA%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A%D8%A9'">
         <span class="arrow">➤</span>
-    </div>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var scrollButton = document.getElementById('scrollTopBtn');
+            
+            function toggleScrollButton() {
+                if (window.pageYOffset > 300) {
+                    scrollButton.classList.add('show');
+                } else {
+                    scrollButton.classList.remove('show');
+                }
+            }
+
+            // عند التمرير
+            window.addEventListener('scroll', toggleScrollButton);
+            
+            // عند تحميل الصفحة
+            toggleScrollButton();
+        });
+    </script>
 """, unsafe_allow_html=True)
 
 # إضافة الأيقونات والروابط
