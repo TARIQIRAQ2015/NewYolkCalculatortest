@@ -431,7 +431,10 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <div class="title">{texts[language]["title"]}</div>
+    <div class="title">
+        <span class="emoji-icon">🐔</span>
+        {texts[language]["title"].replace('🐔', '')}
+    </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
@@ -494,6 +497,9 @@ if is_number(new_egg_price) and is_number(new_feed_price):
 
 # دالة إنشاء الرسم البياني
 def create_profit_chart(df, language):
+    # تحويل القيم إلى أرقام
+    df['value'] = pd.to_numeric(df['value'].str.replace(r'[^\d.]', '', regex=True), errors='coerce')
+    
     fig = px.line(df, x='category', y='value',
                   title=texts[language]["summary"],
                   labels={'value': texts[language]["value"],
@@ -808,21 +814,6 @@ st.markdown(
 # إضافة نص حقوق النشر والأيقونات
 st.markdown(
     """
-        <br>
-        <br>
-    </div>
-    <style>
-        a img:hover {
-            transform: scale(1.2);
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# إضافة نص حقوق النشر في نهاية الصفحة
-st.markdown(
-    """
     <style>
     .copyright {
         text-align: center;
@@ -836,3 +827,102 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# تحسين الواجهة
+st.markdown("""
+    <style>
+        /* تحسينات عامة */
+        .stApp {
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            color: #e2e2e2;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تأثيرات التفاعل عند تحريك الماوس */
+        .element-container:hover {
+            transform: translateY(-2px);
+            transition: transform 0.3s ease;
+        }
+        
+        /* تنسيق القوائم المنسدلة */
+        .stSelectbox [data-baseweb="select"] {
+            background-color: rgba(10, 25, 47, 0.8) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(100, 255, 218, 0.2) !important;
+            border-radius: 15px !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stSelectbox [data-baseweb="select"]:hover {
+            border-color: rgba(100, 255, 218, 0.5) !important;
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2) !important;
+            transform: translateY(-2px);
+        }
+        
+        .stSelectbox [data-baseweb="popover"] {
+            background-color: rgba(10, 25, 47, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(100, 255, 218, 0.2) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .stSelectbox [data-baseweb="popover"] div {
+            color: #e2e2e2 !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .stSelectbox [data-baseweb="popover"] div:hover {
+            background-color: rgba(100, 255, 218, 0.1) !important;
+            color: #64ffda !important;
+        }
+        
+        /* تحسين الايموجي */
+        .emoji-icon {
+            font-size: 2em;
+            margin-right: 10px;
+            background: linear-gradient(120deg, #64ffda, #00bfa5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            display: inline-block;
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .emoji-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        /* تحسين تأثير الضوء للعناصر */
+        .stTextInput > div:hover,
+        .stSelectbox > div:hover,
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        /* تحسين العنوان */
+        .title {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #64ffda, transparent);
+            transition: width 0.3s ease;
+        }
+        
+        .title:hover::after {
+            width: 80%;
+        }
+    </style>
+""", unsafe_allow_html=True)
