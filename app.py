@@ -391,6 +391,55 @@ st.markdown("""
             margin-top: 32px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
+        
+        /* تحسين الشريط العلوي */
+        .stProgress > div > div {
+            background: linear-gradient(135deg, #1e2530, #161b25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            overflow: hidden;
+            position: relative;
+            height: 48px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stProgress > div > div > div {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.1),
+                rgba(255,255,255,0.2),
+                rgba(255,255,255,0.1)
+            ) !important;
+            border-radius: 6px !important;
+            height: 100% !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stProgress > div > div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+        
+        .stProgress > div > div:hover::before {
+            left: 100%;
+        }
+        
+        .stProgress > div > div:hover {
+            background: linear-gradient(135deg, #161b25, #1e2530) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
     </style>
 """, unsafe_allow_html=True)
 
