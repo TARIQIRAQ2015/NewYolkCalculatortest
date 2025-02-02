@@ -249,10 +249,6 @@ st.markdown("""
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
         }
         
         .title-text {
@@ -551,53 +547,8 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <style>
-        .title-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .title-emoji {
-            font-size: 36px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 100;
-            -webkit-text-fill-color: initial;
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            transform: scale(1);
-        }
-        
-        .title-emoji:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title-text {
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .subtitle {
-            text-align: center;
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-        }
-    </style>
-    <div class="title-container">
-        <a href="https://newyolkcalculator.streamlit.app/" class="title-emoji">🐔</a>
-        <span class="title-text">{texts[language]["title"]}</span>
+    <div class="title">
+        🐔 <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="title-text">{texts[language]["title"]}</a>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
@@ -994,96 +945,6 @@ st.markdown(
         }
     </style>
     <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown("""
-    <style>
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stNumberInput > div > div {{
-            background: rgba(22, 27, 37, 0.95) !important;  
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-        }}
-        
-        div[data-baseweb="select"] > div {{
-            background: rgba(22, 27, 37, 0.95) !important;
-            border-radius: 8px !important;
-        }}
-        
-        div[data-baseweb="select"] ul li {{
-            background: rgba(22, 27, 37, 0.95) !important;
-            color: #ffffff !important;
-        }}
-    </style>
-    <style>
-        div.title-wrapper {{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }}
-        
-        a.title-emoji {{
-            font-size: 36px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 100;
-            -webkit-text-fill-color: initial;
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-        }}
-        
-        a.title-emoji:hover {{
-            transform: scale(1.2) rotate(10deg);
-        }}
-        
-        span.title-text {{
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        
-        div.subtitle {{
-            text-align: center;
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-        }}
-        
-        .stSelectbox > div > div {{
-            background: rgba(22, 27, 37, 0.95) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-        }}
-        
-        div[data-baseweb="select"] > div {{
-            background: rgba(22, 27, 37, 0.95) !important;
-            border-radius: 8px !important;
-        }}
-        
-        div[data-baseweb="select"] ul li {{
-            background: rgba(22, 27, 37, 0.95) !important;
-            color: #ffffff !important;
-        }}
-    </style>
-    <div class="title-wrapper">
-        <a href="https://newyolkcalculator.streamlit.app/" class="title-emoji">🐔</a>
-        <span class="title-text">{texts[language]["title"]}</span>
-    </div>
-    <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
 )
