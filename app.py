@@ -1069,23 +1069,106 @@ st.markdown("""
             height: 24px !important;
         }
         
-        /* تحسين الإيموجي */
-        .emoji-link {
+        /* تحسين العنوان */
+        .subtitle {
+            font-size: 18px;
+            color: #b8b8b8;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        /* تحسين أزرار الحساب */
+        .stButton > button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            color: #e2e2e2 !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stButton > button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* تحسين حقول الإدخال */
+        .stNumberInput > div > div > input {
+            background: rgba(22, 27, 34, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
+            color: #e2e2e2 !important;
+            padding: 8px 12px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .stNumberInput > div > div > input:focus {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
+        }
+        
+        /* تحسين حقوق النشر */
+        .copyright {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            padding: 24px 0;
+            font-size: 22px !important;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .title-emoji {
+            font-size: 36px;
             text-decoration: none;
-            font-size: 36px !important;
-            line-height: 1;
             display: inline-block;
-            transform: scale(1);
             transition: all 0.3s ease;
             position: relative;
             z-index: 100;
             -webkit-text-fill-color: initial;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-right: 12px;
             cursor: pointer;
+            transform: scale(1);
         }
         
-        .emoji-link:hover {
+        .title-emoji:hover {
             transform: scale(1.2) rotate(10deg);
-            filter: brightness(1.1);
         }
-        </style>
+        
+        .title-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #b8b8b8;
+            margin-bottom: 24px;
+        }
+    </style>
 """, unsafe_allow_html=True)
