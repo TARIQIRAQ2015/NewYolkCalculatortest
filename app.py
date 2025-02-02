@@ -659,7 +659,7 @@ texts = {
 # اختيار اللغة
 language = st.selectbox(
     "اللغة | Language | Limbă 🌍",
-    ["🇮🇶 العربية", "English", "Română"],
+    ["العربية", "English", "Română"],
     key="language_selector"
 )
 
