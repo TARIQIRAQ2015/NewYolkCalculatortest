@@ -887,25 +887,9 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج في صندوق قابل للنسخ مع خلفية شفافة
-                st.markdown("""
-                    <style>
-                        .stCodeBlock {
-                            background: rgba(255, 255, 255, 0.25) !important;
-                            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-                            border-radius: 10px !important;
-                            backdrop-filter: blur(10px) !important;
-                        }
-                        .stCodeBlock > div {
-                            background: transparent !important;
-                        }
-                        .stCodeBlock code {
-                            color: #e2e2e2 !important;
-                        }
-                    </style>
-                """, unsafe_allow_html=True)
-                st.code(results_text, language="text")
-                
+                # عرض النتائج
+                # st.code(results_text, language="text")
+
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
                     texts[language]["category"]: [
@@ -951,6 +935,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### ✨ {texts[language]['summary']}")
+                st.code(results_text)
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
@@ -998,8 +983,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 # إنشاء نص النتائج
                 results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
-║                  {texts[language]['summary']}                    ║
-╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
@@ -1013,24 +996,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج في صندوق قابل للنسخ مع خلفية شفافة
-                st.markdown("""
-                    <style>
-                        .stCodeBlock {
-                            background: rgba(255, 255, 255, 0.25) !important;
-                            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-                            border-radius: 10px !important;
-                            backdrop-filter: blur(10px) !important;
-                        }
-                        .stCodeBlock > div {
-                            background: transparent !important;
-                        }
-                        .stCodeBlock code {
-                            color: #e2e2e2 !important;
-                        }
-                    </style>
-                """, unsafe_allow_html=True)
-                st.code(results_text, language="text")
+                # عرض النتائج
+                # st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
@@ -1069,6 +1036,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### ✨ {texts[language]['summary']}")
+                st.code(results_text)
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
@@ -1167,66 +1135,6 @@ st.markdown("""
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: 32px;
             font-weight: bold;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* تنسيق صندوق النتائج */
-        .results-box {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        
-        /* تنسيق العناوين في النتائج */
-        .results-header {
-            font-size: 1.2em;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        /* تنسيق القيم في النتائج */
-        .results-value {
-            color: #4CAF50;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-        }
-        
-        /* تنسيق الفواصل بين العناصر */
-        .results-divider {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin: 10px 0;
-        }
-        
-        /* تنسيق الأسطر في النتائج */
-        .results-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .results-row:hover {
-            background: rgba(255,255,255,0.05);
-            transform: translateX(5px);
-            padding-left: 10px;
-            border-radius: 5px;
-        }
-        
-        /* تنسيق العملة */
-        .currency {
-            color: #FFD700;
-            font-weight: bold;
-            margin-left: 5px;
         }
     </style>
 """, unsafe_allow_html=True)
