@@ -7,7 +7,8 @@ from datetime import datetime, timedelta
 st.set_page_config(
     page_title="Chicken Calculator - Newyolk",
     page_icon="🐔",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # إخفاء أزرار التحكم بالمظهر
@@ -16,6 +17,197 @@ st.markdown("""
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
+
+# إضافة CSS متقدم للواجهة
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        /* تحسين المظهر العام */
+        .stApp {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        /* تنسيق العنوان */
+        .title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        /* تنسيق العنوان الفرعي */
+        .subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2C3E50;
+        }
+        
+        /* تحسين الأزرار */
+        .stButton > button {
+            background: linear-gradient(45deg, #4ECDC4, #556270);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين مربعات الإدخال */
+        .stTextInput > div > div {
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .stTextInput > div > div:focus-within {
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 2px rgba(78,205,196,0.2);
+        }
+        
+        /* تحسين القوائم المنسدلة */
+        .stSelectbox > div > div {
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+        }
+        
+        /* تحسين البطاقات */
+        [data-testid="stMetricValue"] {
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        [data-testid="stMetricValue"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* تحسين الجداول */
+        .stTable {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stTable th {
+            background: #4ECDC4;
+            color: white;
+            padding: 1rem;
+        }
+        
+        /* تحسين الرسوم البيانية */
+        [data-testid="stPlotlyChart"] > div {
+            border-radius: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* تحسين النص */
+        p, li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #2C3E50;
+        }
+        
+        /* تحسين العناوين الفرعية */
+        h2, h3 {
+            color: #2C3E50;
+            font-weight: 600;
+            margin: 1.5rem 0;
+        }
+        
+        /* تأثيرات التحميل */
+        .stProgress > div > div > div {
+            background: linear-gradient(45deg, #4ECDC4, #556270);
+        }
+        
+        /* تحسين التوافق مع الأجهزة المحمولة */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            .stButton > button {
+                width: 100%;
+            }
+        }
+        
+        /* إضافة تأثير الظل للبطاقات */
+        .element-container {
+            transition: all 0.3s ease;
+        }
+        
+        .element-container:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* تحسين شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #4ECDC4;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3dbdb5;
+        }
+        
+        /* إضافة تأثير التحميل */
+        .stSpinner {
+            border-color: #4ECDC4;
+        }
+        
+        /* تحسين رسائل الخطأ */
+        .stAlert {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* إضافة حقوق النشر بشكل أنيق */
+        .copyright {
+            text-align: center;
+            padding: 1rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            background: rgba(255,255,255,0.5);
+            border-radius: 10px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -588,7 +780,7 @@ st.markdown(
         opacity: 0.9;
     }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
