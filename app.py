@@ -46,7 +46,6 @@ st.markdown("""
             cursor: pointer;
             font-size: 32px;
             margin-right: 10px;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
         }
         .emoji-link:hover {
             transform: scale(1.5);
@@ -679,7 +678,6 @@ st.markdown(
         }}
     </style>
     <div class="title">
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
@@ -690,57 +688,19 @@ st.markdown(
 # تحسين العنوان مع الإيموجي
 st.markdown("""
     <style>
-        /* تنسيق الإيموجي */
         .emoji-link {
-            text-decoration: none !important;
-            font-size: 32px !important;
-            padding: 5px !important;
-            margin: 0 10px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            transition: transform 0.3s ease !important;
-            cursor: pointer !important;
+            text-decoration: none;
+            font-size: 2em !important;
+            padding: 0 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
             color: white !important;
             font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !important;
-            line-height: 1 !important;
-            vertical-align: middle !important;
-            transform-origin: center !important;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg) !important;
-        }
-        
-        /* تنسيق العنوان */
-        .title {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin-bottom: 15px !important;
-            gap: 10px !important;
-            direction: rtl !important;
-            text-align: center !important;
-        }
-        
-        .title-text {
-            font-size: 32px !important;
-            font-weight: bold !important;
-            color: white !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            line-height: 1.2 !important;
         }
     </style>
-""", unsafe_allow_html=True)
-
-# إضافة العنوان الجديد
-st.markdown(f"""
-    <div class="title">
-        <span class="title-text">{texts[language]["title"]}</span>
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
-    </div>
 """, unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
@@ -1207,7 +1167,6 @@ st.markdown("""
 # تحديث العنوان
 st.markdown(f"""
     <div class="title">
-        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
 """, unsafe_allow_html=True)
