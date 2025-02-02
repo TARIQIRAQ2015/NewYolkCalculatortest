@@ -468,6 +468,35 @@ st.markdown("""
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+        
+        /* تنسيق العنوان الرئيسي */
+        .main-title {
+            font-size: 2.5em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 1em !important;
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        /* تأثير الإيموجي المتحرك */
+        .chicken-emoji {
+            display: inline-block;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -673,6 +702,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# عرض العنوان الرئيسي مع الإيموجي المتحرك
+st.markdown(f"""
+    <div class="main-title">
+        <span>{texts[language]["title"]}</span>
+        <span class="chicken-emoji">🐔</span>
+    </div>
+""", unsafe_allow_html=True)
+
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
 
@@ -701,10 +738,16 @@ st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input(texts[language]["egg_price"], value="0.1155")
+    new_egg_price = st.text_input(
+        texts[language]["egg_price"],
+        value="0.1155"
+    )
 
 with col4:
-    new_feed_price = st.text_input(texts[language]["feed_price"], value="0.0189")
+    new_feed_price = st.text_input(
+        texts[language]["feed_price"],
+        value="0.0189"
+    )
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
