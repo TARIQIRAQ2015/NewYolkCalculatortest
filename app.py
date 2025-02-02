@@ -249,6 +249,10 @@ st.markdown("""
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
         }
         
         .title-text {
@@ -547,8 +551,46 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
+    <style>
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .title-emoji {
+            font-size: 36px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+            -webkit-text-fill-color: initial;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transform: scale(1);
+        }
+        
+        .title-emoji:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .title-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
     <div class="title">
-        🐔 <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="title-text">{texts[language]["title"]}</a>
+        <a href="https://newyolkcalculator.streamlit.app/" class="title-emoji">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
@@ -948,3 +990,102 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+st.markdown("""
+    <style>
+        /* تحسين القوائم المنسدلة */
+        .stSelectbox > div > div,
+        .stNumberInput > div > div {
+            background: rgba(22, 27, 37, 0.95) !important;  
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 12px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            height: auto !important;
+            min-height: 48px !important;
+            font-size: 16px !important;
+            line-height: 1.5 !important;
+        }
+        
+        .stSelectbox > div > div:hover,
+        .stNumberInput > div > div:hover {
+            background: rgba(22, 27, 37, 0.98) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين قائمة الخيارات المنسدلة */
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="popover"] > div,
+        div[data-baseweb="menu"] {
+            background: rgba(22, 27, 37, 0.98) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 8px !important;
+        }
+        
+        div[data-baseweb="select"] ul,
+        div[data-baseweb="menu"] ul {
+            background: transparent !important;
+            padding: 4px !important;
+        }
+        
+        div[data-baseweb="select"] ul li,
+        div[data-baseweb="menu"] ul li {
+            color: #ffffff !important;
+            font-size: 16px !important;
+            padding: 12px !important;
+            margin: 4px 0 !important;
+            border-radius: 6px !important;
+            line-height: 1.5 !important;
+            background: transparent !important;
+        }
+        
+        div[data-baseweb="select"] ul li:hover,
+        div[data-baseweb="menu"] ul li:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* تحسين النصوص في القوائم */
+        .stSelectbox label {
+            color: #ffffff !important;
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            margin-bottom: 12px !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.5 !important;
+        }
+        
+        /* تحسين الأيقونة في القائمة المنسدلة */
+        .stSelectbox svg {
+            fill: #ffffff !important;
+            width: 24px !important;
+            height: 24px !important;
+        }
+        
+        /* تحسين الإيموجي */
+        .emoji-link {
+            text-decoration: none;
+            font-size: 36px !important;
+            line-height: 1;
+            display: inline-block;
+            transform: scale(1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+            -webkit-text-fill-color: initial;
+            cursor: pointer;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+            filter: brightness(1.1);
+        }
+        </style>
+""", unsafe_allow_html=True)
