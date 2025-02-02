@@ -28,7 +28,7 @@ st.markdown("""
         /* تحسين المظهر العام */
         .stApp {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #000000, #1e222d, #2d364d);
+            background: linear-gradient(135deg, #1E293B, #334155, #475569);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             position: relative;
@@ -41,8 +41,9 @@ st.markdown("""
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none"/><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.05)"/></svg>') repeat;
-            opacity: 0.5;
+            background: 
+                linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px) 0 0 / 20px 20px,
+                linear-gradient(0deg, rgba(255,255,255,.07) 1px, transparent 1px) 0 0 / 20px 20px;
             pointer-events: none;
         }
 
@@ -58,7 +59,7 @@ st.markdown("""
             font-weight: 700;
             text-align: center;
             padding: 2rem 0;
-            background: linear-gradient(45deg, #c6a355, #e9d5aa, #c6a355);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
@@ -71,113 +72,103 @@ st.markdown("""
             font-size: 1.5rem;
             text-align: center;
             margin-bottom: 2rem;
-            color: #e9d5aa;
+            color: #F8FAFC;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
             letter-spacing: 1px;
         }
         
         /* تحسين الأزرار */
         .stButton > button {
-            background: linear-gradient(45deg, #2d364d, #1e222d);
-            color: #e9d5aa;
-            border: 1px solid #c6a355;
+            background: linear-gradient(45deg, #334155, #475569);
+            color: #FFD700;
+            border: 2px solid #FFD700;
             padding: 0.8rem 1.5rem;
             border-radius: 15px;
             font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(198, 163, 85, 0.15);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
             backdrop-filter: blur(10px);
         }
         
         .stButton > button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(198, 163, 85, 0.25);
-            background: linear-gradient(45deg, #1e222d, #2d364d);
-            border-color: #e9d5aa;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.25);
+            background: linear-gradient(45deg, #475569, #334155);
+            border-color: #FFA500;
         }
         
         /* تحسين مربعات الإدخال */
         .stTextInput > div > div {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            border: 1px solid rgba(198, 163, 85, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             padding: 0.5rem;
             transition: all 0.3s ease;
-            color: #e9d5aa;
+            color: #F8FAFC;
         }
         
         .stTextInput > div > div:focus-within {
-            border-color: #c6a355;
-            box-shadow: 0 0 0 2px rgba(198, 163, 85, 0.2);
+            border-color: #FFD700;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
         }
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            border: 1px solid rgba(198, 163, 85, 0.3);
-            color: #e9d5aa;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #F8FAFC;
         }
         
         /* تحسين البطاقات */
         [data-testid="stMetricValue"] {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             padding: 1rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            border: 1px solid rgba(198, 163, 85, 0.3);
-            color: #e9d5aa;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #F8FAFC;
         }
         
         [data-testid="stMetricValue"]:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(198, 163, 85, 0.15);
-            border-color: #c6a355;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.15);
+            border-color: #FFD700;
         }
         
         /* تحسين الجداول */
         .stTable {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(198, 163, 85, 0.3);
-            color: #e9d5aa;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #F8FAFC;
         }
         
         .stTable th {
-            background: rgba(198, 163, 85, 0.1);
-            color: #e9d5aa;
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
             padding: 1rem;
-            border-bottom: 1px solid rgba(198, 163, 85, 0.3);
-        }
-        
-        /* تحسين الرسوم البيانية */
-        [data-testid="stPlotlyChart"] > div {
-            border-radius: 15px;
-            background: rgba(30, 34, 45, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(198, 163, 85, 0.3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         /* تحسين النص */
         p, li {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: #e9d5aa;
+            color: #F8FAFC;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
         }
         
         /* تحسين العناوين الفرعية */
         h2, h3 {
-            color: #e9d5aa;
+            color: #FFD700;
             font-weight: 600;
             margin: 1.5rem 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
@@ -191,63 +182,73 @@ st.markdown("""
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #c6a355, #e9d5aa);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
             border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #e9d5aa, #c6a355);
+            background: linear-gradient(45deg, #FFA500, #FFD700);
         }
         
         /* إضافة حقوق النشر بشكل أنيق */
         .copyright {
             text-align: center;
             padding: 1rem;
-            color: #e9d5aa;
+            color: #F8FAFC;
             font-size: 0.9rem;
             margin-top: 2rem;
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            border: 1px solid rgba(198, 163, 85, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
             letter-spacing: 1px;
         }
         
         /* تحسين الإدخال */
         input[type="number"] {
-            color: #e9d5aa !important;
+            color: #F8FAFC !important;
         }
         
         /* تحسين النصوص في القوائم المنسدلة */
         .stSelectbox div[data-baseweb="select"] > div {
-            color: #e9d5aa;
+            color: #F8FAFC;
         }
         
         /* تحسين الخط في مربعات الإدخال */
         .stTextInput input {
-            color: #e9d5aa !important;
+            color: #F8FAFC !important;
         }
         
         /* إضافة تأثير الزجاج لجميع العناصر */
         .element-container {
-            background: rgba(30, 34, 45, 0.6);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 1rem;
             margin-bottom: 1rem;
-            border: 1px solid rgba(198, 163, 85, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             transition: all 0.3s ease;
         }
         
         .element-container:hover {
-            border-color: #c6a355;
-            box-shadow: 0 6px 20px rgba(198, 163, 85, 0.15);
+            border-color: #FFD700;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.15);
+        }
+
+        /* تحسين الرسوم البيانية */
+        [data-testid="stPlotlyChart"] > div {
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
     </style>
 """, unsafe_allow_html=True)
