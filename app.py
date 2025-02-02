@@ -867,28 +867,37 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # إنشاء نص النتائج
                 results_text = f"""
-╔══════════════════════════════════════════════════════════════════╗
-║                  {texts[language]['summary']}                    ║
-╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_time']}: {date_str} {time_str}
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} USD
-║ {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
-║ {texts[language]['final_profit']}: {format_decimal(net_profit)} USD
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * 1480)} IQD
-║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
-║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
-╚══════════════════════════════════════════════════════════════════╝"""
+<div class="results-box">
+    <div class="results-header">{texts[language]["summary"]}</div>
+    <div class="results-row">
+        <span>{texts[language]["egg_price"]}:</span>
+        <span class="results-value">{format_decimal(total_egg_price)} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["feed_price"]}:</span>
+        <span class="results-value">{format_decimal(total_feed_cost)} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["net_profit"]}:</span>
+        <span class="results-value">{format_decimal(net_profit_before_rent)} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["first_year_rental"]}:</span>
+        <span class="results-value">{format_decimal(total_rent)} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["final_profit"]}:</span>
+        <span class="results-value">{format_decimal(net_profit)} <span class="currency">{currency}</span></span>
+    </div>
+</div>
+"""
 
                 # عرض النتائج
-                # st.code(results_text, language="text")
+                st.markdown(results_text, unsafe_allow_html=True)
 
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
@@ -935,7 +944,6 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### ✨ {texts[language]['summary']}")
-                st.code(results_text)
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
@@ -982,22 +990,27 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # إنشاء نص النتائج
                 results_text = f"""
-╔══════════════════════════════════════════════════════════════════╗
-║ {texts[language]['calculation_time']}: {date_str} {time_str}
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
-╚══════════════════════════════════════════════════════════════════╝"""
+<div class="results-box">
+    <div class="results-header">{texts[language]["summary"]}</div>
+    <div class="results-row">
+        <span>{texts[language]["egg_price"]}:</span>
+        <span class="results-value">{format_decimal(rewards * float(new_egg_price))} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["feed_price"]}:</span>
+        <span class="results-value">{format_decimal(food * float(new_feed_price))} <span class="currency">{currency}</span></span>
+    </div>
+    <div class="results-divider"></div>
+    <div class="results-row">
+        <span>{texts[language]["daily_profit"]}:</span>
+        <span class="results-value">{format_decimal(daily_profit)} <span class="currency">{currency}</span></span>
+    </div>
+</div>
+"""
 
                 # عرض النتائج
-                # st.code(results_text, language="text")
+                st.markdown(results_text, unsafe_allow_html=True)
 
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
@@ -1036,7 +1049,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### ✨ {texts[language]['summary']}")
-                st.code(results_text)
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
@@ -1135,6 +1147,66 @@ st.markdown("""
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: 32px;
             font-weight: bold;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* تنسيق صندوق النتائج */
+        .results-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        /* تنسيق العناوين في النتائج */
+        .results-header {
+            font-size: 1.2em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* تنسيق القيم في النتائج */
+        .results-value {
+            color: #4CAF50;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* تنسيق الفواصل بين العناصر */
+        .results-divider {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin: 10px 0;
+        }
+        
+        /* تنسيق الأسطر في النتائج */
+        .results-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .results-row:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+            padding-left: 10px;
+            border-radius: 5px;
+        }
+        
+        /* تنسيق العملة */
+        .currency {
+            color: #FFD700;
+            font-weight: bold;
+            margin-left: 5px;
         }
     </style>
 """, unsafe_allow_html=True)
