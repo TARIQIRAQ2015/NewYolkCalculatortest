@@ -1094,6 +1094,116 @@ elif calculation_type == texts[language]["daily_rewards"]:
 if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
+# إضافة زر العودة إلى الأعلى
+st.markdown("""
+    <style>
+        /* تنسيق زر العودة إلى الأعلى */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-to-top::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-to-top:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تأثير السهم المتحرك */
+        .scroll-to-top .arrow {
+            transform: rotate(-90deg);
+            display: inline-block;
+            transition: transform 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: rotate(-90deg) translateX(0);
+            }
+            40% {
+                transform: rotate(-90deg) translateX(-5px);
+            }
+            60% {
+                transform: rotate(-90deg) translateX(-3px);
+            }
+        }
+    </style>
+
+    <script>
+        // إظهار/إخفاء الزر عند التمرير
+        window.addEventListener('scroll', function() {
+            var button = document.querySelector('.scroll-to-top');
+            if (window.scrollY > 300) {
+                button.style.display = 'flex';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+
+        // التمرير السلس إلى الأعلى
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <a onclick="scrollToTop()" class="scroll-to-top">
+        <span class="arrow">➤</span>
+    </a>
+""", unsafe_allow_html=True)
+
 # إضافة الأيقونات والروابط
 st.markdown("""
     <style>
