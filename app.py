@@ -426,7 +426,7 @@ st.markdown("""
         
         /* تحسين ملخص النتائج */
         pre {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
+            background: rgba(30, 33, 43, 0.7) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
             color: #ffffff !important;
@@ -462,10 +462,44 @@ st.markdown("""
         }
         
         pre:hover {
-            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
+            background: rgba(22, 27, 37, 0.8) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* تحسين الإيموجي في العنوان */
+        .emoji-link {
+            text-decoration: none;
+            font-size: 36px !important;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            line-height: 1;
+            cursor: pointer;
+            margin-right: 12px;
+            color: inherit;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .title-text {
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -1050,11 +1084,13 @@ st.markdown("""
         .emoji-link {
             text-decoration: none;
             font-size: 36px !important;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             transition: all 0.3s ease;
             line-height: 1;
             cursor: pointer;
             margin-right: 12px;
+            color: inherit;
         }
         
         .emoji-link:hover {
@@ -1066,6 +1102,9 @@ st.markdown("""
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
         }
         
         .title-text {
@@ -1073,8 +1112,6 @@ st.markdown("""
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 32px;
-            font-weight: bold;
         }
     </style>
 """, unsafe_allow_html=True)
