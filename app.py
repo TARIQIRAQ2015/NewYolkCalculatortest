@@ -22,81 +22,152 @@ st.markdown("""
 # تحسين المظهر العام والخلفية
 st.markdown("""
     <style>
-        /* تحسين المظهر العام */
+        /* تحسين المظهر العام والخلفية */
         .stApp {
-            background: #ffffff;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e2e2e2;
+        }
+        
+        /* تأثيرات حركية للعناصر */
+        .element-container {
+            transition: all 0.3s ease;
+        }
+        .element-container:hover {
+            transform: translateY(-2px);
         }
         
         /* تحسين أزرار التحكم */
         .stButton > button {
-            background-color: #2196F3;
-            color: white;
-            border: none;
+            background: linear-gradient(135deg, #0f3460, #162447);
+            color: #e2e2e2;
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
         .stButton > button:hover {
-            background-color: #1976D2;
+            background: linear-gradient(135deg, #162447, #1f4068);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div {
-            background: white;
-            border: 1px solid #E0E0E0;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #e2e2e2;
+        }
+        .stSelectbox > div:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
         
         /* تحسين حقول الإدخال */
         .stTextInput > div > div {
-            background: white;
-            border: 1px solid #E0E0E0;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #e2e2e2;
+        }
+        .stTextInput > div > div:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
         
         /* تحسين العناوين */
         h1, h2, h3 {
-            color: #1565C0;
+            color: #e2e2e2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        h1:hover, h2:hover, h3:hover {
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
         
         /* تحسين الجداول */
         .stTable {
-            background: white;
-            border: 1px solid #E0E0E0;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #e2e2e2;
+        }
+        .stTable:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
         /* تحسين النصوص */
         .title {
-            color: #1565C0;
+            color: #e2e2e2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
             font-weight: bold;
             font-size: 36px;
         }
+        .title:hover {
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
         
         .subtitle {
-            color: #424242;
+            color: #b8b8b8;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
             font-size: 24px;
+        }
+        .subtitle:hover {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         /* تحسين البطاقات */
         .stMarkdown {
-            background: white;
-            border: 1px solid #E0E0E0;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             padding: 1rem;
             margin: 0.5rem 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #e2e2e2;
+        }
+        .stMarkdown:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
 
         /* تحسين حقوق النشر */
         .copyright {
-            color: #757575;
+            color: #b8b8b8;
             text-align: center;
             padding: 1rem;
             font-size: 14px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            opacity: 0.8;
+        }
+        
+        /* تحسين لون النص في جميع العناصر */
+        .stMarkdown, .stButton, .stSelectbox, .stTextInput {
+            color: #e2e2e2 !important;
+        }
+        
+        /* تحسين الروابط */
+        a {
+            color: #4f8fba !important;
+            transition: all 0.3s ease;
+        }
+        a:hover {
+            color: #6ba5d1 !important;
+            text-decoration: none;
         }
     </style>
 """, unsafe_allow_html=True)
