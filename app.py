@@ -24,8 +24,68 @@ st.markdown("""
     <style>
         /* تحسين المظهر العام والخلفية */
         .stApp {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, 
+                #1a1a2e,
+                #16213e,
+                #0f3460,
+                #162447
+            );
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             color: #e2e2e2;
+        }
+        
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* تأثير الإيموجي */
+        .emoji-link {
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .emoji-link:hover {
+            transform: scale(1.5);
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        
+        /* إضافة تأثير توهج للخلفية */
+        .stApp::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(255,255,255,0.1) 0%,
+                rgba(255,255,255,0.05) 25%,
+                rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+        
+        /* تحسين العناصر مع تأثير زجاجي أفضل */
+        .stButton > button,
+        .stSelectbox > div,
+        .stTextInput > div > div,
+        .stTable,
+        .stMarkdown {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1),
+                       0 0 20px rgba(255,255,255,0.05);
         }
         
         /* تأثيرات حركية للعناصر */
@@ -340,7 +400,10 @@ st.markdown(
             text-align: {'right' if language == 'العربية' else 'left'} !important;
         }}
     </style>
-    <div class="title">{texts[language]["title"]}</div>
+    <div class="title">
+        <a href="https://testnewyolkcalculatortest.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        {texts[language]["title"]}
+    </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
     """,
     unsafe_allow_html=True
