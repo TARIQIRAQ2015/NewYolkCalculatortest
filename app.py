@@ -1106,7 +1106,7 @@ st.markdown("""
             height: 50px;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             color: white;
@@ -1117,8 +1117,6 @@ st.markdown("""
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
         }
 
         .scroll-to-top:hover {
@@ -1145,6 +1143,11 @@ st.markdown("""
 
         .scroll-to-top:hover::before {
             opacity: 1;
+        }
+
+        .scroll-to-top.show {
+            display: flex;
+            animation: fadeIn 0.5s ease forwards;
         }
 
         @keyframes fadeIn {
@@ -1184,24 +1187,26 @@ st.markdown("""
         window.addEventListener('scroll', function() {
             var button = document.querySelector('.scroll-to-top');
             if (window.scrollY > 300) {
-                button.style.display = 'flex';
+                button.classList.add('show');
             } else {
-                button.style.display = 'none';
+                button.classList.remove('show');
             }
         });
 
         // التمرير السلس إلى الأعلى
-        function scrollToTop() {
+        function scrollToTop(e) {
+            e.preventDefault();
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
+            return false;
         }
     </script>
 
-    <a onclick="scrollToTop()" class="scroll-to-top">
+    <button onclick="scrollToTop(event)" class="scroll-to-top">
         <span class="arrow">➤</span>
-    </a>
+    </button>
 """, unsafe_allow_html=True)
 
 # إضافة الأيقونات والروابط
