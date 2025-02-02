@@ -66,7 +66,6 @@ st.markdown("""
             height: auto !important;
             min-height: 48px !important;
             font-size: 16px !important;
-            line-height: 1.5 !important;
         }
         
         .stSelectbox > div > div:hover,
@@ -890,33 +889,7 @@ if st.button(texts[language]["reset"], type="secondary"):
     st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
 
 # إضافة الأيقونات والروابط
-st.markdown(
-    """
-    <style>
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 30px 0 20px;
-        }
-        
-        .social-links a {
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links img {
-            width: 36px;
-            height: 36px;
-            filter: brightness(1);
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover img {
-            transform: translateY(-3px);
-            filter: brightness(1.2);
-        }
-    </style>
+st.markdown("""
     <div class="social-links">
         <a href="https://farm.newyolk.io/" target="_blank">
             <img src="https://i.ibb.co/YDKWBRf/internet.png" alt="Website">
@@ -931,20 +904,5 @@ st.markdown(
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
         </a>
     </div>
-    
-    <style>
-        .copyright {
-            text-align: center;
-            color: rgba(255,255,255,0.9);
-            padding: 24px 0;
-            font-size: 22px !important;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-    </style>
     <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
