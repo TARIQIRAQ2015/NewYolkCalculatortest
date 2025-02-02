@@ -53,20 +53,22 @@ st.markdown("""
         }
         
         /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div {
-            background: rgba(13, 17, 23, 0.8) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        .stSelectbox > div > div,
+        .stNumberInput > div > div {
+            background: rgba(13, 17, 23, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
-            color: #e2e2e2 !important;
+            color: #ffffff !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             padding: 8px !important;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
-        .stSelectbox > div > div:hover {
-            background: rgba(13, 17, 23, 0.9) !important;
-            border-color: rgba(255, 255, 255, 0.25) !important;
+        .stSelectbox > div > div:hover,
+        .stNumberInput > div > div:hover {
+            background: rgba(13, 17, 23, 0.8) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
@@ -77,7 +79,7 @@ st.markdown("""
             background: rgba(13, 17, 23, 0.95) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
@@ -89,10 +91,11 @@ st.markdown("""
         
         div[data-baseweb="select"] ul li,
         div[data-baseweb="menu"] ul li {
-            color: #e2e2e2 !important;
+            color: #ffffff !important;
             transition: all 0.2s ease;
             border-radius: 4px !important;
             margin: 2px 0 !important;
+            padding: 8px 12px !important;
         }
         
         div[data-baseweb="select"] ul li:hover,
@@ -102,7 +105,34 @@ st.markdown("""
         
         /* تحسين الأيقونة في القائمة المنسدلة */
         .stSelectbox svg {
-            fill: #e2e2e2 !important;
+            fill: #ffffff !important;
+        }
+        
+        /* تحسين النصوص في القوائم */
+        .stSelectbox label,
+        .stNumberInput label {
+            color: #ffffff !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            margin-bottom: 8px !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        /* تحسين حقول الإدخال */
+        .stNumberInput > div > div > input {
+            background: rgba(13, 17, 23, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            padding: 8px 12px !important;
+            transition: all 0.3s ease;
+            font-size: 16px !important;
+        }
+        
+        .stNumberInput > div > div > input:focus {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
+            background: rgba(13, 17, 23, 0.8) !important;
         }
         
         /* تحسين ملخص النتائج */
@@ -211,18 +241,21 @@ st.markdown("""
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
+            text-align: center;
             background: linear-gradient(120deg, #ffffff, #e2e2e2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .subtitle {
             font-size: 18px;
             color: #b8b8b8;
             margin-bottom: 24px;
+            text-align: center;
         }
         
         /* تحسين أزرار الحساب */
