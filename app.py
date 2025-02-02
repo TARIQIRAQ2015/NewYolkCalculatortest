@@ -611,51 +611,51 @@ texts = {
     }
 }
 
-# تعريف الأنماط والعنوان
-title_style = """
-<style>
-.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-    gap: 12px;
-}
-
-.emoji-link {
-    text-decoration: none;
-    font-size: 32px !important;
-    transition: transform 0.3s ease;
-    display: inline-block;
-    cursor: pointer;
-    color: currentColor;
-    line-height: 1;
-}
-
-.emoji-link:hover {
-    transform: scale(1.2) rotate(10deg);
-}
-
-.title-text {
-    font-size: 32px;
-    font-weight: bold;
-    background: linear-gradient(120deg, #ffffff, #e2e2e2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.subtitle {
-    text-align: center;
-    color: #e0e0e0;
-    margin-bottom: 30px;
-    font-size: 18px;
-}
-</style>
-"""
-
-# تطبيق الأنماط
-st.markdown(title_style, unsafe_allow_html=True)
+# CSS styles
+st.markdown('''
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background-color: #0e1117;
+    }
+    
+    .stApp {
+        margin: 0 auto;
+    }
+    
+    .main-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    
+    .chicken-emoji {
+        font-size: 32px;
+        text-decoration: none;
+        transition: transform 0.3s;
+        display: inline-block;
+    }
+    
+    .chicken-emoji:hover {
+        transform: scale(1.2) rotate(10deg);
+    }
+    
+    .title-text {
+        font-size: 32px;
+        font-weight: bold;
+        color: white;
+    }
+    
+    .subtitle-text {
+        text-align: center;
+        color: #e0e0e0;
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+    </style>
+''', unsafe_allow_html=True)
 
 # اختيار اللغة
 language = st.selectbox(
@@ -664,54 +664,14 @@ language = st.selectbox(
     key="language_selector"
 )
 
-# تحديث العنوان والأنماط
-st.markdown("""
-<style>
-div.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-    gap: 12px;
-}
-a.emoji-link {
-    text-decoration: none;
-    font-size: 32px !important;
-    transition: transform 0.3s ease;
-    display: inline-block;
-    cursor: pointer;
-    color: currentColor;
-    line-height: 1;
-}
-a.emoji-link:hover {
-    transform: scale(1.2) rotate(10deg);
-}
-span.title-text {
-    font-size: 32px;
-    font-weight: bold;
-    background: linear-gradient(120deg, #ffffff, #e2e2e2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-div.subtitle {
-    text-align: center;
-    color: #e0e0e0;
-    margin-bottom: 30px;
-    font-size: 18px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-title_html = f"""
-<div class="title-container" style="direction: {'rtl' if language == 'العربية' else 'ltr'}">
-    <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
-    <span class="title-text">{texts[language]["title"]}</span>
-</div>
-<div class="subtitle">{texts[language]["subtitle"]}</div>
-"""
-
-st.markdown(title_html, unsafe_allow_html=True)
+# Title and subtitle
+st.markdown(f'''
+    <div class="main-title" style="direction: {'rtl' if language == 'العربية' else 'ltr'}">
+        <a href="https://newyolkcalculator.streamlit.app/" class="chicken-emoji" target="_blank">🐔</a>
+        <div class="title-text">{texts[language]["title"]}</div>
+    </div>
+    <div class="subtitle-text">{texts[language]["subtitle"]}</div>
+''', unsafe_allow_html=True)
 
 # تحسين الواجهة
 st.markdown(
