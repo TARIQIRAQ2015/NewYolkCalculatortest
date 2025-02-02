@@ -540,7 +540,7 @@ texts = {
         "copy_results": "نسخ النتائج"
     },
     "English": {
-        "title": "Chicken Calculator - Newyolk",
+        "title": "Chicken Calculator - NewYolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
@@ -573,8 +573,8 @@ texts = {
         "copy_results": "Copy Results"
     },
     "Română": {
-        "title": "Calculator de Găini - Newyolk",
-        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
+        "title": "Calculator Găini - NewYolk",
+        "subtitle": "Calculați Profiturile din Găini și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
         "egg_price": "Preț Curent Ouă 🥚",
@@ -582,12 +582,12 @@ texts = {
         "save_prices": "Salvează Prețurile 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini",
-        "daily_rewards": "Recompense Zilnice",
+        "daily_rewards": "Recompensele Zilnice",
         "eggs_input": "Număr de Ouă 🥚",
         "days_input": "Număr de Zile 📅",
         "food_input": "Cantitate de Hrană Necesară 🌽",
-        "calculate_profits": "Calculează Profiturile 🧮",
-        "calculate_rewards": "Calculează Recompensele ✨",
+        "calculate_profits": "Calculați Profiturile 🧮",
+        "calculate_rewards": "Calculați Recompensele ✨",
         "reset": "Resetare 🔄",
         "value": "Valoare",
         "category": "Categorie",
@@ -673,10 +673,10 @@ st.markdown(
         }}
     </style>
     <div class="main-title">
-        حاسبة الدجاج - نيويولك
+        {texts[language]["title"]}
         <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
         <div class="subtitle">
-            حساب أرباح الدجاج والمكافآت اليومية
+            {texts[language]["subtitle"]}
         </div>
     </div>
     """,
