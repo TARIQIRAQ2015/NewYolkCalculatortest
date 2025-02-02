@@ -54,41 +54,55 @@ st.markdown("""
         
         /* تحسين القوائم المنسدلة */
         .stSelectbox > div > div {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 12px !important;
+            background: rgba(13, 17, 23, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
             color: #e2e2e2 !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             padding: 8px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
+        
         .stSelectbox > div > div:hover {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: rgba(13, 17, 23, 0.9) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div {
-            background: rgba(26, 26, 46, 0.95) !important;
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="popover"] > div {
+            background: rgba(13, 17, 23, 0.95) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
-        div[data-baseweb="select"] ul {
-            background: rgba(26, 26, 46, 0.95) !important;
-            backdrop-filter: blur(10px) !important;
+        div[data-baseweb="select"] ul,
+        div[data-baseweb="menu"] ul {
+            background: transparent !important;
+            padding: 4px !important;
         }
         
-        div[data-baseweb="select"] ul li {
+        div[data-baseweb="select"] ul li,
+        div[data-baseweb="menu"] ul li {
             color: #e2e2e2 !important;
             transition: all 0.2s ease;
+            border-radius: 4px !important;
+            margin: 2px 0 !important;
         }
         
-        div[data-baseweb="select"] ul li:hover {
+        div[data-baseweb="select"] ul li:hover,
+        div[data-baseweb="menu"] ul li:hover {
             background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* تحسين الأيقونة في القائمة المنسدلة */
+        .stSelectbox svg {
+            fill: #e2e2e2 !important;
         }
         
         /* تحسين ملخص النتائج */
@@ -172,6 +186,94 @@ st.markdown("""
             color: #6ba5d1 !important;
             text-decoration: none !important;
         }
+        
+        /* تحسين تأثير الضغط على الدجاجة */
+        .emoji-link {
+            font-size: 24px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-right: 8px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
+        }
+        
+        .emoji-link:active {
+            transform: scale(0.95);
+        }
+        
+        /* تحسين العنوان */
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(120deg, #ffffff, #e2e2e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #b8b8b8;
+            margin-bottom: 24px;
+        }
+        
+        /* تحسين أزرار الحساب */
+        .stButton > button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            color: #e2e2e2 !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stButton > button:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stButton > button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* تحسين حقول الإدخال */
+        .stNumberInput > div > div > input {
+            background: rgba(13, 17, 23, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
+            color: #e2e2e2 !important;
+            padding: 8px 12px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .stNumberInput > div > div > input:focus {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
+        }
+        
+        /* تحسين حقوق النشر */
+        .copyright {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            padding: 16px;
+            font-size: 14px;
+            margin-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -186,9 +288,9 @@ texts = {
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
-        "egg_price": "قيمة البيض الكلية 🥚",
-        "feed_price": "قيمة العلف الكلية 🌽",
-        "save_prices": "حفظ الأسعار الجديدة 💾",
+        "egg_price": "سعر البيض الحالي 🥚",
+        "feed_price": "سعر العلف الحالي 🌽",
+        "save_prices": "حفظ الأسعار 💾",
         "calculation_type": "نوع الحساب 📊",
         "chicken_profits": "أرباح الدجاج 🐔",
         "daily_rewards": "المكافآت اليومية ✨",
@@ -219,9 +321,9 @@ texts = {
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
-        "egg_price": "Total Egg Value 🥚",
-        "feed_price": "Total Feed Value 🌽",
-        "save_prices": "Save New Prices 💾",
+        "egg_price": "Current Egg Price 🥚",
+        "feed_price": "Current Feed Price 🌽",
+        "save_prices": "Save Prices 💾",
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits 🐔",
         "daily_rewards": "Daily Rewards ✨",
@@ -252,9 +354,9 @@ texts = {
         "subtitle": "Calculează Profiturile și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
-        "egg_price": "Valoarea Totală a Ouălor 🥚",
-        "feed_price": "Valoarea Totală a Furajului 🌽",
-        "save_prices": "Salvează Noile Prețuri 💾",
+        "egg_price": "Preț Curent Ouă 🥚",
+        "feed_price": "Preț Curent Furaje 🌽",
+        "save_prices": "Salvează Prețurile 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini 🐔",
         "daily_rewards": "Recompense Zilnice ✨",
@@ -348,7 +450,7 @@ st.markdown(
         }}
     </style>
     <div class="title">
-        <a href="https://testnewyolkcalculatortest.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        <a href="javascript:window.location.reload()" class="emoji-link">🐔</a>
         {texts[language]["title"]}
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
@@ -553,7 +655,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     ]
                 })
                 
-                # عرض الجدول النهائي أولاً
+                # تنسيق الجدول النهائي أولاً
                 df = df.round(2)
                 df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
                 st.table(df)
