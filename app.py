@@ -513,8 +513,8 @@ def format_decimal(number):
 texts = {
     "العربية": {
         "title": "حاسبة الدجاج - نيويولك",
-        "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "language": "اللغة 🌍",
+        "subtitle": "حاسبة تكلفة وأرباح مزارع الدجاج",
+        "language": "🇰🇼 العربية",
         "currency": "العملة 💵",
         "egg_price": "سعر البيض الحالي 🥚",
         "feed_price": "سعر العلف الحالي 🌽",
@@ -545,9 +545,9 @@ texts = {
         "copy_results": "نسخ النتائج"
     },
     "English": {
-        "title": "Chicken Calculator - Newyolk",
-        "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "language": "Language 🌍",
+        "title": "New Yolk Calculator",
+        "subtitle": "Poultry Farm Cost and Profit Calculator",
+        "language": "🇺🇸 English",
         "currency": "Currency 💵",
         "egg_price": "Current Egg Price 🥚",
         "feed_price": "Current Feed Price 🌽",
@@ -576,57 +576,16 @@ texts = {
         "am": "AM",
         "pm": "PM",
         "copy_results": "Copy Results"
-    },
-    "Română": {
-        "title": "Calculator de Găini - Newyolk",
-        "subtitle": "Calculează Profiturile și Recompensele Zilnice",
-        "language": "Limbă 🌍",
-        "currency": "Monedă 💵",
-        "egg_price": "Preț Curent Ouă 🥚",
-        "feed_price": "Preț Curent Furaje 🌽",
-        "save_prices": "Salvează Prețurile 💾",
-        "calculation_type": "Tipul Calculului 📊",
-        "chicken_profits": "Profituri din Găini 🐔",
-        "daily_rewards": "Recompense Zilnice ✨",
-        "eggs_input": "Număr de Ouă 🥚",
-        "days_input": "Număr de Zile 📅",
-        "food_input": "Cantitate de Hrană Necesară 🌽",
-        "calculate_profits": "Calculează Profiturile 🧮",
-        "calculate_rewards": "Calculează Recompensele ✨",
-        "reset": "Resetare 🔄",
-        "value": "Valoare",
-        "category": "Categorie",
-        "net_profit": "Profit Înainte de Chirie 📈",
-        "total_rewards": "Total Recompense ⭐",
-        "total_food_cost": "Total Furaje 🌽",
-        "first_year_rental": "Chirie 🏠",
-        "final_profit": "Profit Final 💰",
-        "calculation_time": "Ora Calculului ⏰",
-        "summary": "Rezumatul Rezultatelor ✨",
-        "usd_results": "Rezultate în USD 💵",
-        "iqd_results": "Rezultate în IQD 💵",
-        "daily_profit": "Profit Zilnic 📈",
-        "am": "AM",
-        "pm": "PM",
-        "copy_results": "Copiază Rezultatele"
     }
 }
 
-# اختيار اللغة
-language = st.selectbox(
-    "اللغة | Language | Limbă 🌍",
-    ["العربية", "English", "Română"],
-    key="language_selector"
-)
-
 # تحسين الواجهة
-st.markdown(
-    f"""
+st.markdown("""
     <style>
-        .stApp {{
+        .stApp {
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        .title {{
+        }
+        .title {
             font-size: 36px;
             font-weight: bold;
             text-align: center;
@@ -634,57 +593,55 @@ st.markdown(
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }}
-        .subtitle {{
+        }
+        .subtitle {
             font-size: 24px;
             text-align: center;
             margin-bottom: 30px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }}
-        .stButton {{
+        }
+        .stButton {
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: {'right' if language == 'العربية' else 'left'};
             font-size: 24px;
-        }}
-        .stSelectbox, .stTextInput {{
+        }
+        .stSelectbox, .stTextInput {
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: {'right' if language == 'العربية' else 'left'};
             font-size: 24px;
-        }}
-        .stButton button {{
+        }
+        .stButton button {
             font-size: 24px;
             padding: 10px 24px;
             border-radius: 12px;
             width: 100%;
-        }}
-        .stTable th, .stTable td {{
+        }
+        .stTable th, .stTable td {
             text-align: {'right' if language == 'العربية' else 'left'} !important;
             direction: {'rtl' if language == 'العربية' else 'ltr'} !important;
-        }}
-        [data-testid="stMarkdownContainer"] {{
+        }
+        [data-testid="stMarkdownContainer"] {
             direction: {'rtl' if language == 'العربية' else 'ltr'};
             text-align: {'right' if language == 'العربية' else 'left'};
-        }}
-        .element-container {{
+        }
+        .element-container {
             direction: {'rtl' if language == 'العربية' else 'ltr'};
-        }}
-        thead tr th:first-child {{
+        }
+        thead tr th:first-child {
             text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
-        tbody tr td:first-child {{
+        }
+        tbody tr td:first-child {
             text-align: {'right' if language == 'العربية' else 'left'} !important;
-        }}
+        }
     </style>
     <div class="title">
         <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
     <div class="subtitle">{texts[language]["subtitle"]}</div>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 # تحسين العنوان مع الإيموجي
 st.markdown("""
@@ -745,9 +702,9 @@ with col4:
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
-        st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+        st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
     else:
-        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
+        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "")
 
 # تحديث الأسعار بناءً على العملة
 if is_number(new_egg_price) and is_number(new_feed_price):
@@ -1098,7 +1055,7 @@ st.markdown("""
             letter-spacing: 0.5px;
         }
     </style>
-    <div class="copyright">By Tariq Al-Yaseen © 2025-2026</div>
+    <div class="copyright">By Tariq Al-Yaseen 2025-2026</div>
     """,
     unsafe_allow_html=True
 )
@@ -1172,3 +1129,69 @@ st.markdown(f"""
         <span class="title-text">{texts[language]["title"]}</span>
     </div>
 """, unsafe_allow_html=True)
+
+# تحديث اختيار اللغة
+language = st.selectbox(
+    "",
+    ["العربية", "English"],
+    format_func=lambda x: texts[x]["language"]
+)
+
+st.markdown("""
+    <style>
+        /* تحسين الإيموجي في العنوان */
+        .emoji-link {
+            text-decoration: none;
+            font-size: 32px !important;
+            padding: 0 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white !important;
+            line-height: 1;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Android Emoji" !important;
+        }
+        
+        .emoji-link:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            gap: 10px;
+            direction: rtl;
+        }
+        
+        .title-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* تحسين قائمة اختيار اللغة */
+        div[data-baseweb="select"] div {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Android Emoji" !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# تحديث العنوان
+st.markdown(f"""
+    <div class="title">
+        <a href="https://newyolkcalculator.streamlit.app/" target="_blank" class="emoji-link">🐔</a>
+        <span class="title-text">{texts[language]["title"]}</span>
+    </div>
+""", unsafe_allow_html=True)
+
+# تحديث اختيار اللغة
+language = st.selectbox(
+    "",
+    ["العربية", "English"],
+    format_func=lambda x: texts[x]["language"]
+)
