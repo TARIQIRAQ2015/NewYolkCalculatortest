@@ -1097,7 +1097,8 @@ if st.button(texts[language]["reset"], type="secondary"):
 # إضافة زر العودة إلى الأعلى
 st.markdown("""
     <style>
-        .back-to-top {
+        /* تنسيق زر العودة إلى الأعلى */
+        .scroll-to-top {
             position: fixed;
             bottom: 30px;
             left: 30px;
@@ -1105,7 +1106,7 @@ st.markdown("""
             height: 50px;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 50%;
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             color: white;
@@ -1115,19 +1116,53 @@ st.markdown("""
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        .back-to-top:hover {
+        .scroll-to-top:hover {
             transform: translateY(-5px);
             background: linear-gradient(135deg, #16213e, #0f3460);
             border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .back-to-top .arrow {
+        .scroll-to-top::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-to-top:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تأثير السهم المتحرك */
+        .scroll-to-top .arrow {
             transform: rotate(-90deg);
             display: inline-block;
+            transition: transform 0.3s ease;
             animation: bounce 2s infinite;
         }
 
@@ -1142,26 +1177,31 @@ st.markdown("""
                 transform: rotate(-90deg) translateX(-3px);
             }
         }
-
-        .back-to-top.show {
-            display: flex;
-        }
     </style>
 
-    <a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+    <script>
+        // إظهار/إخفاء الزر عند التمرير
+        window.addEventListener('scroll', function() {
+            var button = document.querySelector('.scroll-to-top');
+            if (window.scrollY > 300) {
+                button.style.display = 'flex';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+
+        // التمرير السلس إلى الأعلى
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <a onclick="scrollToTop()" class="scroll-to-top">
         <span class="arrow">➤</span>
     </a>
-
-    <script>
-        window.onscroll = function() {
-            var button = document.querySelector('.back-to-top');
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                button.classList.add('show');
-            } else {
-                button.classList.remove('show');
-            }
-        };
-    </script>
 """, unsafe_allow_html=True)
 
 # إضافة الأيقونات والروابط
