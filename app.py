@@ -867,38 +867,45 @@ if calculation_type == texts[language]["chicken_profits"]:
 
                 # إنشاء نص النتائج
                 results_text = f"""
-<div class="results-box">
-    <div class="results-header">{texts[language]["summary"]}</div>
-    <div class="results-row">
-        <span>{texts[language]["egg_price"]}:</span>
-        <span class="results-value">{format_decimal(total_egg_price)} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["feed_price"]}:</span>
-        <span class="results-value">{format_decimal(total_feed_cost)} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["net_profit"]}:</span>
-        <span class="results-value">{format_decimal(net_profit_before_rent)} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["first_year_rental"]}:</span>
-        <span class="results-value">{format_decimal(total_rent)} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["final_profit"]}:</span>
-        <span class="results-value">{format_decimal(net_profit)} <span class="currency">{currency}</span></span>
-    </div>
-</div>
-"""
+╔══════════════════════════════════════════════════════════════════╗
+║                  {texts[language]['summary']}                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['calculation_time']}: {date_str} {time_str}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['usd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
+║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} USD
+║ {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
+║ {texts[language]['final_profit']}: {format_decimal(net_profit)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
+║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * 1480)} IQD
+║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
+║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
+╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج
-                st.markdown(results_text, unsafe_allow_html=True)
-
+                # عرض النتائج في صندوق قابل للنسخ مع خلفية شفافة
+                st.markdown("""
+                    <style>
+                        .stCodeBlock {
+                            background: rgba(255, 255, 255, 0.05) !important;
+                            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                            border-radius: 10px !important;
+                            backdrop-filter: blur(10px) !important;
+                        }
+                        .stCodeBlock > div {
+                            background: transparent !important;
+                        }
+                        .stCodeBlock code {
+                            color: #e2e2e2 !important;
+                        }
+                    </style>
+                """, unsafe_allow_html=True)
+                st.code(results_text, language="text")
+                
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
                     texts[language]["category"]: [
@@ -990,27 +997,40 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
                 # إنشاء نص النتائج
                 results_text = f"""
-<div class="results-box">
-    <div class="results-header">{texts[language]["summary"]}</div>
-    <div class="results-row">
-        <span>{texts[language]["egg_price"]}:</span>
-        <span class="results-value">{format_decimal(rewards * float(new_egg_price))} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["feed_price"]}:</span>
-        <span class="results-value">{format_decimal(food * float(new_feed_price))} <span class="currency">{currency}</span></span>
-    </div>
-    <div class="results-divider"></div>
-    <div class="results-row">
-        <span>{texts[language]["daily_profit"]}:</span>
-        <span class="results-value">{format_decimal(daily_profit)} <span class="currency">{currency}</span></span>
-    </div>
-</div>
-"""
+╔══════════════════════════════════════════════════════════════════╗
+║                  {texts[language]['summary']}                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['calculation_time']}: {date_str} {time_str}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['usd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
+║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
+║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
+╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج
-                st.markdown(results_text, unsafe_allow_html=True)
+                # عرض النتائج في صندوق قابل للنسخ مع خلفية شفافة
+                st.markdown("""
+                    <style>
+                        .stCodeBlock {
+                            background: rgba(255, 255, 255, 0.05) !important;
+                            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                            border-radius: 10px !important;
+                            backdrop-filter: blur(10px) !important;
+                        }
+                        .stCodeBlock > div {
+                            background: transparent !important;
+                        }
+                        .stCodeBlock code {
+                            color: #e2e2e2 !important;
+                        }
+                    </style>
+                """, unsafe_allow_html=True)
+                st.code(results_text, language="text")
 
                 # إنشاء DataFrame للرسم البياني
                 df = pd.DataFrame({
