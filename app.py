@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
-import base64
 
 # تحسين الواجهة
 st.set_page_config(
@@ -10,9 +9,6 @@ st.set_page_config(
     page_icon="🐔",
     layout="wide"
 )
-
-# تعريف الشعار كـ Base64
-LOGO = """PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMCwxMCkgc2NhbGUoMC44KSI+CiAgICAgICAgPCEtLSBIZWFkIC0tPgogICAgICAgIDxwYXRoIGQ9Ik01MCA4MCBRNjUgNjUgNzAgNDUgUTc1IDI1IDYwIDE1IFE0NSA1IDMwIDE1IFExNSAyNSAyMCA0NSBRMjUgNjUgNDAgODAgWiIgCiAgICAgICAgICAgICAgZmlsbD0id2hpdGUiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIAogICAgICAgIDwhLS0gQmVhayAtLT4KICAgICAgICA8cGF0aCBkPSJNMzAgNDAgTDEwIDQ1IEwzMCA1MCBaIiAKICAgICAgICAgICAgICBmaWxsPSIjZmZiNzAwIiBzdHJva2U9Im5vbmUiLz4KICAgICAgICAKICAgICAgICA8IS0tIENvbWIgLS0+CiAgICAgICAgPHBhdGggZD0iTTQ1IDE1IEw1NSA1IEw2NSAxNSBMNzUgNSBMNzAgMjAgTDYwIDE1IFoiIAogICAgICAgICAgICAgIGZpbGw9IiNmZjQ0NDQiIHN0cm9rZT0ibm9uZSIvPgogICAgPC9nPgo8L3N2Zz4="""
 
 # إخفاء أزرار التحكم بالمظهر
 st.markdown("""
@@ -706,27 +702,26 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# إضافة نمط CSS للعنوان والشعار
+# عرض العنوان الرئيسي مع الإيموجي المتحرك
+st.markdown(f"""
+    <div class="main-title">
+        حاسبة الدجاج - نيويولك
+        <a href="https://newyolkcalculator.streamlit.app" target="_blank" class="chicken-emoji">🐔</a>
+    </div>
+    <div class="subtitle">
+        حساب أرباح الدجاج والمكافآت اليومية
+    </div>
+""", unsafe_allow_html=True)
+
+# إضافة نمط CSS للعنوان الفرعي
 st.markdown("""
     <style>
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2em;
-        }
-        
-        .logo {
-            width: 60px;
-            height: 60px;
-            margin-right: 15px;
-            filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.2));
-        }
-        
         .main-title {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #ffffff;
+            font-size: 3em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 0.3em !important;
+            color: #ffffff !important;
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
         
@@ -735,20 +730,23 @@ st.markdown("""
             text-align: center;
             margin-bottom: 2em;
             color: #e2e2e2;
-            opacity: 0.9;
+            opacity: 0.85;
+        }
+        
+        /* تأثير الإيموجي المتحرك */
+        .chicken-emoji {
+            display: inline-block;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 2s ease-in-out infinite;
+            text-decoration: none;
+        }
+        
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg);
         }
     </style>
-""", unsafe_allow_html=True)
-
-# عرض الشعار والعنوان
-st.markdown(f"""
-    <div class="logo-container">
-        <img src="data:image/svg+xml;base64,{LOGO}" class="logo" alt="Newyolk Logo">
-        <span class="main-title">حاسبة الدجاج - نيويولك</span>
-    </div>
-    <div class="subtitle">
-        حساب أرباح الدجاج والمكافآت اليومية
-    </div>
 """, unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
