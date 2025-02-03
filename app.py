@@ -20,22 +20,22 @@ texts = {
     "العربية": {
         "title": "حاسبة الدجاج - نيويولك",
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
-        "language": "اللغة 🌍",
-        "currency": "العملة 💵",
+        "language": "اللغة ",
+        "currency": "العملة ",
         "calculation_type": "نوع الحساب",
-        "chicken_profits": "أرباح الدجاج 📊",
-        "daily_rewards": "المكافآت اليومية 📈",
+        "chicken_profits": "أرباح الدجاج ",
+        "daily_rewards": "المكافآت اليومية ",
         "romania_calculation": "حساب رومانيا",
         "iraq_calculation": "حساب العراق",
         "egg_price": "سعر البيض",
         "feed_price": "سعر العلف",
-        "save_prices": "حفظ الأسعار ✅",
-        "eggs_count": "عدد البيض 🥚",
-        "days_count": "عدد الأيام 📅",
+        "save_prices": "حفظ الأسعار ",
+        "eggs_count": "عدد البيض ",
+        "days_count": "عدد الأيام ",
         "calculate": "حساب النتائج",
         "rewards_count": "عدد المكافآت",
         "food_count": "كمية العلف",
-        "results": "النتائج 📊",
+        "results": "النتائج ",
         "calculation_time": "وقت الحساب",
         "usd_results": "النتائج بالدولار",
         "iqd_results": "النتائج بالدينار العراقي",
@@ -50,22 +50,22 @@ texts = {
     "English": {
         "title": "Chicken Calculator - NewYolk",
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
-        "language": "Language 🌍",
-        "currency": "Currency 💵",
+        "language": "Language ",
+        "currency": "Currency ",
         "calculation_type": "Calculation Type",
-        "chicken_profits": "Chicken Profits 📊",
-        "daily_rewards": "Daily Rewards 📈",
+        "chicken_profits": "Chicken Profits ",
+        "daily_rewards": "Daily Rewards ",
         "romania_calculation": "Romania Calculation",
         "iraq_calculation": "Iraq Calculation",
         "egg_price": "Egg Price",
         "feed_price": "Feed Price",
-        "save_prices": "Save Prices ✅",
-        "eggs_count": "Eggs Count 🥚",
-        "days_count": "Days Count 📅",
+        "save_prices": "Save Prices ",
+        "eggs_count": "Eggs Count ",
+        "days_count": "Days Count ",
         "calculate": "Calculate Results",
         "rewards_count": "Rewards Count",
         "food_count": "Food Amount",
-        "results": "Results 📊",
+        "results": "Results ",
         "calculation_time": "Calculation Time",
         "usd_results": "Results in USD",
         "iqd_results": "Results in IQD",
@@ -174,18 +174,18 @@ col1, col2 = st.columns(2)
 
 with col1:
     currency = st.selectbox(
-        texts[language]["currency"],
+        texts[language]["currency"] + " 💵",
         ["USD", "IQD"]
     )
 
 with col2:
     calculation_type = st.selectbox(
-        texts[language]["calculation_type"],
+        texts[language]["calculation_type"] + " 📊",
         [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
     )
 
 # قسم تعديل الأسعار
-st.subheader(texts[language]["save_prices"])
+st.subheader(texts[language]["save_prices"] + " ✅")
 price_col1, price_col2 = st.columns(2)
 
 with price_col1:
@@ -212,8 +212,8 @@ else:
     egg_price_display = float(egg_price)
     feed_price_display = float(feed_price)
 
-st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
-st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
+st.write(f"{texts[language]['egg_price']} 🥚: {format_decimal(egg_price_display)} {currency}")
+st.write(f"{texts[language]['feed_price']} 🌾: {format_decimal(feed_price_display)} {currency}")
 
 # قسم الحسابات
 if calculation_type == texts[language]["chicken_profits"]:
@@ -240,23 +240,20 @@ if calculation_type == texts[language]["chicken_profits"]:
             net_profit_before_rent = total_egg_price - total_feed_cost
             net_profit = net_profit_before_rent - total_rent
             
-            # تحضير نص النتائج للنسخ
+            # عرض النتائج
+            st.success(texts[language]["results"] + " ✨")
+            
             if currency == "IQD":
                 conversion = 1480
             else:
                 conversion = 1
-            
-            results_text = f"""
-🥚 {texts[language]['total_eggs']}: {eggs}
-💰 {texts[language]['total_price']}: {format_decimal(total_egg_price * conversion)} {currency}
-🌾 {texts[language]['feed_price']}: {format_decimal(total_feed_cost * conversion)} {currency}
-📈 {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * conversion)} {currency}
-🏠 {texts[language]['first_year_rental']}: {format_decimal(total_rent * conversion)} {currency}
-💎 {texts[language]['final_profit']}: {format_decimal(net_profit * conversion)} {currency}
-"""
-            # عرض النتائج مع زر النسخ
-            st.code(results_text)
-            st.button("نسخ النتائج 📋", key="copy_results", on_click=lambda: st.write(results_text))
+                
+            st.write(f"🥚 {texts[language]['total_eggs']}: {eggs}")
+            st.write(f"💰 {texts[language]['total_price']}: {format_decimal(total_egg_price * conversion)} {currency}")
+            st.write(f"🌾 {texts[language]['feed_price']}: {format_decimal(total_feed_cost * conversion)} {currency}")
+            st.write(f"📈 {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * conversion)} {currency}")
+            st.write(f"🏠 {texts[language]['first_year_rental']}: {format_decimal(total_rent * conversion)} {currency}")
+            st.write(f"💎 {texts[language]['final_profit']}: {format_decimal(net_profit * conversion)} {currency}")
 
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"])
@@ -275,20 +272,17 @@ elif calculation_type == texts[language]["daily_rewards"]:
             # حساب الربح اليومي
             daily_profit = rewards * float(egg_price) - food * float(feed_price)
             
-            # تحضير نص النتائج للنسخ
+            # عرض النتائج
+            st.success(texts[language]["results"] + " ✨")
+            
             if currency == "IQD":
                 conversion = 1480
             else:
                 conversion = 1
-            
-            results_text = f"""
-🥚 {texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price) * conversion)} {currency}
-🌾 {texts[language]['feed_price']}: {format_decimal(food * float(feed_price) * conversion)} {currency}
-💎 {texts[language]['daily_profit']}: {format_decimal(daily_profit * conversion)} {currency}
-"""
-            # عرض النتائج مع زر النسخ
-            st.code(results_text)
-            st.button("نسخ النتائج 📋", key="copy_daily_results", on_click=lambda: st.write(results_text))
+                
+            st.write(f"🥚 {texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price) * conversion)} {currency}")
+            st.write(f"🌾 {texts[language]['feed_price']}: {format_decimal(food * float(feed_price) * conversion)} {currency}")
+            st.write(f"💎 {texts[language]['daily_profit']}: {format_decimal(daily_profit * conversion)} {currency}")
 
 # إضافة الأيقونات والروابط
 st.markdown("""
@@ -348,164 +342,3 @@ st.markdown("""
     """,
     unsafe_allow_html=True
 )
-
-st.markdown("""
-    <style>
-        /* تحسين الإيموجي في العنوان */
-        .emoji-link {
-            text-decoration: none;
-            font-size: 24px !important;
-            display: inline-block;
-            transition: all 0.3s ease;
-            line-height: 1;
-            cursor: pointer;
-            margin-right: 8px;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-        
-        .title-text {
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 32px;
-            font-weight: bold;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* تنسيق ملخص النتائج */
-        pre {
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #16213e
-            ) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            padding: 20px !important;
-            color: #ffffff !important;
-            font-family: 'Courier New', monospace !important;
-            position: relative !important;
-            overflow: hidden !important;
-            transition: all 0.3s ease !important;
-            animation: gradientBG 15s ease infinite !important;
-            background-size: 200% 200% !important;
-        }
-
-        pre:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        /* تأثير الخلفية المتحركة */
-        @keyframes gradientBG {
-            0% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-            50% {
-                background: linear-gradient(45deg, 
-                    #16213e,
-                    #0f3460,
-                    #1a1a2e
-                );
-                background-size: 200% 200%;
-                background-position: 100% 50%;
-            }
-            100% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* تنسيق العنوان الرئيسي */
-        .main-title {
-            font-size: 2.5em !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            margin-bottom: 1em !important;
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-    </style>
-""", unsafe_allow_html=True)
