@@ -1155,7 +1155,6 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* تحسين الإيموجي في العنوان */
         .emoji-link {
             text-decoration: none;
             font-size: 24px !important;
