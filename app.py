@@ -4,13 +4,6 @@ import plotly.express as px
 from datetime import datetime, timedelta
 
 # تحسين الواجهة
-st.set_page_config(
-    page_title="Chicken Calculator - Newyolk",
-    page_icon="🐔",
-    layout="wide"
-)
-
-# إخفاء أزرار التحكم بالمظهر
 st.markdown("""
     <style>
         /* إخفاء العناصر غير الضرورية */
@@ -18,6 +11,52 @@ st.markdown("""
         footer {visibility: hidden;}
         header {visibility: hidden;}
         [data-testid="stToolbar"] {visibility: hidden;}
+        
+        /* تصميم الشريط العلوي */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(22, 33, 62, 0.95));
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .top-bar select {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #e2e2e2;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .top-bar select:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .top-bar label {
+            color: #e2e2e2;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .top-bar label i {
+            font-size: 16px;
+        }
         
         /* تحسين المظهر العام والخلفية */
         .stApp {
@@ -30,26 +69,14 @@ st.markdown("""
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             color: #e2e2e2;
+            padding-top: 60px; /* إضافة مسافة للشريط العلوي */
         }
         
+        /* تأثير الخلفية المتحركة */
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-        
-        /* تأثير الإيموجي */
-        .emoji-link {
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 32px;
-            margin-right: 10px;
-        }
-        .emoji-link:hover {
-            transform: scale(1.5);
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
         
         /* تحسين القوائم المنسدلة */
@@ -67,37 +94,8 @@ st.markdown("""
             min-height: 48px !important;
             font-size: 16px !important;
             line-height: 1.5 !important;
-            position: relative;
-            overflow: hidden;
         }
         
-        /* تأثير الموجة عند التحويم */
-        .stSelectbox > div > div::before,
-        .stNumberInput > div > div::before,
-        div[data-baseweb="select"] ul li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: all 0.5s ease;
-            z-index: 1;
-        }
-        
-        .stSelectbox > div > div:hover::before,
-        .stNumberInput > div > div:hover::before,
-        div[data-baseweb="select"] ul li:hover::before {
-            left: 100%;
-        }
-        
-        /* تأثير التحويم */
         .stSelectbox > div > div:hover,
         .stNumberInput > div > div:hover {
             background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
@@ -124,7 +122,6 @@ st.markdown("""
             backdrop-filter: blur(10px);
         }
         
-        /* تحسين عناصر القائمة */
         div[data-baseweb="select"] ul li {
             background: transparent !important;
             transition: all 0.3s ease;
@@ -549,9 +546,26 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+# إنشاء الشريط العلوي
+st.markdown("""
+    <div class="top-bar">
+        <label>
+            <i>🌍</i>
+            <select id="language-select" onchange="this.form.submit()">
+                <option value="العربية">العربية</option>
+                <option value="English">English</option>
+                <option value="Română">Română</option>
+            </select>
+        </label>
+        <label>
+            <i>🏦</i>
+            <select id="calculation-type-select" onchange="this.form.submit()">
+                <option value="romania">حساب رومانيا</option>
+                <option value="iraq">حساب العراق</option>
+            </select>
+        </label>
+    </div>
+""", unsafe_allow_html=True)
 
 # تعريف النصوص بجميع اللغات
 texts = {
@@ -672,10 +686,19 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox(texts["العربية"]["language_selector"] if 'language' in locals() else "اختر اللغة:", ["العربية", "English", "Română"], index=0)
+language = st.selectbox(
+    "اللغة | Language | Limbă 🌍",
+    ["العربية", "English", "Română"],
+    key="language_selector",
+    label_visibility="collapsed"
+)
 
 # إضافة اختيار نوع الحساب (رومانيا/العراق)
-calculation_country = st.selectbox(texts[language]["country_selector"], [texts[language]["romania_calculation"], texts[language]["iraq_calculation"]])
+calculation_country = st.selectbox(
+    texts[language]["country_selector"],
+    [texts[language]["romania_calculation"], texts[language]["iraq_calculation"]],
+    label_visibility="collapsed"
+)
 
 # تحديد الأسعار بناءً على نوع الحساب
 if calculation_country == texts[language]["iraq_calculation"]:
@@ -1309,6 +1332,35 @@ st.markdown("""
             100% {
                 opacity: 0.3;
             }
+        }
+        
+        /* تنسيق العنوان الرئيسي */
+        .main-title {
+            font-size: 2.5em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 1em !important;
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        /* تأثير الإيموجي المتحرك */
+        .chicken-emoji {
+            display: inline-block;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
     </style>
 """, unsafe_allow_html=True)
