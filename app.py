@@ -557,6 +557,11 @@ def format_decimal(number):
 texts = {
     "العربية": {
         "title": "حاسبة الدجاج - نيويولك",
+        "language_selector": "اختر اللغة:",
+        "calculation_type_selector": "اختر نوع الحساب:",
+        "country_selector": "اختر نوع الحساب:",  # إضافة جديدة
+        "romania_calculation": "حساب رومانيا",    # إضافة جديدة
+        "iraq_calculation": "حساب العراق",        # إضافة جديدة
         "subtitle": "حساب أرباح الدجاج والمكافآت اليومية",
         "language": "اللغة 🌍",
         "currency": "العملة 💵",
@@ -590,6 +595,11 @@ texts = {
     },
     "English": {
         "title": "Chicken Calculator - NewYolk",
+        "language_selector": "Select Language:",
+        "calculation_type_selector": "Select Calculation Type:",
+        "country_selector": "Select Country:",  # إضافة جديدة
+        "romania_calculation": "Romania Calculation",    # إضافة جديدة
+        "iraq_calculation": "Iraq Calculation",        # إضافة جديدة
         "subtitle": "Calculate Chicken Profits and Daily Rewards",
         "language": "Language 🌍",
         "currency": "Currency 💵",
@@ -623,6 +633,11 @@ texts = {
     },
     "Română": {
         "title": "Calculator Găini - NewYolk",
+        "language_selector": "Selectați Limba:",
+        "calculation_type_selector": "Selectați Tipul Calculului:",
+        "country_selector": "Selectați Țara:",  # إضافة جديدة
+        "romania_calculation": "Calcul România",    # إضافة جديدة
+        "iraq_calculation": "Calcul Irak",        # إضافة جديدة
         "subtitle": "Calculați Profiturile din Găini și Recompensele Zilnice",
         "language": "Limbă 🌍",
         "currency": "Monedă 💵",
@@ -657,11 +672,18 @@ texts = {
 }
 
 # اختيار اللغة
-language = st.selectbox(
-    "اللغة | Language | Limbă 🌍",
-    ["العربية", "English", "Română"],
-    key="language_selector"
-)
+language = st.selectbox(texts["العربية"]["language_selector"] if 'language' in locals() else "اختر اللغة:", ["العربية", "English", "Română"], index=0)
+
+# إضافة اختيار نوع الحساب (رومانيا/العراق)
+calculation_country = st.selectbox(texts[language]["country_selector"], [texts[language]["romania_calculation"], texts[language]["iraq_calculation"]])
+
+# تحديد الأسعار بناءً على نوع الحساب
+if calculation_country == texts[language]["iraq_calculation"]:
+    default_egg_price = 0.1219
+    default_feed_price = 0.0191
+else:  # رومانيا
+    default_egg_price = 0.1450
+    default_feed_price = 0.0220
 
 # تحسين الواجهة
 st.markdown(
@@ -765,7 +787,7 @@ with col1:
 
 with col2:
     calculation_type = st.selectbox(
-        texts[language]["calculation_type"],
+        texts[language]["calculation_type_selector"],
         [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
     )
 
@@ -782,31 +804,37 @@ st.subheader(texts[language]["save_prices"])
 col3, col4 = st.columns(2)
 
 with col3:
-    new_egg_price = st.text_input(
+    egg_price = st.number_input(
         texts[language]["egg_price"],
-        value="0.1155"
+        min_value=0.0,
+        value=default_egg_price,
+        format="%.4f",
+        step=0.0001
     )
 
 with col4:
-    new_feed_price = st.text_input(
+    feed_price = st.number_input(
         texts[language]["feed_price"],
-        value="0.0189"
+        min_value=0.0,
+        value=default_feed_price,
+        format="%.4f",
+        step=0.0001
     )
 
 if st.button(texts[language]["save_prices"], type="secondary"):
-    if not is_number(new_egg_price) or not is_number(new_feed_price):
+    if not is_number(egg_price) or not is_number(feed_price):
         st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
     else:
         st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
 
 # تحديث الأسعار بناءً على العملة
-if is_number(new_egg_price) and is_number(new_feed_price):
+if is_number(egg_price) and is_number(feed_price):
     if currency == "IQD":
-        egg_price_display = float(new_egg_price) * 1480
-        feed_price_display = float(new_feed_price) * 1480
+        egg_price_display = float(egg_price) * 1480
+        feed_price_display = float(feed_price) * 1480
     else:
-        egg_price_display = float(new_egg_price)
-        feed_price_display = float(new_feed_price)
+        egg_price_display = float(egg_price)
+        feed_price_display = float(feed_price)
 
     st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
     st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
@@ -887,8 +915,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
             else:
                 # حساب الأرباح
-                total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
-                total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
+                total_egg_price = eggs * float(egg_price)  # ضرب عدد البيض في سعر البيض الحالي
+                total_feed_cost = (days * 2) * float(feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
                 
                 # حساب الإيجار
                 total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
@@ -1016,7 +1044,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
             else:
                 # حساب الربح اليومي
-                daily_profit = rewards * float(new_egg_price) - food * float(new_feed_price)
+                daily_profit = rewards * float(egg_price) - food * float(feed_price)
 
                 # تحويل العملة
                 if currency == "IQD":
@@ -1035,13 +1063,13 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price))} USD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(feed_price))} USD
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price) * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(food * float(feed_price) * 1480)} IQD
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
@@ -1056,8 +1084,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
-                        rewards * float(new_egg_price),
-                        food * float(new_feed_price),
+                        rewards * float(egg_price),
+                        food * float(feed_price),
                         daily_profit
                     ]
                 })
@@ -1075,8 +1103,8 @@ elif calculation_type == texts[language]["daily_rewards"]:
                         f"💰 {texts[language]['daily_profit']}"
                     ],
                     texts[language]["value"]: [
-                        float(str(rewards * float(new_egg_price)).replace(currency, "").strip()),
-                        float(str(food * float(new_feed_price)).replace(currency, "").strip()),
+                        float(str(rewards * float(egg_price)).replace(currency, "").strip()),
+                        float(str(food * float(feed_price)).replace(currency, "").strip()),
                         float(str(daily_profit).replace(currency, "").strip())
                     ]
                 })
