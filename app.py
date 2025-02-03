@@ -240,20 +240,23 @@ if calculation_type == texts[language]["chicken_profits"]:
             net_profit_before_rent = total_egg_price - total_feed_cost
             net_profit = net_profit_before_rent - total_rent
             
-            # عرض النتائج
-            st.success(texts[language]["results"])
-            
+            # تحضير نص النتائج للنسخ
             if currency == "IQD":
                 conversion = 1480
             else:
                 conversion = 1
-                
-            st.write(f"{texts[language]['total_eggs']}: {eggs}")
-            st.write(f"{texts[language]['total_price']}: {format_decimal(total_egg_price * conversion)} {currency}")
-            st.write(f"{texts[language]['feed_price']}: {format_decimal(total_feed_cost * conversion)} {currency}")
-            st.write(f"{texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * conversion)} {currency}")
-            st.write(f"{texts[language]['first_year_rental']}: {format_decimal(total_rent * conversion)} {currency}")
-            st.write(f"{texts[language]['final_profit']}: {format_decimal(net_profit * conversion)} {currency}")
+            
+            results_text = f"""
+🥚 {texts[language]['total_eggs']}: {eggs}
+💰 {texts[language]['total_price']}: {format_decimal(total_egg_price * conversion)} {currency}
+🌾 {texts[language]['feed_price']}: {format_decimal(total_feed_cost * conversion)} {currency}
+📈 {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * conversion)} {currency}
+🏠 {texts[language]['first_year_rental']}: {format_decimal(total_rent * conversion)} {currency}
+💎 {texts[language]['final_profit']}: {format_decimal(net_profit * conversion)} {currency}
+"""
+            # عرض النتائج مع زر النسخ
+            st.code(results_text)
+            st.button("نسخ النتائج 📋", key="copy_results", on_click=lambda: st.write(results_text))
 
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"])
@@ -272,17 +275,20 @@ elif calculation_type == texts[language]["daily_rewards"]:
             # حساب الربح اليومي
             daily_profit = rewards * float(egg_price) - food * float(feed_price)
             
-            # عرض النتائج
-            st.success(texts[language]["results"])
-            
+            # تحضير نص النتائج للنسخ
             if currency == "IQD":
                 conversion = 1480
             else:
                 conversion = 1
-                
-            st.write(f"{texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price) * conversion)} {currency}")
-            st.write(f"{texts[language]['feed_price']}: {format_decimal(food * float(feed_price) * conversion)} {currency}")
-            st.write(f"{texts[language]['daily_profit']}: {format_decimal(daily_profit * conversion)} {currency}")
+            
+            results_text = f"""
+🥚 {texts[language]['egg_price']}: {format_decimal(rewards * float(egg_price) * conversion)} {currency}
+🌾 {texts[language]['feed_price']}: {format_decimal(food * float(feed_price) * conversion)} {currency}
+💎 {texts[language]['daily_profit']}: {format_decimal(daily_profit * conversion)} {currency}
+"""
+            # عرض النتائج مع زر النسخ
+            st.code(results_text)
+            st.button("نسخ النتائج 📋", key="copy_daily_results", on_click=lambda: st.write(results_text))
 
 # إضافة الأيقونات والروابط
 st.markdown("""
