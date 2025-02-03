@@ -564,7 +564,8 @@ texts = {
         "feed_price": "سعر العلف الحالي 🌽",
         "save_prices": "حفظ الأسعار 💾",
         "calculation_type": "نوع الحساب 📊",
-        "chicken_profits": "أرباح الدجاج",
+        "chicken_profits": "حساب رومانيا",
+        "iraq_calculation": "حساب العراق",
         "daily_rewards": "المكافآت اليومية",
         "eggs_input": "عدد البيض 🥚",
         "days_input": "عدد الأيام 📅",
@@ -586,7 +587,21 @@ texts = {
         "daily_profit": "الربح اليومي 📈",
         "am": "صباحاً",
         "pm": "مساءً",
-        "copy_results": "نسخ النتائج"
+        "copy_results": "نسخ النتائج",
+        "chicken_count": "عدد الدجاج",
+        "feed_price_per_ton": "سعر العلف للطن",
+        "chick_price": "سعر الدجاج الصغير",
+        "feed_consumption": "استهلاك العلف",
+        "selling_price": "سعر البيع",
+        "mortality_rate": "معدل الوفيات",
+        "total_chickens": "إجمالي الدجاج",
+        "surviving_chickens": "عدد الدجاج الناجي",
+        "mortality_count": "عدد الوفيات",
+        "total_feed_consumed": "إجمالي استهلاك العلف",
+        "feed_cost": "تكلفة العلف",
+        "chick_cost": "تكلفة الدجاج الصغير",
+        "total_revenue": "إجمالي الإيرادات",
+        "net_profit": "صافي الربح"
     },
     "English": {
         "title": "Chicken Calculator - NewYolk",
@@ -598,6 +613,7 @@ texts = {
         "save_prices": "Save Prices 💾",
         "calculation_type": "Calculation Type 📊",
         "chicken_profits": "Chicken Profits",
+        "iraq_calculation": "Iraq Calculation",
         "daily_rewards": "Daily Rewards",
         "eggs_input": "Number of Eggs 🥚",
         "days_input": "Number of Days 📅",
@@ -619,7 +635,21 @@ texts = {
         "daily_profit": "Daily Profit 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copy Results"
+        "copy_results": "Copy Results",
+        "chicken_count": "Chicken Count",
+        "feed_price_per_ton": "Feed Price per Ton",
+        "chick_price": "Chick Price",
+        "feed_consumption": "Feed Consumption",
+        "selling_price": "Selling Price",
+        "mortality_rate": "Mortality Rate",
+        "total_chickens": "Total Chickens",
+        "surviving_chickens": "Surviving Chickens",
+        "mortality_count": "Mortality Count",
+        "total_feed_consumed": "Total Feed Consumed",
+        "feed_cost": "Feed Cost",
+        "chick_cost": "Chick Cost",
+        "total_revenue": "Total Revenue",
+        "net_profit": "Net Profit"
     },
     "Română": {
         "title": "Calculator Găini - NewYolk",
@@ -631,6 +661,7 @@ texts = {
         "save_prices": "Salvează Prețurile 💾",
         "calculation_type": "Tipul Calculului 📊",
         "chicken_profits": "Profituri din Găini",
+        "iraq_calculation": "Calculul Irakului",
         "daily_rewards": "Recompensele Zilnice",
         "eggs_input": "Număr de Ouă 🥚",
         "days_input": "Număr de Zile 📅",
@@ -652,7 +683,21 @@ texts = {
         "daily_profit": "Profit Zilnic 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copiază Rezultatele"
+        "copy_results": "Copiază Rezultatele",
+        "chicken_count": "Numărul de Găini",
+        "feed_price_per_ton": "Prețul Furajelor pe Tonă",
+        "chick_price": "Prețul Puiului",
+        "feed_consumption": "Consumul de Furaje",
+        "selling_price": "Prețul de Vânzare",
+        "mortality_rate": "Rata de Mortalitate",
+        "total_chickens": "Total Găini",
+        "surviving_chickens": "Găini Supraviețuitoare",
+        "mortality_count": "Numărul de Decese",
+        "total_feed_consumed": "Total Consum de Furaje",
+        "feed_cost": "Costul Furajelor",
+        "chick_cost": "Costul Puiului",
+        "total_revenue": "Venituri Totale",
+        "net_profit": "Profit Net"
     }
 }
 
@@ -766,7 +811,7 @@ with col1:
 with col2:
     calculation_type = st.selectbox(
         texts[language]["calculation_type"],
-        [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
+        [texts[language]["chicken_profits"], texts[language]["iraq_calculation"], texts[language]["daily_rewards"]]
     )
 
 # دالة التحقق من المدخلات
@@ -989,6 +1034,49 @@ if calculation_type == texts[language]["chicken_profits"]:
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
 
+elif calculation_type == texts[language]["iraq_calculation"]:
+    st.subheader(texts[language]["iraq_calculation"] + " 📈")
+    col9, col10 = st.columns(2)
+
+    with col9:
+        chicken_count = st.number_input(texts[language]["chicken_count"], min_value=1, value=1000)
+        feed_price = st.number_input(texts[language]["feed_price_per_ton"], min_value=0.0, value=700.0)
+        chick_price = st.number_input(texts[language]["chick_price"], min_value=0.0, value=0.750)
+        
+    with col10:
+        feed_consumption = st.number_input(texts[language]["feed_consumption"], min_value=0.0, value=3.8)
+        selling_price = st.number_input(texts[language]["selling_price"], min_value=0.0, value=2.5)
+        mortality_rate = st.number_input(texts[language]["mortality_rate"], min_value=0.0, max_value=100.0, value=3.0)
+
+    if st.button(texts[language]["calculate"]):
+        # حساب النتائج
+        mortality_count = int(chicken_count * (mortality_rate / 100))
+        surviving_chickens = chicken_count - mortality_count
+        
+        total_feed_consumed = surviving_chickens * feed_consumption
+        total_feed_cost = (total_feed_consumed / 1000) * feed_price
+        total_chick_cost = chicken_count * chick_price
+        
+        total_revenue = surviving_chickens * selling_price
+        net_profit_before_rent = total_revenue - (total_feed_cost + total_chick_cost)
+        
+        # عرض النتائج
+        results_text = f"""
+╔══════════════════════════════════════════════════════════════════╗
+║                         نتائج حساب العراق                        ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['total_chickens']}: {format_decimal(chicken_count)} 
+║ {texts[language]['surviving_chickens']}: {format_decimal(surviving_chickens)}
+║ {texts[language]['mortality_count']}: {format_decimal(mortality_count)}
+║ {texts[language]['total_feed_consumed']}: {format_decimal(total_feed_consumed)} كغم
+║ {texts[language]['feed_cost']}: {format_decimal(total_feed_cost)} $
+║ {texts[language]['chick_cost']}: {format_decimal(total_chick_cost)} $
+║ {texts[language]['total_revenue']}: {format_decimal(total_revenue)} $
+║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} $
+╚══════════════════════════════════════════════════════════════════╝"""
+        
+        st.text(results_text)
+        
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
     col7, col8 = st.columns(2)
