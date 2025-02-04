@@ -753,11 +753,70 @@ with col4:
         value="0.0189"
     )
 
+st.markdown("""
+    <style>
+        /* تنسيق رسائل النجاح */
+        .success-message {
+            background: linear-gradient(135deg, rgba(20, 30, 48, 0.95), rgba(5, 8, 15, 0.95));
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            border-radius: 10px;
+            color: rgba(218, 165, 32, 0.9);
+            padding: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(218, 165, 32, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .success-message::before {
+            content: '✓';
+            font-size: 1.4em;
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.9), rgba(218, 165, 32, 0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 10px;
+        }
+
+        .success-message::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(218, 165, 32, 0.1),
+                transparent
+            );
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
         st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
     else:
-        st.success("تم حفظ الأسعار الجديدة بنجاح! ✅" if language == "العربية" else "New prices saved successfully! ✅" if language == "English" else "Prețurile noi au fost salvate cu succes! ✅")
+        st.markdown("""
+            <div class="success-message">
+                تم حفظ الأسعار الجديدة بنجاح!
+            </div>
+        """, unsafe_allow_html=True)
 
 # تحديث الأسعار بناءً على العملة
 if is_number(new_egg_price) and is_number(new_feed_price):
@@ -1057,7 +1116,11 @@ elif calculation_type == texts[language]["daily_rewards"]:
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
-    st.success("تم إعادة التعيين بنجاح! ✅" if language == "العربية" else "Reset successful! ✅" if language == "English" else "")
+    st.markdown("""
+        <div class="success-message">
+            تم إعادة التعيين بنجاح!
+        </div>
+    """, unsafe_allow_html=True)
 
 # إضافة الأيقونات والروابط
 st.markdown("""
@@ -1120,111 +1183,173 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* تنسيق رسائل النجاح والتنبيهات */
-        .stAlert {
-            background: linear-gradient(135deg, rgba(20, 30, 48, 0.95), rgba(5, 8, 15, 0.95)) !important;
-            border: 1px solid rgba(218, 165, 32, 0.3) !important;
-            border-radius: 12px !important;
-            color: #E6E9F0 !important;
-            padding: 1rem !important;
-            backdrop-filter: blur(10px) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.2),
-                0 0 30px rgba(218, 165, 32, 0.1),
-                inset 0 0 20px rgba(218, 165, 32, 0.05) !important;
-            animation: fadeIn 0.5s ease-out !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-
-        .stAlert::before {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            height: 1px !important;
-            background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.5), transparent) !important;
-            animation: shimmer 2s infinite !important;
-        }
-
-        /* تنسيق رسالة النجاح */
-        .element-container:has(.stAlert) div[data-testid="stMarkdownContainer"] > p {
+        /* تنسيق زر التمرير للأعلى */
+        .scroll-to-top {
+            position: fixed !important;
+            bottom: min(30px, 5vh) !important;
+            left: min(30px, 5vw) !important;
+            width: clamp(45px, 5vw + 30px, 65px) !important;
+            height: clamp(45px, 5vw + 30px, 65px) !important;
+            background: linear-gradient(
+                135deg,
+                rgba(20, 30, 48, 0.98),
+                rgba(5, 8, 15, 0.98)
+            ) !important;
+            border: 2px solid rgba(218, 165, 32, 0.7) !important;
+            border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
-            gap: 10px !important;
-            margin: 0 !important;
-            font-size: clamp(14px, 1vw + 12px, 16px) !important;
-        }
-
-        .element-container:has(.stAlert) div[data-testid="stMarkdownContainer"] > p::before {
-            content: '✓' !important;
-            display: inline-flex !important;
-            align-items: center !important;
             justify-content: center !important;
-            width: 24px !important;
-            height: 24px !important;
-            background: rgba(218, 165, 32, 0.2) !important;
-            border-radius: 50% !important;
-            color: rgba(218, 165, 32, 1) !important;
+            cursor: pointer !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1),
+                0 0 0 2px rgba(20, 30, 48, 0.5) !important;
+            backdrop-filter: blur(15px) !important;
+            z-index: 9999 !important;
+            opacity: 0.98 !important;
+            text-decoration: none !important;
+            overflow: hidden !important;
+            transform-style: preserve-3d !important;
+            perspective: 1000px !important;
+        }
+
+        .scroll-to-top::before {
+            content: '↑' !important;
+            color: rgba(218, 165, 32, 0.9) !important;
+            font-size: clamp(24px, 2.5vw + 16px, 32px) !important;
             font-weight: bold !important;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.3) !important;
-            animation: pulse 2s infinite !important;
+            text-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(218, 165, 32, 0.5),
+                0 0 30px rgba(218, 165, 32, 0.3) !important;
+            transition: all 0.4s ease !important;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .scroll-to-top::after {
+            content: '' !important;
+            position: absolute !important;
+            inset: -100% !important;
+            background: radial-gradient(
+                circle at center,
+                rgba(218, 165, 32, 0.15),
+                transparent 70%
+            ) !important;
+            animation: rotateGlow 8s linear infinite !important;
+            filter: blur(5px) !important;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(3deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-4px) rotate(-3deg); }
+            100% { transform: translateY(0) rotate(0deg); }
         }
 
-        /* تنسيق الرسائل حسب نوعها */
-        .stAlert.success {
-            border-left: 3px solid rgba(218, 165, 32, 0.8) !important;
+        .scroll-to-top {
+            animation: float 6s ease-in-out infinite !important;
         }
 
-        .stAlert.warning {
-            border-left: 3px solid rgba(255, 170, 0, 0.8) !important;
+        .scroll-to-top:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 
+                0 8px 30px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4),
+                inset 0 0 30px rgba(218, 165, 32, 0.2),
+                0 0 0 2px rgba(218, 165, 32, 0.5) !important;
+            border-color: rgba(218, 165, 32, 0.9) !important;
+            opacity: 1 !important;
         }
 
-        .stAlert.error {
-            border-left: 3px solid rgba(255, 87, 87, 0.8) !important;
+        .scroll-to-top:hover::before {
+            transform: scale(1.2) translateY(-3px) !important;
+            text-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(218, 165, 32, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4) !important;
+            color: rgba(218, 165, 32, 1) !important;
+        }
+
+        /* تنسيق التلميح */
+        .scroll-to-top-wrapper {
+            position: relative !important;
+            display: inline-block !important;
+        }
+
+        .scroll-to-top-wrapper::after {
+            content: 'الذهاب إلى الأعلى' !important;
+            position: absolute !important;
+            bottom: 100% !important;
+            left: 50% !important;
+            transform: translateX(-50%) scale(0.95) translateZ(0) !important;
+            padding: clamp(8px, 1vw + 8px, 15px) clamp(12px, 1.5vw + 10px, 20px) !important;
+            background: linear-gradient(
+                135deg,
+                rgba(20, 30, 48, 0.98),
+                rgba(5, 8, 15, 0.98)
+            ) !important;
+            color: rgba(218, 165, 32, 0.9) !important;
+            border-radius: 10px !important;
+            font-size: clamp(14px, 1vw + 12px, 18px) !important;
+            font-weight: 600 !important;
+            white-space: nowrap !important;
+            opacity: 0 !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            pointer-events: none !important;
+            border: 1px solid rgba(218, 165, 32, 0.3) !important;
+            backdrop-filter: blur(15px) !important;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1) !important;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                0 0 10px rgba(218, 165, 32, 0.4) !important;
+        }
+
+        .scroll-to-top-wrapper:hover::after {
+            opacity: 1 !important;
+            bottom: 140% !important;
+            transform: translateX(-50%) scale(1) translateZ(0) !important;
+            border-color: rgba(218, 165, 32, 0.5) !important;
         }
 
         /* تحسين التجاوب مع الشاشات الصغيرة */
         @media (max-width: 768px) {
-            .stAlert {
-                padding: 0.8rem !important;
-                margin: 0.5rem 0 !important;
+            .scroll-to-top {
+                bottom: min(20px, 3vh) !important;
+                left: min(20px, 3vw) !important;
+            }
+
+            .scroll-to-top-wrapper::after {
+                display: none !important;
             }
         }
     </style>
+
+    <div class="scroll-to-top-wrapper">
+        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    </div>
 """, unsafe_allow_html=True)
 
-# تحديث رسائل النجاح
-def show_success_message(message):
-    st.markdown(f'<div class="stAlert success">{message}</div>', unsafe_allow_html=True)
-
-def show_warning_message(message):
-    st.markdown(f'<div class="stAlert warning">{message}</div>', unsafe_allow_html=True)
-
-def show_error_message(message):
-    st.markdown(f'<div class="stAlert error">{message}</div>', unsafe_allow_html=True)
-
-# استخدام الدوال الجديدة لعرض الرسائل
-if st.session_state.get('success_message'):
-    show_success_message(st.session_state.success_message)
-    st.session_state.success_message = None
+st.markdown("""
+    <script>
+        function scrollToTop() {
+            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
+        }
+    </script>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+""", unsafe_allow_html=True)
 
 st.markdown("""
     <style>
@@ -1363,294 +1488,3 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
-
-st.markdown("""
-    <script>
-        function scrollToTop() {
-            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
-        }
-    </script>
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* الأزرار */
-        .scroll-to-top {
-            position: fixed !important;
-            bottom: min(30px, 5vh) !important;
-            left: min(30px, 5vw) !important;
-            width: clamp(45px, 5vw + 30px, 65px) !important;
-            height: clamp(45px, 5vw + 30px, 65px) !important;
-            background: linear-gradient(
-                135deg,
-                rgba(20, 30, 48, 0.98),
-                rgba(5, 8, 15, 0.98)
-            ) !important;
-            border: 2px solid rgba(218, 165, 32, 0.7) !important;
-            border-radius: 50% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(218, 165, 32, 0.2),
-                inset 0 0 20px rgba(218, 165, 32, 0.1),
-                0 0 0 2px rgba(20, 30, 48, 0.5) !important;
-            backdrop-filter: blur(15px) !important;
-            z-index: 9999 !important;
-            opacity: 0.98 !important;
-            text-decoration: none !important;
-            overflow: hidden !important;
-            transform-style: preserve-3d !important;
-            perspective: 1000px !important;
-        }
-
-        .scroll-to-top::before {
-            content: '↑' !important;
-            color: rgba(218, 165, 32, 0.9) !important;
-            font-size: clamp(24px, 2.5vw + 16px, 32px) !important;
-            font-weight: bold !important;
-            text-shadow: 
-                0 2px 5px rgba(0, 0, 0, 0.5),
-                0 0 15px rgba(218, 165, 32, 0.5),
-                0 0 30px rgba(218, 165, 32, 0.3) !important;
-            transition: all 0.4s ease !important;
-            position: relative !important;
-            z-index: 2 !important;
-        }
-
-        .scroll-to-top::after {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: -100% !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: radial-gradient(
-                circle at center,
-                rgba(218, 165, 32, 0.15),
-                transparent 70%
-            ) !important;
-            animation: rotateGlow 8s linear infinite !important;
-            filter: blur(5px) !important;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-8px) rotate(3deg); }
-            50% { transform: translateY(0) rotate(0deg); }
-            75% { transform: translateY(-4px) rotate(-3deg); }
-            100% { transform: translateY(0) rotate(0deg); }
-        }
-
-        .scroll-to-top {
-            animation: float 6s ease-in-out infinite !important;
-        }
-
-        .scroll-to-top:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 
-                0 8px 30px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(218, 165, 32, 0.4),
-                inset 0 0 30px rgba(218, 165, 32, 0.2),
-                0 0 0 2px rgba(218, 165, 32, 0.5) !important;
-            border-color: rgba(218, 165, 32, 0.9) !important;
-            opacity: 1 !important;
-        }
-
-        .scroll-to-top:hover::before {
-            transform: scale(1.2) translateY(-3px) !important;
-            text-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(218, 165, 32, 0.6),
-                0 0 40px rgba(218, 165, 32, 0.4) !important;
-            color: rgba(218, 165, 32, 1) !important;
-        }
-
-        /* تنسيق التلميح */
-        .scroll-to-top-wrapper {
-            position: relative !important;
-            display: inline-block !important;
-        }
-
-        .scroll-to-top-wrapper::after {
-            content: 'الذهاب إلى الأعلى' !important;
-            position: absolute !important;
-            bottom: 100% !important;
-            left: 50% !important;
-            transform: translateX(-50%) scale(0.95) translateZ(0) !important;
-            padding: clamp(8px, 1vw + 8px, 15px) clamp(12px, 1.5vw + 10px, 20px) !important;
-            background: linear-gradient(
-                135deg,
-                rgba(20, 30, 48, 0.98),
-                rgba(5, 8, 15, 0.98)
-            ) !important;
-            color: rgba(218, 165, 32, 0.9) !important;
-            border-radius: 10px !important;
-            font-size: clamp(14px, 1vw + 12px, 18px) !important;
-            font-weight: 600 !important;
-            white-space: nowrap !important;
-            opacity: 0 !important;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            pointer-events: none !important;
-            border: 1px solid rgba(218, 165, 32, 0.3) !important;
-            backdrop-filter: blur(15px) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(218, 165, 32, 0.2),
-                inset 0 0 20px rgba(218, 165, 32, 0.1) !important;
-            text-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.4),
-                0 0 10px rgba(218, 165, 32, 0.4) !important;
-        }
-
-        .scroll-to-top-wrapper:hover::after {
-            opacity: 1 !important;
-            bottom: 140% !important;
-            transform: translateX(-50%) scale(1) translateZ(0) !important;
-            border-color: rgba(218, 165, 32, 0.5) !important;
-        }
-
-        /* تحسين التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .scroll-to-top {
-                bottom: min(20px, 3vh) !important;
-                left: min(20px, 3vw) !important;
-            }
-
-            .scroll-to-top-wrapper::after {
-                display: none !important;
-            }
-        }
-    </style>
-
-    <div class="scroll-to-top-wrapper">
-        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-    </div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <script>
-        function scrollToTop() {
-            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
-        }
-    </script>
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* تنسيق رسائل النجاح والتنبيهات */
-        .stAlert {
-            background: linear-gradient(135deg, rgba(20, 30, 48, 0.95), rgba(5, 8, 15, 0.95)) !important;
-            border: 1px solid rgba(218, 165, 32, 0.3) !important;
-            border-radius: 12px !important;
-            color: #E6E9F0 !important;
-            padding: 1rem !important;
-            backdrop-filter: blur(10px) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.2),
-                0 0 30px rgba(218, 165, 32, 0.1),
-                inset 0 0 20px rgba(218, 165, 32, 0.05) !important;
-            animation: fadeIn 0.5s ease-out !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-
-        .stAlert::before {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            height: 1px !important;
-            background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.5), transparent) !important;
-            animation: shimmer 2s infinite !important;
-        }
-
-        /* تنسيق رسالة النجاح */
-        .element-container:has(.stAlert) div[data-testid="stMarkdownContainer"] > p {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            margin: 0 !important;
-            font-size: clamp(14px, 1vw + 12px, 16px) !important;
-        }
-
-        .element-container:has(.stAlert) div[data-testid="stMarkdownContainer"] > p::before {
-            content: '✓' !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 24px !important;
-            height: 24px !important;
-            background: rgba(218, 165, 32, 0.2) !important;
-            border-radius: 50% !important;
-            color: rgba(218, 165, 32, 1) !important;
-            font-weight: bold !important;
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.3) !important;
-            animation: pulse 2s infinite !important;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* تنسيق الرسائل حسب نوعها */
-        .stAlert.success {
-            border-left: 3px solid rgba(218, 165, 32, 0.8) !important;
-        }
-
-        .stAlert.warning {
-            border-left: 3px solid rgba(255, 170, 0, 0.8) !important;
-        }
-
-        .stAlert.error {
-            border-left: 3px solid rgba(255, 87, 87, 0.8) !important;
-        }
-
-        /* تحسين التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .stAlert {
-                padding: 0.8rem !important;
-                margin: 0.5rem 0 !important;
-            }
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# تحديث رسائل النجاح
-def show_success_message(message):
-    st.markdown(f'<div class="stAlert success">{message}</div>', unsafe_allow_html=True)
-
-def show_warning_message(message):
-    st.markdown(f'<div class="stAlert warning">{message}</div>', unsafe_allow_html=True)
-
-def show_error_message(message):
-    st.markdown(f'<div class="stAlert error">{message}</div>', unsafe_allow_html=True)
-
-# استخدام الدوال الجديدة لعرض الرسائل
-if st.session_state.get('success_message'):
-    show_success_message(st.session_state.success_message)
-    st.session_state.success_message = None
-```
