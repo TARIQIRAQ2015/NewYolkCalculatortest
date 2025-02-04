@@ -1120,112 +1120,206 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* تنسيق زر التمرير للأعلى */
+        /* تأثيرات الخلفية المتحركة */
+        .stApp {
+            background: linear-gradient(135deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
+            ) !important;
+            background-size: 300% 300% !important;
+            animation: gradientMove 15s ease infinite !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .stApp::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: radial-gradient(
+                circle at 50% 50%,
+                var(--gold) 0%,
+                transparent 50%
+            ) !important;
+            opacity: 0.05 !important;
+            animation: pulseLight 10s ease-in-out infinite !important;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50% !important;
+            }
+            50% {
+                background-position: 100% 50% !important;
+            }
+            100% {
+                background-position: 0% 50% !important;
+            }
+        }
+
+        @keyframes pulseLight {
+            0% {
+                opacity: 0.03 !important;
+                transform: scale(1) !important;
+            }
+            50% {
+                opacity: 0.08 !important;
+                transform: scale(1.5) !important;
+            }
+            100% {
+                opacity: 0.03 !important;
+                transform: scale(1) !important;
+            }
+        }
+
+        /* تحديث زر التمرير */
         .scroll-to-top {
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 50px !important;
-            height: 50px !important;
-            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
-            border: 1px solid var(--gold) !important;
-            border-radius: 50% !important;
+            width: 55px !important;
+            height: 55px !important;
+            background: linear-gradient(135deg, 
+                var(--dark-secondary) 0%,
+                var(--accent) 100%
+            ) !important;
+            border: 2px solid rgba(155, 139, 108, 0.3) !important;
+            border-radius: 15px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px var(--glow) !important;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(155, 139, 108, 0.1) !important;
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
-            opacity: 0.9 !important;
+            opacity: 0.95 !important;
             text-decoration: none !important;
             overflow: hidden !important;
+            transform: translateZ(0) !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
             color: var(--text) !important;
-            font-size: 24px !important;
+            font-size: 28px !important;
             font-weight: bold !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
             transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 2 !important;
+            background: linear-gradient(to bottom, var(--text), rgba(230, 233, 240, 0.8)) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
         }
 
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
+            inset: -50% !important;
             background: linear-gradient(
                 45deg,
                 transparent,
-                rgba(155, 139, 108, 0.3),
+                rgba(155, 139, 108, 0.2),
                 transparent
             ) !important;
             transform: rotate(45deg) !important;
-            animation: shine 3s linear infinite !important;
+            animation: shine 6s linear infinite !important;
         }
 
         @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
-        }
-
-        .scroll-to-top {
-            animation: float 3s ease-in-out infinite !important;
+            0% {
+                transform: translateX(-100%) rotate(45deg) !important;
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg) !important;
+            }
         }
 
         .scroll-to-top:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 8px 25px var(--glow) !important;
+            transform: translateY(-5px) translateZ(0) !important;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(155, 139, 108, 0.2) !important;
+            border-color: rgba(155, 139, 108, 0.5) !important;
             opacity: 1 !important;
         }
 
-        /* إضافة تلميح عند التحويم */
-        .scroll-to-top-wrapper {
-            position: relative !important;
-            display: inline-block !important;
+        .scroll-to-top:hover::before {
+            transform: scale(1.1) !important;
+            filter: brightness(1.2) !important;
         }
 
-        .scroll-to-top-wrapper::after {
-            content: 'الذهاب إلى الأعلى' !important;
+        /* تحديث تلميح زر التمرير */
+        .scroll-to-top-tooltip {
             position: absolute !important;
             bottom: 100% !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
-            padding: 8px !important;
+            padding: 8px 12px !important;
             background: var(--dark-secondary) !important;
             color: var(--text) !important;
-            border-radius: 4px !important;
+            border-radius: 8px !important;
             font-size: 14px !important;
             white-space: nowrap !important;
             opacity: 0 !important;
+            visibility: hidden !important;
             transition: all 0.3s ease !important;
-            pointer-events: none !important;
-            border: 1px solid var(--gold) !important;
+            border: 1px solid rgba(155, 139, 108, 0.3) !important;
             backdrop-filter: blur(10px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
-        .scroll-to-top-wrapper:hover::after {
+        .scroll-to-top:hover + .scroll-to-top-tooltip {
             opacity: 1 !important;
+            visibility: visible !important;
             bottom: 120% !important;
+        }
+
+        /* تحسين حركات العناصر */
+        .stButton > button,
+        .stTextInput > div,
+        .stSelectbox > div,
+        .stDataFrame,
+        pre {
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+
+        .stButton > button:hover,
+        .stTextInput > div:hover,
+        .stSelectbox > div:hover,
+        .stDataFrame:hover,
+        pre:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(155, 139, 108, 0.1) !important;
+        }
+
+        /* تأثيرات إضافية للعناصر */
+        .element-appear {
+            animation: elementAppear 0.6s ease-out forwards !important;
+            opacity: 0 !important;
+            transform: translateY(20px) !important;
+        }
+
+        @keyframes elementAppear {
+            to {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
         }
     </style>
 
-    <div class="scroll-to-top-wrapper">
-        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-    </div>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    <div class="scroll-to-top-tooltip">الذهاب إلى الأعلى</div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -1272,11 +1366,7 @@ st.markdown("""
 
         /* تنسيق الأزرار */
         .stButton > button {
-            background: linear-gradient(
-                135deg,
-                var(--accent),
-                var(--dark-secondary)
-            ) !important;
+            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
             border: 1px solid var(--gold) !important;
             color: var(--text) !important;
             padding: 0.7rem 1.4rem !important;
