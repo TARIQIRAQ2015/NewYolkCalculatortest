@@ -1257,78 +1257,112 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* تأثيرات الحركة والألوان الأساسية */
-        @keyframes gentleGradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        /* الألوان الأساسية */
+        :root {
+            --primary: #1A2634;
+            --secondary: #0EA5E9;
+            --accent: #22D3EE;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --text: #F8FAFC;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .stApp {
-            background: linear-gradient(135deg, 
-                #2C3E50,
-                #3498DB,
-                #2980B9,
-                #2C3E50
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                #0F172A,
+                #164E63,
+                var(--primary)
             ) !important;
             background-size: 200% 200% !important;
-            animation: gentleGradient 15s ease infinite !important;
+            animation: subtleGradient 20s ease infinite !important;
         }
 
         /* تنسيق الأزرار */
         .stButton > button {
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(5px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-            color: white !important;
+            background: linear-gradient(
+                135deg,
+                var(--secondary),
+                var(--accent)
+            ) !important;
+            border: none !important;
+            color: var(--text) !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
             transition: all 0.3s ease !important;
-            border-radius: 6px !important;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
         }
 
         .stButton > button:hover {
-            background: rgba(255, 255, 255, 0.15) !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25) !important;
         }
 
         /* تنسيق المدخلات */
         .stTextInput > div > div > input,
         div[data-baseweb="select"] {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
             transition: all 0.3s ease !important;
         }
 
         .stTextInput > div > div > input:focus,
         div[data-baseweb="select"]:hover {
-            border-color: #3498DB !important;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
+            border-color: var(--secondary) !important;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
         }
 
-        /* تنسيق النصوص */
+        /* تنسيق النصوص والعناوين */
         .stMarkdown, .stHeader {
-            color: #ECF0F1 !important;
+            color: var(--text) !important;
         }
 
-        /* تنسيق البطاقات والجداول */
+        h1, h2, h3 {
+            color: var(--text) !important;
+            font-weight: 600 !important;
+        }
+
+        /* تنسيق الجداول والإطارات */
         .stDataFrame, pre {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .dataframe {
+            color: var(--text) !important;
+        }
+
+        /* تنسيق عناصر التحديد */
+        .stSelectbox > div > div {
             background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
             border-radius: 8px !important;
         }
 
-        /* تحسين القراءة */
-        .stTable, .dataframe {
-            color: #ECF0F1 !important;
+        .stSelectbox > div > div:hover {
+            border-color: var(--secondary) !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 12px !important;
+            border: 1px solid var(--border) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
         }
 
         /* إخفاء العناصر غير الضرورية */
