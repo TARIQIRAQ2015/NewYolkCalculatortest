@@ -2,12 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
-import sqlite3
-import hashlib
-import base64
-from reportlab.pdfgen import canvas
-import json
-import requests
 
 # تحسين الواجهة
 st.set_page_config(
@@ -238,7 +232,7 @@ st.markdown("""
         .stSelectbox > div > div {
             background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
+            border-radius: 8px !重要;
             color: #ffffff !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
@@ -1203,95 +1197,26 @@ st.markdown("""
     </head>
 """, unsafe_allow_html=True)
 
-# إضافة إعدادات قاعدة البيانات
-def init_db():
-    conn = sqlite3.connect('newyolk.db')
-    c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS users
-                 (username TEXT PRIMARY KEY, password TEXT, settings TEXT)''')
-    c.execute('''CREATE TABLE IF NOT EXISTS calculations
-                 (username TEXT, date TEXT, calculation_type TEXT, results TEXT)''')
-    conn.commit()
-    conn.close()
-
-# إضافة نظام تسجيل الدخول
-def login_section():
-    if 'logged_in' not in st.session_state:
-        st.session_state.logged_in = False
-
-    if not st.session_state.logged_in:
-        col1, col2 = st.columns(2)
-        with col1:
-            username = st.text_input("اسم المستخدم")
-        with col2:
-            password = st.text_input("كلمة المرور", type="password")
-        
-        if st.button("تسجيل الدخول"):
-            # التحقق من المستخدم
-            if verify_user(username, password):
-                st.session_state.logged_in = True
-                st.session_state.username = username
-                st.success("تم تسجيل الدخول بنجاح!")
-                st.rerun()
-
-# إضافة وظيفة تصدير PDF
-def export_to_pdf(results):
-    pdf_buffer = BytesIO()
-    p = canvas.Canvas(pdf_buffer)
-    p.drawString(100, 750, "تقرير NewYolk")
-    # إضافة محتوى التقرير
-    p.showPage()
-    p.save()
-    pdf_bytes = pdf_buffer.getvalue()
-    return pdf_bytes
-
-# إضافة وظيفة مشاركة النتائج
-def share_results(results):
-    share_buttons = """
-    <div class="share-buttons">
-        <a href="https://twitter.com/intent/tweet?text={}" target="_blank">Tweet</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={}" target="_blank">Share</a>
-    </div>
-    """
-    st.markdown(share_buttons.format(results, results), unsafe_allow_html=True)
-
-# تحديث القائمة الرئيسية لتشمل الميزات الجديدة
-if 'logged_in' in st.session_state and st.session_state.logged_in:
-    st.sidebar.title("القائمة")
-    page = st.sidebar.selectbox(
-        "اختر الصفحة",
-        ["الحاسبة", "السجل", "التقارير", "الإعدادات"]
+# تبسيط وظيفة تصدير النتائج
+def export_results(results):
+    st.download_button(
+        label="تحميل النتائج",
+        data=results,
+        file_name="newyolk_results.txt",
+        mime="text/plain"
     )
 
-    if page == "السجل":
-        st.title("سجل العمليات")
-        # عرض السجل من قاعدة البيانات
-        
-    elif page == "التقارير":
-        st.title("التقارير")
-        # إضافة خيارات التقارير
-        
-    elif page == "الإعدادات":
-        st.title("الإعدادات")
-        theme = st.selectbox("المظهر", ["فاتح", "داكن"])
-        notifications = st.checkbox("تفعيل التنبيهات")
-        
-        if st.button("حفظ الإعدادات"):
-            save_user_settings(st.session_state.username, {
-                "theme": theme,
-                "notifications": notifications
-            })
-            st.success("تم حفظ الإعدادات!")
-
-# تحديث تصميم الواجهة بناءً على الإعدادات
-def apply_theme(theme):
-    if theme == "داكن":
-        dark_theme = """
-        <style>
-        .stApp {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #ffffff;
-        }
-        </style>
-        """
-        st.markdown(dark_theme, unsafe_allow_html=True)
+# تبسيط وظيفة مشاركة النتائج
+def share_results(results):
+    st.markdown(f"""
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="https://twitter.com/intent/tweet?text={results}" target="_blank" 
+               style="margin: 0 10px; text-decoration: none;">
+               🐦 Tweet
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={results}" target="_blank"
+               style="margin: 0 10px; text-decoration: none;">
+               📱 Share on Facebook
+            </a>
+        </div>
+    """, unsafe_allow_html=True)
