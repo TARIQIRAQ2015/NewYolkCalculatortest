@@ -1120,52 +1120,59 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* حركة الخلفية */
-        .stApp {
-            background: linear-gradient(
-                135deg,
-                var(--dark-primary),
-                var(--dark-secondary),
-                var(--accent),
-                var(--dark-primary)
-            ) !important;
-            background-size: 300% 300% !important;
-            animation: gradientMove 15s ease infinite !important;
+        /* حركات الصفحة الرئيسية */
+        .stApp > header {
+            animation: slideDown 0.5s ease-out !important;
         }
 
-        @keyframes gradientMove {
-            0% {
-                background-position: 0% 50%;
+        .element-container, .stButton, div[data-testid="stMarkdownContainer"], div[data-testid="stImage"] {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards !important;
+        }
+
+        div[data-testid="stImage"] { animation-delay: 0.2s !important; }
+        .stButton { animation-delay: 0.4s !important; }
+        div[data-testid="stMarkdownContainer"] { animation-delay: 0.6s !important; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* تصميم زر التمرير الجديد */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تحديث زر التمرير */
         .scroll-button {
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
             width: 55px !important;
             height: 55px !important;
+            background: linear-gradient(145deg, var(--accent), var(--dark-secondary)) !important;
+            border: 2px solid var(--gold) !important;
+            border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 20px !important;
-            color: var(--text) !important;
-            text-decoration: none !important;
-            background: linear-gradient(145deg, var(--accent), var(--dark-secondary)) !important;
-            border: 2px solid var(--gold) !important;
-            border-radius: 15px !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 
-                0 5px 15px rgba(0, 0, 0, 0.3),
-                inset 0 0 15px rgba(155, 139, 108, 0.2) !important;
+            box-shadow: 0 4px 15px var(--glow),
+                       inset 0 2px 15px rgba(155, 139, 108, 0.2) !important;
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
             overflow: hidden !important;
@@ -1173,10 +1180,13 @@ st.markdown("""
 
         .scroll-button::before {
             content: '↑' !important;
+            color: var(--text) !important;
+            font-size: 28px !important;
+            font-weight: bold !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+            transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 2 !important;
-            transition: all 0.3s ease !important;
-            text-shadow: 0 0 10px var(--gold) !important;
         }
 
         .scroll-button::after {
@@ -1188,60 +1198,69 @@ st.markdown("""
             padding: 8px 12px !important;
             border-radius: 8px !important;
             font-size: 14px !important;
-            opacity: 0 !important;
-            transform: translateY(10px) !important;
-            transition: all 0.3s ease !important;
-            border: 1px solid var(--gold) !important;
-            pointer-events: none !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-            white-space: nowrap !important;
-            top: -45px !important;
+            bottom: 120% !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
-        }
-
-        .scroll-button:hover {
-            transform: translateY(-5px) !important;
-            box-shadow: 
-                0 8px 25px rgba(155, 139, 108, 0.3),
-                inset 0 0 20px rgba(155, 139, 108, 0.4) !important;
-            border-color: rgba(155, 139, 108, 0.8) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.3s ease !important;
+            border: 1px solid var(--gold) !important;
+            box-shadow: 0 4px 15px rgba(155, 139, 108, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .scroll-button:hover::after {
             opacity: 1 !important;
-            transform: translateX(-50%) translateY(0) !important;
+            visibility: visible !important;
+            bottom: 140% !important;
         }
 
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px var(--gold), 0 0 10px var(--gold), 0 0 15px var(--gold); }
-            50% { box-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold), 0 0 25px var(--gold); }
-            100% { box-shadow: 0 0 5px var(--gold), 0 0 10px var(--gold), 0 0 15px var(--gold); }
-        }
-
-        .scroll-button:hover::before {
-            animation: glow 2s infinite !important;
-        }
-
-        /* تأثير الموجة */
-        .scroll-button .wave {
+        .scroll-button .shine {
             position: absolute !important;
-            width: 200% !important;
-            height: 200% !important;
             top: -50% !important;
             left: -50% !important;
-            background: radial-gradient(circle, rgba(155, 139, 108, 0.2) 0%, transparent 70%) !important;
-            transform: rotate(0deg) !important;
-            animation: wave 5s linear infinite !important;
+            width: 200% !important;
+            height: 200% !important;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(155, 139, 108, 0.4),
+                transparent
+            ) !important;
+            transform: translateX(-100%) rotate(45deg) !important;
+            animation: shine 3s infinite !important;
         }
 
-        @keyframes wave {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes shine {
+            to {
+                transform: translateX(100%) rotate(45deg) !important;
+            }
+        }
+
+        .scroll-button:hover {
+            transform: translateY(-5px) scale(1.05) !important;
+            box-shadow: 0 8px 25px var(--glow),
+                       inset 0 4px 20px rgba(155, 139, 108, 0.3) !important;
+            border-color: rgba(155, 139, 108, 0.8) !important;
+        }
+
+        .scroll-button:active {
+            transform: translateY(-2px) scale(0.95) !important;
+            box-shadow: 0 4px 15px var(--glow),
+                       inset 0 2px 10px rgba(155, 139, 108, 0.2) !important;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .scroll-button {
+            animation: float 3s ease-in-out infinite !important;
         }
     </style>
 
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" class="scroll-button">
-        <div class="wave"></div>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" class="scroll-button" target="_self">
+        <div class="shine"></div>
     </a>
 """, unsafe_allow_html=True)
