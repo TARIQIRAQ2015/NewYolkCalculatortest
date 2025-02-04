@@ -452,6 +452,104 @@ st.markdown("""
         /* تأثير الخلفية المتحركة */
         @keyframes gradientBG {
             0% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
+                background-position: 0% 50%;
+            }
+            50% {
+                background: linear-gradient(45deg, 
+                    #16213e,
+                    #0f3460,
+                    #1a1a2e
+                );
+                background-size: 200% 200%;
+                background-position: 100% 50%;
+            }
+            100% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
+                background-position: 0% 50%;
+            }
+        }
+
+        /* تنسيق النص داخل ملخص النتائج */
+        pre code {
+            color: #e2e2e2 !important;
+            font-size: 1.1em !important;
+            line-height: 1.5 !important;
+        }
+
+        /* تأثير الحدود المضيئة */
+        pre::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, 
+                #1a1a2e,
+                #0f3460,
+                #1a1a2e
+            );
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+        
+        /* تنسيق العنوان الرئيسي */
+        .main-title {
+            font-size: 2.5em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 1em !important;
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        /* تأثير الإيموجي المتحرك */
+        .chicken-emoji {
+            display: inline-block;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* تأثيرات الحركة والألوان */
+        @keyframes gradientBG {
+            0% {
                 background-position: 0% 50%;
             }
             50% {
@@ -1124,6 +1222,7 @@ st.markdown("""
             --warning: #F59E0B;
             --text: #F8FAFC;
             --border: rgba(255, 255, 255, 0.1);
+            --glow: rgba(14, 165, 233, 0.3);
         }
 
         /* تأثيرات الحركة والخلفية */
@@ -1131,16 +1230,6 @@ st.markdown("""
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-
-        @keyframes softFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        @keyframes gentlePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
         }
 
         .stApp {
@@ -1155,6 +1244,13 @@ st.markdown("""
             animation: subtleGradient 10s ease infinite !important;
         }
 
+        /* تأثير التوهج */
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--glow); }
+            50% { box-shadow: 0 0 20px var(--glow); }
+            100% { box-shadow: 0 0 5px var(--glow); }
+        }
+
         /* تنسيق الأزرار */
         .stButton > button {
             background: linear-gradient(
@@ -1167,10 +1263,17 @@ st.markdown("""
             padding: 0.6rem 1.2rem !important;
             border-radius: 8px !important;
             font-weight: 500 !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
             box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
+            backdrop-filter: blur(10px) !important;
             position: relative !important;
             overflow: hidden !important;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25) !important;
+            animation: glow 2s ease-in-out infinite !important;
         }
 
         .stButton > button::after {
@@ -1180,55 +1283,49 @@ st.markdown("""
             left: -50% !important;
             width: 200% !important;
             height: 200% !important;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%) !important;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%) !important;
             opacity: 0 !important;
             transition: opacity 0.3s ease !important;
-        }
-
-        .stButton > button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25) !important;
         }
 
         .stButton > button:hover::after {
             opacity: 1 !important;
         }
 
-        /* تنسيق المدخلات مع تأثيرات إضافية */
+        /* تنسيق العناوين */
+        .stHeader {
+            position: relative !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        .stHeader::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 2px !important;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent) !important;
+            animation: glow 2s ease-in-out infinite !important;
+        }
+
+        /* تنسيق المدخلات */
         .stTextInput > div > div > input,
         div[data-baseweb="select"] {
             background: rgba(255, 255, 255, 0.05) !important;
             border: 1px solid var(--border) !important;
             color: var(--text) !important;
             border-radius: 8px !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(8px) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .stTextInput > div > div > input:focus,
         div[data-baseweb="select"]:hover {
+            transform: translateY(-2px) !important;
             border-color: var(--secondary) !important;
-            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2) !important;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2) !important;
             background: rgba(255, 255, 255, 0.08) !important;
-            animation: softFloat 2s ease infinite !important;
-        }
-
-        /* تنسيق العناوين مع تأثير خفيف */
-        h1, h2, h3 {
-            color: var(--text) !important;
-            font-weight: 600 !important;
-            position: relative !important;
-        }
-
-        h1::after, h2::after {
-            content: '' !important;
-            position: absolute !important;
-            bottom: -5px !important;
-            left: 0 !important;
-            width: 50px !important;
-            height: 2px !important;
-            background: var(--accent) !important;
-            animation: gentlePulse 3s ease infinite !important;
         }
 
         /* تنسيق الجداول والإطارات */
@@ -1237,8 +1334,8 @@ st.markdown("""
             border: 1px solid var(--border) !important;
             border-radius: 12px !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-            backdrop-filter: blur(12px) !important;
-            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .stDataFrame:hover, pre:hover {
@@ -1252,11 +1349,28 @@ st.markdown("""
             border-radius: 12px !important;
             border: 1px solid var(--border) !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .js-plotly-plot:hover {
-            transform: scale(1.01) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* تأثيرات عامة */
+        .element-container {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .element-container:hover {
+            transform: translateY(-2px) !important;
+        }
+
+        /* تنسيق النصوص */
+        .stMarkdown {
+            color: var(--text) !important;
+            transition: all 0.3s ease !important;
         }
 
         /* إخفاء العناصر غير الضرورية */
@@ -1265,48 +1379,4 @@ st.markdown("""
         header {visibility: hidden !important;}
 
     </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* تحسين الإيموجي في العنوان */
-        .emoji-link {
-            text-decoration: none;
-            font-size: 24px !important;
-            display: inline-block;
-            transition: all 0.3s ease;
-            line-height: 1;
-            cursor: pointer;
-            margin-right: 8px;
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-        
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-        
-        .title-text {
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 32px;
-            font-weight: bold;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3059/3059997.png">
-        <title>New Yolk Calculator</title>
-    </head>
 """, unsafe_allow_html=True)
