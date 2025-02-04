@@ -1120,102 +1120,42 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* حركات الصفحة الرئيسية */
-        .stApp > header {
-            animation: slideDown 0.5s ease-out !important;
-        }
-
-        .element-container, .stButton, div[data-testid="stMarkdownContainer"], div[data-testid="stImage"] {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards !important;
-        }
-
-        div[data-testid="stImage"] { animation-delay: 0.2s !important; }
-        .stButton { animation-delay: 0.4s !important; }
-        div[data-testid="stMarkdownContainer"] { animation-delay: 0.6s !important; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* تحديث زر التمرير */
-        .scroll-button {
+        /* تنسيق زر التمرير للأعلى */
+        .scroll-to-top {
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 55px !important;
-            height: 55px !important;
-            background: linear-gradient(145deg, var(--accent), var(--dark-secondary)) !important;
-            border: 2px solid var(--gold) !important;
+            width: 50px !important;
+            height: 50px !important;
+            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
+            border: 1px solid var(--gold) !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px var(--glow),
-                       inset 0 2px 15px rgba(155, 139, 108, 0.2) !important;
+            box-shadow: 0 4px 15px var(--glow) !important;
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
+            opacity: 0.9 !important;
+            text-decoration: none !important;
             overflow: hidden !important;
         }
 
-        .scroll-button::before {
+        .scroll-to-top::before {
             content: '↑' !important;
             color: var(--text) !important;
-            font-size: 28px !important;
+            font-size: 24px !important;
             font-weight: bold !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
             transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 2 !important;
         }
 
-        .scroll-button::after {
-            content: 'الذهاب إلى الأعلى' !important;
-            position: absolute !important;
-            width: max-content !important;
-            background: var(--dark-secondary) !important;
-            color: var(--text) !important;
-            padding: 8px 12px !important;
-            border-radius: 8px !important;
-            font-size: 14px !important;
-            bottom: 120% !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            transition: all 0.3s ease !important;
-            border: 1px solid var(--gold) !important;
-            box-shadow: 0 4px 15px rgba(155, 139, 108, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .scroll-button:hover::after {
-            opacity: 1 !important;
-            visibility: visible !important;
-            bottom: 140% !important;
-        }
-
-        .scroll-button .shine {
+        .scroll-to-top::after {
+            content: '' !important;
             position: absolute !important;
             top: -50% !important;
             left: -50% !important;
@@ -1224,43 +1164,213 @@ st.markdown("""
             background: linear-gradient(
                 45deg,
                 transparent,
-                rgba(155, 139, 108, 0.4),
+                rgba(155, 139, 108, 0.3),
                 transparent
             ) !important;
-            transform: translateX(-100%) rotate(45deg) !important;
-            animation: shine 3s infinite !important;
+            transform: rotate(45deg) !important;
+            animation: shine 3s linear infinite !important;
         }
 
         @keyframes shine {
-            to {
-                transform: translateX(100%) rotate(45deg) !important;
-            }
-        }
-
-        .scroll-button:hover {
-            transform: translateY(-5px) scale(1.05) !important;
-            box-shadow: 0 8px 25px var(--glow),
-                       inset 0 4px 20px rgba(155, 139, 108, 0.3) !important;
-            border-color: rgba(155, 139, 108, 0.8) !important;
-        }
-
-        .scroll-button:active {
-            transform: translateY(-2px) scale(0.95) !important;
-            box-shadow: 0 4px 15px var(--glow),
-                       inset 0 2px 10px rgba(155, 139, 108, 0.2) !important;
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
         }
 
-        .scroll-button {
+        .scroll-to-top {
             animation: float 3s ease-in-out infinite !important;
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            opacity: 1 !important;
+        }
+
+        /* إضافة تلميح عند التحويم */
+        .scroll-to-top-wrapper {
+            position: relative !important;
+            display: inline-block !important;
+        }
+
+        .scroll-to-top-wrapper::after {
+            content: 'الذهاب إلى الأعلى' !important;
+            position: absolute !important;
+            bottom: 100% !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            padding: 8px !important;
+            background: var(--dark-secondary) !important;
+            color: var(--text) !important;
+            border-radius: 4px !important;
+            font-size: 14px !important;
+            white-space: nowrap !important;
+            opacity: 0 !important;
+            transition: all 0.3s ease !important;
+            pointer-events: none !important;
+            border: 1px solid var(--gold) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .scroll-to-top-wrapper:hover::after {
+            opacity: 1 !important;
+            bottom: 120% !important;
         }
     </style>
 
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" class="scroll-button" target="_self">
-        <div class="shine"></div>
-    </a>
+    <div class="scroll-to-top-wrapper">
+        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    </div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <script>
+        function scrollToTop() {
+            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
+        }
+    </script>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* الألوان الأساسية */
+        :root {
+            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
+            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
+            --accent: #2D5B85;         /* أزرق فخم */
+            --highlight: #446B8C;      /* أزرق فاتح راقي */
+            --gold: #9B8B6C;          /* ذهبي فخم */
+            --text: #E6E9F0;          /* أبيض مائل للرمادي */
+            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
+            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stApp {
+            background: linear-gradient(
+                135deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
+            ) !important;
+            background-size: 200% 200% !important;
+            animation: subtleGradient 10s ease infinite !important;
+        }
+
+        /* تنسيق الأزرار */
+        .stButton > button {
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                var(--dark-secondary)
+            ) !important;
+            border: 1px solid var(--gold) !important;
+            color: var(--text) !important;
+            padding: 0.7rem 1.4rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            border-color: var(--gold) !important;
+        }
+
+        /* تنسيق العناوين */
+        .stHeader {
+            position: relative !important;
+            margin-bottom: 2rem !important;
+            padding-bottom: 0.5rem !important;
+            color: var(--text) !important;
+        }
+
+        .stHeader::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+            opacity: 0.5 !important;
+        }
+
+        /* تنسيق المدخلات */
+        .stTextInput > div > div > input,
+        div[data-baseweb="select"] {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stTextInput > div > div > input:focus,
+        div[data-baseweb="select"]:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px var(--glow) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* تنسيق الجداول والإطارات */
+        .stDataFrame, pre {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stDataFrame:hover, pre:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .js-plotly-plot:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق النصوص */
+        .stMarkdown {
+            color: var(--text) !important;
+        }
+
+        .dataframe {
+            color: var(--text) !important;
+        }
+
+        /* إخفاء العناصر غير الضرورية */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+
+    </style>
 """, unsafe_allow_html=True)
