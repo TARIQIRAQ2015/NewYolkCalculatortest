@@ -1309,3 +1309,88 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* تنسيق زر اللغة */
+        .language-button {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 30px !important;
+            width: 60px !important;
+            height: 60px !important;
+            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
+            border: 1px solid var(--gold) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            z-index: 9999 !important;
+            opacity: 0.95 !important;
+            text-decoration: none !important;
+            overflow: hidden !important;
+        }
+
+        .language-button::before {
+            content: '🌍' !important;
+            font-size: 28px !important;
+            position: relative !important;
+            z-index: 2 !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
+            transition: all 0.4s ease !important;
+        }
+
+        .language-button::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%) !important;
+            opacity: 0 !important;
+            transition: all 0.4s ease !important;
+            transform: scale(0.5) !important;
+        }
+
+        .language-button:hover {
+            transform: translateY(-5px) rotate(360deg) !important;
+            box-shadow: 0 8px 25px var(--glow), 0 0 20px var(--gold) !important;
+            opacity: 1 !important;
+        }
+
+        .language-button:hover::before {
+            transform: scale(1.1) !important;
+        }
+
+        .language-button:hover::after {
+            opacity: 0.15 !important;
+            transform: scale(1.5) !important;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .language-button:hover::before {
+            animation: float 3s ease-in-out infinite !important;
+        }
+
+        /* تأثير النبض عند التحميل */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px var(--glow); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        }
+
+        .language-button {
+            animation: pulse 2s infinite !important;
+        }
+    </style>
+
+    <a href="#language" class="language-button" title="اللغة | Language | Limbă"></a>
+""", unsafe_allow_html=True)
