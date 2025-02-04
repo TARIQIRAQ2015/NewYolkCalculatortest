@@ -31,62 +31,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# التحقق من حالة تسجيل الدخول
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
-
-if not st.session_state['logged_in']:
-    st.title("مرحباً بك في حاسبة نيويولك 🐔")
-    
-    tab1, tab2 = st.tabs(["تسجيل الدخول", "إنشاء حساب جديد"])
-    
-    with tab1:
-        username = st.text_input("اسم المستخدم")
-        password = st.text_input("كلمة المرور", type="password")
-        
-        if st.button("تسجيل الدخول"):
-            conn = sqlite3.connect('users.db')
-            c = conn.cursor()
-            c.execute("SELECT password FROM users WHERE username=?", (username,))
-            result = c.fetchone()
-            
-            if result and verify_password(password, result[0]):
-                st.session_state['logged_in'] = True
-                st.session_state['username'] = username
-                st.success("تم تسجيل الدخول بنجاح!")
-                st.experimental_rerun()
-            else:
-                st.error("خطأ في اسم المستخدم أو كلمة المرور")
-            conn.close()
-    
-    with tab2:
-        new_username = st.text_input("اسم المستخدم الجديد")
-        new_password = st.text_input("كلمة المرور الجديدة", type="password")
-        confirm_password = st.text_input("تأكيد كلمة المرور", type="password")
-        
-        if st.button("إنشاء حساب"):
-            if new_password != confirm_password:
-                st.error("كلمات المرور غير متطابقة")
-            else:
-                conn = sqlite3.connect('users.db')
-                c = conn.cursor()
-                try:
-                    hashed = hash_password(new_password)
-                    c.execute("INSERT INTO users VALUES (?, ?)", (new_username, hashed))
-                    conn.commit()
-                    st.success("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول")
-                except sqlite3.IntegrityError:
-                    st.error("اسم المستخدم موجود مسبقاً")
-                conn.close()
-else:
-    # إضافة زر تسجيل الخروج
-    if st.sidebar.button("تسجيل الخروج"):
-        st.session_state['logged_in'] = False
-        st.experimental_rerun()
-        
-    st.title(f"أهلاً بك {st.session_state['username']} في حاسبة نيويولك 🐔")
-
-# تحسين الواجهة
+# تحسين المظهر العام
 st.markdown("""
     <style>
         /* إخفاء العناصر غير الضرورية */
@@ -98,14 +43,14 @@ st.markdown("""
         /* تحسين المظهر العام والخلفية */
         .stApp {
             background: linear-gradient(135deg, 
-                #1a1a2e,
-                #16213e,
-                #0f3460,
-                #162447
+                #1e3c72,
+                #2a5298,
+                #2b32b2,
+                #1488cc
             );
             background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: #e2e2e2;
+            animation: gradient 8s ease infinite;
+            color: #ffffff;
         }
         
         @keyframes gradient {
@@ -114,520 +59,173 @@ st.markdown("""
             100% { background-position: 0% 50%; }
         }
         
-        /* تأثير الإيموجي */
-        .emoji-link {
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 32px;
-            margin-right: 10px;
-        }
-        .emoji-link:hover {
-            transform: scale(1.5);
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-        
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stNumberInput > div > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 12px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            height: auto !important;
-            min-height: 48px !important;
-            font-size: 16px !important;
-            line-height: 1.5 !important;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* تأثير الموجة عند التحويم */
-        .stSelectbox > div > div::before,
-        .stNumberInput > div > div::before,
-        div[data-baseweb="select"] ul li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: all 0.5s ease;
-            z-index: 1;
-        }
-        
-        .stSelectbox > div > div:hover::before,
-        .stNumberInput > div > div:hover::before,
-        div[data-baseweb="select"] ul li:hover::before {
-            left: 100%;
-        }
-        
-        /* تأثير التحويم */
-        .stSelectbox > div > div:hover,
-        .stNumberInput > div > div:hover {
-            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 8px !important;
-            transition: all 0.3s ease;
-        }
-        
-        div[data-baseweb="select"] ul {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            padding: 4px !important;
-            border-radius: 8px !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        /* تحسين عناصر القائمة */
-        div[data-baseweb="select"] ul li {
-            background: transparent !important;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            margin: 2px 0;
-            padding: 10px 12px !important;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        
-        div[data-baseweb="select"] ul li:hover {
-            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
-            transform: translateX(4px);
-            color: #ffffff !important;
-        }
-        
-        /* تحسين الأيقونات في القوائم */
-        .stSelectbox svg,
-        div[data-baseweb="select"] svg {
-            transition: all 0.3s ease;
-            fill: rgba(255, 255, 255, 0.7) !important;
-        }
-        
-        .stSelectbox:hover svg,
-        div[data-baseweb="select"]:hover svg {
-            fill: rgba(255, 255, 255, 1) !important;
-            transform: translateY(1px);
-        }
-        
-        /* تحسين النص المحدد */
-        div[data-baseweb="select"] [aria-selected="true"] {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            color: #ffffff !important;
-            font-weight: 500 !important;
-        }
-        
-        /* تحسين الخط والقراءة */
-        .stMarkdown {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
-            color: #e2e2e2 !important;
-        }
-        
-        /* تحسين المسافات بين العناصر */
-        .element-container {
-            margin: 1.5rem 0 !important;
-        }
-        
-        /* تحسين النصوص والعناصر الأخرى */
-        .stMarkdown {
-            color: #e2e2e2;
-        }
-        
-        /* تحسين الروابط */
-        a {
-            color: #4f8fba !important;
-            text-decoration: none !important;
-            transition: all 0.3s ease;
-        }
-        a:hover {
-            color: #6ba5d1 !important;
-            text-decoration: none !important;
-        }
-        
-        /* تحسين تأثير الضغط على الدجاجة */
-        .emoji-link {
-            font-size: 24px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-right: 8px;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
-        }
-        
-        .emoji-link:active {
-            transform: scale(0.95);
-        }
-        
-        /* تحسين العنوان */
-        .title {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            text-align: center;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .title-text {
-            text-decoration: none;
-            color: inherit;
-            margin-left: 8px;
-        }
-        
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 12px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            height: auto !important;
-            min-height: 48px !important;
-            font-size: 16px !important;
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 8px !important;
-            min-width: 200px !important;
-        }
-        
-        div[data-baseweb="select"] ul {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            padding: 4px !important;
-        }
-        
-        div[data-baseweb="select"] ul li {
-            color: #ffffff !important;
-            font-size: 16px !important;
-            padding: 12px !important;
-            margin: 4px 0 !important;
-            border-radius: 6px !important;
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين النصوص في القوائم */
-        .stSelectbox label {
-            color: #ffffff !important;
-            font-size: 18px !important;
-            font-weight: 500 !important;
-            margin-bottom: 12px !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين الأيقونة في القائمة المنسدلة */
-        .stSelectbox svg {
-            fill: #ffffff !important;
-            width: 24px !important;
-            height: 24px !important;
-        }
-        
-        /* تحسين العنوان */
-        .subtitle {
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        /* تحسين أزرار الحساب */
+        /* تحسين الأزرار */
         .stButton > button {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            color: #e2e2e2 !important;
-            border-radius: 8px !important;
-            padding: 8px 16px !important;
-            font-weight: 500 !important;
+            background: linear-gradient(45deg, #00b4db, #0083b0) !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.75rem 2rem !important;
+            border-radius: 10px !important;
             transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transform: scale(1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 1.1em !important;
+            font-weight: 500 !important;
+            margin: 10px 0 !important;
+            width: 100% !important;
         }
         
         .stButton > button:hover {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)) !important;
-            border-color: rgba(255,255,255,0.3) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.2);
         }
         
-        .stButton > button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        /* تحسين حقول الإدخال */
-        .stNumberInput > div > div > input {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 8px !important;
-            color: #e2e2e2 !important;
+        /* تحسين مربعات الإدخال */
+        .stTextInput > div > div {
+            background: rgba(255,255,255,0.1) !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
             padding: 8px 12px !important;
             transition: all 0.3s ease;
+            color: white !important;
         }
         
-        .stNumberInput > div > div > input:focus {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-        }
-        
-        /* تحسين حقوق النشر */
-        .copyright {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            padding: 16px;
-            font-size: 14px;
-            margin-top: 32px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* تحسين الشريط العلوي */
-        .stProgress > div > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            overflow: hidden;
-            position: relative;
-            height: 48px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .stProgress > div > div > div {
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0.1),
-                rgba(255,255,255,0.15),
-                rgba(255,255,255,0.1)
-            ) !important;
-            border-radius: 6px !important;
-            height: 100% !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(5px);
-        }
-        
-        .stProgress > div > div::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: all 0.5s ease;
-            z-index: 1;
-        }
-        
-        .stProgress > div > div:hover::before {
-            left: 100%;
-        }
-        
-        .stProgress > div > div:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
+        .stTextInput > div > div:hover, .stTextInput > div > div:focus {
+            background: rgba(255,255,255,0.15) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
-        /* تحديث شفافية القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stNumberInput > div > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px);
+        /* تحسين العناوين */
+        h1, h2, h3 {
+            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 2rem !important;
         }
         
-        .stSelectbox > div > div:hover,
-        .stNumberInput > div > div:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
+        /* تحسين التبويبات */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+            background-color: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 10px;
         }
         
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="popover"] > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-        
-        div[data-baseweb="select"] ul,
-        div[data-baseweb="menu"] ul {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-        }
-        
-        /* تحسين ملخص النتائج */
-        pre {
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #16213e
-            ) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            padding: 20px !important;
-            color: #ffffff !important;
-            font-family: 'Courier New', monospace !important;
-            position: relative !important;
-            overflow: hidden !important;
-            transition: all 0.3s ease !important;
-            animation: gradientBG 15s ease infinite !important;
-            background-size: 200% 200% !important;
-        }
-
-        pre:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        /* تأثير الخلفية المتحركة */
-        @keyframes gradientBG {
-            0% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-            50% {
-                background: linear-gradient(45deg, 
-                    #16213e,
-                    #0f3460,
-                    #1a1a2e
-                );
-                background-size: 200% 200%;
-                background-position: 100% 50%;
-            }
-            100% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* تنسيق العنوان الرئيسي */
-        .main-title {
-            font-size: 2.5em !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            margin-bottom: 1em !important;
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 2em;
-            cursor: pointer;
+        .stTabs [data-baseweb="tab"] {
+            background-color: transparent !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 10px 20px !important;
             transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
         }
         
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
+        .stTabs [data-baseweb="tab"]:hover {
+            background-color: rgba(255,255,255,0.1) !important;
+            transform: translateY(-1px);
         }
         
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .stTabs [aria-selected="true"] {
+            background-color: rgba(255,255,255,0.2) !important;
+            font-weight: bold !important;
+        }
+        
+        /* تحسين رسائل النجاح والخطأ */
+        .stAlert {
+            background-color: rgba(255,255,255,0.1) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            padding: 16px !important;
+            color: white !important;
+            margin: 1rem 0 !important;
+        }
+        
+        .element-container iframe {
+            border: none !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# تنسيق الأرقام العشرية
-def format_decimal(number):
-    return f"{number:.10f}".rstrip('0').rstrip('.') if '.' in f"{number}" else f"{number}"
+# التحقق من حالة تسجيل الدخول
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+    st.session_state['username'] = None
+
+def login_user(username, password):
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute("SELECT password FROM users WHERE username=?", (username,))
+    result = c.fetchone()
+    conn.close()
+    
+    if result and verify_password(password, result[0]):
+        st.session_state['logged_in'] = True
+        st.session_state['username'] = username
+        return True
+    return False
+
+def create_user(username, password):
+    if not username or not password:
+        return False, "الرجاء إدخال اسم المستخدم وكلمة المرور"
+    
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    try:
+        hashed = hash_password(password)
+        c.execute("INSERT INTO users VALUES (?, ?)", (username, hashed))
+        conn.commit()
+        return True, "تم إنشاء الحساب بنجاح!"
+    except sqlite3.IntegrityError:
+        return False, "اسم المستخدم موجود مسبقاً"
+    finally:
+        conn.close()
+
+if not st.session_state['logged_in']:
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.title("مرحباً بك في حاسبة نيويولك 🐔")
+        tab1, tab2 = st.tabs(["✨ تسجيل الدخول", "📝 إنشاء حساب جديد"])
+        
+        with tab1:
+            with st.form("login_form"):
+                username = st.text_input("اسم المستخدم")
+                password = st.text_input("كلمة المرور", type="password")
+                submit = st.form_submit_button("تسجيل الدخول")
+                
+                if submit:
+                    if login_user(username, password):
+                        st.success("تم تسجيل الدخول بنجاح!")
+                        st.rerun()
+                    else:
+                        st.error("خطأ في اسم المستخدم أو كلمة المرور")
+        
+        with tab2:
+            with st.form("register_form"):
+                new_username = st.text_input("اسم المستخدم الجديد")
+                new_password = st.text_input("كلمة المرور الجديدة", type="password")
+                confirm_password = st.text_input("تأكيد كلمة المرور", type="password")
+                submit = st.form_submit_button("إنشاء حساب")
+                
+                if submit:
+                    if new_password != confirm_password:
+                        st.error("كلمات المرور غير متطابقة")
+                    else:
+                        success, message = create_user(new_username, new_password)
+                        if success:
+                            st.success(message)
+                        else:
+                            st.error(message)
+else:
+    # إضافة زر تسجيل الخروج في الشريط الجانبي
+    with st.sidebar:
+        st.write(f"👋 مرحباً، {st.session_state['username']}")
+        if st.button("تسجيل الخروج", key="logout"):
+            st.session_state['logged_in'] = False
+            st.session_state['username'] = None
+            st.rerun()
+    
+    st.title(f"أهلاً بك في حاسبة نيويولك 🐔")
 
 # تعريف النصوص بجميع اللغات
 texts = {
