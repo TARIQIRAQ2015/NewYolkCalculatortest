@@ -1254,3 +1254,117 @@ st.markdown("""
         <title>New Yolk Calculator</title>
     </head>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* تأثيرات الحركة والألوان الأساسية */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                background-position: 100% 50%;
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                background-position: 50% 100%;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                background-position: 0% 50%;
+                filter: hue-rotate(270deg);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .stApp {
+            background: linear-gradient(45deg, 
+                #FF6B6B, 
+                #4ECDC4, 
+                #45B7D1,
+                #96C93D,
+                #E056FD,
+                #20E3B2,
+                #FF6B6B
+            ) !important;
+            background-size: 300% 300% !important;
+            animation: gradientAnimation 8s ease infinite !important;
+        }
+
+        /* تأثيرات اللمعان للعناصر */
+        .stButton > button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1)) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 2px solid rgba(255,255,255,0.3) !important;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37) !important;
+            color: white !important;
+            transition: all 0.4s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .stButton > button::before {
+            content: '' !important;
+            position: absolute !important;
+            top: -50% !important;
+            left: -50% !important;
+            width: 200% !important;
+            height: 200% !important;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%) !important;
+            animation: glowingEffect 3s infinite !important;
+        }
+
+        @keyframes glowingEffect {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* تأثيرات حركية للمدخلات */
+        .stTextInput > div > div > input,
+        div[data-baseweb="select"] {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(5px) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .stTextInput > div > div > input:focus,
+        div[data-baseweb="select"]:hover {
+            transform: translateY(-2px) !important;
+            border-color: rgba(255,255,255,0.8) !important;
+            box-shadow: 0 8px 24px rgba(255,255,255,0.2) !important;
+        }
+
+        /* تأثير النص المضيء */
+        .stMarkdown, .stHeader {
+            text-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
+        }
+
+        /* تأثيرات إضافية للعناصر */
+        .element-container {
+            transition: transform 0.3s ease !important;
+        }
+
+        .element-container:hover {
+            transform: scale(1.02) !important;
+        }
+
+        /* تأثير الزجاج للبطاقات */
+        .stDataFrame, pre {
+            background: rgba(255,255,255,0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37) !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
