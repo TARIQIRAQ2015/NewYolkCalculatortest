@@ -1215,104 +1215,56 @@ st.markdown("""
     <style>
         /* الألوان الأساسية */
         :root {
-            --color1: #2E3192;  /* أزرق داكن */
-            --color2: #1BFFFF;  /* سماوي */
-            --color3: #D4145A;  /* وردي */
-            --color4: #00C3FF;  /* أزرق فاتح */
-            --color5: #8A2BE2;  /* بنفسجي */
-            --color6: #00FF87;  /* أخضر نيون */
-            --text: #F8FAFC;
-            --border: rgba(255, 255, 255, 0.15);
-            --glow: rgba(255, 255, 255, 0.3);
+            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
+            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
+            --accent: #2D5B85;         /* أزرق فخم */
+            --highlight: #446B8C;      /* أزرق فاتح راقي */
+            --gold: #9B8B6C;          /* ذهبي فخم */
+            --text: #E6E9F0;          /* أبيض مائل للرمادي */
+            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
+            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
         }
 
         /* تأثيرات الحركة والخلفية */
-        @keyframes gradientFlow {
-            0% {
-                background-position: 0% 50%;
-                filter: hue-rotate(0deg);
-            }
-            25% {
-                background-position: 100% 50%;
-                filter: hue-rotate(90deg);
-            }
-            50% {
-                background-position: 50% 100%;
-                filter: hue-rotate(180deg);
-            }
-            75% {
-                background-position: 0% 50%;
-                filter: hue-rotate(270deg);
-            }
-            100% {
-                background-position: 0% 50%;
-                filter: hue-rotate(360deg);
-            }
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .stApp {
             background: linear-gradient(
-                45deg,
-                var(--color1),
-                var(--color2),
-                var(--color3),
-                var(--color4),
-                var(--color5),
-                var(--color6)
+                135deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
             ) !important;
-            background-size: 300% 300% !important;
-            animation: gradientFlow 10s ease infinite !important;
+            background-size: 200% 200% !important;
+            animation: subtleGradient 10s ease infinite !important;
         }
 
-        /* تأثير التوهج المتحرك */
-        @keyframes glowingBorder {
-            0% { border-color: var(--color2); }
-            25% { border-color: var(--color3); }
-            50% { border-color: var(--color4); }
-            75% { border-color: var(--color5); }
-            100% { border-color: var(--color2); }
-        }
-
-        /* تأثيرات الأزرار */
+        /* تنسيق الأزرار */
         .stButton > button {
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(12px) !important;
-            border: 2px solid transparent !important;
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                var(--dark-secondary)
+            ) !important;
+            border: 1px solid var(--gold) !important;
             color: var(--text) !important;
             padding: 0.7rem 1.4rem !important;
-            border-radius: 12px !important;
+            border-radius: 8px !important;
             font-weight: 500 !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-            position: relative !important;
-            overflow: hidden !important;
-            animation: glowingBorder 4s linear infinite !important;
-        }
-
-        .stButton > button::before {
-            content: '' !important;
-            position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
-            background: radial-gradient(
-                circle,
-                rgba(255,255,255,0.2) 0%,
-                transparent 50%
-            ) !important;
-            transform: rotate(0deg) !important;
-            animation: rotateGlow 3s linear infinite !important;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .stButton > button:hover {
-            transform: translateY(-3px) scale(1.02) !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            border-color: var(--gold) !important;
         }
 
         /* تنسيق العناوين */
@@ -1320,6 +1272,7 @@ st.markdown("""
             position: relative !important;
             margin-bottom: 2rem !important;
             padding-bottom: 0.5rem !important;
+            color: var(--text) !important;
         }
 
         .stHeader::after {
@@ -1328,82 +1281,64 @@ st.markdown("""
             bottom: 0 !important;
             left: 0 !important;
             width: 100% !important;
-            height: 2px !important;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--color2),
-                var(--color3),
-                var(--color4),
-                transparent
-            ) !important;
-            background-size: 200% 100% !important;
-            animation: gradientFlow 4s linear infinite !important;
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+            opacity: 0.5 !important;
         }
 
         /* تنسيق المدخلات */
         .stTextInput > div > div > input,
         div[data-baseweb="select"] {
-            background: rgba(255, 255, 255, 0.08) !important;
-            backdrop-filter: blur(12px) !important;
-            border: 2px solid var(--border) !important;
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
             color: var(--text) !important;
-            border-radius: 12px !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .stTextInput > div > div > input:focus,
         div[data-baseweb="select"]:hover {
-            transform: translateY(-2px) !important;
-            border-color: var(--color2) !important;
-            box-shadow: 0 0 20px rgba(27, 255, 255, 0.2) !important;
-            animation: glowingBorder 4s linear infinite !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px var(--glow) !important;
+            transform: translateY(-1px) !important;
         }
 
         /* تنسيق الجداول والإطارات */
         .stDataFrame, pre {
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(12px) !important;
-            border: 2px solid var(--border) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .stDataFrame:hover, pre:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
-            border-color: var(--color2) !important;
-            animation: glowingBorder 4s linear infinite !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
         }
 
         /* تنسيق الرسوم البيانية */
         .js-plotly-plot {
-            background: rgba(255, 255, 255, 0.03) !important;
-            backdrop-filter: blur(12px) !important;
-            border: 2px solid var(--border) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
         }
 
         .js-plotly-plot:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
-            animation: glowingBorder 4s linear infinite !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
         }
 
-        /* تأثيرات النص */
+        /* تنسيق النصوص */
         .stMarkdown {
             color: var(--text) !important;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;
-            transition: all 0.3s ease !important;
         }
 
-        /* تحسين القراءة */
         .dataframe {
             color: var(--text) !important;
-            backdrop-filter: blur(8px) !important;
         }
 
         /* إخفاء العناصر غير الضرورية */
