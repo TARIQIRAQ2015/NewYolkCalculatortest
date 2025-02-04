@@ -1125,30 +1125,38 @@ st.markdown("""
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 50px !important;
-            height: 50px !important;
-            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
-            border: 1px solid var(--gold) !important;
+            width: 55px !important;
+            height: 55px !important;
+            background: linear-gradient(
+                135deg,
+                rgba(45, 91, 133, 0.95),
+                rgba(10, 15, 28, 0.95)
+            ) !important;
+            border: 2px solid var(--gold) !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px var(--glow) !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 
+                0 4px 15px var(--glow),
+                0 0 20px rgba(155, 139, 108, 0.3),
+                inset 0 0 15px rgba(155, 139, 108, 0.2) !important;
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
-            opacity: 0.9 !important;
+            opacity: 0.95 !important;
             text-decoration: none !important;
             overflow: hidden !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
-            color: var(--text) !important;
-            font-size: 24px !important;
+            color: var(--gold) !important;
+            font-size: 28px !important;
             font-weight: bold !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3),
+                         0 0 10px rgba(155, 139, 108, 0.5) !important;
             transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 2 !important;
@@ -1157,42 +1165,48 @@ st.markdown("""
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(155, 139, 108, 0.3),
-                transparent
+            inset: -50% !important;
+            background: radial-gradient(
+                circle at center,
+                rgba(155, 139, 108, 0.3) 0%,
+                transparent 70%
             ) !important;
-            transform: rotate(45deg) !important;
-            animation: shine 3s linear infinite !important;
+            animation: pulseGlow 3s ease-in-out infinite !important;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        @keyframes pulseGlow {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+            100% { opacity: 0.5; transform: scale(1); }
         }
 
         @keyframes float {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-8px); }
             100% { transform: translateY(0); }
         }
 
         .scroll-to-top {
-            animation: float 3s ease-in-out infinite !important;
+            animation: float 4s ease-in-out infinite !important;
         }
 
         .scroll-to-top:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 8px 25px var(--glow) !important;
+            transform: scale(1.15) !important;
+            box-shadow: 
+                0 8px 25px var(--glow),
+                0 0 30px rgba(155, 139, 108, 0.4),
+                inset 0 0 20px rgba(155, 139, 108, 0.3) !important;
+            border-color: rgba(155, 139, 108, 0.8) !important;
             opacity: 1 !important;
         }
 
-        /* إضافة تلميح عند التحويم */
+        .scroll-to-top:hover::before {
+            transform: scale(1.1) translateY(-2px) !important;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
+                        0 0 15px rgba(155, 139, 108, 0.6) !important;
+        }
+
+        /* تنسيق التلميح */
         .scroll-to-top-wrapper {
             position: relative !important;
             display: inline-block !important;
@@ -1203,23 +1217,33 @@ st.markdown("""
             position: absolute !important;
             bottom: 100% !important;
             left: 50% !important;
-            transform: translateX(-50%) !important;
-            padding: 8px !important;
-            background: var(--dark-secondary) !important;
-            color: var(--text) !important;
-            border-radius: 4px !important;
-            font-size: 14px !important;
+            transform: translateX(-50%) scale(0.95) !important;
+            padding: 10px 15px !important;
+            background: linear-gradient(
+                135deg,
+                rgba(45, 91, 133, 0.95),
+                rgba(10, 15, 28, 0.95)
+            ) !important;
+            color: var(--gold) !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            font-weight: 500 !important;
             white-space: nowrap !important;
             opacity: 0 !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
             pointer-events: none !important;
             border: 1px solid var(--gold) !important;
             backdrop-filter: blur(10px) !important;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(155, 139, 108, 0.2) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
         }
 
         .scroll-to-top-wrapper:hover::after {
             opacity: 1 !important;
-            bottom: 120% !important;
+            bottom: 130% !important;
+            transform: translateX(-50%) scale(1) !important;
         }
     </style>
 
