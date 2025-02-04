@@ -808,7 +808,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-if st.button(texts[language]["save_prices"], type="secondary"):
+if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_button"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
         error_messages = {
             "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
@@ -907,7 +907,7 @@ if calculation_type == texts[language]["chicken_profits"]:
             help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else ""
         )
 
-    if st.button(texts[language]["calculate_profits"], type="primary"):
+    if st.button(texts[language]["calculate_profits"], type="primary", key="calculate_profits_button"):
         try:
             eggs = float(eggs) if eggs else None
             days = float(days) if days else None
@@ -1076,7 +1076,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
             help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food needed" if language == "English" else ""
         )
 
-    if st.button(texts[language]["calculate_rewards"], type="primary"):
+    if st.button(texts[language]["calculate_rewards"], type="primary", key="calculate_rewards_button"):
         try:
             rewards = float(rewards) if rewards else None
             food = float(food) if food else None
@@ -1178,7 +1178,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
             """, unsafe_allow_html=True)
 
 # زر إعادة التعيين
-if st.button(texts[language]["reset"], type="secondary"):
+if st.button(texts[language]["reset"], type="secondary", key="reset_button"):
     success_messages = {
         "العربية": "تم إعادة تعيين جميع القيم بنجاح! ✨",
         "English": "All values have been reset successfully! ✨",
@@ -1351,7 +1351,7 @@ def show_error_message(message):
     """, unsafe_allow_html=True)
 
 # تحديث رسائل التطبيق
-if st.button(texts[language]["save_prices"], type="secondary"):
+if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_button"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
         error_messages = {
             "العربية": "يرجى إدخال جميع القيم المطلوبة!",
@@ -1368,7 +1368,7 @@ if st.button(texts[language]["save_prices"], type="secondary"):
         show_success_message(success_messages[language])
 
 # تحديث رسالة إعادة التعيين
-if st.button(texts[language]["reset"], type="secondary"):
+if st.button(texts[language]["reset"], type="secondary", key="reset_button"):
     success_messages = {
         "العربية": "تم إعادة تعيين جميع القيم بنجاح!",
         "English": "All values have been reset successfully!",
