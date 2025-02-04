@@ -232,14 +232,14 @@ st.markdown("""
         .stSelectbox > div > div {
             background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !重要;
+            border-radius: 8px !important;
             color: #ffffff !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             padding: 12px !important;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             height: auto !important;
-            min-height: 48px !重要;
+            min-height: 48px !important;
             font-size: 16px !important;
             line-height: 1.5 !important;
         }
@@ -1196,36 +1196,3 @@ st.markdown("""
         <title>New Yolk Calculator</title>
     </head>
 """, unsafe_allow_html=True)
-
-# تبسيط وظيفة تصدير النتائج
-def export_results(results):
-    st.download_button(
-        label=texts[language].get("download_results", "Download Results") + " 📥",
-        data=results,
-        file_name=f"newyolk_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
-        mime="text/plain"
-    )
-
-# تبسيط وظيفة مشاركة النتائج
-def share_results(results):
-    share_text = results.replace('\n', '%0A')
-    st.markdown(f"""
-        <div style="text-align: center; margin: 20px 0;">
-            <a href="https://twitter.com/intent/tweet?text={share_text}" target="_blank" 
-               style="margin: 0 10px; text-decoration: none;">
-               🐦 Twitter
-            </a>
-            <a href="https://t.me/share/url?url={share_text}" target="_blank"
-               style="margin: 0 10px; text-decoration: none;">
-               📱 Telegram
-            </a>
-        </div>
-    """, unsafe_allow_html=True)
-
-# إضافة أزرار التصدير والمشاركة بعد عرض النتائج
-if 'results_text' in locals():
-    col_exp, col_share = st.columns(2)
-    with col_exp:
-        export_results(results_text)
-    with col_share:
-        share_results(results_text)
