@@ -321,7 +321,7 @@ st.markdown("""
         
         /* تحسين حقول الإدخال */
         .stNumberInput > div > div > input {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 8px !important;
             color: #e2e2e2 !important;
@@ -1276,5 +1276,5 @@ st.markdown("""
         }
 
         /* باقي التنسيقات تبقى كما هي */
-{{ ... }}
-```
+    </style>
+""", unsafe_allow_html=True)
