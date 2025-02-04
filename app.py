@@ -452,104 +452,6 @@ st.markdown("""
         /* تأثير الخلفية المتحركة */
         @keyframes gradientBG {
             0% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-            50% {
-                background: linear-gradient(45deg, 
-                    #16213e,
-                    #0f3460,
-                    #1a1a2e
-                );
-                background-size: 200% 200%;
-                background-position: 100% 50%;
-            }
-            100% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* تنسيق العنوان الرئيسي */
-        .main-title {
-            font-size: 2.5em !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            margin-bottom: 1em !important;
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* تأثيرات الحركة والألوان */
-        @keyframes gradientBG {
-            0% {
                 background-position: 0% 50%;
             }
             50% {
@@ -1213,6 +1115,160 @@ st.markdown("""
 
 st.markdown("""
     <style>
+        /* الألوان الأساسية */
+        :root {
+            --primary: #1A2634;
+            --secondary: #0EA5E9;
+            --accent: #22D3EE;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --text: #F8FAFC;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes softFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .stApp {
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                #0F172A,
+                #164E63,
+                var(--primary)
+            ) !important;
+            background-size: 200% 200% !important;
+            animation: subtleGradient 10s ease infinite !important;
+        }
+
+        /* تنسيق الأزرار */
+        .stButton > button {
+            background: linear-gradient(
+                135deg,
+                var(--secondary),
+                var(--accent)
+            ) !important;
+            border: none !important;
+            color: var(--text) !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .stButton > button::after {
+            content: '' !important;
+            position: absolute !important;
+            top: -50% !important;
+            left: -50% !important;
+            width: 200% !important;
+            height: 200% !important;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%) !important;
+            opacity: 0 !important;
+            transition: opacity 0.3s ease !important;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25) !important;
+        }
+
+        .stButton > button:hover::after {
+            opacity: 1 !important;
+        }
+
+        /* تنسيق المدخلات مع تأثيرات إضافية */
+        .stTextInput > div > div > input,
+        div[data-baseweb="select"] {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(8px) !important;
+        }
+
+        .stTextInput > div > div > input:focus,
+        div[data-baseweb="select"]:hover {
+            border-color: var(--secondary) !important;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            animation: softFloat 2s ease infinite !important;
+        }
+
+        /* تنسيق العناوين مع تأثير خفيف */
+        h1, h2, h3 {
+            color: var(--text) !important;
+            font-weight: 600 !important;
+            position: relative !important;
+        }
+
+        h1::after, h2::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 50px !important;
+            height: 2px !important;
+            background: var(--accent) !important;
+            animation: gentlePulse 3s ease infinite !important;
+        }
+
+        /* تنسيق الجداول والإطارات */
+        .stDataFrame, pre {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+            backdrop-filter: blur(12px) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .stDataFrame:hover, pre:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 12px !important;
+            border: 1px solid var(--border) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .js-plotly-plot:hover {
+            transform: scale(1.01) !important;
+        }
+
+        /* إخفاء العناصر غير الضرورية */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
         /* تحسين الإيموجي في العنوان */
         .emoji-link {
             text-decoration: none;
@@ -1253,122 +1309,4 @@ st.markdown("""
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3059/3059997.png">
         <title>New Yolk Calculator</title>
     </head>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* الألوان الأساسية */
-        :root {
-            --primary: #1A2634;
-            --secondary: #0EA5E9;
-            --accent: #22D3EE;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --text: #F8FAFC;
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
-        /* تأثيرات الحركة والخلفية */
-        @keyframes subtleGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .stApp {
-            background: linear-gradient(
-                135deg,
-                var(--primary),
-                #0F172A,
-                #164E63,
-                var(--primary)
-            ) !important;
-            background-size: 200% 200% !important;
-            animation: subtleGradient 20s ease infinite !important;
-        }
-
-        /* تنسيق الأزرار */
-        .stButton > button {
-            background: linear-gradient(
-                135deg,
-                var(--secondary),
-                var(--accent)
-            ) !important;
-            border: none !important;
-            color: var(--text) !important;
-            padding: 0.6rem 1.2rem !important;
-            border-radius: 8px !important;
-            font-weight: 500 !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
-        }
-
-        .stButton > button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25) !important;
-        }
-
-        /* تنسيق المدخلات */
-        .stTextInput > div > div > input,
-        div[data-baseweb="select"] {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid var(--border) !important;
-            color: var(--text) !important;
-            border-radius: 8px !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .stTextInput > div > div > input:focus,
-        div[data-baseweb="select"]:hover {
-            border-color: var(--secondary) !important;
-            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2) !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-        }
-
-        /* تنسيق النصوص والعناوين */
-        .stMarkdown, .stHeader {
-            color: var(--text) !important;
-        }
-
-        h1, h2, h3 {
-            color: var(--text) !important;
-            font-weight: 600 !important;
-        }
-
-        /* تنسيق الجداول والإطارات */
-        .stDataFrame, pre {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid var(--border) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        .dataframe {
-            color: var(--text) !important;
-        }
-
-        /* تنسيق عناصر التحديد */
-        .stSelectbox > div > div {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border-radius: 8px !important;
-        }
-
-        .stSelectbox > div > div:hover {
-            border-color: var(--secondary) !important;
-        }
-
-        /* تنسيق الرسوم البيانية */
-        .js-plotly-plot {
-            background: rgba(255, 255, 255, 0.02) !important;
-            border-radius: 12px !important;
-            border: 1px solid var(--border) !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        /* إخفاء العناصر غير الضرورية */
-        #MainMenu {visibility: hidden !important;}
-        footer {visibility: hidden !important;}
-        header {visibility: hidden !important;}
-
-    </style>
 """, unsafe_allow_html=True)
