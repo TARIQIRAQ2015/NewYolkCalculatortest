@@ -1120,63 +1120,43 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* الألوان الأساسية المتحركة */
+        /* الألوان الأساسية */
         :root {
-            --dark-primary: #0A0F1C;
-            --dark-secondary: #1A1F35;
-            --accent: #2D5B85;
-            --highlight: #446B8C;
-            --gold: #9B8B6C;
+            --color1: #0A1128;  /* أزرق داكن */
+            --color2: #1C2541;  /* أزرق متوسط */
+            --color3: #3A506B;  /* أزرق فاتح */
+            --color4: #5C677D;  /* رمادي مائل للأزرق */
+            --gold1: #BFA181;   /* ذهبي فاتح */
+            --gold2: #8B7355;   /* ذهبي داكن */
             --text: #E6E9F0;
-            --border: rgba(155, 139, 108, 0.15);
-            --glow: rgba(155, 139, 108, 0.2);
         }
 
-        /* تأثيرات الحركة والخلفية */
-        @keyframes gradientAnimation {
+        /* تأثير الخلفية المتحركة */
+        .stApp {
+            background: linear-gradient(
+                45deg,
+                var(--color1),
+                var(--color2),
+                var(--color3),
+                var(--color4)
+            ) !important;
+            background-size: 400% 400% !important;
+            animation: gradientBG 10s ease infinite !important;
+        }
+
+        @keyframes gradientBG {
             0% {
                 background-position: 0% 50%;
-                --accent: #2D5B85;
-                --highlight: #446B8C;
-                --gold: #9B8B6C;
-            }
-            25% {
-                --accent: #2D4B85;
-                --highlight: #445B8C;
-                --gold: #9B7B6C;
             }
             50% {
                 background-position: 100% 50%;
-                --accent: #2D3B85;
-                --highlight: #444B8C;
-                --gold: #9B6B6C;
-            }
-            75% {
-                --accent: #2D4B85;
-                --highlight: #445B8C;
-                --gold: #9B7B6C;
             }
             100% {
                 background-position: 0% 50%;
-                --accent: #2D5B85;
-                --highlight: #446B8C;
-                --gold: #9B8B6C;
             }
         }
 
-        .stApp {
-            background: linear-gradient(
-                135deg,
-                var(--dark-primary),
-                var(--dark-secondary),
-                var(--accent),
-                var(--dark-primary)
-            ) !important;
-            background-size: 300% 300% !important;
-            animation: gradientAnimation 10s ease infinite !important;
-        }
-
-        /* تحديث تصميم زر التمرير */
+        /* تصميم زر التمرير */
         .scroll-to-top-wrapper {
             position: relative !important;
             display: inline-block !important;
@@ -1186,85 +1166,73 @@ st.markdown("""
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 55px !important;
-            height: 55px !important;
-            background: rgba(45, 91, 133, 0.2) !important;
-            border: 2px solid var(--gold) !important;
-            border-radius: 18px !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            background: rgba(26, 31, 53, 0.3) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 2px solid transparent !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            backdrop-filter: blur(12px) !important;
             z-index: 9999 !important;
-            opacity: 0.95 !important;
-            text-decoration: none !important;
             overflow: hidden !important;
             box-shadow: 
-                0 4px 15px rgba(155, 139, 108, 0.2),
-                inset 0 0 20px rgba(155, 139, 108, 0.1) !important;
+                0 4px 20px rgba(191, 161, 129, 0.2),
+                inset 0 0 20px rgba(191, 161, 129, 0.1) !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
-            color: var(--gold) !important;
+            color: var(--gold1) !important;
             font-size: 28px !important;
             font-weight: bold !important;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
             transition: all 0.3s ease !important;
-            position: relative !important;
             z-index: 2 !important;
+        }
+
+        /* تأثير الحدود المتحركة */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            inset: 0 !important;
+            inset: -2px !important;
+            border-radius: 50% !important;
+            padding: 2px !important;
             background: linear-gradient(
                 45deg,
-                transparent,
-                rgba(155, 139, 108, 0.2),
-                transparent
+                var(--gold1),
+                var(--gold2),
+                var(--color3),
+                var(--gold1)
             ) !important;
-            transform: translateX(-100%) !important;
-            animation: shimmer 3s infinite !important;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0) !important;
+            -webkit-mask-composite: xor !important;
+            mask-composite: exclude !important;
+            animation: rotate 4s linear infinite !important;
         }
 
-        @keyframes shimmer {
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { border-color: var(--gold); }
-            50% { border-color: var(--accent); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-5px) rotate(2deg); }
-        }
-
-        .scroll-to-top {
-            animation: 
-                float 4s ease-in-out infinite,
-                borderGlow 4s ease-in-out infinite !important;
-        }
-
+        /* تأثير التوهج عند التحويم */
         .scroll-to-top:hover {
             transform: scale(1.05) !important;
-            border-radius: 25% !important;
-            background: rgba(45, 91, 133, 0.3) !important;
-            box-shadow: 
-                0 8px 25px rgba(155, 139, 108, 0.3),
-                inset 0 0 30px rgba(155, 139, 108, 0.2) !important;
+            background: rgba(26, 31, 53, 0.5) !important;
         }
 
         .scroll-to-top:hover::before {
-            transform: translateY(-2px) !important;
             color: var(--text) !important;
+            transform: translateY(-2px) !important;
         }
 
+        /* تأثير التلميح */
         .scroll-to-top-wrapper::after {
             content: 'الذهاب إلى الأعلى' !important;
             position: absolute !important;
@@ -1273,15 +1241,15 @@ st.markdown("""
             transform: translateX(-50%) scale(0.9) !important;
             padding: 8px 15px !important;
             background: rgba(26, 31, 53, 0.95) !important;
-            color: var(--gold) !important;
-            border-radius: 12px !important;
+            color: var(--gold1) !important;
+            border-radius: 15px !important;
             font-size: 14px !important;
             white-space: nowrap !important;
             opacity: 0 !important;
             transition: all 0.3s ease !important;
             pointer-events: none !important;
-            border: 1px solid var(--gold) !important;
-            backdrop-filter: blur(12px) !important;
+            border: 1px solid var(--gold1) !important;
+            backdrop-filter: blur(10px) !important;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
@@ -1289,6 +1257,16 @@ st.markdown("""
             opacity: 1 !important;
             transform: translateX(-50%) scale(1) !important;
             bottom: 125% !important;
+        }
+
+        /* تأثير النبض */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .scroll-to-top:hover::before {
+            animation: pulse 2s ease-in-out infinite !important;
         }
     </style>
 
@@ -1315,9 +1293,7 @@ st.markdown("""
             --accent: #2D5B85;         /* أزرق فخم */
             --highlight: #446B8C;      /* أزرق فاتح راقي */
             --gold: #9B8B6C;          /* ذهبي فخم */
-            --text: #E6E9F0;          /* أبيض مائل للرمادي */
-            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
-            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
+            --text: #E6E9F0;
         }
 
         /* تأثيرات الحركة والخلفية */
