@@ -1134,7 +1134,6 @@ st.markdown("""
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
             opacity: 0.9 !important;
-            text-decoration: none !important;
         }
 
         .scroll-to-top:hover {
@@ -1162,22 +1161,22 @@ st.markdown("""
         }
     </style>
 
+    <div class="scroll-to-top" 
+         onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+         title="الذهاب إلى الأعلى">
+    </div>
+
     <script>
-        function scrollToLanguage() {
-            // التمرير إلى قسم اللغة في الأعلى
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            // التأكد من أن قسم اللغة مرئي
-            const languageSection = document.querySelector('select[aria-label="اختر اللغة"]');
-            if (languageSection) {
-                languageSection.scrollIntoView({ behavior: 'smooth' });
+        // تأكد من أن الزر يظهر فقط عند التمرير للأسفل
+        window.onscroll = function() {
+            var scrollButton = document.querySelector('.scroll-to-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollButton.style.display = "flex";
+            } else {
+                scrollButton.style.display = "none";
             }
-        }
+        };
     </script>
-    
-    <a onclick="scrollToLanguage()" class="scroll-to-top" title="الذهاب إلى قسم اللغة"></a>
 """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -1401,4 +1400,70 @@ st.markdown("""
     </style>
 
     <a href="#language" class="language-button" title="اللغة | Language | Limbă"></a>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* تنسيق زر التمرير في نهاية التطبيق */
+        .scroll-to-top {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 30px !important;
+            width: 50px !important;
+            height: 50px !important;
+            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
+            border: 1px solid var(--gold) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            z-index: 9999 !important;
+            opacity: 0.9 !important;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            opacity: 1 !important;
+        }
+
+        .scroll-to-top::before {
+            content: '↑' !important;
+            color: var(--text) !important;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .scroll-to-top:hover::before {
+            animation: pulse 1.5s ease-in-out infinite !important;
+        }
+    </style>
+
+    <div class="scroll-to-top" 
+         onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+         title="الذهاب إلى الأعلى">
+    </div>
+
+    <script>
+        // تأكد من أن الزر يظهر فقط عند التمرير للأسفل
+        window.onscroll = function() {
+            var scrollButton = document.querySelector('.scroll-to-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollButton.style.display = "flex";
+            } else {
+                scrollButton.style.display = "none";
+            }
+        };
+    </script>
 """, unsafe_allow_html=True)
