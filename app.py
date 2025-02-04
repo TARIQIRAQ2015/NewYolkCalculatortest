@@ -10,6 +10,9 @@ st.set_page_config(
     layout="wide"
 )
 
+# تعريف اللغة
+language = "العربية"
+
 # تعريف النمط الموحد
 st.markdown("""
     <style>
