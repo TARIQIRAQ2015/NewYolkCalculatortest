@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # تحسين الواجهة
 st.set_page_config(
     page_title="New Yolk Calculator",
-    page_icon="https://cdn-icons-png.flaticon.com/512/3059/3059997.png",
+    page_icon="🐔",
     layout="wide"
 )
 
