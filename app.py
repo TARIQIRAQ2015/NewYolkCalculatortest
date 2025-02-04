@@ -452,104 +452,6 @@ st.markdown("""
         /* تأثير الخلفية المتحركة */
         @keyframes gradientBG {
             0% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-            50% {
-                background: linear-gradient(45deg, 
-                    #16213e,
-                    #0f3460,
-                    #1a1a2e
-                );
-                background-size: 200% 200%;
-                background-position: 100% 50%;
-            }
-            100% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* تنسيق العنوان الرئيسي */
-        .main-title {
-            font-size: 2.5em !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            margin-bottom: 1em !important;
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* تأثيرات الحركة والألوان */
-        @keyframes gradientBG {
-            0% {
                 background-position: 0% 50%;
             }
             50% {
@@ -1217,7 +1119,7 @@ st.markdown("""
         .scroll-to-top {
             position: fixed !important;
             bottom: 30px !important;
-            right: 30px !important;
+            left: 30px !important;
             width: 50px !important;
             height: 50px !important;
             background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
@@ -1232,6 +1134,7 @@ st.markdown("""
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
             opacity: 0.9 !important;
+            text-decoration: none !important;
         }
 
         .scroll-to-top:hover {
@@ -1266,7 +1169,7 @@ st.markdown("""
             window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
         }
     </script>
-    <div class="scroll-to-top" onclick="scrollToTop()"></div>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
 """, unsafe_allow_html=True)
 
 st.markdown("""
