@@ -2,6 +2,27 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
+import sqlite3
+import bcrypt
+import os
+
+# إعداد قاعدة البيانات
+def init_db():
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS users
+                 (username TEXT PRIMARY KEY, password TEXT)''')
+    conn.commit()
+    conn.close()
+
+def hash_password(password):
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+def verify_password(password, hashed):
+    return bcrypt.checkpw(password.encode(), hashed)
+
+# تهيئة قاعدة البيانات
+init_db()
 
 # تحسين الواجهة
 st.set_page_config(
@@ -10,7 +31,62 @@ st.set_page_config(
     layout="wide"
 )
 
-# إخفاء أزرار التحكم بالمظهر
+# التحقق من حالة تسجيل الدخول
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+
+if not st.session_state['logged_in']:
+    st.title("مرحباً بك في حاسبة نيويولك 🐔")
+    
+    tab1, tab2 = st.tabs(["تسجيل الدخول", "إنشاء حساب جديد"])
+    
+    with tab1:
+        username = st.text_input("اسم المستخدم")
+        password = st.text_input("كلمة المرور", type="password")
+        
+        if st.button("تسجيل الدخول"):
+            conn = sqlite3.connect('users.db')
+            c = conn.cursor()
+            c.execute("SELECT password FROM users WHERE username=?", (username,))
+            result = c.fetchone()
+            
+            if result and verify_password(password, result[0]):
+                st.session_state['logged_in'] = True
+                st.session_state['username'] = username
+                st.success("تم تسجيل الدخول بنجاح!")
+                st.experimental_rerun()
+            else:
+                st.error("خطأ في اسم المستخدم أو كلمة المرور")
+            conn.close()
+    
+    with tab2:
+        new_username = st.text_input("اسم المستخدم الجديد")
+        new_password = st.text_input("كلمة المرور الجديدة", type="password")
+        confirm_password = st.text_input("تأكيد كلمة المرور", type="password")
+        
+        if st.button("إنشاء حساب"):
+            if new_password != confirm_password:
+                st.error("كلمات المرور غير متطابقة")
+            else:
+                conn = sqlite3.connect('users.db')
+                c = conn.cursor()
+                try:
+                    hashed = hash_password(new_password)
+                    c.execute("INSERT INTO users VALUES (?, ?)", (new_username, hashed))
+                    conn.commit()
+                    st.success("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول")
+                except sqlite3.IntegrityError:
+                    st.error("اسم المستخدم موجود مسبقاً")
+                conn.close()
+else:
+    # إضافة زر تسجيل الخروج
+    if st.sidebar.button("تسجيل الخروج"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
+        
+    st.title(f"أهلاً بك {st.session_state['username']} في حاسبة نيويولك 🐔")
+
+# تحسين الواجهة
 st.markdown("""
     <style>
         /* إخفاء العناصر غير الضرورية */
