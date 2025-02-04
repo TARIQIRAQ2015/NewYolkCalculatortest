@@ -452,20 +452,32 @@ st.markdown("""
         /* تأثير الخلفية المتحركة */
         @keyframes gradientBG {
             0% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
                 background-position: 0% 50%;
             }
             50% {
+                background: linear-gradient(45deg, 
+                    #16213e,
+                    #0f3460,
+                    #1a1a2e
+                );
+                background-size: 200% 200%;
                 background-position: 100% 50%;
             }
             100% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
                 background-position: 0% 50%;
             }
-        }
-
-        .stApp {
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
-            background-size: 400% 400% !important;
-            animation: gradientBG 8s ease infinite !important;
         }
 
         /* تنسيق النص داخل ملخص النتائج */
@@ -1214,67 +1226,125 @@ st.markdown("""
         }
 
         /* تأثيرات الحركة والخلفية */
-        @keyframes gradientMotion {
-            0% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
-            25% {
-                background-position: 100% 50%;
-                background-size: 200% 200%;
-            }
-            50% {
-                background-position: 50% 100%;
-                background-size: 150% 150%;
-            }
-            75% {
-                background-position: 0% 100%;
-                background-size: 200% 200%;
-            }
-            100% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .stApp {
-            background: radial-gradient(
-                circle at center,
-                var(--dark-primary) 0%,
-                var(--dark-secondary) 30%,
-                var(--accent) 70%,
-                var(--dark-primary) 100%
-            ),
-            linear-gradient(
-                45deg,
+            background: linear-gradient(
+                135deg,
                 var(--dark-primary),
                 var(--dark-secondary),
                 var(--accent),
                 var(--dark-primary)
             ) !important;
             background-size: 200% 200% !important;
-            animation: gradientMotion 10s ease infinite !important;
-            position: relative !important;
-            overflow: hidden !important;
+            animation: subtleGradient 10s ease infinite !important;
         }
 
-        .stApp::before {
+        /* تنسيق الأزرار */
+        .stButton > button {
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                var(--dark-secondary)
+            ) !important;
+            border: 1px solid var(--gold) !important;
+            color: var(--text) !important;
+            padding: 0.7rem 1.4rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            border-color: var(--gold) !important;
+        }
+
+        /* تنسيق العناوين */
+        .stHeader {
+            position: relative !important;
+            margin-bottom: 2rem !important;
+            padding-bottom: 0.5rem !important;
+            color: var(--text) !important;
+        }
+
+        .stHeader::after {
             content: '' !important;
             position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
-            background: radial-gradient(
-                circle at center,
-                transparent 0%,
-                var(--dark-primary) 100%
-            ) !important;
-            opacity: 0.7 !important;
-            animation: gradientMotion 15s ease-in-out infinite reverse !important;
-            pointer-events: none !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+            opacity: 0.5 !important;
         }
 
-        /* باقي التنسيقات تبقى كما هي */
-{{ ... }}
-```
+        /* تنسيق المدخلات */
+        .stTextInput > div > div > input,
+        div[data-baseweb="select"] {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stTextInput > div > div > input:focus,
+        div[data-baseweb="select"]:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px var(--glow) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* تنسيق الجداول والإطارات */
+        .stDataFrame, pre {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stDataFrame:hover, pre:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .js-plotly-plot:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق النصوص */
+        .stMarkdown {
+            color: var(--text) !important;
+        }
+
+        .dataframe {
+            color: var(--text) !important;
+        }
+
+        /* إخفاء العناصر غير الضرورية */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+
+    </style>
+""", unsafe_allow_html=True)
