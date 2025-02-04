@@ -1278,3 +1278,137 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
+
+# تنسيق CSS للعنوان الجديد
+st.markdown("""
+    <style>
+        /* تنسيق العنوان الرئيسي */
+        .app-header {
+            display: flex !important;
+            align-items: center !important;
+            margin-bottom: 2rem !important;
+            padding: 1rem !important;
+            background: rgba(10, 15, 28, 0.3) !important;
+            border-radius: 10px !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .app-logo {
+            width: 50px !important;
+            height: 50px !important;
+            margin-left: 1rem !important;
+            filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.3)) !important;
+        }
+
+        .app-title {
+            font-size: 2em !important;
+            color: var(--text) !important;
+            margin: 0 !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .app-subtitle {
+            font-size: 1.3em !important;
+            color: var(--text) !important;
+            opacity: 0.8 !important;
+            margin-top: 1rem !important;
+            text-align: center !important;
+            font-weight: normal !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# إضافة العنوان الرئيسي مع الشعار
+st.markdown("""
+    <div class="app-header">
+        <img src="https://raw.githubusercontent.com/yourusername/NewYolkCalculator/main/assets/chicken-logo.png" class="app-logo" alt="شعار الدجاج">
+        <h1 class="app-title">حاسبة الدجاج - نيويولك</h1>
+    </div>
+    <h2 class="app-subtitle">حساب أرباح الدجاج والمكافآت اليومية</h2>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* الألوان الأساسية */
+        :root {
+            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
+            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
+            --accent: #2D5B85;         /* أزرق فخم */
+            --highlight: #446B8C;      /* أزرق فاتح راقي */
+            --gold: #9B8B6C;          /* ذهبي فخم */
+            --text: #E6E9F0;          /* أبيض مائل للرمادي */
+            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
+            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
+        }
+
+        /* تنسيق العنوان الرئيسي والدجاجة */
+        .main-title {
+            font-size: 2.5em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 1em !important;
+            color: var(--text) !important;
+            text-shadow: 0 0 20px var(--glow) !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 15px !important;
+        }
+
+        .chicken-emoji {
+            display: inline-block !important;
+            font-size: 1.2em !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            animation: float 2s ease-in-out infinite !important;
+        }
+
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg) !important;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg) brightness(0.8);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: hue-rotate(10deg) brightness(0.9);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg) brightness(0.8);
+            }
+        }
+
+        .stApp {
+            background: linear-gradient(
+                45deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--highlight),
+                var(--dark-primary)
+            ) !important;
+            background-size: 300% 300% !important;
+            animation: gradientAnimation 10s ease infinite !important;
+        }
+
+        /* باقي التنسيقات */
+        {{ ... }}
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="main-title">
+    حاسبة البيض 🐔
+</div>
+""", unsafe_allow_html=True)
