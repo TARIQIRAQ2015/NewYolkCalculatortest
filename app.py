@@ -810,7 +810,16 @@ st.markdown("""
 
 if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
-        st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
+        error_messages = {
+            "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
+            "English": "Please enter all required values! ❗️",
+            "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
+        }
+        st.markdown(f"""
+            <div class="error-message">
+                {error_messages[language]}
+            </div>
+        """, unsafe_allow_html=True)
     else:
         st.markdown("""
             <div class="success-message">
@@ -904,11 +913,38 @@ if calculation_type == texts[language]["chicken_profits"]:
             days = float(days) if days else None
 
             if eggs is None or days is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
+                error_messages = {
+                    "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
+                    "English": "Please enter all required values! ❗️",
+                    "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
+                }
+                st.markdown(f"""
+                    <div class="error-message">
+                        {error_messages[language]}
+                    </div>
+                """, unsafe_allow_html=True)
             elif eggs > 580:
-                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "")
+                error_messages = {
+                    "العربية": "عدد البيض يجب ألا يتجاوز 580! ❗️",
+                    "English": "Number of eggs should not exceed 580! ❗️",
+                    "Română": "Numărul de ouă nu trebuie să depășească 580! ❗️"
+                }
+                st.markdown(f"""
+                    <div class="error-message">
+                        {error_messages[language]}
+                    </div>
+                """, unsafe_allow_html=True)
             elif days > 730:
-                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
+                error_messages = {
+                    "العربية": "عدد الأيام يجب ألا يتجاوز 730! ❗️",
+                    "English": "Number of days should not exceed 730! ❗️",
+                    "Română": "Numărul de zile nu trebuie să depășească 730! ❗️"
+                }
+                st.markdown(f"""
+                    <div class="error-message">
+                        {error_messages[language]}
+                    </div>
+                """, unsafe_allow_html=True)
             else:
                 # حساب الأرباح
                 total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
@@ -1011,7 +1047,16 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.code(results_text)
                 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+            error_messages = {
+                "العربية": "يرجى إدخال أرقام صحيحة! ❗️",
+                "English": "Please enter valid numbers! ❗️",
+                "Română": "Vă rugăm să introduceți numere valide! ❗️"
+            }
+            st.markdown(f"""
+                <div class="error-message">
+                    {error_messages[language]}
+                </div>
+            """, unsafe_allow_html=True)
 
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
@@ -1037,7 +1082,16 @@ elif calculation_type == texts[language]["daily_rewards"]:
             food = float(food) if food else None
 
             if rewards is None or food is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
+                error_messages = {
+                    "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
+                    "English": "Please enter all required values! ❗️",
+                    "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
+                }
+                st.markdown(f"""
+                    <div class="error-message">
+                        {error_messages[language]}
+                    </div>
+                """, unsafe_allow_html=True)
             else:
                 # حساب الربح اليومي
                 daily_profit = rewards * float(new_egg_price) - food * float(new_feed_price)
@@ -1112,13 +1166,27 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.code(results_text)
                 
         except ValueError:
-            st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
+            error_messages = {
+                "العربية": "يرجى إدخال أرقام صحيحة! ❗️",
+                "English": "Please enter valid numbers! ❗️",
+                "Română": "Vă rugăm să introduceți numere valide! ❗️"
+            }
+            st.markdown(f"""
+                <div class="error-message">
+                    {error_messages[language]}
+                </div>
+            """, unsafe_allow_html=True)
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
-    st.markdown("""
+    success_messages = {
+        "العربية": "تم إعادة تعيين جميع القيم بنجاح! ✨",
+        "English": "All values have been reset successfully! ✨",
+        "Română": "Toate valorile au fost resetate cu succes! ✨"
+    }
+    st.markdown(f"""
         <div class="success-message">
-            تم إعادة التعيين بنجاح!
+            {success_messages[language]}
         </div>
     """, unsafe_allow_html=True)
 
@@ -1180,273 +1248,6 @@ st.markdown("""
     """,
     unsafe_allow_html=True
 )
-
-st.markdown("""
-    <style>
-        /* تنسيق زر التمرير للأعلى */
-        .scroll-to-top {
-            position: fixed !important;
-            bottom: min(30px, 5vh) !important;
-            left: min(30px, 5vw) !important;
-            width: clamp(45px, 5vw + 30px, 65px) !important;
-            height: clamp(45px, 5vw + 30px, 65px) !important;
-            background: linear-gradient(
-                135deg,
-                rgba(20, 30, 48, 0.98),
-                rgba(5, 8, 15, 0.98)
-            ) !important;
-            border: 2px solid rgba(218, 165, 32, 0.7) !important;
-            border-radius: 50% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(218, 165, 32, 0.2),
-                inset 0 0 20px rgba(218, 165, 32, 0.1),
-                0 0 0 2px rgba(20, 30, 48, 0.5) !important;
-            backdrop-filter: blur(15px) !important;
-            z-index: 9999 !important;
-            opacity: 0.98 !important;
-            text-decoration: none !important;
-            overflow: hidden !important;
-            transform-style: preserve-3d !important;
-            perspective: 1000px !important;
-        }
-
-        .scroll-to-top::before {
-            content: '↑' !important;
-            color: rgba(218, 165, 32, 0.9) !important;
-            font-size: clamp(24px, 2.5vw + 16px, 32px) !important;
-            font-weight: bold !important;
-            text-shadow: 
-                0 2px 5px rgba(0, 0, 0, 0.5),
-                0 0 15px rgba(218, 165, 32, 0.5),
-                0 0 30px rgba(218, 165, 32, 0.3) !important;
-            transition: all 0.4s ease !important;
-            position: relative !important;
-            z-index: 2 !important;
-        }
-
-        .scroll-to-top::after {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: -100% !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: radial-gradient(
-                circle at center,
-                rgba(218, 165, 32, 0.15),
-                transparent 70%
-            ) !important;
-            animation: rotateGlow 8s linear infinite !important;
-            filter: blur(5px) !important;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-8px) rotate(3deg); }
-            50% { transform: translateY(0) rotate(0deg); }
-            75% { transform: translateY(-4px) rotate(-3deg); }
-            100% { transform: translateY(0) rotate(0deg); }
-        }
-
-        .scroll-to-top {
-            animation: float 6s ease-in-out infinite !important;
-        }
-
-        .scroll-to-top:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 
-                0 8px 30px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(218, 165, 32, 0.4),
-                inset 0 0 30px rgba(218, 165, 32, 0.2),
-                0 0 0 2px rgba(218, 165, 32, 0.5) !important;
-            border-color: rgba(218, 165, 32, 0.9) !important;
-            opacity: 1 !important;
-        }
-
-        .scroll-to-top:hover::before {
-            transform: scale(1.2) translateY(-3px) !important;
-            text-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(218, 165, 32, 0.6),
-                0 0 40px rgba(218, 165, 32, 0.4) !important;
-            color: rgba(218, 165, 32, 1) !important;
-        }
-
-        /* تحسين التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .scroll-to-top {
-                bottom: min(20px, 3vh) !important;
-                left: min(20px, 3vw) !important;
-            }
-
-            .scroll-to-top-wrapper::after {
-                display: none !important;
-            }
-        }
-    </style>
-
-    <div class="scroll-to-top-wrapper">
-        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-    </div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <script>
-        function scrollToTop() {
-            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
-        }
-    </script>
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* الألوان الأساسية */
-        :root {
-            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
-            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
-            --accent: #2D5B85;         /* أزرق فخم */
-            --highlight: #446B8C;      /* أزرق فاتح راقي */
-            --gold: #9B8B6C;          /* ذهبي فخم */
-            --text: #E6E9F0;          /* أبيض مائل للرمادي */
-            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
-            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
-        }
-
-        /* تأثيرات الحركة والخلفية */
-        @keyframes subtleGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .stApp {
-            background: linear-gradient(
-                135deg,
-                var(--dark-primary),
-                var(--dark-secondary),
-                var(--accent),
-                var(--dark-primary)
-            ) !important;
-            background-size: 200% 200% !important;
-            animation: subtleGradient 10s ease infinite !important;
-        }
-
-        /* تنسيق الأزرار */
-        .stButton > button {
-            background: linear-gradient(
-                135deg,
-                var(--accent),
-                var(--dark-secondary)
-            ) !important;
-            border: 1px solid var(--gold) !important;
-            color: var(--text) !important;
-            padding: 0.7rem 1.4rem !important;
-            border-radius: 8px !important;
-            font-weight: 500 !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .stButton > button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 25px var(--glow) !important;
-            border-color: var(--gold) !important;
-        }
-
-        /* تنسيق العناوين */
-        .stHeader {
-            position: relative !important;
-            margin-bottom: 2rem !important;
-            padding-bottom: 0.5rem !important;
-            color: var(--text) !important;
-        }
-
-        .stHeader::after {
-            content: '' !important;
-            position: absolute !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 1px !important;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
-            opacity: 0.5 !important;
-        }
-
-        /* تنسيق المدخلات */
-        .stTextInput > div > div > input,
-        div[data-baseweb="select"] {
-            background: rgba(10, 15, 28, 0.7) !important;
-            border: 1px solid var(--border) !important;
-            color: var(--text) !important;
-            border-radius: 8px !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .stTextInput > div > div > input:focus,
-        div[data-baseweb="select"]:hover {
-            border-color: var(--gold) !important;
-            box-shadow: 0 0 15px var(--glow) !important;
-            transform: translateY(-1px) !important;
-        }
-
-        /* تنسيق الجداول والإطارات */
-        .stDataFrame, pre {
-            background: rgba(10, 15, 28, 0.7) !important;
-            border: 1px solid var(--border) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .stDataFrame:hover, pre:hover {
-            border-color: var(--gold) !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        /* تنسيق الرسوم البيانية */
-        .js-plotly-plot {
-            background: rgba(10, 15, 28, 0.7) !important;
-            border: 1px solid var(--border) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .js-plotly-plot:hover {
-            border-color: var(--gold) !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        /* تنسيق النصوص */
-        .stMarkdown {
-            color: var(--text) !important;
-        }
-
-        .dataframe {
-            color: var(--text) !important;
-        }
-
-        /* إخفاء العناصر غير الضرورية */
-        #MainMenu {visibility: hidden !important;}
-        footer {visibility: hidden !important;}
-        header {visibility: hidden !important;}
-
-    </style>
-""", unsafe_allow_html=True)
 
 st.markdown("""
     <style>
@@ -1559,7 +1360,6 @@ if st.button(texts[language]["save_prices"], type="secondary"):
         }
         show_error_message(error_messages[language])
     else:
-        save_prices(new_egg_price, new_feed_price)
         success_messages = {
             "العربية": "تم حفظ الأسعار الجديدة بنجاح!",
             "English": "New prices saved successfully!",
@@ -1570,8 +1370,27 @@ if st.button(texts[language]["save_prices"], type="secondary"):
 # تحديث رسالة إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
     success_messages = {
-        "العربية": "تم إعادة التعيين بنجاح!",
-        "English": "Reset completed successfully!",
-        "Română": "Resetarea a fost realizată cu succes!"
+        "العربية": "تم إعادة تعيين جميع القيم بنجاح!",
+        "English": "All values have been reset successfully!",
+        "Română": "Toate valorile au fost resetate cu succes!"
     }
     show_success_message(success_messages[language])
+
+# تحديث رسائل التحقق من القيم
+if calculation_type == texts[language]["chicken_profits"]:
+    if not all([is_number(eggs), is_number(days)]):
+        error_messages = {
+            "العربية": "يرجى إدخال جميع القيم المطلوبة للحساب!",
+            "English": "Please enter all required values for calculation!",
+            "Română": "Vă rugăm să introduceți toate valorile necesare pentru calcul!"
+        }
+        show_error_message(error_messages[language])
+
+elif calculation_type == texts[language]["daily_rewards"]:
+    if not all([is_number(rewards), is_number(food)]):
+        error_messages = {
+            "العربية": "يرجى إدخال عدد البيض وعدد الأيام!",
+            "English": "Please enter the number of eggs and days!",
+            "Română": "Vă rugăm să introduceți numărul de ouă și zile!"
+        }
+        show_error_message(error_messages[language])
