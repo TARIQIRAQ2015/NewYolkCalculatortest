@@ -1120,35 +1120,98 @@ st.markdown("""
 
 st.markdown("""
     <style>
-        /* تنسيق زر التمرير للأعلى */
+        /* الألوان الأساسية المتحركة */
+        :root {
+            --dark-primary: #0A0F1C;
+            --dark-secondary: #1A1F35;
+            --accent: #2D5B85;
+            --highlight: #446B8C;
+            --gold: #9B8B6C;
+            --text: #E6E9F0;
+            --border: rgba(155, 139, 108, 0.15);
+            --glow: rgba(155, 139, 108, 0.2);
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+                --accent: #2D5B85;
+                --highlight: #446B8C;
+                --gold: #9B8B6C;
+            }
+            25% {
+                --accent: #2D4B85;
+                --highlight: #445B8C;
+                --gold: #9B7B6C;
+            }
+            50% {
+                background-position: 100% 50%;
+                --accent: #2D3B85;
+                --highlight: #444B8C;
+                --gold: #9B6B6C;
+            }
+            75% {
+                --accent: #2D4B85;
+                --highlight: #445B8C;
+                --gold: #9B7B6C;
+            }
+            100% {
+                background-position: 0% 50%;
+                --accent: #2D5B85;
+                --highlight: #446B8C;
+                --gold: #9B8B6C;
+            }
+        }
+
+        .stApp {
+            background: linear-gradient(
+                135deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
+            ) !important;
+            background-size: 300% 300% !important;
+            animation: gradientAnimation 10s ease infinite !important;
+        }
+
+        /* تحديث تصميم زر التمرير */
+        .scroll-to-top-wrapper {
+            position: relative !important;
+            display: inline-block !important;
+        }
+
         .scroll-to-top {
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 50px !important;
-            height: 50px !important;
-            background: linear-gradient(135deg, var(--accent), var(--dark-secondary)) !important;
-            border: 1px solid var(--gold) !important;
-            border-radius: 50% !important;
+            width: 55px !important;
+            height: 55px !important;
+            background: rgba(45, 91, 133, 0.2) !important;
+            border: 2px solid var(--gold) !important;
+            border-radius: 18px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px var(--glow) !important;
-            backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(12px) !important;
             z-index: 9999 !important;
-            opacity: 0.9 !important;
+            opacity: 0.95 !important;
             text-decoration: none !important;
             overflow: hidden !important;
+            box-shadow: 
+                0 4px 15px rgba(155, 139, 108, 0.2),
+                inset 0 0 20px rgba(155, 139, 108, 0.1) !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
-            color: var(--text) !important;
-            font-size: 24px !important;
+            color: var(--gold) !important;
+            font-size: 28px !important;
             font-weight: bold !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
             transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 2 !important;
@@ -1157,45 +1220,49 @@ st.markdown("""
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
+            inset: 0 !important;
             background: linear-gradient(
                 45deg,
                 transparent,
-                rgba(155, 139, 108, 0.3),
+                rgba(155, 139, 108, 0.2),
                 transparent
             ) !important;
-            transform: rotate(45deg) !important;
-            animation: shine 3s linear infinite !important;
+            transform: translateX(-100%) !important;
+            animation: shimmer 3s infinite !important;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: var(--gold); }
+            50% { border-color: var(--accent); }
         }
 
         @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(2deg); }
         }
 
         .scroll-to-top {
-            animation: float 3s ease-in-out infinite !important;
+            animation: 
+                float 4s ease-in-out infinite,
+                borderGlow 4s ease-in-out infinite !important;
         }
 
         .scroll-to-top:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 8px 25px var(--glow) !important;
-            opacity: 1 !important;
+            transform: scale(1.05) !important;
+            border-radius: 25% !important;
+            background: rgba(45, 91, 133, 0.3) !important;
+            box-shadow: 
+                0 8px 25px rgba(155, 139, 108, 0.3),
+                inset 0 0 30px rgba(155, 139, 108, 0.2) !important;
         }
 
-        /* إضافة تلميح عند التحويم */
-        .scroll-to-top-wrapper {
-            position: relative !important;
-            display: inline-block !important;
+        .scroll-to-top:hover::before {
+            transform: translateY(-2px) !important;
+            color: var(--text) !important;
         }
 
         .scroll-to-top-wrapper::after {
@@ -1203,23 +1270,25 @@ st.markdown("""
             position: absolute !important;
             bottom: 100% !important;
             left: 50% !important;
-            transform: translateX(-50%) !important;
-            padding: 8px !important;
-            background: var(--dark-secondary) !important;
-            color: var(--text) !important;
-            border-radius: 4px !important;
+            transform: translateX(-50%) scale(0.9) !important;
+            padding: 8px 15px !important;
+            background: rgba(26, 31, 53, 0.95) !important;
+            color: var(--gold) !important;
+            border-radius: 12px !important;
             font-size: 14px !important;
             white-space: nowrap !important;
             opacity: 0 !important;
             transition: all 0.3s ease !important;
             pointer-events: none !important;
             border: 1px solid var(--gold) !important;
-            backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(12px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
         .scroll-to-top-wrapper:hover::after {
             opacity: 1 !important;
-            bottom: 120% !important;
+            transform: translateX(-50%) scale(1) !important;
+            bottom: 125% !important;
         }
     </style>
 
