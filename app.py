@@ -714,6 +714,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# تنسيق العنوان الرئيسي مع الإيموجي المتحرك
+st.markdown("""
+    <h1 class="main-title">
+        حاسبة البيض 
+        <span class="chicken-emoji">🐔</span>
+    </h1>
+""", unsafe_allow_html=True)
+
 # استخدام الأعمدة لتخطيط أفضل
 col1, col2 = st.columns(2)
 
