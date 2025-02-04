@@ -1125,39 +1125,43 @@ st.markdown("""
             position: fixed !important;
             bottom: 30px !important;
             left: 30px !important;
-            width: 55px !important;
-            height: 55px !important;
+            width: 60px !important;
+            height: 60px !important;
             background: linear-gradient(
                 135deg,
-                rgba(45, 91, 133, 0.95),
-                rgba(10, 15, 28, 0.95)
+                rgba(20, 30, 48, 0.98),
+                rgba(5, 8, 15, 0.98)
             ) !important;
-            border: 2px solid var(--gold) !important;
-            border-radius: 50% !important;
+            border: 2px solid rgba(218, 165, 32, 0.7) !important;
+            border-radius: 15px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
             box-shadow: 
-                0 4px 15px var(--glow),
-                0 0 20px rgba(155, 139, 108, 0.3),
-                inset 0 0 15px rgba(155, 139, 108, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1),
+                0 0 0 2px rgba(20, 30, 48, 0.5) !important;
+            backdrop-filter: blur(15px) !important;
             z-index: 9999 !important;
-            opacity: 0.95 !important;
+            opacity: 0.98 !important;
             text-decoration: none !important;
             overflow: hidden !important;
+            transform: perspective(1000px) rotateX(0deg) !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
-            color: var(--gold) !important;
-            font-size: 28px !important;
+            color: rgba(218, 165, 32, 0.9) !important;
+            font-size: 32px !important;
             font-weight: bold !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3),
-                         0 0 10px rgba(155, 139, 108, 0.5) !important;
-            transition: all 0.3s ease !important;
+            text-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(218, 165, 32, 0.5),
+                0 0 30px rgba(218, 165, 32, 0.3) !important;
+            transition: all 0.4s ease !important;
             position: relative !important;
             z-index: 2 !important;
         }
@@ -1165,45 +1169,50 @@ st.markdown("""
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            inset: -50% !important;
+            inset: -100% !important;
             background: radial-gradient(
                 circle at center,
-                rgba(155, 139, 108, 0.3) 0%,
+                rgba(218, 165, 32, 0.15),
                 transparent 70%
             ) !important;
-            animation: pulseGlow 3s ease-in-out infinite !important;
+            animation: pulseGlow 4s ease-in-out infinite !important;
+            filter: blur(5px) !important;
         }
 
         @keyframes pulseGlow {
-            0% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.2); }
-            100% { opacity: 0.5; transform: scale(1); }
+            0% { opacity: 0.3; transform: scale(1); filter: brightness(1); }
+            50% { opacity: 0.6; transform: scale(1.4); filter: brightness(1.2); }
+            100% { opacity: 0.3; transform: scale(1); filter: brightness(1); }
         }
 
         @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0); }
+            0% { transform: perspective(1000px) rotateX(0deg) translateY(0); }
+            50% { transform: perspective(1000px) rotateX(10deg) translateY(-10px); }
+            100% { transform: perspective(1000px) rotateX(0deg) translateY(0); }
         }
 
         .scroll-to-top {
-            animation: float 4s ease-in-out infinite !important;
+            animation: float 5s ease-in-out infinite !important;
         }
 
         .scroll-to-top:hover {
-            transform: scale(1.15) !important;
+            transform: perspective(1000px) rotateX(10deg) scale(1.1) !important;
             box-shadow: 
-                0 8px 25px var(--glow),
-                0 0 30px rgba(155, 139, 108, 0.4),
-                inset 0 0 20px rgba(155, 139, 108, 0.3) !important;
-            border-color: rgba(155, 139, 108, 0.8) !important;
+                0 8px 30px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4),
+                inset 0 0 30px rgba(218, 165, 32, 0.2),
+                0 0 0 2px rgba(218, 165, 32, 0.5) !important;
+            border-color: rgba(218, 165, 32, 0.9) !important;
             opacity: 1 !important;
         }
 
         .scroll-to-top:hover::before {
-            transform: scale(1.1) translateY(-2px) !important;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
-                        0 0 15px rgba(155, 139, 108, 0.6) !important;
+            transform: scale(1.2) translateY(-3px) !important;
+            text-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(218, 165, 32, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4) !important;
+            color: rgba(218, 165, 32, 1) !important;
         }
 
         /* تنسيق التلميح */
@@ -1217,33 +1226,37 @@ st.markdown("""
             position: absolute !important;
             bottom: 100% !important;
             left: 50% !important;
-            transform: translateX(-50%) scale(0.95) !important;
-            padding: 10px 15px !important;
+            transform: translateX(-50%) scale(0.95) translateZ(0) !important;
+            padding: 12px 18px !important;
             background: linear-gradient(
                 135deg,
-                rgba(45, 91, 133, 0.95),
-                rgba(10, 15, 28, 0.95)
+                rgba(20, 30, 48, 0.98),
+                rgba(5, 8, 15, 0.98)
             ) !important;
-            color: var(--gold) !important;
-            border-radius: 8px !important;
-            font-size: 15px !important;
-            font-weight: 500 !important;
+            color: rgba(218, 165, 32, 0.9) !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
             white-space: nowrap !important;
             opacity: 0 !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
             pointer-events: none !important;
-            border: 1px solid var(--gold) !important;
-            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(218, 165, 32, 0.3) !important;
+            backdrop-filter: blur(15px) !important;
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.2),
-                0 0 20px rgba(155, 139, 108, 0.2) !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1) !important;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.4),
+                0 0 10px rgba(218, 165, 32, 0.4) !important;
         }
 
         .scroll-to-top-wrapper:hover::after {
             opacity: 1 !important;
-            bottom: 130% !important;
-            transform: translateX(-50%) scale(1) !important;
+            bottom: 140% !important;
+            transform: translateX(-50%) scale(1) translateZ(0) !important;
+            border-color: rgba(218, 165, 32, 0.5) !important;
         }
     </style>
 
