@@ -774,7 +774,7 @@ if is_number(new_egg_price) and is_number(new_feed_price):
         st.markdown(f'<div style="text-align: right; font-size: 18px; color: var(--text); padding: 10px; background: rgba(45, 91, 133, 0.1); border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid var(--border);">سعر البيض الحالي 🥚 : USD {format_decimal(egg_price_display)}</div>', unsafe_allow_html=True)
 
     with col1:
-        st.markdown(f'<div style="text-align: left; font-size: 18px; color: var(--text); padding: 10px; background: rgba(45, 91, 133, 0.1); border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid var(--border);">سعر العلف الحالي 🌾 : USD {format_decimal(feed_price_display)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align: left; font-size: 18px; color: var(--text); padding: 10px; background: rgba(45, 91, 133, 0.1); border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid var(--border);">سعر العلف الحالي 🌽 : USD {format_decimal(feed_price_display)}</div>', unsafe_allow_html=True)
 
 # دالة إنشاء الرسم البياني
 def create_profit_chart(df, language):
