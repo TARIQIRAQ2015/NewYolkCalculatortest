@@ -1123,17 +1123,17 @@ st.markdown("""
         /* تنسيق زر التمرير للأعلى */
         .scroll-to-top {
             position: fixed !important;
-            bottom: 30px !important;
-            left: 30px !important;
-            width: 60px !important;
-            height: 60px !important;
+            bottom: min(30px, 5vh) !important;
+            left: min(30px, 5vw) !important;
+            width: clamp(45px, 5vw + 30px, 65px) !important;
+            height: clamp(45px, 5vw + 30px, 65px) !important;
             background: linear-gradient(
                 135deg,
                 rgba(20, 30, 48, 0.98),
                 rgba(5, 8, 15, 0.98)
             ) !important;
             border: 2px solid rgba(218, 165, 32, 0.7) !important;
-            border-radius: 15px !important;
+            border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -1149,13 +1149,14 @@ st.markdown("""
             opacity: 0.98 !important;
             text-decoration: none !important;
             overflow: hidden !important;
-            transform: perspective(1000px) rotateX(0deg) !important;
+            transform-style: preserve-3d !important;
+            perspective: 1000px !important;
         }
 
         .scroll-to-top::before {
             content: '↑' !important;
             color: rgba(218, 165, 32, 0.9) !important;
-            font-size: 32px !important;
+            font-size: clamp(24px, 2.5vw + 16px, 32px) !important;
             font-weight: bold !important;
             text-shadow: 
                 0 2px 5px rgba(0, 0, 0, 0.5),
@@ -1175,28 +1176,29 @@ st.markdown("""
                 rgba(218, 165, 32, 0.15),
                 transparent 70%
             ) !important;
-            animation: pulseGlow 4s ease-in-out infinite !important;
+            animation: rotateGlow 8s linear infinite !important;
             filter: blur(5px) !important;
         }
 
-        @keyframes pulseGlow {
-            0% { opacity: 0.3; transform: scale(1); filter: brightness(1); }
-            50% { opacity: 0.6; transform: scale(1.4); filter: brightness(1.2); }
-            100% { opacity: 0.3; transform: scale(1); filter: brightness(1); }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes float {
-            0% { transform: perspective(1000px) rotateX(0deg) translateY(0); }
-            50% { transform: perspective(1000px) rotateX(10deg) translateY(-10px); }
-            100% { transform: perspective(1000px) rotateX(0deg) translateY(0); }
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(3deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-4px) rotate(-3deg); }
+            100% { transform: translateY(0) rotate(0deg); }
         }
 
         .scroll-to-top {
-            animation: float 5s ease-in-out infinite !important;
+            animation: float 6s ease-in-out infinite !important;
         }
 
         .scroll-to-top:hover {
-            transform: perspective(1000px) rotateX(10deg) scale(1.1) !important;
+            transform: scale(1.1) !important;
             box-shadow: 
                 0 8px 30px rgba(0, 0, 0, 0.6),
                 0 0 40px rgba(218, 165, 32, 0.4),
@@ -1227,7 +1229,7 @@ st.markdown("""
             bottom: 100% !important;
             left: 50% !important;
             transform: translateX(-50%) scale(0.95) translateZ(0) !important;
-            padding: 12px 18px !important;
+            padding: clamp(8px, 1vw + 8px, 15px) clamp(12px, 1.5vw + 10px, 20px) !important;
             background: linear-gradient(
                 135deg,
                 rgba(20, 30, 48, 0.98),
@@ -1235,7 +1237,7 @@ st.markdown("""
             ) !important;
             color: rgba(218, 165, 32, 0.9) !important;
             border-radius: 10px !important;
-            font-size: 16px !important;
+            font-size: clamp(14px, 1vw + 12px, 18px) !important;
             font-weight: 600 !important;
             white-space: nowrap !important;
             opacity: 0 !important;
@@ -1257,6 +1259,18 @@ st.markdown("""
             bottom: 140% !important;
             transform: translateX(-50%) scale(1) translateZ(0) !important;
             border-color: rgba(218, 165, 32, 0.5) !important;
+        }
+
+        /* تحسين التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: min(20px, 3vh) !important;
+                left: min(20px, 3vw) !important;
+            }
+
+            .scroll-to-top-wrapper::after {
+                display: none !important;
+            }
         }
     </style>
 
