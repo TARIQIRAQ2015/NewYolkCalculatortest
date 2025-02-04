@@ -202,7 +202,7 @@ st.markdown("""
         }
         
         .emoji-link:hover {
-            transform: scale(1.2) rotate(10deg);
+            transform: scale(1.2);
             filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
         }
         
@@ -1283,4 +1283,13 @@ st.markdown("""
             }
         }
     </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3059/3059997.png">
+        <title>New Yolk Calculator</title>
+    </head>
 """, unsafe_allow_html=True)
