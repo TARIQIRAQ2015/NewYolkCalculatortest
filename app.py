@@ -546,7 +546,12 @@ texts = {
         "daily_profit": "الربح اليومي 📈",
         "am": "صباحاً",
         "pm": "مساءً",
-        "copy_results": "نسخ النتائج"
+        "copy_results": "نسخ النتائج",
+        "error_positive": "يرجى إدخال قيم إيجابية",
+        "chicken_count": "عدد الدجاج 🐓",
+        "eggs_per_day": "عدد البيض في اليوم 🥚",
+        "daily_reward": "المكافأة اليومية ⭐",
+        "days_count": "عدد الأيام 📆"
     },
     "English": {
         "title": "Chicken Calculator - NewYolk",
@@ -579,7 +584,12 @@ texts = {
         "daily_profit": "Daily Profit 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copy Results"
+        "copy_results": "Copy Results",
+        "error_positive": "Please enter positive values",
+        "chicken_count": "Number of Chickens 🐓",
+        "eggs_per_day": "Number of Eggs per Day 🥚",
+        "daily_reward": "Daily Reward ⭐",
+        "days_count": "Number of Days 📆"
     },
     "Română": {
         "title": "Calculator Găini - NewYolk",
@@ -612,7 +622,12 @@ texts = {
         "daily_profit": "Profit Zilnic 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copiază Rezultatele"
+        "copy_results": "Copiază Rezultatele",
+        "error_positive": "Vă rugăm să introduceți valori pozitive",
+        "chicken_count": "Număr de Găini 🐓",
+        "eggs_per_day": "Număr de Ouă pe Zi 🥚",
+        "daily_reward": "Recompensă Zilnică ⭐",
+        "days_count": "Număr de Zile 📆"
     }
 }
 
@@ -808,18 +823,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_button"):
+if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
-        error_messages = {
-            "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
-            "English": "Please enter all required values! ❗️",
-            "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
-        }
-        st.markdown(f"""
-            <div class="error-message">
-                {error_messages[language]}
-            </div>
-        """, unsafe_allow_html=True)
+        st.error("يرجى إدخال أرقام صحيحة ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "Vă rugăm să introduceți numere valide! ❗️")
     else:
         st.markdown("""
             <div class="success-message">
@@ -894,299 +900,225 @@ if calculation_type == texts[language]["chicken_profits"]:
     col5, col6 = st.columns(2)
 
     with col5:
-        eggs = st.text_input(
-            texts[language]["eggs_input"],
-            value="",
-            help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else ""
+        chicken_count = st.number_input(
+            texts[language]["chicken_count"],
+            min_value=0,
+            value=0,
+            step=1
         )
 
     with col6:
-        days = st.text_input(
-            texts[language]["days_input"],
-            value="",
-            help="أدخل عدد الأيام (بحد أقصى 730)" if language == "العربية" else "Enter the number of days (max 730)" if language == "English" else ""
+        eggs_per_day = st.number_input(
+            texts[language]["eggs_per_day"],
+            min_value=0,
+            value=0,
+            step=1
         )
 
-    if st.button(texts[language]["calculate_profits"], type="primary", key="calculate_profits_button"):
-        try:
-            eggs = float(eggs) if eggs else None
-            days = float(days) if days else None
+    if st.button(texts[language]["calculate_profits"], type="primary"):
+        if chicken_count <= 0 or eggs_per_day <= 0:
+            st.error(texts[language]["error_positive"])
+        else:
+            # الحسابات...
+            daily_income = eggs_per_day * float(new_egg_price)
+            feed_consumption = chicken_count * 0.12
+            daily_feed_cost = feed_consumption * float(new_feed_price)
+            total_feed_cost = daily_feed_cost
+            net_profit_before_rent = daily_income - total_feed_cost
+            total_rent = 100
+            net_profit = net_profit_before_rent - total_rent
 
-            if eggs is None or days is None:
-                error_messages = {
-                    "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
-                    "English": "Please enter all required values! ❗️",
-                    "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
-                }
-                st.markdown(f"""
-                    <div class="error-message">
-                        {error_messages[language]}
-                    </div>
-                """, unsafe_allow_html=True)
-            elif eggs > 580:
-                error_messages = {
-                    "العربية": "عدد البيض يجب ألا يتجاوز 580! ❗️",
-                    "English": "Number of eggs should not exceed 580! ❗️",
-                    "Română": "Numărul de ouă nu trebuie să depășească 580! ❗️"
-                }
-                st.markdown(f"""
-                    <div class="error-message">
-                        {error_messages[language]}
-                    </div>
-                """, unsafe_allow_html=True)
-            elif days > 730:
-                error_messages = {
-                    "العربية": "عدد الأيام يجب ألا يتجاوز 730! ❗️",
-                    "English": "Number of days should not exceed 730! ❗️",
-                    "Română": "Numărul de zile nu trebuie să depășească 730! ❗️"
-                }
-                st.markdown(f"""
-                    <div class="error-message">
-                        {error_messages[language]}
-                    </div>
-                """, unsafe_allow_html=True)
+            # تحويل العملة
+            if currency == "IQD":
+                daily_income = daily_income * 1480
+                total_feed_cost = total_feed_cost * 1480
+                net_profit_before_rent = net_profit_before_rent * 1480
+                total_rent = total_rent * 1480
+                net_profit = net_profit * 1480
             else:
-                # حساب الأرباح
-                total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
-                total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
-                
-                # حساب الإيجار
-                total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
-                
-                # حساب النتائج
-                net_profit_before_rent = total_egg_price - total_feed_cost
-                net_profit = net_profit_before_rent - total_rent
+                daily_income, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
+                    daily_income, total_feed_cost, net_profit_before_rent, total_rent, net_profit
+                )
 
-                # تحويل العملة
-                if currency == "IQD":
-                    total_egg_price = total_egg_price * 1480
-                    total_feed_cost = total_feed_cost * 1480
-                    net_profit_before_rent = net_profit_before_rent * 1480
-                    total_rent = total_rent * 1480
-                    net_profit = net_profit * 1480
-                else:
-                    total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
-                        total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit
-                    )
+            # تنسيق التاريخ والوقت حسب توقيت بغداد
+            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+            date_str = current_time.strftime("%Y-%m-%d")
+            time_str = current_time.strftime("%I:%M %p")
 
-                # تنسيق التاريخ والوقت حسب توقيت بغداد
-                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-                date_str = current_time.strftime("%Y-%m-%d")
-                time_str = current_time.strftime("%I:%M %p")
-
-                # إنشاء نص النتائج
-                results_text = f"""
+            # إنشاء نص النتائج
+            results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['summary']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
+║ {texts[language]['egg_price']}: {format_decimal(daily_income)} USD
 ║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
 ║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} USD
 ║ {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
 ║ {texts[language]['final_profit']}: {format_decimal(net_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_decimal(daily_income * 1480)} IQD
 ║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
 ║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * 1480)} IQD
 ║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
 ║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج
-                # st.code(results_text, language="text")
+            # عرض النتائج
+            # st.code(results_text, language="text")
 
-                # إنشاء DataFrame للرسم البياني
-                df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📈 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['final_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost,
-                        net_profit_before_rent,
-                        total_rent,
-                        net_profit
-                    ]
-                })
-                
-                # تنسيق الجدول النهائي أولاً
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-                st.table(df)
+            # إنشاء DataFrame للرسم البياني
+            df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['eggs_per_day']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📈 {texts[language]['net_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"💰 {texts[language]['final_profit']}"
+                ],
+                texts[language]["value"]: [
+                    daily_income,
+                    total_feed_cost,
+                    net_profit_before_rent,
+                    total_rent,
+                    net_profit
+                ]
+            })
+            
+            # تنسيق الجدول النهائي أولاً
+            df = df.round(2)
+            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+            st.table(df)
 
-                # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📈 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['final_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(total_egg_price).replace(currency, "").strip()),
-                        float(str(total_feed_cost).replace(currency, "").strip()),
-                        float(str(net_profit_before_rent).replace(currency, "").strip()),
-                        float(str(total_rent).replace(currency, "").strip()),
-                        float(str(net_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
-                st.plotly_chart(fig, use_container_width=True)
+            # عرض الرسم البياني
+            chart_df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['eggs_per_day']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📈 {texts[language]['net_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"💰 {texts[language]['final_profit']}"
+                ],
+                texts[language]["value"]: [
+                    float(str(daily_income).replace(currency, "").strip()),
+                    float(str(total_feed_cost).replace(currency, "").strip()),
+                    float(str(net_profit_before_rent).replace(currency, "").strip()),
+                    float(str(total_rent).replace(currency, "").strip()),
+                    float(str(net_profit).replace(currency, "").strip())
+                ]
+            })
+            fig = create_profit_chart(chart_df, language)
+            st.plotly_chart(fig, use_container_width=True)
 
-                # عرض ملخص النتائج في النهاية
-                st.markdown(f"### ✨ {texts[language]['summary']}")
-                st.code(results_text)
-                
-        except ValueError:
-            error_messages = {
-                "العربية": "يرجى إدخال أرقام صحيحة! ❗️",
-                "English": "Please enter valid numbers! ❗️",
-                "Română": "Vă rugăm să introduceți numere valide! ❗️"
-            }
-            st.markdown(f"""
-                <div class="error-message">
-                    {error_messages[language]}
-                </div>
-            """, unsafe_allow_html=True)
-
+            # عرض ملخص النتائج في النهاية
+            st.markdown(f"### ✨ {texts[language]['summary']}")
+            st.code(results_text)
+            
 elif calculation_type == texts[language]["daily_rewards"]:
     st.subheader(texts[language]["daily_rewards"] + " 📈")
     col7, col8 = st.columns(2)
 
     with col7:
-        rewards = st.text_input(
-            texts[language]["total_rewards"],
-            value="",
-            help="أدخل عدد المكافآت" if language == "العربية" else "Enter the number of rewards" if language == "English" else ""
+        daily_reward = st.number_input(
+            texts[language]["daily_reward"],
+            min_value=0.0,
+            value=0.0,
+            step=0.1
         )
 
     with col8:
-        food = st.text_input(
-            texts[language]["total_food_cost"],
-            value="",
-            help="أدخل عدد الطعام المطلوب" if language == "العربية" else "Enter the amount of food needed" if language == "English" else ""
+        days_count = st.number_input(
+            texts[language]["days_count"],
+            min_value=0,
+            value=0,
+            step=1
         )
 
-    if st.button(texts[language]["calculate_rewards"], type="primary", key="calculate_rewards_button"):
-        try:
-            rewards = float(rewards) if rewards else None
-            food = float(food) if food else None
+    if st.button(texts[language]["calculate_rewards"], type="primary"):
+        if daily_reward <= 0 or days_count <= 0:
+            st.error(texts[language]["error_positive"])
+        else:
+            # الحسابات...
+            total_reward = daily_reward * days_count
+            required_chickens = (total_reward + 100) / (float(new_egg_price) - (0.12 * float(new_feed_price)))
 
-            if rewards is None or food is None:
-                error_messages = {
-                    "العربية": "يرجى إدخال جميع القيم المطلوبة! ❗️",
-                    "English": "Please enter all required values! ❗️",
-                    "Română": "Vă rugăm să introduceți toate valorile necesare! ❗️"
-                }
-                st.markdown(f"""
-                    <div class="error-message">
-                        {error_messages[language]}
-                    </div>
-                """, unsafe_allow_html=True)
+            # تحويل العملة
+            if currency == "IQD":
+                total_reward = total_reward * 1480
             else:
-                # حساب الربح اليومي
-                daily_profit = rewards * float(new_egg_price) - food * float(new_feed_price)
+                total_reward = total_reward
 
-                # تحويل العملة
-                if currency == "IQD":
-                    daily_profit = daily_profit * 1480
-                else:
-                    daily_profit = daily_profit
+            # تنسيق التاريخ والوقت حسب توقيت بغداد
+            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+            date_str = current_time.strftime("%Y-%m-%d")
+            time_str = current_time.strftime("%I:%M %p")
 
-                # تنسيق التاريخ والوقت حسب توقيت بغداد
-                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-                date_str = current_time.strftime("%Y-%m-%d")
-                time_str = current_time.strftime("%I:%M %p")
-
-                # إنشاء نص النتائج
-                results_text = f"""
+            # إنشاء نص النتائج
+            results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price))} USD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price))} USD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit)} USD
+║ {texts[language]['egg_price']}: {format_decimal(total_reward)} USD
+║ {texts[language]['feed_price']}: {format_decimal(required_chickens * 0.12 * float(new_feed_price))} USD
+║ {texts[language]['daily_profit']}: {format_decimal(total_reward - required_chickens * 0.12 * float(new_feed_price))} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(rewards * float(new_egg_price) * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
-║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
+║ {texts[language]['egg_price']}: {format_decimal(total_reward * 1480)} IQD
+║ {texts[language]['feed_price']}: {format_decimal(required_chickens * 0.12 * float(new_feed_price) * 1480)} IQD
+║ {texts[language]['daily_profit']}: {format_decimal((total_reward - required_chickens * 0.12 * float(new_feed_price)) * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج
-                # st.code(results_text, language="text")
+            # عرض النتائج
+            # st.code(results_text, language="text")
 
-                # إنشاء DataFrame للرسم البياني
-                df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['total_rewards']}",
-                        f"🌽 {texts[language]['total_food_cost']}",
-                        f"💰 {texts[language]['daily_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        rewards * float(new_egg_price),
-                        food * float(new_feed_price),
-                        daily_profit
-                    ]
-                })
-                
-                # تنسيق القيم في الجدول
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-                st.table(df)
+            # إنشاء DataFrame للرسم البياني
+            df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['daily_reward']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"💰 {texts[language]['daily_profit']}"
+                ],
+                texts[language]["value"]: [
+                    total_reward,
+                    required_chickens * 0.12 * float(new_feed_price),
+                    total_reward - required_chickens * 0.12 * float(new_feed_price)
+                ]
+            })
+            
+            # تنسيق القيم في الجدول
+            df = df.round(2)
+            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+            st.table(df)
 
-                # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['total_rewards']}",
-                        f"🌽 {texts[language]['total_food_cost']}",
-                        f"💰 {texts[language]['daily_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(rewards * float(new_egg_price)).replace(currency, "").strip()),
-                        float(str(food * float(new_feed_price)).replace(currency, "").strip()),
-                        float(str(daily_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
-                st.plotly_chart(fig, use_container_width=True)
+            # عرض الرسم البياني
+            chart_df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"🥚 {texts[language]['daily_reward']}",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"💰 {texts[language]['daily_profit']}"
+                ],
+                texts[language]["value"]: [
+                    float(str(total_reward).replace(currency, "").strip()),
+                    float(str(required_chickens * 0.12 * float(new_feed_price)).replace(currency, "").strip()),
+                    float(str(total_reward - required_chickens * 0.12 * float(new_feed_price)).replace(currency, "").strip())
+                ]
+            })
+            fig = create_profit_chart(chart_df, language)
+            st.plotly_chart(fig, use_container_width=True)
 
-                # عرض ملخص النتائج في النهاية
-                st.markdown(f"### ✨ {texts[language]['summary']}")
-                st.code(results_text)
-                
-        except ValueError:
-            error_messages = {
-                "العربية": "يرجى إدخال أرقام صحيحة! ❗️",
-                "English": "Please enter valid numbers! ❗️",
-                "Română": "Vă rugăm să introduceți numere valide! ❗️"
-            }
-            st.markdown(f"""
-                <div class="error-message">
-                    {error_messages[language]}
-                </div>
-            """, unsafe_allow_html=True)
-
+            # عرض ملخص النتائج في النهاية
+            st.markdown(f"### ✨ {texts[language]['summary']}")
+            st.code(results_text)
+            
 # زر إعادة التعيين
-if st.button(texts[language]["reset"], type="secondary", key="reset_button"):
-    success_messages = {
-        "العربية": "تم إعادة تعيين جميع القيم بنجاح! ✨",
-        "English": "All values have been reset successfully! ✨",
-        "Română": "Toate valorile au fost resetate cu succes! ✨"
-    }
-    st.markdown(f"""
+if st.button(texts[language]["reset"], type="secondary"):
+    st.markdown("""
         <div class="success-message">
-            {success_messages[language]}
+            تم إعادة التعيين بنجاح!
         </div>
     """, unsafe_allow_html=True)
 
@@ -1248,6 +1180,273 @@ st.markdown("""
     """,
     unsafe_allow_html=True
 )
+
+st.markdown("""
+    <style>
+        /* تنسيق زر التمرير للأعلى */
+        .scroll-to-top {
+            position: fixed !important;
+            bottom: min(30px, 5vh) !important;
+            left: min(30px, 5vw) !important;
+            width: clamp(45px, 5vw + 30px, 65px) !important;
+            height: clamp(45px, 5vw + 30px, 65px) !important;
+            background: linear-gradient(
+                135deg,
+                rgba(20, 30, 48, 0.98),
+                rgba(5, 8, 15, 0.98)
+            ) !important;
+            border: 2px solid rgba(218, 165, 32, 0.7) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1),
+                0 0 0 2px rgba(20, 30, 48, 0.5) !important;
+            backdrop-filter: blur(15px) !important;
+            z-index: 9999 !important;
+            opacity: 0.98 !important;
+            text-decoration: none !important;
+            overflow: hidden !important;
+            transform-style: preserve-3d !important;
+            perspective: 1000px !important;
+        }
+
+        .scroll-to-top::before {
+            content: '↑' !important;
+            color: rgba(218, 165, 32, 0.9) !important;
+            font-size: clamp(24px, 2.5vw + 16px, 32px) !important;
+            font-weight: bold !important;
+            text-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(218, 165, 32, 0.5),
+                0 0 30px rgba(218, 165, 32, 0.3) !important;
+            transition: all 0.4s ease !important;
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        .scroll-to-top::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: radial-gradient(
+                circle at center,
+                rgba(218, 165, 32, 0.15),
+                transparent 70%
+            ) !important;
+            animation: rotateGlow 8s linear infinite !important;
+            filter: blur(5px) !important;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(3deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-4px) rotate(-3deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .scroll-to-top {
+            animation: float 6s ease-in-out infinite !important;
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 
+                0 8px 30px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4),
+                inset 0 0 30px rgba(218, 165, 32, 0.2),
+                0 0 0 2px rgba(218, 165, 32, 0.5) !important;
+            border-color: rgba(218, 165, 32, 0.9) !important;
+            opacity: 1 !important;
+        }
+
+        .scroll-to-top:hover::before {
+            transform: scale(1.2) translateY(-3px) !important;
+            text-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(218, 165, 32, 0.6),
+                0 0 40px rgba(218, 165, 32, 0.4) !important;
+            color: rgba(218, 165, 32, 1) !important;
+        }
+
+        /* تحسين التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: min(20px, 3vh) !important;
+                left: min(20px, 3vw) !important;
+            }
+
+            .scroll-to-top-wrapper::after {
+                display: none !important;
+            }
+        }
+    </style>
+
+    <div class="scroll-to-top-wrapper">
+        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    </div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <script>
+        function scrollToTop() {
+            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
+        }
+    </script>
+    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* الألوان الأساسية */
+        :root {
+            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
+            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
+            --accent: #2D5B85;         /* أزرق فخم */
+            --highlight: #446B8C;      /* أزرق فاتح راقي */
+            --gold: #9B8B6C;          /* ذهبي فخم */
+            --text: #E6E9F0;          /* أبيض مائل للرمادي */
+            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
+            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
+        }
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stApp {
+            background: linear-gradient(
+                135deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
+            ) !important;
+            background-size: 200% 200% !important;
+            animation: subtleGradient 10s ease infinite !important;
+        }
+
+        /* تنسيق الأزرار */
+        .stButton > button {
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                var(--dark-secondary)
+            ) !important;
+            border: 1px solid var(--gold) !important;
+            color: var(--text) !important;
+            padding: 0.7rem 1.4rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            border-color: var(--gold) !important;
+        }
+
+        /* تنسيق العناوين */
+        .stHeader {
+            position: relative !important;
+            margin-bottom: 2rem !important;
+            padding-bottom: 0.5rem !important;
+            color: var(--text) !important;
+        }
+
+        .stHeader::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+            opacity: 0.5 !important;
+        }
+
+        /* تنسيق المدخلات */
+        .stTextInput > div > div > input,
+        div[data-baseweb="select"] {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stTextInput > div > div > input:focus,
+        div[data-baseweb="select"]:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px var(--glow) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* تنسيق الجداول والإطارات */
+        .stDataFrame, pre {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .stDataFrame:hover, pre:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .js-plotly-plot:hover {
+            border-color: var(--gold) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* تنسيق النصوص */
+        .stMarkdown {
+            color: var(--text) !important;
+        }
+
+        .dataframe {
+            color: var(--text) !important;
+        }
+
+        /* إخفاء العناصر غير الضرورية */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+
+    </style>
+""", unsafe_allow_html=True)
 
 st.markdown("""
     <style>
@@ -1351,7 +1550,7 @@ def show_error_message(message):
     """, unsafe_allow_html=True)
 
 # تحديث رسائل التطبيق
-if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_button"):
+if st.button(texts[language]["save_prices"], type="secondary"):
     if not is_number(new_egg_price) or not is_number(new_feed_price):
         error_messages = {
             "العربية": "يرجى إدخال جميع القيم المطلوبة!",
@@ -1360,6 +1559,7 @@ if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_
         }
         show_error_message(error_messages[language])
     else:
+        save_prices(new_egg_price, new_feed_price)
         success_messages = {
             "العربية": "تم حفظ الأسعار الجديدة بنجاح!",
             "English": "New prices saved successfully!",
@@ -1368,29 +1568,10 @@ if st.button(texts[language]["save_prices"], type="secondary", key="save_prices_
         show_success_message(success_messages[language])
 
 # تحديث رسالة إعادة التعيين
-if st.button(texts[language]["reset"], type="secondary", key="reset_button"):
+if st.button(texts[language]["reset"], type="secondary"):
     success_messages = {
-        "العربية": "تم إعادة تعيين جميع القيم بنجاح!",
-        "English": "All values have been reset successfully!",
-        "Română": "Toate valorile au fost resetate cu succes!"
+        "العربية": "تم إعادة التعيين بنجاح!",
+        "English": "Reset completed successfully!",
+        "Română": "Resetarea a fost realizată cu succes!"
     }
     show_success_message(success_messages[language])
-
-# تحديث رسائل التحقق من القيم
-if calculation_type == texts[language]["chicken_profits"]:
-    if not all([is_number(eggs), is_number(days)]):
-        error_messages = {
-            "العربية": "يرجى إدخال جميع القيم المطلوبة للحساب!",
-            "English": "Please enter all required values for calculation!",
-            "Română": "Vă rugăm să introduceți toate valorile necesare pentru calcul!"
-        }
-        show_error_message(error_messages[language])
-
-elif calculation_type == texts[language]["daily_rewards"]:
-    if not all([is_number(rewards), is_number(food)]):
-        error_messages = {
-            "العربية": "يرجى إدخال عدد البيض وعدد الأيام!",
-            "English": "Please enter the number of eggs and days!",
-            "Română": "Vă rugăm să introduceți numărul de ouă și zile!"
-        }
-        show_error_message(error_messages[language])
