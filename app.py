@@ -1168,7 +1168,7 @@ st.markdown("""
         .copyright {
             text-align: center;
             color: rgba(255,255,255,0.9);
-            padding: 24px 0;
+            padding: 24px;
             font-size: 22px !important;
             margin-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -1233,7 +1233,10 @@ st.markdown("""
         .scroll-to-top::after {
             content: '' !important;
             position: absolute !important;
-            inset: -100% !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
             background: radial-gradient(
                 circle at center,
                 rgba(218, 165, 32, 0.15),
@@ -1278,50 +1281,6 @@ st.markdown("""
                 0 0 20px rgba(218, 165, 32, 0.6),
                 0 0 40px rgba(218, 165, 32, 0.4) !important;
             color: rgba(218, 165, 32, 1) !important;
-        }
-
-        /* تنسيق التلميح */
-        .scroll-to-top-wrapper {
-            position: relative !important;
-            display: inline-block !important;
-        }
-
-        .scroll-to-top-wrapper::after {
-            content: 'الذهاب إلى الأعلى' !important;
-            position: absolute !important;
-            bottom: 100% !important;
-            left: 50% !important;
-            transform: translateX(-50%) scale(0.95) translateZ(0) !important;
-            padding: clamp(8px, 1vw + 8px, 15px) clamp(12px, 1.5vw + 10px, 20px) !important;
-            background: linear-gradient(
-                135deg,
-                rgba(20, 30, 48, 0.98),
-                rgba(5, 8, 15, 0.98)
-            ) !important;
-            color: rgba(218, 165, 32, 0.9) !important;
-            border-radius: 10px !important;
-            font-size: clamp(14px, 1vw + 12px, 18px) !important;
-            font-weight: 600 !important;
-            white-space: nowrap !important;
-            opacity: 0 !important;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            pointer-events: none !important;
-            border: 1px solid rgba(218, 165, 32, 0.3) !important;
-            backdrop-filter: blur(15px) !important;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(218, 165, 32, 0.2),
-                inset 0 0 20px rgba(218, 165, 32, 0.1) !important;
-            text-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.4),
-                0 0 10px rgba(218, 165, 32, 0.4) !important;
-        }
-
-        .scroll-to-top-wrapper:hover::after {
-            opacity: 1 !important;
-            bottom: 140% !important;
-            transform: translateX(-50%) scale(1) translateZ(0) !important;
-            border-color: rgba(218, 165, 32, 0.5) !important;
         }
 
         /* تحسين التجاوب مع الشاشات الصغيرة */
@@ -1488,3 +1447,131 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+        /* تنسيق مشترك لجميع الرسائل */
+        .custom-message {
+            background: linear-gradient(135deg, rgba(20, 30, 48, 0.95), rgba(5, 8, 15, 0.95));
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+        }
+
+        /* رسائل النجاح */
+        .success-message {
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            color: rgba(218, 165, 32, 0.9);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(218, 165, 32, 0.1);
+        }
+
+        .success-message::before {
+            content: '✓';
+            font-size: 1.4em;
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.9), rgba(218, 165, 32, 0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 10px;
+        }
+
+        /* رسائل الخطأ */
+        .error-message {
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            color: rgba(255, 99, 71, 0.9);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(255, 99, 71, 0.1);
+        }
+
+        .error-message::before {
+            content: '❌';
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        /* تأثير التوهج المتحرك */
+        .custom-message::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+
+        /* تحسين التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .custom-message {
+                padding: 0.8rem;
+                margin: 0.8rem 0;
+                font-size: 1em;
+            }
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# دالة لعرض رسائل النجاح
+def show_success_message(message):
+    st.markdown(f"""
+        <div class="custom-message success-message">
+            {message}
+        </div>
+    """, unsafe_allow_html=True)
+
+# دالة لعرض رسائل الخطأ
+def show_error_message(message):
+    st.markdown(f"""
+        <div class="custom-message error-message">
+            {message}
+        </div>
+    """, unsafe_allow_html=True)
+
+# تحديث رسائل التطبيق
+if st.button(texts[language]["save_prices"], type="secondary"):
+    if not is_number(new_egg_price) or not is_number(new_feed_price):
+        error_messages = {
+            "العربية": "يرجى إدخال جميع القيم المطلوبة!",
+            "English": "Please enter all required values!",
+            "Română": "Vă rugăm să introduceți toate valorile necesare!"
+        }
+        show_error_message(error_messages[language])
+    else:
+        save_prices(new_egg_price, new_feed_price)
+        success_messages = {
+            "العربية": "تم حفظ الأسعار الجديدة بنجاح!",
+            "English": "New prices saved successfully!",
+            "Română": "Prețurile noi au fost salvate cu succes!"
+        }
+        show_success_message(success_messages[language])
+
+# تحديث رسالة إعادة التعيين
+if st.button(texts[language]["reset"], type="secondary"):
+    success_messages = {
+        "العربية": "تم إعادة التعيين بنجاح!",
+        "English": "Reset completed successfully!",
+        "Română": "Resetarea a fost realizată cu succes!"
+    }
+    show_success_message(success_messages[language])
