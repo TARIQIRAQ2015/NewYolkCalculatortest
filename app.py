@@ -768,8 +768,13 @@ if is_number(new_egg_price) and is_number(new_feed_price):
         egg_price_display = float(new_egg_price)
         feed_price_display = float(new_feed_price)
 
-    st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
-    st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
+    col1, col2 = st.columns(2)
+
+    with col2:
+        st.markdown(f'<div style="text-align: right; font-size: 18px; color: var(--text); padding: 10px; background: rgba(45, 91, 133, 0.1); border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid var(--border);">سعر البيض الحالي 🥚 : USD {format_decimal(egg_price_display)}</div>', unsafe_allow_html=True)
+
+    with col1:
+        st.markdown(f'<div style="text-align: left; font-size: 18px; color: var(--text); padding: 10px; background: rgba(45, 91, 133, 0.1); border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid var(--border);">سعر العلف الحالي 🌾 : USD {format_decimal(feed_price_display)}</div>', unsafe_allow_html=True)
 
 # دالة إنشاء الرسم البياني
 def create_profit_chart(df, language):
@@ -1130,17 +1135,12 @@ st.markdown("""
             justify-content: center !important;
             cursor: pointer !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            box-shadow: 0 4px 15px var(--glow) !important;
             backdrop-filter: blur(10px) !important;
             z-index: 9999 !important;
             opacity: 0.9 !important;
             text-decoration: none !important;
-        }
-
-        .scroll-to-top:hover {
-            transform: translateY(-5px) !important;
-            box-shadow: 0 8px 25px var(--glow) !important;
-            opacity: 1 !important;
+            overflow: hidden !important;
         }
 
         .scroll-to-top::before {
@@ -1149,18 +1149,83 @@ st.markdown("""
             font-size: 24px !important;
             font-weight: bold !important;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .scroll-to-top::after {
+            content: '' !important;
+            position: absolute !important;
+            top: -50% !important;
+            left: -50% !important;
+            width: 200% !important;
+            height: 200% !important;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(155, 139, 108, 0.3),
+                transparent
+            ) !important;
+            transform: rotate(45deg) !important;
+            animation: shine 3s linear infinite !important;
         }
 
-        .scroll-to-top:hover::before {
-            animation: pulse 1.5s ease-in-out infinite !important;
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        .scroll-to-top {
+            animation: float 3s ease-in-out infinite !important;
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            opacity: 1 !important;
+        }
+
+        /* إضافة تلميح عند التحويم */
+        .scroll-to-top-wrapper {
+            position: relative !important;
+            display: inline-block !important;
+        }
+
+        .scroll-to-top-wrapper::after {
+            content: 'الذهاب إلى الأعلى' !important;
+            position: absolute !important;
+            bottom: 100% !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            padding: 8px !important;
+            background: var(--dark-secondary) !important;
+            color: var(--text) !important;
+            border-radius: 4px !important;
+            font-size: 14px !important;
+            white-space: nowrap !important;
+            opacity: 0 !important;
+            transition: all 0.3s ease !important;
+            pointer-events: none !important;
+            border: 1px solid var(--gold) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .scroll-to-top-wrapper:hover::after {
+            opacity: 1 !important;
+            bottom: 120% !important;
         }
     </style>
+
+    <div class="scroll-to-top-wrapper">
+        <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    </div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
