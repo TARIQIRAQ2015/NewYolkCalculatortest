@@ -1161,15 +1161,23 @@ st.markdown("""
             animation: pulse 1.5s ease-in-out infinite !important;
         }
     </style>
-""", unsafe_allow_html=True)
 
-st.markdown("""
     <script>
-        function scrollToTop() {
-            window.location.href = 'https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909';
+        function scrollToLanguage() {
+            // التمرير إلى قسم اللغة في الأعلى
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            // التأكد من أن قسم اللغة مرئي
+            const languageSection = document.querySelector('select[aria-label="اختر اللغة"]');
+            if (languageSection) {
+                languageSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     </script>
-    <a href="https://testnewyolkcalculatortest.streamlit.app/~/+/#2e08c909" target="_self" class="scroll-to-top"></a>
+    
+    <a onclick="scrollToLanguage()" class="scroll-to-top" title="الذهاب إلى قسم اللغة"></a>
 """, unsafe_allow_html=True)
 
 st.markdown("""
