@@ -452,6 +452,104 @@ st.markdown("""
         /* تأثير الخلفية المتحركة */
         @keyframes gradientBG {
             0% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
+                background-position: 0% 50%;
+            }
+            50% {
+                background: linear-gradient(45deg, 
+                    #16213e,
+                    #0f3460,
+                    #1a1a2e
+                );
+                background-size: 200% 200%;
+                background-position: 100% 50%;
+            }
+            100% {
+                background: linear-gradient(45deg, 
+                    #1a1a2e,
+                    #16213e,
+                    #0f3460
+                );
+                background-size: 200% 200%;
+                background-position: 0% 50%;
+            }
+        }
+
+        /* تنسيق النص داخل ملخص النتائج */
+        pre code {
+            color: #e2e2e2 !important;
+            font-size: 1.1em !important;
+            line-height: 1.5 !important;
+        }
+
+        /* تأثير الحدود المضيئة */
+        pre::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, 
+                #1a1a2e,
+                #0f3460,
+                #1a1a2e
+            );
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+        
+        /* تنسيق العنوان الرئيسي */
+        .main-title {
+            font-size: 2.5em !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 1em !important;
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        /* تأثير الإيموجي المتحرك */
+        .chicken-emoji {
+            display: inline-block;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .chicken-emoji:hover {
+            transform: scale(1.3) rotate(15deg);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* تأثيرات الحركة والألوان */
+        @keyframes gradientBG {
+            0% {
                 background-position: 0% 50%;
             }
             50% {
@@ -712,14 +810,6 @@ st.markdown("""
             font-weight: normal;
         }
     </style>
-""", unsafe_allow_html=True)
-
-# تنسيق العنوان الرئيسي مع الإيموجي المتحرك
-st.markdown("""
-    <h1 class="main-title">
-        حاسبة البيض 
-        <span class="chicken-emoji">🐔</span>
-    </h1>
 """, unsafe_allow_html=True)
 
 # استخدام الأعمدة لتخطيط أفضل
@@ -1136,32 +1226,22 @@ st.markdown("""
         }
 
         /* تأثيرات الحركة والخلفية */
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-                filter: hue-rotate(0deg) brightness(0.8);
-            }
-            50% {
-                background-position: 100% 50%;
-                filter: hue-rotate(10deg) brightness(0.9);
-            }
-            100% {
-                background-position: 0% 50%;
-                filter: hue-rotate(0deg) brightness(0.8);
-            }
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .stApp {
             background: linear-gradient(
-                45deg,
+                135deg,
                 var(--dark-primary),
                 var(--dark-secondary),
                 var(--accent),
-                var(--highlight),
                 var(--dark-primary)
             ) !important;
-            background-size: 300% 300% !important;
-            animation: gradientAnimation 10s ease infinite !important;
+            background-size: 200% 200% !important;
+            animation: subtleGradient 10s ease infinite !important;
         }
 
         /* تنسيق الأزرار */
@@ -1185,11 +1265,6 @@ st.markdown("""
             transform: translateY(-2px) !important;
             box-shadow: 0 8px 25px var(--glow) !important;
             border-color: var(--gold) !important;
-            background: linear-gradient(
-                135deg,
-                var(--highlight),
-                var(--accent)
-            ) !important;
         }
 
         /* تنسيق العناوين */
@@ -1227,7 +1302,6 @@ st.markdown("""
             border-color: var(--gold) !important;
             box-shadow: 0 0 15px var(--glow) !important;
             transform: translateY(-1px) !important;
-            background: rgba(45, 91, 133, 0.1) !important;
         }
 
         /* تنسيق الجداول والإطارات */
@@ -1237,13 +1311,11 @@ st.markdown("""
             border-radius: 10px !important;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
             backdrop-filter: blur(10px) !important;
-            transition: all 0.3s ease !important;
         }
 
         .stDataFrame:hover, pre:hover {
             border-color: var(--gold) !important;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
-            transform: translateY(-2px) !important;
         }
 
         /* تنسيق الرسوم البيانية */
@@ -1253,13 +1325,11 @@ st.markdown("""
             border-radius: 10px !important;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
             backdrop-filter: blur(10px) !important;
-            transition: all 0.3s ease !important;
         }
 
         .js-plotly-plot:hover {
             border-color: var(--gold) !important;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
-            transform: translateY(-2px) !important;
         }
 
         /* تنسيق النصوص */
@@ -1277,52 +1347,4 @@ st.markdown("""
         header {visibility: hidden !important;}
 
     </style>
-""", unsafe_allow_html=True)
-
-# تنسيق CSS للعنوان الجديد
-st.markdown("""
-    <style>
-        /* تنسيق العنوان الرئيسي */
-        .app-header {
-            display: flex !important;
-            align-items: center !important;
-            margin-bottom: 2rem !important;
-            padding: 1rem !important;
-            background: rgba(10, 15, 28, 0.3) !important;
-            border-radius: 10px !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .app-logo {
-            width: 50px !important;
-            height: 50px !important;
-            margin-left: 1rem !important;
-            filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.3)) !important;
-        }
-
-        .app-title {
-            font-size: 2em !important;
-            color: var(--text) !important;
-            margin: 0 !important;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2) !important;
-        }
-
-        .app-subtitle {
-            font-size: 1.3em !important;
-            color: var(--text) !important;
-            opacity: 0.8 !important;
-            margin-top: 1rem !important;
-            text-align: center !important;
-            font-weight: normal !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# إضافة العنوان الرئيسي مع الشعار
-st.markdown("""
-    <div class="app-header">
-        <img src="https://raw.githubusercontent.com/yourusername/NewYolkCalculator/main/assets/chicken-logo.png" class="app-logo" alt="شعار الدجاج">
-        <h1 class="app-title">حاسبة الدجاج - نيويولك</h1>
-    </div>
-    <h2 class="app-subtitle">حساب أرباح الدجاج والمكافآت اليومية</h2>
 """, unsafe_allow_html=True)
