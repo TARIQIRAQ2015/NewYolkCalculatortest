@@ -29,7 +29,7 @@ st.markdown("""
                 #162447
             );
             background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            animation: gradient 5s ease infinite;
             color: #e2e2e2;
         }
         
@@ -768,8 +768,7 @@ with col2:
     calculation_type = st.selectbox(
         texts[language]["calculation_type"],
         [texts[language]["chicken_profits"], 
-         texts[language]["daily_rewards"],
-         "سجل الحسابات 📋"]
+         texts[language]["daily_rewards"]]
     )
 
 # دالة التحقق من المدخلات
@@ -823,17 +822,21 @@ def init_db():
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
          calculation_type TEXT,
          result_text TEXT,
+         eggs_count INTEGER,
+         days_count INTEGER,
          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)
     ''')
     conn.commit()
     conn.close()
 
 # حفظ النتائج في قاعدة البيانات
-def save_calculation(calculation_type, result_text):
+def save_calculation(calculation_type, result_text, eggs_count=0, days_count=0):
     conn = sqlite3.connect('calculations_history.db')
     c = conn.cursor()
-    c.execute('INSERT INTO calculations_history (calculation_type, result_text) VALUES (?, ?)',
-              (calculation_type, result_text))
+    c.execute('''INSERT INTO calculations_history 
+                 (calculation_type, result_text, eggs_count, days_count) 
+                 VALUES (?, ?, ?, ?)''',
+              (calculation_type, result_text, eggs_count, days_count))
     conn.commit()
     conn.close()
 
@@ -930,7 +933,12 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # حفظ النتائج في قاعدة البيانات
-                save_calculation(texts[language]["chicken_profits"], results_text)
+                save_calculation(
+                    texts[language]["chicken_profits"],
+                    results_text,
+                    eggs_count=int(eggs),
+                    days_count=int(days)
+                )
 
                 # عرض النتائج
                 # st.code(results_text, language="text")
@@ -1042,7 +1050,12 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ╚══════════════════════════════════════════════════════════════════╝"""
 
                 # حفظ النتائج في قاعدة البيانات
-                save_calculation(texts[language]["daily_rewards"], results_text)
+                save_calculation(
+                    texts[language]["daily_rewards"],
+                    results_text,
+                    eggs_count=int(rewards),
+                    days_count=1  # دائماً يوم واحد للمكافآت اليومية
+                )
 
                 # عرض النتائج
                 # st.code(results_text, language="text")
@@ -1088,19 +1101,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
-
-elif calculation_type == "سجل الحسابات 📋":
-    st.subheader("سجل الحسابات السابقة 📋")
-    
-    # عرض آخر 10 سجلات
-    records = get_recent_calculations()
-    
-    if not records:
-        st.info("لا يوجد سجلات سابقة")
-    else:
-        for record in records:
-            with st.expander(f"{record[1]} - {record[3]}"):
-                st.code(record[2], language="text")
 
 # زر إعادة التعيين
 if st.button(texts[language]["reset"], type="secondary"):
@@ -1253,3 +1253,24 @@ def create_profit_chart(df, language):
     )
     
     return fig
+
+# إضافة زر منفصل لسجل الحسابات في الشريط الجانبي
+if st.sidebar.button("📋 سجل الحسابات", type="primary"):
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("سجل الحسابات السابقة 📋")
+    
+    # عرض آخر 10 سجلات
+    records = get_recent_calculations()
+    
+    if not records:
+        st.sidebar.info("لا يوجد سجلات سابقة")
+    else:
+        for record in records:
+            with st.sidebar.expander(f"{record[1]} - {record[3]}"):
+                st.markdown(f"""
+                **تفاصيل الحساب:**
+                - عدد البيض: {record[3]} 🥚
+                - عدد الأيام: {record[4]} 📅
+                ---
+                """)
+                st.code(record[2], language="text")
