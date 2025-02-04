@@ -10,587 +10,164 @@ st.set_page_config(
     layout="wide"
 )
 
-# إخفاء أزرار التحكم بالمظهر
+# تعريف النمط الموحد
 st.markdown("""
     <style>
-        /* إخفاء العناصر غير الضرورية */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        [data-testid="stToolbar"] {visibility: hidden;}
-        
-        /* تحسين المظهر العام والخلفية */
-        .stApp {
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
-            background-size: 400% 400% !important;
-            animation: gradientBG 8s ease infinite !important;
+        /* الألوان الأساسية */
+        :root {
+            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
+            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
+            --accent: #2D5B85;         /* أزرق فخم */
+            --highlight: #446B8C;      /* أزرق فاتح راقي */
+            --gold: #9B8B6C;          /* ذهبي فخم */
+            --text: #E6E9F0;          /* أبيض مائل للرمادي */
+            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
+            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
         }
-        
-        @keyframes gradientBG {
+
+        /* تأثيرات الحركة والخلفية */
+        @keyframes gradientMotion {
             0% {
                 background-position: 0% 50%;
+                background-size: 150% 150%;
+            }
+            25% {
+                background-position: 100% 50%;
+                background-size: 200% 200%;
             }
             50% {
-                background-position: 100% 50%;
+                background-position: 50% 100%;
+                background-size: 150% 150%;
+            }
+            75% {
+                background-position: 0% 100%;
+                background-size: 200% 200%;
             }
             100% {
                 background-position: 0% 50%;
+                background-size: 150% 150%;
             }
         }
-        
-        /* تأثير الإيموجي */
-        .emoji-link {
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 32px;
-            margin-right: 10px;
-        }
-        .emoji-link:hover {
-            transform: scale(1.5);
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-        
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stNumberInput > div > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 12px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            height: auto !important;
-            min-height: 48px !important;
-            font-size: 16px !important;
-            line-height: 1.5 !important;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* تأثير الموجة عند التحويم */
-        .stSelectbox > div > div::before,
-        .stNumberInput > div > div::before,
-        div[data-baseweb="select"] ul li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: all 0.5s ease;
-            z-index: 1;
-        }
-        
-        .stSelectbox > div > div:hover::before,
-        .stNumberInput > div > div:hover::before,
-        div[data-baseweb="select"] ul li:hover::before {
-            left: 100%;
-        }
-        
-        /* تأثير التحويم */
-        .stSelectbox > div > div:hover,
-        .stNumberInput > div > div:hover {
-            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 8px !important;
-            transition: all 0.3s ease;
-        }
-        
-        div[data-baseweb="select"] ul {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            padding: 4px !important;
-            border-radius: 8px !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        /* تحسين عناصر القائمة */
-        div[data-baseweb="select"] ul li {
-            background: transparent !important;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            margin: 2px 0;
-            padding: 10px 12px !important;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        
-        div[data-baseweb="select"] ul li:hover {
-            background: linear-gradient(135deg, #161b25 0%, #1e212b 100%) !important;
-            transform: translateX(4px);
-            color: #ffffff !important;
-        }
-        
-        /* تحسين الأيقونات في القوائم */
-        .stSelectbox svg,
-        div[data-baseweb="select"] svg {
-            transition: all 0.3s ease;
-            fill: rgba(255, 255, 255, 0.7) !important;
-        }
-        
-        .stSelectbox:hover svg,
-        div[data-baseweb="select"]:hover svg {
-            fill: rgba(255, 255, 255, 1) !important;
-            transform: translateY(1px);
-        }
-        
-        /* تحسين النص المحدد */
-        div[data-baseweb="select"] [aria-selected="true"] {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            color: #ffffff !important;
-            font-weight: 500 !important;
-        }
-        
-        /* تحسين الخط والقراءة */
-        .stMarkdown {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
-            color: #e2e2e2 !important;
-        }
-        
-        /* تحسين المسافات بين العناصر */
-        .element-container {
-            margin: 1.5rem 0 !important;
-        }
-        
-        /* تحسين النصوص والعناصر الأخرى */
-        .stMarkdown {
-            color: #e2e2e2;
-        }
-        
-        /* تحسين الروابط */
-        a {
-            color: #4f8fba !important;
-            text-decoration: none !important;
-            transition: all 0.3s ease;
-        }
-        a:hover {
-            color: #6ba5d1 !important;
-            text-decoration: none !important;
-        }
-        
-        /* تحسين تأثير الضغط على الدجاجة */
-        .emoji-link {
-            font-size: 24px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-right: 8px;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
-        }
-        
-        .emoji-link:hover {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
-        }
-        
-        .emoji-link:active {
-            transform: scale(0.95);
-        }
-        
-        /* تحسين العنوان */
-        .title {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            text-align: center;
-            background: linear-gradient(120deg, #ffffff, #e2e2e2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .title-text {
-            text-decoration: none;
-            color: inherit;
-            margin-left: 8px;
-        }
-        
-        /* تحسين القوائم المنسدلة */
-        .stSelectbox > div > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            padding: 12px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            height: auto !important;
-            min-height: 48px !important;
-            font-size: 16px !important;
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين قائمة الخيارات المنسدلة */
-        div[data-baseweb="select"] > div {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            padding: 8px !important;
-            min-width: 200px !important;
-        }
-        
-        div[data-baseweb="select"] ul {
-            background: linear-gradient(135deg, #1e212b 0%, #161b25 100%) !important;
-            padding: 4px !important;
-        }
-        
-        div[data-baseweb="select"] ul li {
-            color: #ffffff !important;
-            font-size: 16px !important;
-            padding: 12px !important;
-            margin: 4px 0 !important;
-            border-radius: 6px !important;
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين النصوص في القوائم */
-        .stSelectbox label {
-            color: #ffffff !important;
-            font-size: 18px !important;
-            font-weight: 500 !important;
-            margin-bottom: 12px !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            line-height: 1.5 !important;
-        }
-        
-        /* تحسين الأيقونة في القائمة المنسدلة */
-        .stSelectbox svg {
-            fill: #ffffff !important;
-            width: 24px !important;
-            height: 24px !important;
-        }
-        
-        /* تحسين العنوان */
-        .subtitle {
-            font-size: 18px;
-            color: #b8b8b8;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        /* تحسين أزرار الحساب */
-        .stButton > button {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            color: #e2e2e2 !important;
-            border-radius: 8px !important;
-            padding: 8px 16px !important;
-            font-weight: 500 !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        
-        .stButton > button:hover {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)) !important;
-            border-color: rgba(255,255,255,0.3) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .stButton > button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        /* تحسين حقول الإدخال */
-        .stNumberInput > div > div > input {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 8px !important;
-            color: #e2e2e2 !important;
-            padding: 8px 12px !important;
-            transition: all 0.3s ease;
-        }
-        
-        .stNumberInput > div > div > input:focus {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
-        }
-        
-        /* تحسين حقوق النشر */
-        .copyright {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            padding: 16px;
-            font-size: 14px;
-            margin-top: 32px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* تحسين الشريط العلوي */
-        .stProgress > div > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px !important;
-            overflow: hidden;
-            position: relative;
-            height: 48px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .stProgress > div > div > div {
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0.1),
-                rgba(255,255,255,0.15),
-                rgba(255,255,255,0.1)
+
+        .stApp {
+            background: radial-gradient(
+                circle at center,
+                var(--dark-primary) 0%,
+                var(--dark-secondary) 30%,
+                var(--accent) 70%,
+                var(--dark-primary) 100%
+            ),
+            linear-gradient(
+                45deg,
+                var(--dark-primary),
+                var(--dark-secondary),
+                var(--accent),
+                var(--dark-primary)
             ) !important;
-            border-radius: 6px !important;
-            height: 100% !important;
-            transition: all 0.3s ease !important;
-            backdrop-filter: blur(5px);
-        }
-        
-        .stProgress > div > div::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: all 0.5s ease;
-            z-index: 1;
-        }
-        
-        .stProgress > div > div:hover::before {
-            left: 100%;
-        }
-        
-        .stProgress > div > div:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        /* تحديث شفافية القوائم المنسدلة */
-        .stSelectbox > div > div,
-        .stNumberInput > div > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        .stSelectbox > div > div:hover,
-        .stNumberInput > div > div:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-        }
-        
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="popover"] > div {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-        
-        div[data-baseweb="select"] ul,
-        div[data-baseweb="menu"] ul {
-            background: rgba(30, 37, 48, 0.7) !important;
-            backdrop-filter: blur(10px);
-        }
-        
-        div[data-baseweb="select"] ul li:hover,
-        div[data-baseweb="menu"] ul li:hover {
-            background: rgba(22, 27, 37, 0.8) !important;
-        }
-        
-        /* تحسين ملخص النتائج */
-        pre {
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #16213e
-            ) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            padding: 20px !important;
-            color: #ffffff !important;
-            font-family: 'Courier New', monospace !important;
+            background-size: 200% 200% !important;
+            animation: gradientMotion 10s ease infinite !important;
             position: relative !important;
             overflow: hidden !important;
-            transition: all 0.3s ease !important;
-            animation: gradientBG 15s ease infinite !important;
-            background-size: 200% 200% !important;
         }
 
-        pre:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        /* تأثير الخلفية المتحركة */
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .stApp {
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
-            background-size: 400% 400% !important;
-            animation: gradientBG 8s ease infinite !important;
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* تنسيق العنوان الرئيسي */
-        .main-title {
-            font-size: 2.5em !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            margin-bottom: 1em !important;
-            color: #ffffff !important;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* تأثير الإيموجي المتحرك */
-        .chicken-emoji {
-            display: inline-block;
-            font-size: 2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        .chicken-emoji:hover {
-            transform: scale(1.3) rotate(15deg);
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* تأثيرات الحركة والألوان */
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .stApp {
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
-            background-size: 400% 400% !important;
-            animation: gradientBG 8s ease infinite !important;
+        .stApp::before {
+            content: '' !important;
+            position: absolute !important;
+            top: -50% !important;
+            left: -50% !important;
+            width: 200% !important;
+            height: 200% !important;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                var(--dark-primary) 100%
+            ) !important;
+            opacity: 0.7 !important;
+            animation: gradientMotion 15s ease-in-out infinite reverse !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
         }
 
         /* تنسيق الأزرار */
         .stButton > button {
-            background: linear-gradient(135deg, #3498db, #2980b9) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            color: white !important;
-            transition: all 0.3s ease !important;
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                var(--dark-secondary)
+            ) !important;
+            border: 1px solid var(--gold) !important;
+            color: var(--text) !important;
+            padding: 0.7rem 1.4rem !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
 
         .stButton > button:hover {
-            background: linear-gradient(135deg, #2980b9, #3498db) !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+            box-shadow: 0 8px 25px var(--glow) !important;
+            border-color: var(--gold) !important;
         }
 
-        /* تنسيق مربعات الإدخال */
-        .stTextInput > div > div > input {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .stTextInput > div > div > input:focus {
-            border-color: #3498db !important;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5) !important;
-        }
-
-        /* تنسيق القوائم المنسدلة */
+        /* تنسيق المدخلات */
+        .stTextInput > div > div > input,
+        .stNumberInput > div > div > input,
         div[data-baseweb="select"] {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 8px !important;
             transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
 
+        .stTextInput > div > div > input:focus,
+        .stNumberInput > div > div > input:focus,
         div[data-baseweb="select"]:hover {
-            border-color: #3498db !important;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5) !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px var(--glow) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* تنسيق العناوين */
+        .stMarkdown, .stHeader {
+            color: var(--text) !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
+        /* إخفاء العناصر غير الضرورية */
+        #MainMenu {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        header {visibility: hidden !important;}
+        [data-testid="stToolbar"] {visibility: hidden !important;}
+
+        /* تنسيق الجداول والإطارات */
+        .stDataFrame, pre {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
+        /* تنسيق الرسوم البيانية */
+        .js-plotly-plot {
+            background: rgba(10, 15, 28, 0.7) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -1198,83 +775,3 @@ st.markdown("""
     """,
     unsafe_allow_html=True
 )
-
-st.markdown("""
-    <style>
-        /* الألوان الأساسية */
-        :root {
-            --dark-primary: #0A0F1C;    /* أزرق داكن جداً */
-            --dark-secondary: #1A1F35;  /* أزرق رمادي داكن */
-            --accent: #2D5B85;         /* أزرق فخم */
-            --highlight: #446B8C;      /* أزرق فاتح راقي */
-            --gold: #9B8B6C;          /* ذهبي فخم */
-            --text: #E6E9F0;          /* أبيض مائل للرمادي */
-            --border: rgba(155, 139, 108, 0.15);  /* حدود ذهبية شفافة */
-            --glow: rgba(155, 139, 108, 0.2);    /* توهج ذهبي خفيف */
-        }
-
-        /* تأثيرات الحركة والخلفية */
-        @keyframes gradientMotion {
-            0% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
-            25% {
-                background-position: 100% 50%;
-                background-size: 200% 200%;
-            }
-            50% {
-                background-position: 50% 100%;
-                background-size: 150% 150%;
-            }
-            75% {
-                background-position: 0% 100%;
-                background-size: 200% 200%;
-            }
-            100% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
-        }
-
-        .stApp {
-            background: radial-gradient(
-                circle at center,
-                var(--dark-primary) 0%,
-                var(--dark-secondary) 30%,
-                var(--accent) 70%,
-                var(--dark-primary) 100%
-            ),
-            linear-gradient(
-                45deg,
-                var(--dark-primary),
-                var(--dark-secondary),
-                var(--accent),
-                var(--dark-primary)
-            ) !important;
-            background-size: 200% 200% !important;
-            animation: gradientMotion 10s ease infinite !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-
-        .stApp::before {
-            content: '' !important;
-            position: absolute !important;
-            top: -50% !important;
-            left: -50% !important;
-            width: 200% !important;
-            height: 200% !important;
-            background: radial-gradient(
-                circle at center,
-                transparent 0%,
-                var(--dark-primary) 100%
-            ) !important;
-            opacity: 0.7 !important;
-            animation: gradientMotion 15s ease-in-out infinite reverse !important;
-            pointer-events: none !important;
-        }
-
-        /* باقي التنسيقات تبقى كما هي */
-    </style>
-""", unsafe_allow_html=True)
