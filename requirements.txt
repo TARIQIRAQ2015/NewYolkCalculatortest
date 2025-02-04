@@ -2,5 +2,4 @@ streamlit
 pandas
 plotly
 bcrypt
-sqlite3
 streamlit-js-eval==0.1.7
