@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
-import sqlite3
 
 # تحسين الواجهة
 st.set_page_config(
@@ -22,21 +21,21 @@ st.markdown("""
         
         /* تحسين المظهر العام والخلفية */
         .stApp {
-            background: linear-gradient(135deg, 
-                #1a1a2e,
-                #16213e,
-                #0f3460,
-                #162447
-            );
-            background-size: 400% 400%;
-            animation: gradient 7s ease infinite;
-            color: #e2e2e2;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
+            background-size: 400% 400% !important;
+            animation: gradientBG 8s ease infinite !important;
         }
         
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
         
         /* تأثير الإيموجي */
@@ -547,6 +546,64 @@ st.markdown("""
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
+        
+        /* تأثيرات الحركة والألوان */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .stApp {
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #2c3e50, #3498db) !important;
+            background-size: 400% 400% !important;
+            animation: gradientBG 8s ease infinite !important;
+        }
+
+        /* تنسيق الأزرار */
+        .stButton > button {
+            background: linear-gradient(135deg, #3498db, #2980b9) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .stButton > button:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+        }
+
+        /* تنسيق مربعات الإدخال */
+        .stTextInput > div > div > input {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .stTextInput > div > div > input:focus {
+            border-color: #3498db !important;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5) !important;
+        }
+
+        /* تنسيق القوائم المنسدلة */
+        div[data-baseweb="select"] {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        div[data-baseweb="select"]:hover {
+            border-color: #3498db !important;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5) !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -767,8 +824,7 @@ with col1:
 with col2:
     calculation_type = st.selectbox(
         texts[language]["calculation_type"],
-        [texts[language]["chicken_profits"], 
-         texts[language]["daily_rewards"]]
+        [texts[language]["chicken_profits"], texts[language]["daily_rewards"]]
     )
 
 # دالة التحقق من المدخلات
@@ -813,59 +869,50 @@ if is_number(new_egg_price) and is_number(new_feed_price):
     st.write(f"{texts[language]['egg_price']}: {format_decimal(egg_price_display)} {currency}")
     st.write(f"{texts[language]['feed_price']}: {format_decimal(feed_price_display)} {currency}")
 
-# إنشاء قاعدة البيانات وجدول السجلات
-def init_db():
-    try:
-        conn = sqlite3.connect('calculations_history.db')
-        c = conn.cursor()
-        # حذف الجدول القديم إذا كان موجوداً
-        c.execute('DROP TABLE IF EXISTS calculations_history')
-        # إنشاء الجدول من جديد
-        c.execute('''
-            CREATE TABLE calculations_history
-            (id INTEGER PRIMARY KEY AUTOINCREMENT,
-             calculation_type TEXT,
-             result_text TEXT,
-             eggs_count INTEGER,
-             days_count INTEGER,
-             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)
-        ''')
-        conn.commit()
-    except sqlite3.Error as e:
-        print(f"خطأ في قاعدة البيانات: {e}")
-    finally:
-        conn.close()
-
-def save_calculation(calculation_type, result_text, eggs_count=0, days_count=0):
-    try:
-        conn = sqlite3.connect('calculations_history.db')
-        c = conn.cursor()
-        c.execute('''
-            INSERT INTO calculations_history 
-            (calculation_type, result_text, eggs_count, days_count) 
-            VALUES (?, ?, ?, ?)
-        ''', (calculation_type, result_text, eggs_count, days_count))
-        conn.commit()
-    except sqlite3.Error as e:
-        print(f"خطأ في حفظ البيانات: {e}")
-    finally:
-        conn.close()
-
-def get_recent_calculations(limit=10):
-    try:
-        conn = sqlite3.connect('calculations_history.db')
-        c = conn.cursor()
-        c.execute('SELECT * FROM calculations_history ORDER BY timestamp DESC LIMIT ?', (limit,))
-        records = c.fetchall()
-        return records
-    except sqlite3.Error as e:
-        print(f"خطأ في قراءة البيانات: {e}")
-        return []
-    finally:
-        conn.close()
-
-# تهيئة قاعدة البيانات عند بدء التطبيق
-init_db()
+# دالة إنشاء الرسم البياني
+def create_profit_chart(df, language):
+    # تخصيص الألوان
+    colors = {
+        'عدد البيض 🥚': '#4CAF50',
+        'عدد الطعام المطلوب 🌽': '#FF9800',
+        'الربح قبل الإيجار 📊': '#2196F3',
+        'دفع الإيجار 🏠': '#F44336',
+        'صافي الربح 💰': '#9C27B0'
+    }
+    
+    # إنشاء الرسم البياني
+    fig = px.pie(
+        df,
+        values=texts[language]["value"],
+        names=texts[language]["category"],
+        title=texts[language]["summary"],
+        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
+    )
+    
+    # تحديث تصميم الرسم البياني
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label'
+    )
+    
+    fig.update_layout(
+        title_x=0.5,
+        title_font_size=24,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.2,
+            xanchor="center",
+            x=0.5
+        ),
+        margin=dict(t=60, l=0, r=0, b=0),
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    return fig
 
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
@@ -946,14 +993,6 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
 ║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
-
-                # حفظ النتائج في قاعدة البيانات
-                save_calculation(
-                    texts[language]["chicken_profits"],
-                    results_text,
-                    eggs_count=int(eggs),
-                    days_count=int(days)
-                )
 
                 # عرض النتائج
                 # st.code(results_text, language="text")
@@ -1063,14 +1102,6 @@ elif calculation_type == texts[language]["daily_rewards"]:
 ║ {texts[language]['feed_price']}: {format_decimal(food * float(new_feed_price) * 1480)} IQD
 ║ {texts[language]['daily_profit']}: {format_decimal(daily_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
-
-                # حفظ النتائج في قاعدة البيانات
-                save_calculation(
-                    texts[language]["daily_rewards"],
-                    results_text,
-                    eggs_count=int(rewards),
-                    days_count=1
-                )
 
                 # عرض النتائج
                 # st.code(results_text, language="text")
@@ -1223,93 +1254,3 @@ st.markdown("""
         <title>New Yolk Calculator</title>
     </head>
 """, unsafe_allow_html=True)
-
-# دالة إنشاء الرسم البياني
-def create_profit_chart(df, language):
-    # تخصيص الألوان
-    colors = {
-        'عدد البيض 🥚': '#4CAF50',
-        'عدد الطعام المطلوب 🌽': '#FF9800',
-        'الربح قبل الإيجار 📊': '#2196F3',
-        'دفع الإيجار 🏠': '#F44336',
-        'صافي الربح 💰': '#9C27B0'
-    }
-    
-    # إنشاء الرسم البياني
-    fig = px.pie(
-        df,
-        values=texts[language]["value"],
-        names=texts[language]["category"],
-        title=texts[language]["summary"],
-        color_discrete_sequence=['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
-    )
-    
-    # تحديث تصميم الرسم البياني
-    fig.update_traces(
-        textposition='outside',
-        textinfo='percent+label'
-    )
-    
-    fig.update_layout(
-        title_x=0.5,
-        title_font_size=24,
-        showlegend=True,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.2,
-            xanchor="center",
-            x=0.5
-        ),
-        margin=dict(t=60, l=0, r=0, b=0),
-        height=500,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    return fig
-
-# إضافة قسم سجل الحسابات في الواجهة الرئيسية
-st.markdown("---")
-col_history1, col_history2 = st.columns([1, 3])
-
-with col_history1:
-    st.subheader("📋 سجل الحسابات")
-
-with col_history2:
-    if st.button("تحديث السجل 🔄", type="primary"):
-        st.experimental_rerun()
-
-# عرض آخر 10 سجلات
-records = get_recent_calculations()
-
-if not records:
-    st.info("لا يوجد سجلات سابقة")
-else:
-    for record in records:
-        with st.expander(f"{record[1]} - {record[4]} 📅"):
-            st.markdown(f"""
-            **تفاصيل الحساب:**
-            - عدد البيض: {record[3]} 🥚
-            - عدد الأيام: {record[4]} 📅
-            ---
-            """)
-            st.code(record[2], language="text")
-
-if calculation_type == texts[language]["chicken_profits"]:
-    # تحديث حفظ النتائج مع التأكد من تحويل القيم إلى أرقام صحيحة
-    save_calculation(
-        texts[language]["chicken_profits"],
-        results_text,
-        eggs_count=int(float(eggs) if eggs else 0),
-        days_count=int(float(days) if days else 0)
-    )
-
-elif calculation_type == texts[language]["daily_rewards"]:
-    # تحديث حفظ النتائج مع التأكد من تحويل القيم إلى أرقام صحيحة
-    save_calculation(
-        texts[language]["daily_rewards"],
-        results_text,
-        eggs_count=int(float(rewards) if rewards else 0),
-        days_count=1
-    )
