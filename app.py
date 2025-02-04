@@ -1215,162 +1215,195 @@ st.markdown("""
     <style>
         /* الألوان الأساسية */
         :root {
-            --primary: #1A2634;
-            --secondary: #0EA5E9;
-            --accent: #22D3EE;
-            --success: #10B981;
-            --warning: #F59E0B;
+            --color1: #2E3192;  /* أزرق داكن */
+            --color2: #1BFFFF;  /* سماوي */
+            --color3: #D4145A;  /* وردي */
+            --color4: #00C3FF;  /* أزرق فاتح */
+            --color5: #8A2BE2;  /* بنفسجي */
+            --color6: #00FF87;  /* أخضر نيون */
             --text: #F8FAFC;
-            --border: rgba(255, 255, 255, 0.1);
-            --glow: rgba(14, 165, 233, 0.3);
+            --border: rgba(255, 255, 255, 0.15);
+            --glow: rgba(255, 255, 255, 0.3);
         }
 
         /* تأثيرات الحركة والخلفية */
-        @keyframes subtleGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                background-position: 100% 50%;
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                background-position: 50% 100%;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                background-position: 0% 50%;
+                filter: hue-rotate(270deg);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg);
+            }
         }
 
         .stApp {
             background: linear-gradient(
-                135deg,
-                var(--primary),
-                #0F172A,
-                #164E63,
-                var(--primary)
+                45deg,
+                var(--color1),
+                var(--color2),
+                var(--color3),
+                var(--color4),
+                var(--color5),
+                var(--color6)
             ) !important;
-            background-size: 200% 200% !important;
-            animation: subtleGradient 10s ease infinite !important;
+            background-size: 300% 300% !important;
+            animation: gradientFlow 10s ease infinite !important;
         }
 
-        /* تأثير التوهج */
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px var(--glow); }
-            50% { box-shadow: 0 0 20px var(--glow); }
-            100% { box-shadow: 0 0 5px var(--glow); }
+        /* تأثير التوهج المتحرك */
+        @keyframes glowingBorder {
+            0% { border-color: var(--color2); }
+            25% { border-color: var(--color3); }
+            50% { border-color: var(--color4); }
+            75% { border-color: var(--color5); }
+            100% { border-color: var(--color2); }
         }
 
-        /* تنسيق الأزرار */
+        /* تأثيرات الأزرار */
         .stButton > button {
-            background: linear-gradient(
-                135deg,
-                var(--secondary),
-                var(--accent)
-            ) !important;
-            border: none !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid transparent !important;
             color: var(--text) !important;
-            padding: 0.6rem 1.2rem !important;
-            border-radius: 8px !important;
+            padding: 0.7rem 1.4rem !important;
+            border-radius: 12px !important;
             font-weight: 500 !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
-            backdrop-filter: blur(10px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
             position: relative !important;
             overflow: hidden !important;
+            animation: glowingBorder 4s linear infinite !important;
         }
 
-        .stButton > button:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.25) !important;
-            animation: glow 2s ease-in-out infinite !important;
-        }
-
-        .stButton > button::after {
+        .stButton > button::before {
             content: '' !important;
             position: absolute !important;
             top: -50% !important;
             left: -50% !important;
             width: 200% !important;
             height: 200% !important;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%) !important;
-            opacity: 0 !important;
-            transition: opacity 0.3s ease !important;
+            background: radial-gradient(
+                circle,
+                rgba(255,255,255,0.2) 0%,
+                transparent 50%
+            ) !important;
+            transform: rotate(0deg) !important;
+            animation: rotateGlow 3s linear infinite !important;
         }
 
-        .stButton > button:hover::after {
-            opacity: 1 !important;
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
         }
 
         /* تنسيق العناوين */
         .stHeader {
             position: relative !important;
-            margin-bottom: 1.5rem !important;
+            margin-bottom: 2rem !important;
+            padding-bottom: 0.5rem !important;
         }
 
         .stHeader::after {
             content: '' !important;
             position: absolute !important;
-            bottom: -5px !important;
+            bottom: 0 !important;
             left: 0 !important;
             width: 100% !important;
             height: 2px !important;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent) !important;
-            animation: glow 2s ease-in-out infinite !important;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--color2),
+                var(--color3),
+                var(--color4),
+                transparent
+            ) !important;
+            background-size: 200% 100% !important;
+            animation: gradientFlow 4s linear infinite !important;
         }
 
         /* تنسيق المدخلات */
         .stTextInput > div > div > input,
         div[data-baseweb="select"] {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid var(--border) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid var(--border) !important;
             color: var(--text) !important;
-            border-radius: 8px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            backdrop-filter: blur(10px) !important;
+            border-radius: 12px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .stTextInput > div > div > input:focus,
         div[data-baseweb="select"]:hover {
             transform: translateY(-2px) !important;
-            border-color: var(--secondary) !important;
-            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2) !important;
-            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: var(--color2) !important;
+            box-shadow: 0 0 20px rgba(27, 255, 255, 0.2) !important;
+            animation: glowingBorder 4s linear infinite !important;
         }
 
         /* تنسيق الجداول والإطارات */
         .stDataFrame, pre {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid var(--border) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-            backdrop-filter: blur(10px) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid var(--border) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .stDataFrame:hover, pre:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+            border-color: var(--color2) !important;
+            animation: glowingBorder 4s linear infinite !important;
         }
 
         /* تنسيق الرسوم البيانية */
         .js-plotly-plot {
-            background: rgba(255, 255, 255, 0.02) !important;
-            border-radius: 12px !important;
-            border: 1px solid var(--border) !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-            backdrop-filter: blur(10px) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid var(--border) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .js-plotly-plot:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+            animation: glowingBorder 4s linear infinite !important;
         }
 
-        /* تأثيرات عامة */
-        .element-container {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        .element-container:hover {
-            transform: translateY(-2px) !important;
-        }
-
-        /* تنسيق النصوص */
+        /* تأثيرات النص */
         .stMarkdown {
             color: var(--text) !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;
             transition: all 0.3s ease !important;
+        }
+
+        /* تحسين القراءة */
+        .dataframe {
+            color: var(--text) !important;
+            backdrop-filter: blur(8px) !important;
         }
 
         /* إخفاء العناصر غير الضرورية */
