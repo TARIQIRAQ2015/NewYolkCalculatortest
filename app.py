@@ -29,7 +29,7 @@ st.markdown("""
                 #162447
             );
             background-size: 400% 400%;
-            animation: gradient 5s ease infinite;
+            animation: gradient 7s ease infinite;
             color: #e2e2e2;
         }
         
@@ -815,39 +815,54 @@ if is_number(new_egg_price) and is_number(new_feed_price):
 
 # إنشاء قاعدة البيانات وجدول السجلات
 def init_db():
-    conn = sqlite3.connect('calculations_history.db')
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS calculations_history
-        (id INTEGER PRIMARY KEY AUTOINCREMENT,
-         calculation_type TEXT,
-         result_text TEXT,
-         eggs_count INTEGER,
-         days_count INTEGER,
-         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)
-    ''')
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect('calculations_history.db')
+        c = conn.cursor()
+        # حذف الجدول القديم إذا كان موجوداً
+        c.execute('DROP TABLE IF EXISTS calculations_history')
+        # إنشاء الجدول من جديد
+        c.execute('''
+            CREATE TABLE calculations_history
+            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+             calculation_type TEXT,
+             result_text TEXT,
+             eggs_count INTEGER,
+             days_count INTEGER,
+             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)
+        ''')
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"خطأ في قاعدة البيانات: {e}")
+    finally:
+        conn.close()
 
-# حفظ النتائج في قاعدة البيانات
 def save_calculation(calculation_type, result_text, eggs_count=0, days_count=0):
-    conn = sqlite3.connect('calculations_history.db')
-    c = conn.cursor()
-    c.execute('''INSERT INTO calculations_history 
-                 (calculation_type, result_text, eggs_count, days_count) 
-                 VALUES (?, ?, ?, ?)''',
-              (calculation_type, result_text, eggs_count, days_count))
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect('calculations_history.db')
+        c = conn.cursor()
+        c.execute('''
+            INSERT INTO calculations_history 
+            (calculation_type, result_text, eggs_count, days_count) 
+            VALUES (?, ?, ?, ?)
+        ''', (calculation_type, result_text, eggs_count, days_count))
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"خطأ في حفظ البيانات: {e}")
+    finally:
+        conn.close()
 
-# جلب آخر السجلات
 def get_recent_calculations(limit=10):
-    conn = sqlite3.connect('calculations_history.db')
-    c = conn.cursor()
-    c.execute('SELECT * FROM calculations_history ORDER BY timestamp DESC LIMIT ?', (limit,))
-    records = c.fetchall()
-    conn.close()
-    return records
+    try:
+        conn = sqlite3.connect('calculations_history.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM calculations_history ORDER BY timestamp DESC LIMIT ?', (limit,))
+        records = c.fetchall()
+        return records
+    except sqlite3.Error as e:
+        print(f"خطأ في قراءة البيانات: {e}")
+        return []
+    finally:
+        conn.close()
 
 # تهيئة قاعدة البيانات عند بدء التطبيق
 init_db()
@@ -1054,7 +1069,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                     texts[language]["daily_rewards"],
                     results_text,
                     eggs_count=int(rewards),
-                    days_count=1  # دائماً يوم واحد للمكافآت اليومية
+                    days_count=1
                 )
 
                 # عرض النتائج
@@ -1254,23 +1269,47 @@ def create_profit_chart(df, language):
     
     return fig
 
-# إضافة زر منفصل لسجل الحسابات في الشريط الجانبي
-if st.sidebar.button("📋 سجل الحسابات", type="primary"):
-    st.sidebar.markdown("---")
-    st.sidebar.subheader("سجل الحسابات السابقة 📋")
-    
-    # عرض آخر 10 سجلات
-    records = get_recent_calculations()
-    
-    if not records:
-        st.sidebar.info("لا يوجد سجلات سابقة")
-    else:
-        for record in records:
-            with st.sidebar.expander(f"{record[1]} - {record[3]}"):
-                st.markdown(f"""
-                **تفاصيل الحساب:**
-                - عدد البيض: {record[3]} 🥚
-                - عدد الأيام: {record[4]} 📅
-                ---
-                """)
-                st.code(record[2], language="text")
+# إضافة قسم سجل الحسابات في الواجهة الرئيسية
+st.markdown("---")
+col_history1, col_history2 = st.columns([1, 3])
+
+with col_history1:
+    st.subheader("📋 سجل الحسابات")
+
+with col_history2:
+    if st.button("تحديث السجل 🔄", type="primary"):
+        st.experimental_rerun()
+
+# عرض آخر 10 سجلات
+records = get_recent_calculations()
+
+if not records:
+    st.info("لا يوجد سجلات سابقة")
+else:
+    for record in records:
+        with st.expander(f"{record[1]} - {record[4]} 📅"):
+            st.markdown(f"""
+            **تفاصيل الحساب:**
+            - عدد البيض: {record[3]} 🥚
+            - عدد الأيام: {record[4]} 📅
+            ---
+            """)
+            st.code(record[2], language="text")
+
+if calculation_type == texts[language]["chicken_profits"]:
+    # تحديث حفظ النتائج مع التأكد من تحويل القيم إلى أرقام صحيحة
+    save_calculation(
+        texts[language]["chicken_profits"],
+        results_text,
+        eggs_count=int(float(eggs) if eggs else 0),
+        days_count=int(float(days) if days else 0)
+    )
+
+elif calculation_type == texts[language]["daily_rewards"]:
+    # تحديث حفظ النتائج مع التأكد من تحويل القيم إلى أرقام صحيحة
+    save_calculation(
+        texts[language]["daily_rewards"],
+        results_text,
+        eggs_count=int(float(rewards) if rewards else 0),
+        days_count=1
+    )
