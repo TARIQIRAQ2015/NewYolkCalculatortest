@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 # تحسين الواجهة
 st.set_page_config(
-    page_title="Chicken Calculator - Newyolk",
-    page_icon="static/favicon.ico",
+    page_title="New Yolk Calculator",
+    page_icon="https://cdn-icons-png.flaticon.com/512/3059/3059997.png",
     layout="wide"
 )
 
@@ -1184,103 +1184,6 @@ st.markdown("""
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: 32px;
             font-weight: bold;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* تنسيق ملخص النتائج */
-        pre {
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #16213e
-            ) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 15px !important;
-            padding: 20px !important;
-            color: #ffffff !important;
-            font-family: 'Courier New', monospace !important;
-            position: relative !important;
-            overflow: hidden !important;
-            transition: all 0.3s ease !important;
-            animation: gradientBG 15s ease infinite !important;
-            background-size: 200% 200% !important;
-        }
-
-        pre:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        /* تأثير الخلفية المتحركة */
-        @keyframes gradientBG {
-            0% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-            50% {
-                background: linear-gradient(45deg, 
-                    #16213e,
-                    #0f3460,
-                    #1a1a2e
-                );
-                background-size: 200% 200%;
-                background-position: 100% 50%;
-            }
-            100% {
-                background: linear-gradient(45deg, 
-                    #1a1a2e,
-                    #16213e,
-                    #0f3460
-                );
-                background-size: 200% 200%;
-                background-position: 0% 50%;
-            }
-        }
-
-        /* تنسيق النص داخل ملخص النتائج */
-        pre code {
-            color: #e2e2e2 !important;
-            font-size: 1.1em !important;
-            line-height: 1.5 !important;
-        }
-
-        /* تأثير الحدود المضيئة */
-        pre::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 16px;
-            background: linear-gradient(45deg, 
-                #1a1a2e,
-                #0f3460,
-                #1a1a2e
-            );
-            z-index: -1;
-            animation: borderGlow 3s ease-in-out infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes borderGlow {
-            0% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                opacity: 0.3;
-            }
         }
     </style>
 """, unsafe_allow_html=True)
