@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime, timedelta
+import os
 
 # تحسين الواجهة
 st.set_page_config(
@@ -1422,3 +1423,8 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
+
+if __name__ == '__main__':
+    # تكوين المنفذ للعمل مع Railway
+    port = int(os.environ.get('PORT', 8501))
+    st.set_page_config(page_title="اسم تطبيقك")
