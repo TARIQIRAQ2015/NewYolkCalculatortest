@@ -2,3 +2,6 @@ streamlit
 streamlit-js-eval==0.1.7
 pandas
 plotly
+numpy
+scikit-learn
+# أضف أي مكتبات إضافية تستخدمها في مشروعك
