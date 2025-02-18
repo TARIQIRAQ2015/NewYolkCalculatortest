@@ -1,7 +1,6 @@
-streamlit
-streamlit-js-eval==0.1.7
+flask
 pandas
 plotly
 numpy
-scikit-learn
+gunicorn
 # أضف أي مكتبات إضافية تستخدمها في مشروعك
