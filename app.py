@@ -874,21 +874,15 @@ def create_profit_chart(df, language):
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
     
-    # إضافة زر اختيار السنة
-    year_choice = st.radio(
-        "اختر السنة المراد حساب أرباحها" if language == "العربية" else "Choose the year to calculate profits" if language == "English" else "Alegeți anul pentru calculul profitului",
-        ["السنة الأولى" if language == "العربية" else "First Year" if language == "English" else "Primul An",
-         "السنة الثانية" if language == "العربية" else "Second Year" if language == "English" else "Al Doilea An"],
-        horizontal=True
-    )
-    
     col5, col6 = st.columns(2)
 
     with col5:
         eggs = st.text_input(
             texts[language]["eggs_input"],
             value="",
-            help="أدخل عدد البيض (بحد أقصى 580)" if language == "العربية" else "Enter the number of eggs (max 580)" if language == "English" else ""
+            help="أدخل عدد البيض (320 فما فوق للسنة الأولى، 260 أو أقل للسنة الثانية)" if language == "العربية" else 
+                 "Enter number of eggs (320 and above for first year, 260 or less for second year)" if language == "English" else 
+                 "Introduceți numărul de ouă (320 și peste pentru primul an, 260 sau mai puțin pentru al doilea an)"
         )
 
     with col6:
@@ -910,6 +904,9 @@ if calculation_type == texts[language]["chicken_profits"]:
             if eggs > 580 or days > 730:
                 raise ValueError()
 
+            # تحديد السنة تلقائياً بناءً على عدد البيض
+            is_first_year = eggs >= 320
+
             # حساب الأرباح
             total_eggs = float(eggs)
             total_feed = float(days) * 2
@@ -918,14 +915,21 @@ if calculation_type == texts[language]["chicken_profits"]:
             total_egg_price = total_eggs * float(new_egg_price)
             total_feed_cost = total_feed * float(new_feed_price)
             
-            # حساب الأرباح بناءً على اختيار السنة
-            if year_choice == "السنة الأولى" or year_choice == "First Year" or year_choice == "Primul An":
+            # حساب الأرباح بناءً على السنة
+            if is_first_year:
                 profit = total_egg_price - total_feed_cost
                 total_rent = 0
             else:
                 profit = total_egg_price - total_feed_cost
                 total_rent = 6  # الإيجار للسنة الثانية
                 profit = profit - total_rent
+
+            # إضافة رسالة توضيحية للسنة
+            year_message = "السنة الأولى (عدد البيض 320 فما فوق)" if language == "العربية" else "First Year (320 eggs or more)" if language == "English" else "Primul An (320 ouă sau mai mult)"
+            if not is_first_year:
+                year_message = "السنة الثانية (عدد البيض 260 أو أقل)" if language == "العربية" else "Second Year (260 eggs or less)" if language == "English" else "Al Doilea An (260 ouă sau mai puțin)"
+            
+            st.info(year_message)
 
             # تحويل العملة إذا كان مطلوباً
             if currency == "IQD":
@@ -945,13 +949,13 @@ if calculation_type == texts[language]["chicken_profits"]:
                 texts[language]["category"]: [
                     f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"🏠 {texts[language]['first_year_rental']}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
-                    f"💰 {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}"
+                    f"🏠 {texts[language]['first_year_rental']}" if not is_first_year else None,
+                    f"💰 {'أرباح السنة الأولى' if is_first_year else 'أرباح السنة الثانية'}"
                 ],
                 texts[language]["value"]: [
                     f"{format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price)} {currency}",
                     f"({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost)} {currency}",
-                    f"{format_decimal(total_rent)} {currency}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    f"{format_decimal(total_rent)} {currency}" if not is_first_year else None,
                     f"{format_decimal(profit)} {currency}"
                 ]
             })
@@ -968,13 +972,13 @@ if calculation_type == texts[language]["chicken_profits"]:
                 texts[language]["category"]: [
                     f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"🏠 {texts[language]['first_year_rental']}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
-                    f"💰 {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}"
+                    f"🏠 {texts[language]['first_year_rental']}" if not is_first_year else None,
+                    f"💰 {'أرباح السنة الأولى' if is_first_year else 'أرباح السنة الثانية'}"
                 ],
                 texts[language]["value"]: [
                     float(str(total_egg_price).replace(currency, "").strip()),
                     float(str(total_feed_cost).replace(currency, "").strip()),
-                    float(str(total_rent).replace(currency, "").strip()) if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    float(str(total_rent).replace(currency, "").strip()) if not is_first_year else None,
                     float(str(profit).replace(currency, "").strip())
                 ]
             })
@@ -992,28 +996,29 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║                  {texts[language]['summary']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
+║ {year_message}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price / 1480 if currency == "IQD" else total_egg_price)} USD
 ║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost / 1480 if currency == "IQD" else total_feed_cost)} USD"""
 
-            if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An":
+            if not is_first_year:
                 results_text += f"""
 ║ 3. {texts[language]['first_year_rental']}: {format_decimal(total_rent / 1480 if currency == "IQD" else total_rent)} USD"""
 
             results_text += f"""
-║ {4 if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else 3}. {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}: {format_decimal(profit / 1480 if currency == "IQD" else profit)} USD
+║ {4 if not is_first_year else 3}. {'أرباح السنة الأولى' if is_first_year else 'أرباح السنة الثانية'}: {format_decimal(profit / 1480 if currency == "IQD" else profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal(total_egg_price * 1480 if currency == "USD" else total_egg_price)} IQD
 ║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal(total_feed_cost * 1480 if currency == "USD" else total_feed_cost)} IQD"""
 
-            if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An":
+            if not is_first_year:
                 results_text += f"""
 ║ 3. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480 if currency == "USD" else total_rent)} IQD"""
 
             results_text += f"""
-║ {4 if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else 3}. {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}: {format_decimal(profit * 1480 if currency == "USD" else profit)} IQD
+║ {4 if not is_first_year else 3}. {'أرباح السنة الأولى' if is_first_year else 'أرباح السنة الثانية'}: {format_decimal(profit * 1480 if currency == "USD" else profit)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
             # عرض ملخص النتائج في النهاية
