@@ -940,44 +940,23 @@ if calculation_type == texts[language]["chicken_profits"]:
             date_str = current_time.strftime("%Y-%m-%d")
             time_str = current_time.strftime("%I:%M %p")
 
-            # إنشاء نص النتائج
-            results_text = f"""
-╔══════════════════════════════════════════════════════════════════╗
-║                  {texts[language]['summary']}                    ║
-╠══════════════════════════════════════════════════════════════════╣
-║ {texts[language]['calculation_time']}: {date_str} {time_str}
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['usd_results']}:
-║ {texts[language]['first_year_profit_no_rent']}: {format_decimal(first_year_profit)} {currency}
-║ {texts[language]['second_year_profit']}: {format_decimal(second_year_profit)} {currency}
-║ {texts[language]['second_year_profit_with_rent']}: {format_decimal(second_year_profit_with_rent)} {currency}
-║ {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} {currency}
-╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['details']}:
-║ {texts[language]['first_year_profit_no_rent']}:
-║   - {texts[language]['egg_price']} (320): {format_decimal(first_year_egg_price)} {currency}
-║   - {texts[language]['feed_price']}: {format_decimal(first_year_feed_cost)} {currency}
-║ {texts[language]['second_year_profit_with_rent']}:
-║   - {texts[language]['egg_price']} (260): {format_decimal(second_year_egg_price)} {currency}
-║   - {texts[language]['feed_price']}: {format_decimal(second_year_feed_cost)} {currency}
-║   - {texts[language]['first_year_rental']}: {format_decimal(total_rent)} {currency}
-╚══════════════════════════════════════════════════════════════════╝"""
-
             # إنشاء DataFrame للرسم البياني
             df = pd.DataFrame({
                 texts[language]["category"]: [
-                    f"📈 {texts[language]['first_year_profit_no_rent']}",
-                    f"💰 {texts[language]['second_year_profit']}",
+                    f"🥚 {texts[language]['eggs_input']} (580)",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📈 {texts[language]['net_profit']}",
                     f"🏠 {texts[language]['first_year_rental']}",
-                    f"📊 {texts[language]['second_year_profit_with_rent']}",
+                    f"💰 {texts[language]['second_year_profit']}",
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
-                    first_year_profit,
-                    second_year_profit,
-                    total_rent,
-                    second_year_profit_with_rent,
-                    total_two_years_profit
+                    first_year_eggs + second_year_eggs,  # إجمالي عدد البيض
+                    first_year_feed + second_year_feed,  # إجمالي الطعام المطلوب
+                    first_year_profit,  # الربح قبل حساب الايجار
+                    total_rent,  # تكلفة الايجار
+                    second_year_profit_with_rent,  # الربح خلال السنة الثانية
+                    total_two_years_profit  # الربح الصافي خلال السنتين
                 ]
             })
 
@@ -989,20 +968,40 @@ if calculation_type == texts[language]["chicken_profits"]:
             # عرض الرسم البياني
             chart_df = pd.DataFrame({
                 texts[language]["category"]: [
-                    f"📈 {texts[language]['first_year_profit_no_rent']}",
-                    f"💰 {texts[language]['second_year_profit']}",
+                    f"🥚 {texts[language]['eggs_input']} (580)",
+                    f"🌽 {texts[language]['food_input']}",
+                    f"📈 {texts[language]['net_profit']}",
                     f"🏠 {texts[language]['first_year_rental']}",
-                    f"📊 {texts[language]['second_year_profit_with_rent']}",
+                    f"💰 {texts[language]['second_year_profit']}",
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
+                    float(str(first_year_eggs + second_year_eggs).replace(currency, "").strip()),
+                    float(str(first_year_feed + second_year_feed).replace(currency, "").strip()),
                     float(str(first_year_profit).replace(currency, "").strip()),
-                    float(str(second_year_profit).replace(currency, "").strip()),
                     float(str(total_rent).replace(currency, "").strip()),
                     float(str(second_year_profit_with_rent).replace(currency, "").strip()),
                     float(str(total_two_years_profit).replace(currency, "").strip())
                 ]
             })
+
+            # إنشاء نص النتائج
+            results_text = f"""
+╔══════════════════════════════════════════════════════════════════╗
+║                  {texts[language]['summary']}                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║ {texts[language]['calculation_time']}: {date_str} {time_str}
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['details']}:
+║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} بيضة
+║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} وجبة
+║ 3. {texts[language]['net_profit']}: {format_decimal(first_year_profit)} {currency}
+║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} {currency}
+║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} {currency}
+║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} {currency}
+╚══════════════════════════════════════════════════════════════════╝"""
+
+            # عرض الرسم البياني
             fig = create_profit_chart(chart_df, language)
             st.plotly_chart(fig, use_container_width=True)
 
