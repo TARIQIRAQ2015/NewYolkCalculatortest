@@ -856,6 +856,87 @@ def create_profit_chart(df, language):
     
     return fig
 
+def calculate_results(egg_price_usd, feed_cost_usd, exchange_rate):
+    # حساب أرباح السنة الأولى (320 بيضة)
+    first_year_eggs = 320
+    first_year_revenue = first_year_eggs * egg_price_usd
+    first_year_feed_cost = feed_cost_usd
+    first_year_profit_no_rent = first_year_revenue - first_year_feed_cost
+
+    # حساب أرباح السنة الثانية (260 بيضة)
+    second_year_eggs = 260
+    second_year_revenue = second_year_eggs * egg_price_usd
+    second_year_feed_cost = feed_cost_usd
+    second_year_profit = second_year_revenue - second_year_feed_cost
+    
+    # حساب الربح مع دفع إيجار السنة الثانية
+    rent_cost = 6  # تكلفة الإيجار بالدولار
+    second_year_profit_with_rent = second_year_profit - rent_cost
+    
+    # حساب مجموع الأرباح خلال السنتين
+    total_profit = first_year_profit_no_rent + second_year_profit_with_rent
+
+    results = {
+        'first_year_profit_no_rent_usd': first_year_profit_no_rent,
+        'first_year_profit_no_rent_iqd': first_year_profit_no_rent * exchange_rate,
+        'second_year_profit_usd': second_year_profit,
+        'second_year_profit_iqd': second_year_profit * exchange_rate,
+        'second_year_profit_with_rent_usd': second_year_profit_with_rent,
+        'second_year_profit_with_rent_iqd': second_year_profit_with_rent * exchange_rate,
+        'total_profit_usd': total_profit,
+        'total_profit_iqd': total_profit * exchange_rate
+    }
+    
+    return results
+
+def display_results(results, language):
+    if language == 'العربية':
+        st.markdown("""
+        ### 📊 ملخص النتائج:
+        
+        #### السنة الأولى:
+        - أرباح السنة الأولى (بدون إيجار): ${:,.2f} / {:,.0f} د.ع
+        
+        #### السنة الثانية:
+        - أرباح السنة الثانية (قبل الإيجار): ${:,.2f} / {:,.0f} د.ع
+        - أرباح السنة الثانية (بعد دفع الإيجار): ${:,.2f} / {:,.0f} د.ع
+        
+        #### المجموع:
+        - إجمالي الأرباح خلال السنتين: ${:,.2f} / {:,.0f} د.ع
+        """.format(
+            results['first_year_profit_no_rent_usd'],
+            results['first_year_profit_no_rent_iqd'],
+            results['second_year_profit_usd'],
+            results['second_year_profit_iqd'],
+            results['second_year_profit_with_rent_usd'],
+            results['second_year_profit_with_rent_iqd'],
+            results['total_profit_usd'],
+            results['total_profit_iqd']
+        ))
+    else:
+        st.markdown("""
+        ### 📊 Results Summary:
+        
+        #### First Year:
+        - First Year Profit (No Rent): ${:,.2f} / {:,.0f} IQD
+        
+        #### Second Year:
+        - Second Year Profit (Before Rent): ${:,.2f} / {:,.0f} IQD
+        - Second Year Profit (After Rent): ${:,.2f} / {:,.0f} IQD
+        
+        #### Total:
+        - Total Profit Over Two Years: ${:,.2f} / {:,.0f} IQD
+        """.format(
+            results['first_year_profit_no_rent_usd'],
+            results['first_year_profit_no_rent_iqd'],
+            results['second_year_profit_usd'],
+            results['second_year_profit_iqd'],
+            results['second_year_profit_with_rent_usd'],
+            results['second_year_profit_with_rent_iqd'],
+            results['total_profit_usd'],
+            results['total_profit_iqd']
+        ))
+
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
     col5, col6 = st.columns(2)
@@ -963,28 +1044,18 @@ if calculation_type == texts[language]["chicken_profits"]:
                 st.table(df)
 
                 # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📈 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['final_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(total_egg_price).replace(currency, "").strip()),
-                        float(str(total_feed_cost).replace(currency, "").strip()),
-                        float(str(net_profit_before_rent).replace(currency, "").strip()),
-                        float(str(total_rent).replace(currency, "").strip()),
-                        float(str(net_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
+                fig = create_profit_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
                 st.markdown(f"### ✨ {texts[language]['summary']}")
                 st.code(results_text)
+                
+                # حساب النتائج باستخدام الدالة calculate_results
+                results = calculate_results(float(new_egg_price), float(new_feed_price), 1480 if currency == "IQD" else 1)
+                
+                # عرض النتائج باستخدام الدالة display_results
+                display_results(results, language)
                 
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
@@ -1068,19 +1139,7 @@ elif calculation_type == texts[language]["daily_rewards"]:
                 st.table(df)
 
                 # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['total_rewards']}",
-                        f"🌽 {texts[language]['total_food_cost']}",
-                        f"💰 {texts[language]['daily_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(rewards * float(new_egg_price)).replace(currency, "").strip()),
-                        float(str(food * float(new_feed_price)).replace(currency, "").strip()),
-                        float(str(daily_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
+                fig = create_profit_chart(df, language)
                 st.plotly_chart(fig, use_container_width=True)
 
                 # عرض ملخص النتائج في النهاية
