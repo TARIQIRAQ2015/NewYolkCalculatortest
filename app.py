@@ -964,6 +964,7 @@ if calculation_type == texts[language]["chicken_profits"]:
             df = df.round(2)
             # تنسيق فقط الأرقام التي ليست عمليات حسابية
             df.iloc[2:, 1] = df.iloc[2:, 1].apply(lambda x: f"{format_decimal(x)} {currency}")
+            st.table(df)
 
             # عرض الرسم البياني
             chart_df = pd.DataFrame({
@@ -992,13 +993,21 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['details']}:
-║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} {currency}
-║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}
-║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit)} {currency}
-║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} {currency}
-║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} {currency}
-║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} {currency}
+║ {texts[language]['usd_results']}:
+║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} USD
+║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} USD
+║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit)} USD
+║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
+║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} USD
+║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} USD
+╟──────────────────────────────────────────────────────────────────╢
+║ {texts[language]['iqd_results']}:
+║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price) * 1480)} IQD
+║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price) * 1480)} IQD
+║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit * 1480)} IQD
+║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
+║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent * 1480)} IQD
+║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit * 1480)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
             # عرض الرسم البياني
