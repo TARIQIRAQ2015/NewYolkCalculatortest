@@ -574,10 +574,9 @@ texts = {
         "reset": "إعادة تعيين 🔄",
         "value": "القيمة",
         "category": "الفئة",
-        "net_profit": "📈الربح قبل حساب الايجار 📈",
+        "net_profit": "الربح 📈",
         "total_rewards": "إجمالي المكافآت ⭐",
         "total_food_cost": "اجمالي العلف 🌽",
-        "first_year_rental": "الإيجار 🏠",
         "final_profit": "الربح الصافي 💰",
         "calculation_time": "وقت الحساب ⏰",
         "summary": "ملخص النتائج ✨",
@@ -587,8 +586,7 @@ texts = {
         "am": "صباحاً",
         "pm": "مساءً",
         "copy_results": "نسخ النتائج",
-        "first_year_profit_no_rent": "أرباح السنة الأولى بدون إيجار 📈",
-        "second_year_profit_with_rent": "أرباح السنة الثانية مع الإيجار 📊",
+        "first_year_profit_no_rent": "أرباح السنة الأولى 📈",
         "second_year_profit": "أرباح السنة الثانية 💰",
         "total_two_years_profit": "مجموع أرباح السنتين 💵",
         "details": "التفاصيل 📋"
@@ -956,7 +954,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                         f"({format_decimal(days_per_year)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(first_year_feed_cost)} {currency}",
                         f"{format_decimal(first_year_profit)} {currency}",
                         f"{format_decimal(second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(second_year_egg_price)} {currency}" if second_year_eggs > 0 else None,
-                        f"({format_decimal(days_per_year)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(second_year_feed_cost)} {currency}" if second_year_eggs > 0 else None,
+                        f"({format_decimal(days)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(second_year_feed_cost)} {currency}" if second_year_eggs > 0 else None,
                         f"{format_decimal(second_year_profit)} {currency}" if second_year_eggs > 0 else None,
                         f"{format_decimal(first_year_profit + second_year_profit)} {currency}"
                     ]
