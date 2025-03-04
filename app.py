@@ -921,8 +921,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                 
                 # حساب الأرباح للسنة الثانية
                 second_year_egg_price = second_year_eggs * float(new_egg_price)
-                second_year_feed = days_per_year * 2 if days > 365 else 0
-                second_year_feed_cost = second_year_feed * float(new_feed_price)
+                second_year_feed = days * 2  # تم تعديل هذا السطر
+                second_year_feed_cost = second_year_feed * float(new_feed_price) if second_year_eggs > 0 else 0
                 second_year_profit = second_year_egg_price - second_year_feed_cost
 
                 # تحويل العملة إذا كان مطلوباً
