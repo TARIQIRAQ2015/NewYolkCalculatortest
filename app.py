@@ -586,7 +586,12 @@ texts = {
         "daily_profit": "الربح اليومي 📈",
         "am": "صباحاً",
         "pm": "مساءً",
-        "copy_results": "نسخ النتائج"
+        "copy_results": "نسخ النتائج",
+        "first_year_profit_no_rent": "أرباح السنة الأولى بدون إيجار 📈",
+        "second_year_profit_with_rent": "أرباح السنة الثانية مع الإيجار 📊",
+        "second_year_profit": "أرباح السنة الثانية 💰",
+        "total_two_years_profit": "مجموع أرباح السنتين 💵",
+        "details": "التفاصيل 📋"
     },
     "English": {
         "title": "Chicken Calculator - NewYolk",
@@ -619,7 +624,12 @@ texts = {
         "daily_profit": "Daily Profit 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copy Results"
+        "copy_results": "Copy Results",
+        "first_year_profit_no_rent": "First Year Profit (No Rent) 📈",
+        "second_year_profit_with_rent": "Second Year Profit (With Rent) 📊",
+        "second_year_profit": "Second Year Profit 💰",
+        "total_two_years_profit": "Total Two Years Profit 💵",
+        "details": "Details 📋"
     },
     "Română": {
         "title": "Calculator Găini - NewYolk",
@@ -652,7 +662,12 @@ texts = {
         "daily_profit": "Profit Zilnic 📈",
         "am": "AM",
         "pm": "PM",
-        "copy_results": "Copiază Rezultatele"
+        "copy_results": "Copiază Rezultatele",
+        "first_year_profit_no_rent": "Profit Primul An (Fără Chirie) 📈",
+        "second_year_profit_with_rent": "Profit Al Doilea An (Cu Chirie) 📊",
+        "second_year_profit": "Profit Al Doilea An 💰",
+        "total_two_years_profit": "Profit Total Doi Ani 💵",
+        "details": "Detalii 📋"
     }
 }
 
@@ -876,116 +891,125 @@ if calculation_type == texts[language]["chicken_profits"]:
 
     if st.button(texts[language]["calculate_profits"], type="primary"):
         try:
-            eggs = float(eggs) if eggs else None
-            days = float(days) if days else None
+            # التحقق من المدخلات
+            if not is_number(eggs) or not is_number(days):
+                raise ValueError()
 
-            if eggs is None or days is None:
-                st.error("يرجى إدخال جميع القيم المطلوبة! ❗️" if language == "العربية" else "Please enter all required values! ❗️" if language == "English" else "")
-            elif eggs > 580:
-                st.error("عدد البيض يجب ألا يتجاوز 580! ❗️" if language == "العربية" else "Number of eggs should not exceed 580! ❗️" if language == "English" else "")
-            elif days > 730:
-                st.error("عدد الأيام يجب ألا يتجاوز 730! ❗️" if language == "العربية" else "Number of days should not exceed 730! ❗️" if language == "English" else "")
-            else:
-                # حساب الأرباح
-                total_egg_price = eggs * float(new_egg_price)  # ضرب عدد البيض في سعر البيض الحالي
-                total_feed_cost = (days * 2) * float(new_feed_price)  # ضرب عدد الأيام في 2 ثم في سعر العلف الحالي
-                
-                # حساب الإيجار
-                total_rent = 6 if eggs >= 260 else 0  # 6 دولار فقط إذا كان عدد البيض 260 أو أكثر
-                
-                # حساب النتائج
-                net_profit_before_rent = total_egg_price - total_feed_cost
-                net_profit = net_profit_before_rent - total_rent
+            eggs = float(eggs)
+            days = float(days)
 
-                # تحويل العملة
-                if currency == "IQD":
-                    total_egg_price = total_egg_price * 1480
-                    total_feed_cost = total_feed_cost * 1480
-                    net_profit_before_rent = net_profit_before_rent * 1480
-                    total_rent = total_rent * 1480
-                    net_profit = net_profit * 1480
-                else:
-                    total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit = (
-                        total_egg_price, total_feed_cost, net_profit_before_rent, total_rent, net_profit
-                    )
+            if eggs > 580 or days > 730:
+                raise ValueError()
 
-                # تنسيق التاريخ والوقت حسب توقيت بغداد
-                current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
-                date_str = current_time.strftime("%Y-%m-%d")
-                time_str = current_time.strftime("%I:%M %p")
+            # حساب الأرباح للسنة الأولى (320 بيضة)
+            first_year_eggs = 320
+            first_year_feed = 365 * 2  # عدد أيام السنة × 2 (معدل الطعام اليومي)
+            first_year_egg_price = first_year_eggs * float(new_egg_price)
+            first_year_feed_cost = first_year_feed * float(new_feed_price)
+            first_year_profit = first_year_egg_price - first_year_feed_cost
 
-                # إنشاء نص النتائج
-                results_text = f"""
+            # حساب الأرباح للسنة الثانية (260 بيضة)
+            second_year_eggs = 260
+            second_year_feed = 365 * 2
+            second_year_egg_price = second_year_eggs * float(new_egg_price)
+            second_year_feed_cost = second_year_feed * float(new_feed_price)
+            second_year_profit = second_year_egg_price - second_year_feed_cost
+            
+            # حساب الإيجار والربح النهائي للسنة الثانية
+            total_rent = 6  # الإيجار للسنة الثانية
+            second_year_profit_with_rent = second_year_profit - total_rent
+
+            # حساب إجمالي الأرباح للسنتين
+            total_two_years_profit = first_year_profit + second_year_profit_with_rent
+
+            # تحويل العملة إذا كان مطلوباً
+            if currency == "IQD":
+                conversion_rate = 1480
+                first_year_profit *= conversion_rate
+                second_year_profit *= conversion_rate
+                second_year_profit_with_rent *= conversion_rate
+                total_two_years_profit *= conversion_rate
+                first_year_egg_price *= conversion_rate
+                first_year_feed_cost *= conversion_rate
+                second_year_egg_price *= conversion_rate
+                second_year_feed_cost *= conversion_rate
+                total_rent *= conversion_rate
+
+            # تنسيق التاريخ والوقت حسب توقيت بغداد
+            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+            date_str = current_time.strftime("%Y-%m-%d")
+            time_str = current_time.strftime("%I:%M %p")
+
+            # إنشاء نص النتائج
+            results_text = f"""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                  {texts[language]['summary']}                    ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price)} USD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost)} USD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent)} USD
-║ {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
-║ {texts[language]['final_profit']}: {format_decimal(net_profit)} USD
+║ {texts[language]['first_year_profit_no_rent']}: {format_decimal(first_year_profit)} {currency}
+║ {texts[language]['second_year_profit']}: {format_decimal(second_year_profit)} {currency}
+║ {texts[language]['second_year_profit_with_rent']}: {format_decimal(second_year_profit_with_rent)} {currency}
+║ {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} {currency}
 ╟──────────────────────────────────────────────────────────────────╢
-║ {texts[language]['iqd_results']}:
-║ {texts[language]['egg_price']}: {format_decimal(total_egg_price * 1480)} IQD
-║ {texts[language]['feed_price']}: {format_decimal(total_feed_cost * 1480)} IQD
-║ {texts[language]['net_profit']}: {format_decimal(net_profit_before_rent * 1480)} IQD
-║ {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
-║ {texts[language]['final_profit']}: {format_decimal(net_profit * 1480)} IQD
+║ {texts[language]['details']}:
+║ {texts[language]['first_year_profit_no_rent']}:
+║   - {texts[language]['egg_price']} (320): {format_decimal(first_year_egg_price)} {currency}
+║   - {texts[language]['feed_price']}: {format_decimal(first_year_feed_cost)} {currency}
+║ {texts[language]['second_year_profit_with_rent']}:
+║   - {texts[language]['egg_price']} (260): {format_decimal(second_year_egg_price)} {currency}
+║   - {texts[language]['feed_price']}: {format_decimal(second_year_feed_cost)} {currency}
+║   - {texts[language]['first_year_rental']}: {format_decimal(total_rent)} {currency}
 ╚══════════════════════════════════════════════════════════════════╝"""
 
-                # عرض النتائج
-                # st.code(results_text, language="text")
+            # إنشاء DataFrame للرسم البياني
+            df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"📈 {texts[language]['first_year_profit_no_rent']}",
+                    f"💰 {texts[language]['second_year_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"📊 {texts[language]['second_year_profit_with_rent']}",
+                    f"💵 {texts[language]['total_two_years_profit']}"
+                ],
+                texts[language]["value"]: [
+                    first_year_profit,
+                    second_year_profit,
+                    total_rent,
+                    second_year_profit_with_rent,
+                    total_two_years_profit
+                ]
+            })
 
-                # إنشاء DataFrame للرسم البياني
-                df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📈 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['final_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        total_egg_price,
-                        total_feed_cost,
-                        net_profit_before_rent,
-                        total_rent,
-                        net_profit
-                    ]
-                })
-                
-                # تنسيق الجدول النهائي أولاً
-                df = df.round(2)
-                df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-                st.table(df)
+            # تنسيق الجدول النهائي
+            df = df.round(2)
+            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
+            st.table(df)
 
-                # عرض الرسم البياني
-                chart_df = pd.DataFrame({
-                    texts[language]["category"]: [
-                        f"🥚 {texts[language]['eggs_input']}",
-                        f"🌽 {texts[language]['food_input']}",
-                        f"📈 {texts[language]['net_profit']}",
-                        f"🏠 {texts[language]['first_year_rental']}",
-                        f"💰 {texts[language]['final_profit']}"
-                    ],
-                    texts[language]["value"]: [
-                        float(str(total_egg_price).replace(currency, "").strip()),
-                        float(str(total_feed_cost).replace(currency, "").strip()),
-                        float(str(net_profit_before_rent).replace(currency, "").strip()),
-                        float(str(total_rent).replace(currency, "").strip()),
-                        float(str(net_profit).replace(currency, "").strip())
-                    ]
-                })
-                fig = create_profit_chart(chart_df, language)
-                st.plotly_chart(fig, use_container_width=True)
+            # عرض الرسم البياني
+            chart_df = pd.DataFrame({
+                texts[language]["category"]: [
+                    f"📈 {texts[language]['first_year_profit_no_rent']}",
+                    f"💰 {texts[language]['second_year_profit']}",
+                    f"🏠 {texts[language]['first_year_rental']}",
+                    f"📊 {texts[language]['second_year_profit_with_rent']}",
+                    f"💵 {texts[language]['total_two_years_profit']}"
+                ],
+                texts[language]["value"]: [
+                    float(str(first_year_profit).replace(currency, "").strip()),
+                    float(str(second_year_profit).replace(currency, "").strip()),
+                    float(str(total_rent).replace(currency, "").strip()),
+                    float(str(second_year_profit_with_rent).replace(currency, "").strip()),
+                    float(str(total_two_years_profit).replace(currency, "").strip())
+                ]
+            })
+            fig = create_profit_chart(chart_df, language)
+            st.plotly_chart(fig, use_container_width=True)
 
-                # عرض ملخص النتائج في النهاية
-                st.markdown(f"### ✨ {texts[language]['summary']}")
-                st.code(results_text)
-                
+            # عرض ملخص النتائج في النهاية
+            st.markdown(f"### ✨ {texts[language]['summary']}")
+            st.code(results_text)
+            
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
 
@@ -1126,7 +1150,7 @@ st.markdown("""
             <img src="https://cdn-icons-png.flaticon.com/512/3059/3059997.png" alt="Website">
         </a>
         <a href="https://discord.gg/RYDExGGWXh" target="_blank">
-            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2_636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
         </a>
         <a href="https://t.me/newyolkfarm" target="_blank">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
