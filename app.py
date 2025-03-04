@@ -925,9 +925,9 @@ if calculation_type == texts[language]["chicken_profits"]:
                 profit = profit - total_rent
 
             # إضافة رسالة توضيحية للسنة
-            year_message = "السنة الأولى (عدد البيض 320 فما فوق)" if language == "العربية" else "First Year (320 eggs or more)" if language == "English" else "Primul An (320 ouă sau mai mult)"
+            year_message = "حساب أرباح السنة الأولى" if language == "العربية" else "First Year Profit Calculation" if language == "English" else "Calculul Profitului pentru Primul An"
             if not is_first_year:
-                year_message = "السنة الثانية (عدد البيض 260 أو أقل)" if language == "العربية" else "Second Year (260 eggs or less)" if language == "English" else "Al Doilea An (260 ouă sau mai puțin)"
+                year_message = "حساب أرباح السنة الثانية" if language == "العربية" else "Second Year Profit Calculation" if language == "English" else "Calculul Profitului pentru Al Doilea An"
             
             st.info(year_message)
 
@@ -978,8 +978,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 texts[language]["value"]: [
                     float(str(total_egg_price).replace(currency, "").strip()),
                     float(str(total_feed_cost).replace(currency, "").strip()),
-                    float(str(total_rent).replace(currency, "").strip()) if not is_first_year else None,
-                    float(str(profit).replace(currency, "").strip())
+                    float(str(total_rent).replace(currency, "").strip()) if not is_first_year else None
                 ]
             })
 
