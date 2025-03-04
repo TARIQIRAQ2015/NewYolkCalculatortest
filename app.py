@@ -901,23 +901,20 @@ if calculation_type == texts[language]["chicken_profits"]:
             if eggs > 580 or days > 730:
                 raise ValueError()
 
-            # حساب الأرباح للسنة الأولى (320 بيضة)
-            first_year_eggs = 320
-            first_year_feed = float(days) * 2  # عدد الأيام المدخل × 2 (معدل الطعام اليومي)
-            first_year_egg_price = first_year_eggs * float(new_egg_price)
-            first_year_feed_cost = first_year_feed * float(new_feed_price)
-            first_year_profit = first_year_egg_price - first_year_feed_cost
-
-            # حساب الأرباح للسنة الثانية (260 بيضة)
-            second_year_eggs = 260
-            second_year_feed = float(days) * 2
-            second_year_egg_price = second_year_eggs * float(new_egg_price)
-            second_year_feed_cost = second_year_feed * float(new_feed_price)
-            second_year_profit = second_year_egg_price - second_year_feed_cost
+            # حساب الأرباح للسنة الأولى
+            total_eggs = float(eggs)  # استخدام عدد البيض المدخل
+            total_feed = float(days) * 2  # عدد الأيام المدخل × 2 (معدل الطعام اليومي)
             
+            # حساب الإيرادات والتكاليف
+            total_egg_price = total_eggs * float(new_egg_price)
+            total_feed_cost = total_feed * float(new_feed_price)
+            
+            # حساب الأرباح
+            first_year_profit = total_egg_price - total_feed_cost
+
             # حساب الإيجار والربح النهائي للسنة الثانية
             total_rent = 6  # الإيجار للسنة الثانية
-            second_year_profit_with_rent = second_year_profit - total_rent
+            second_year_profit_with_rent = first_year_profit - total_rent
 
             # حساب إجمالي الأرباح للسنتين
             total_two_years_profit = first_year_profit + second_year_profit_with_rent
@@ -926,13 +923,10 @@ if calculation_type == texts[language]["chicken_profits"]:
             if currency == "IQD":
                 conversion_rate = 1480
                 first_year_profit *= conversion_rate
-                second_year_profit *= conversion_rate
                 second_year_profit_with_rent *= conversion_rate
                 total_two_years_profit *= conversion_rate
-                first_year_egg_price *= conversion_rate
-                first_year_feed_cost *= conversion_rate
-                second_year_egg_price *= conversion_rate
-                second_year_feed_cost *= conversion_rate
+                total_egg_price *= conversion_rate
+                total_feed_cost *= conversion_rate
                 total_rent *= conversion_rate
 
             # تنسيق التاريخ والوقت حسب توقيت بغداد
@@ -951,8 +945,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
-                    f"{format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} {currency}",
-                    f"({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}",
+                    f"{format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price)} {currency}",
+                    f"({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost)} {currency}",
                     first_year_profit,  # الربح خلال السنة الأولى
                     total_rent,  # تكلفة الايجار
                     second_year_profit_with_rent,  # الربح خلال السنة الثانية
@@ -977,8 +971,8 @@ if calculation_type == texts[language]["chicken_profits"]:
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
-                    float(str((first_year_eggs + second_year_eggs) * float(new_egg_price)).replace(currency, "").strip()),
-                    float(str((first_year_feed + second_year_feed) * float(new_feed_price)).replace(currency, "").strip()),
+                    float(str(total_egg_price).replace(currency, "").strip()),
+                    float(str(total_feed_cost).replace(currency, "").strip()),
                     float(str(first_year_profit).replace(currency, "").strip()),
                     float(str(total_rent).replace(currency, "").strip()),
                     float(str(second_year_profit_with_rent).replace(currency, "").strip()),
@@ -994,20 +988,20 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
-║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} USD
-║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} USD
-║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit)} USD
-║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
-║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} USD
-║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} USD
+║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price / 1480 if currency == "IQD" else total_egg_price)} USD
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost / 1480 if currency == "IQD" else total_feed_cost)} USD
+║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit / 1480 if currency == "IQD" else first_year_profit)} USD
+║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent / 1480 if currency == "IQD" else total_rent)} USD
+║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent / 1480 if currency == "IQD" else second_year_profit_with_rent)} USD
+║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit / 1480 if currency == "IQD" else total_two_years_profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
-║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price) * 1480)} IQD
-║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price) * 1480)} IQD
-║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit * 1480)} IQD
-║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
-║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent * 1480)} IQD
-║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit * 1480)} IQD
+║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal(total_egg_price * 1480 if currency == "USD" else total_egg_price)} IQD
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal(total_feed_cost * 1480 if currency == "USD" else total_feed_cost)} IQD
+║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit * 1480 if currency == "USD" else first_year_profit)} IQD
+║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480 if currency == "USD" else total_rent)} IQD
+║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent * 1480 if currency == "USD" else second_year_profit_with_rent)} IQD
+║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit * 1480 if currency == "USD" else total_two_years_profit)} IQD
 ╚══════════════════════════════════════════════════════════════════╝"""
 
             # عرض الرسم البياني
