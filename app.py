@@ -873,6 +873,15 @@ def create_profit_chart(df, language):
 
 if calculation_type == texts[language]["chicken_profits"]:
     st.subheader(texts[language]["chicken_profits"] + " 📈")
+    
+    # إضافة زر اختيار السنة
+    year_choice = st.radio(
+        "اختر السنة المراد حساب أرباحها" if language == "العربية" else "Choose the year to calculate profits" if language == "English" else "Alegeți anul pentru calculul profitului",
+        ["السنة الأولى" if language == "العربية" else "First Year" if language == "English" else "Primul An",
+         "السنة الثانية" if language == "العربية" else "Second Year" if language == "English" else "Al Doilea An"],
+        horizontal=True
+    )
+    
     col5, col6 = st.columns(2)
 
     with col5:
@@ -901,84 +910,81 @@ if calculation_type == texts[language]["chicken_profits"]:
             if eggs > 580 or days > 730:
                 raise ValueError()
 
-            # حساب الأرباح للسنة الأولى
-            total_eggs = float(eggs)  # استخدام عدد البيض المدخل
-            total_feed = float(days) * 2  # عدد الأيام المدخل × 2 (معدل الطعام اليومي)
+            # حساب الأرباح
+            total_eggs = float(eggs)
+            total_feed = float(days) * 2
             
             # حساب الإيرادات والتكاليف
             total_egg_price = total_eggs * float(new_egg_price)
             total_feed_cost = total_feed * float(new_feed_price)
             
-            # حساب الأرباح
-            first_year_profit = total_egg_price - total_feed_cost
-
-            # حساب الإيجار والربح النهائي للسنة الثانية
-            total_rent = 6  # الإيجار للسنة الثانية
-            second_year_profit_with_rent = first_year_profit - total_rent
-
-            # حساب إجمالي الأرباح للسنتين
-            total_two_years_profit = first_year_profit + second_year_profit_with_rent
+            # حساب الأرباح بناءً على اختيار السنة
+            if year_choice == "السنة الأولى" or year_choice == "First Year" or year_choice == "Primul An":
+                profit = total_egg_price - total_feed_cost
+                total_rent = 0
+            else:
+                profit = total_egg_price - total_feed_cost
+                total_rent = 6  # الإيجار للسنة الثانية
+                profit = profit - total_rent
 
             # تحويل العملة إذا كان مطلوباً
             if currency == "IQD":
                 conversion_rate = 1480
-                first_year_profit *= conversion_rate
-                second_year_profit_with_rent *= conversion_rate
-                total_two_years_profit *= conversion_rate
+                profit *= conversion_rate
                 total_egg_price *= conversion_rate
                 total_feed_cost *= conversion_rate
                 total_rent *= conversion_rate
 
             # تنسيق التاريخ والوقت حسب توقيت بغداد
-            current_time = datetime.now() + timedelta(hours=3)  # تحويل التوقيت إلى توقيت بغداد
+            current_time = datetime.now() + timedelta(hours=3)
             date_str = current_time.strftime("%Y-%m-%d")
             time_str = current_time.strftime("%I:%M %p")
 
-            # إنشاء DataFrame للرسم البياني
+            # إنشاء DataFrame للجدول
             df = pd.DataFrame({
                 texts[language]["category"]: [
                     f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"📈 الربح خلال السنة الأولى",
-                    f"🏠 {texts[language]['first_year_rental']}",
-                    f"💰 {texts[language]['second_year_profit']}",
-                    f"💵 {texts[language]['total_two_years_profit']}"
+                    f"🏠 {texts[language]['first_year_rental']}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    f"💰 {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}"
                 ],
                 texts[language]["value"]: [
                     f"{format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price)} {currency}",
                     f"({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost)} {currency}",
-                    first_year_profit,  # الربح خلال السنة الأولى
-                    total_rent,  # تكلفة الايجار
-                    second_year_profit_with_rent,  # الربح خلال السنة الثانية
-                    total_two_years_profit  # الربح الصافي خلال السنتين
+                    f"{format_decimal(total_rent)} {currency}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    f"{format_decimal(profit)} {currency}"
                 ]
             })
 
+            # حذف الصفوف التي تحتوي على None
+            df = df.dropna()
+
             # تنسيق الجدول النهائي
             df = df.round(2)
-            # تنسيق فقط الأرقام التي ليست عمليات حسابية
-            df.iloc[2:, 1] = df.iloc[2:, 1].apply(lambda x: f"{format_decimal(x)} {currency}")
             st.table(df)
 
-            # عرض الرسم البياني
+            # إنشاء DataFrame للرسم البياني
             chart_df = pd.DataFrame({
                 texts[language]["category"]: [
                     f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"📈 الربح خلال السنة الأولى",
-                    f"🏠 {texts[language]['first_year_rental']}",
-                    f"💰 {texts[language]['second_year_profit']}",
-                    f"💵 {texts[language]['total_two_years_profit']}"
+                    f"🏠 {texts[language]['first_year_rental']}" if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    f"💰 {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}"
                 ],
                 texts[language]["value"]: [
                     float(str(total_egg_price).replace(currency, "").strip()),
                     float(str(total_feed_cost).replace(currency, "").strip()),
-                    float(str(first_year_profit).replace(currency, "").strip()),
-                    float(str(total_rent).replace(currency, "").strip()),
-                    float(str(second_year_profit_with_rent).replace(currency, "").strip()),
-                    float(str(total_two_years_profit).replace(currency, "").strip())
+                    float(str(total_rent).replace(currency, "").strip()) if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else None,
+                    float(str(profit).replace(currency, "").strip())
                 ]
             })
+
+            # حذف الصفوف التي تحتوي على None
+            chart_df = chart_df.dropna()
+
+            # عرض الرسم البياني
+            fig = create_profit_chart(chart_df, language)
+            st.plotly_chart(fig, use_container_width=True)
 
             # إنشاء نص النتائج
             results_text = f"""
@@ -989,29 +995,31 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(total_egg_price / 1480 if currency == "IQD" else total_egg_price)} USD
-║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost / 1480 if currency == "IQD" else total_feed_cost)} USD
-║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit / 1480 if currency == "IQD" else first_year_profit)} USD
-║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent / 1480 if currency == "IQD" else total_rent)} USD
-║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent / 1480 if currency == "IQD" else second_year_profit_with_rent)} USD
-║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit / 1480 if currency == "IQD" else total_two_years_profit)} USD
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(total_feed_cost / 1480 if currency == "IQD" else total_feed_cost)} USD"""
+
+            if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An":
+                results_text += f"""
+║ 3. {texts[language]['first_year_rental']}: {format_decimal(total_rent / 1480 if currency == "IQD" else total_rent)} USD"""
+
+            results_text += f"""
+║ {4 if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else 3}. {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}: {format_decimal(profit / 1480 if currency == "IQD" else profit)} USD
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(total_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal(total_egg_price * 1480 if currency == "USD" else total_egg_price)} IQD
-║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal(total_feed_cost * 1480 if currency == "USD" else total_feed_cost)} IQD
-║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit * 1480 if currency == "USD" else first_year_profit)} IQD
-║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480 if currency == "USD" else total_rent)} IQD
-║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent * 1480 if currency == "USD" else second_year_profit_with_rent)} IQD
-║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit * 1480 if currency == "USD" else total_two_years_profit)} IQD
-╚══════════════════════════════════════════════════════════════════╝"""
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal(total_feed_cost * 1480 if currency == "USD" else total_feed_cost)} IQD"""
 
-            # عرض الرسم البياني
-            fig = create_profit_chart(chart_df, language)
-            st.plotly_chart(fig, use_container_width=True)
+            if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An":
+                results_text += f"""
+║ 3. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480 if currency == "USD" else total_rent)} IQD"""
+
+            results_text += f"""
+║ {4 if year_choice != "السنة الأولى" and year_choice != "First Year" and year_choice != "Primul An" else 3}. {'أرباح السنة الأولى' if year_choice == 'السنة الأولى' or year_choice == 'First Year' or year_choice == 'Primul An' else 'أرباح السنة الثانية'}: {format_decimal(profit * 1480 if currency == "USD" else profit)} IQD
+╚══════════════════════════════════════════════════════════════════╝"""
 
             # عرض ملخص النتائج في النهاية
             st.markdown(f"### ✨ {texts[language]['summary']}")
             st.code(results_text)
-            
+
         except ValueError:
             st.error("يرجى إدخال أرقام صحيحة! ❗️" if language == "العربية" else "Please enter valid numbers! ❗️" if language == "English" else "")
 
