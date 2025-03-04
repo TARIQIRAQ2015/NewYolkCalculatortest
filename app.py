@@ -915,13 +915,14 @@ if calculation_type == texts[language]["chicken_profits"]:
                 first_year_egg_price = first_year_eggs * float(new_egg_price)
                 first_year_feed = days_per_year * 2
                 first_year_feed_cost = first_year_feed * float(new_feed_price)
-                first_year_profit = first_year_egg_price - first_year_feed_cost
+                first_year_rental = 6  # إضافة الإيجار للسنة الأولى فقط
+                first_year_profit = first_year_egg_price - first_year_feed_cost - first_year_rental
                 
                 # حساب الأرباح للسنة الثانية
                 second_year_egg_price = second_year_eggs * float(new_egg_price)
-                second_year_feed = days * 2  # تم تعديل هذا السطر
+                second_year_feed = days * 2
                 second_year_feed_cost = second_year_feed * float(new_feed_price) if second_year_eggs > 0 else 0
-                second_year_profit = second_year_egg_price - second_year_feed_cost
+                second_year_profit = second_year_egg_price - second_year_feed_cost  # لا يوجد إيجار في السنة الثانية
 
                 # تحويل العملة إذا كان مطلوباً
                 if currency == "IQD":
@@ -930,6 +931,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     second_year_profit *= conversion_rate
                     first_year_egg_price *= conversion_rate
                     first_year_feed_cost *= conversion_rate
+                    first_year_rental *= conversion_rate
                     second_year_egg_price *= conversion_rate
                     second_year_feed_cost *= conversion_rate
 
@@ -943,6 +945,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["category"]: [
                         f"🥚 السنة الأولى - {texts[language]['eggs_input']}",
                         f"🌽 السنة الأولى - {texts[language]['food_input']}",
+                        f"🏠 السنة الأولى - الإيجار",
                         f"💰 أرباح السنة الأولى",
                         f"🥚 السنة الثانية - {texts[language]['eggs_input']}" if second_year_eggs > 0 else None,
                         f"🌽 السنة الثانية - {texts[language]['food_input']}" if second_year_eggs > 0 else None,
@@ -952,6 +955,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["value"]: [
                         f"{format_decimal(first_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(first_year_egg_price)} {currency}",
                         f"({format_decimal(days_per_year)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(first_year_feed_cost)} {currency}",
+                        f"{format_decimal(first_year_rental)} {currency}",
                         f"{format_decimal(first_year_profit)} {currency}",
                         f"{format_decimal(second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal(second_year_egg_price)} {currency}" if second_year_eggs > 0 else None,
                         f"({format_decimal(days)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal(second_year_feed_cost)} {currency}" if second_year_eggs > 0 else None,
@@ -972,7 +976,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["category"]: [
                         "🥚 السنة الأولى",
                         "🌽 تكلفة العلف - السنة الأولى",
-                        "💰 أرباح السنة الأولى",
+                        "🏠 السنة الأولى - الإيجار",
                         "🥚 السنة الثانية" if second_year_eggs > 0 else None,
                         "🌽 تكلفة العلف - السنة الثانية" if second_year_eggs > 0 else None,
                         "💰 أرباح السنة الثانية" if second_year_eggs > 0 else None
@@ -980,6 +984,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                     texts[language]["value"]: [
                         float(str(first_year_egg_price).replace(currency, "").strip()),
                         float(str(first_year_feed_cost).replace(currency, "").strip()),
+                        float(str(first_year_rental).replace(currency, "").strip()),
                         float(str(first_year_profit).replace(currency, "").strip()),
                         float(str(second_year_egg_price).replace(currency, "").strip()) if second_year_eggs > 0 else None,
                         float(str(second_year_feed_cost).replace(currency, "").strip()) if second_year_eggs > 0 else None,
