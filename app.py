@@ -943,17 +943,17 @@ if calculation_type == texts[language]["chicken_profits"]:
             # إنشاء DataFrame للرسم البياني
             df = pd.DataFrame({
                 texts[language]["category"]: [
-                    f"🥚 {texts[language]['eggs_input']} (580)",
+                    f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"📈 {texts[language]['net_profit']}",
+                    f"📈 الربح خلال السنة الأولى",
                     f"🏠 {texts[language]['first_year_rental']}",
                     f"💰 {texts[language]['second_year_profit']}",
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
-                    first_year_eggs + second_year_eggs,  # إجمالي عدد البيض
-                    first_year_feed + second_year_feed,  # إجمالي الطعام المطلوب
-                    first_year_profit,  # الربح قبل حساب الايجار
+                    f"{format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} {currency}",
+                    f"{format_decimal(first_year_feed + second_year_feed)} × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}",
+                    first_year_profit,  # الربح خلال السنة الأولى
                     total_rent,  # تكلفة الايجار
                     second_year_profit_with_rent,  # الربح خلال السنة الثانية
                     total_two_years_profit  # الربح الصافي خلال السنتين
@@ -962,22 +962,22 @@ if calculation_type == texts[language]["chicken_profits"]:
 
             # تنسيق الجدول النهائي
             df = df.round(2)
-            df[texts[language]["value"]] = df[texts[language]["value"]].apply(lambda x: f"{format_decimal(x)} {currency}")
-            st.table(df)
+            # تنسيق فقط الأرقام التي ليست عمليات حسابية
+            df.iloc[2:, 1] = df.iloc[2:, 1].apply(lambda x: f"{format_decimal(x)} {currency}")
 
             # عرض الرسم البياني
             chart_df = pd.DataFrame({
                 texts[language]["category"]: [
-                    f"🥚 {texts[language]['eggs_input']} (580)",
+                    f"🥚 {texts[language]['eggs_input']}",
                     f"🌽 {texts[language]['food_input']}",
-                    f"📈 {texts[language]['net_profit']}",
+                    f"📈 الربح خلال السنة الأولى",
                     f"🏠 {texts[language]['first_year_rental']}",
                     f"💰 {texts[language]['second_year_profit']}",
                     f"💵 {texts[language]['total_two_years_profit']}"
                 ],
                 texts[language]["value"]: [
-                    float(str(first_year_eggs + second_year_eggs).replace(currency, "").strip()),
-                    float(str(first_year_feed + second_year_feed).replace(currency, "").strip()),
+                    float(str((first_year_eggs + second_year_eggs) * float(new_egg_price)).replace(currency, "").strip()),
+                    float(str((first_year_feed + second_year_feed) * float(new_feed_price)).replace(currency, "").strip()),
                     float(str(first_year_profit).replace(currency, "").strip()),
                     float(str(total_rent).replace(currency, "").strip()),
                     float(str(second_year_profit_with_rent).replace(currency, "").strip()),
@@ -993,9 +993,9 @@ if calculation_type == texts[language]["chicken_profits"]:
 ║ {texts[language]['calculation_time']}: {date_str} {time_str}
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['details']}:
-║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} بيضة
-║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} وجبة
-║ 3. {texts[language]['net_profit']}: {format_decimal(first_year_profit)} {currency}
+║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} {currency}
+║ 2. {texts[language]['food_input']}: {format_decimal(first_year_feed + second_year_feed)} × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}
+║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit)} {currency}
 ║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} {currency}
 ║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} {currency}
 ║ 6. {texts[language]['total_two_years_profit']}: {format_decimal(total_two_years_profit)} {currency}
