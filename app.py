@@ -903,14 +903,14 @@ if calculation_type == texts[language]["chicken_profits"]:
 
             # حساب الأرباح للسنة الأولى (320 بيضة)
             first_year_eggs = 320
-            first_year_feed = 365 * 2  # عدد أيام السنة × 2 (معدل الطعام اليومي)
+            first_year_feed = float(days) * 2  # عدد الأيام المدخل × 2 (معدل الطعام اليومي)
             first_year_egg_price = first_year_eggs * float(new_egg_price)
             first_year_feed_cost = first_year_feed * float(new_feed_price)
             first_year_profit = first_year_egg_price - first_year_feed_cost
 
             # حساب الأرباح للسنة الثانية (260 بيضة)
             second_year_eggs = 260
-            second_year_feed = 365 * 2
+            second_year_feed = float(days) * 2
             second_year_egg_price = second_year_eggs * float(new_egg_price)
             second_year_feed_cost = second_year_feed * float(new_feed_price)
             second_year_profit = second_year_egg_price - second_year_feed_cost
@@ -952,7 +952,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 ],
                 texts[language]["value"]: [
                     f"{format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} {currency}",
-                    f"({format_decimal(730)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}",
+                    f"({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} {currency}",
                     first_year_profit,  # الربح خلال السنة الأولى
                     total_rent,  # تكلفة الايجار
                     second_year_profit_with_rent,  # الربح خلال السنة الثانية
@@ -995,7 +995,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['usd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price))} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price))} USD
-║ 2. {texts[language]['food_input']}: ({format_decimal(730)} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} USD
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price))} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price))} USD
 ║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit)} USD
 ║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent)} USD
 ║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent)} USD
@@ -1003,7 +1003,7 @@ if calculation_type == texts[language]["chicken_profits"]:
 ╟──────────────────────────────────────────────────────────────────╢
 ║ {texts[language]['iqd_results']}:
 ║ 1. {texts[language]['eggs_input']}: {format_decimal(first_year_eggs + second_year_eggs)} × {format_decimal(float(new_egg_price) * 1480)} = {format_decimal((first_year_eggs + second_year_eggs) * float(new_egg_price) * 1480)} IQD
-║ 2. {texts[language]['food_input']}: ({format_decimal(730)} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price) * 1480)} IQD
+║ 2. {texts[language]['food_input']}: ({format_decimal(float(days))} يوم × 2) × {format_decimal(float(new_feed_price) * 1480)} = {format_decimal((first_year_feed + second_year_feed) * float(new_feed_price) * 1480)} IQD
 ║ 3. الربح خلال السنة الأولى: {format_decimal(first_year_profit * 1480)} IQD
 ║ 4. {texts[language]['first_year_rental']}: {format_decimal(total_rent * 1480)} IQD
 ║ 5. {texts[language]['second_year_profit']}: {format_decimal(second_year_profit_with_rent * 1480)} IQD
