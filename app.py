@@ -921,7 +921,7 @@ if calculation_type == texts[language]["chicken_profits"]:
                 total_rent = 0
             else:
                 profit = total_egg_price - total_feed_cost
-                total_rent = 6  # الإيجار للسنة الثانية
+                total_rent = 0  # تم تعديل الإيجار ليكون صفر في السنة الثانية
                 profit = profit - total_rent
 
             # إضافة رسالة توضيحية للسنة
